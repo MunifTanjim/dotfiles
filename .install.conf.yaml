@@ -1,0 +1,18 @@
+- clean: ['~']
+
+- link:
+    ~/.profile: profile
+    ~/.bashrc: bashrc
+    ~/.bash_logout: logout.bash
+    ~/.bash_aliases: aliases.bash
+    ~/.gitconfig: configs/gitconfig
+    ~/.nanorc: configs/nanorc
+    ~/.todo/config:
+        create: true
+        path: configs/todo.cfg
+    ~/.dotfiles/.bash-it/custom/themes:
+        create: true
+        path: themes/bash-it-themes
+
+- shell:
+  - [git submodule update --init --depth 1, Initiating submodules...]
