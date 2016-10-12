@@ -1,0 +1,9 @@
+[submodule ".dotbot"]
+	path = .dotbot
+	url = https://github.com/anishathalye/dotbot.git
+[submodule ".bash-it"]
+	path = .bash-it
+	url = https://github.com/Bash-it/bash-it.git
+[submodule "scripts/scripts.bash"]
+	path = scripts/scripts.bash
+	url = https://bitbucket.org/MunifTanjim/scripts.bash.git
