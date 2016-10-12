@@ -1,0 +1,54 @@
+# set quiet
+set autoindent
+set backup
+set backupdir "/home/ubuntu/munif/.nano/backups"
+# set backwards
+# set boldtext
+# set brackets ""')>]}"
+# set casesensitive
+# set constantshow
+# set cut
+# set fill -8
+set historylog
+# set justifytrim
+# set matchbrackets "(<[{)>]}"
+# set morespace
+# set mouse
+# set multibuffer
+# set noconvert
+# set nohelp
+# set nonewlines
+set nowrap
+# set operatingdir ""
+# set positionlog
+# set preserve
+# set punct "!.?"
+# set quickblank
+# set quotestr "^([ 	]*[#:>\|}])+"
+# set quotestr "> "
+# set rebinddelete
+# set rebindkeypad
+# set regexp
+# set smarthome
+# set smooth
+# set softwrap
+# set speller "aspell -x -c"
+set suspend
+# set tabsize 8
+# set tabstospaces
+# set tempfile
+# set view
+# set whitespace "»·"
+# set whitespace ">."
+# set wordbounds
+# set wordchars "<_>."
+# set titlecolor brightwhite,blue
+# set statuscolor brightwhite,green
+# set keycolor green
+# set functioncolor yellow
+# bind ^S savefile main
+# bind M-Q findprevious main
+# bind M-W findnext main
+# bind M-B cutwordleft main
+# bind M-N cutwordright main
+# bind Del backspace all
