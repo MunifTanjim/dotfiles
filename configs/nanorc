@@ -34,7 +34,7 @@ set nowrap
 # set softwrap
 # set speller "aspell -x -c"
 set suspend
-# set tabsize 8
+set tabsize 2
 # set tabstospaces
 # set tempfile
 # set view

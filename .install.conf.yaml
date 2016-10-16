@@ -1,3 +1,7 @@
+- defaults:
+    link:
+      force: true
+
 - clean: ['~']
 
 - link:
@@ -10,9 +14,11 @@
     ~/.todo/config:
         create: true
         path: configs/todo.cfg
-    ~/.dotfiles/.bash-it/custom/themes:
-        create: true
-        path: themes/bash-it-themes
 
 - shell:
   - [git submodule update --init --depth 1, Initiating submodules...]
+
+- link:
+    ~/.dotfiles/.bash-it/custom/themes:
+        create: true
+        path: themes/bash-it-themes
