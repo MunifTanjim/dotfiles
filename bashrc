@@ -1,3 +1,7 @@
-. $HOME/.dotfiles/bash-it.bash
-. $HOME/.dotfiles/paths.bash
-. $HOME/.dotfiles/ubuntu.bash
+#!/usr/bin/env bash
+
+DOTFILES="$HOME/.dotfiles"
+
+. $DOTFILES/ubuntu.bash
+. $DOTFILES/paths.bash
+. $DOTFILES/bash-it.bash
