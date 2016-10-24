@@ -1,4 +1,4 @@
-alias _='sudo'
+alias s='sudo'
 
 # APT aliases
 alias apti='sudo apt install'
@@ -13,12 +13,11 @@ alias aptfug='sudo apt-fast upgrade'
 alias aptdug='sudo apt dist-upgrade'
 alias aptfdug='sudo apt-fast dist-upgrade'
 alias aptar='sudo apt autoremove'
+alias apt-obsolete='apt-show-versions | grep "No available version"'
 
 # Repository aliases
 alias aar='sudo add-apt-repository'
 alias pp='sudo ppa-purge'
-
-alias apt-obsolete='apt-show-versions | grep "No available version"'
 
 alias x='exit'
 

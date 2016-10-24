@@ -31,7 +31,7 @@ set nowrap
 # set regexp
 # set smarthome
 # set smooth
-# set softwrap
+set softwrap
 # set speller "aspell -x -c"
 set suspend
 set tabsize 2
