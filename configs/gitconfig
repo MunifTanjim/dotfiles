@@ -5,6 +5,9 @@
 [core]
 	editor = nano
 
+[alias]
+	co = checkout
+
 [web]
 	browser = google-chrome
 
