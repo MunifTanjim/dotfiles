@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Brainy Bash Prompt
-# Screenshot: ( Under Development )
+# by MunifTanjim
 
 ____brainy_top_left_parse() {
 	ifs_old="${IFS}"
@@ -86,14 +86,14 @@ ___brainy_prompt_user_info() {
 			color=$bold_red
 		fi
 	fi
-	info="${USER}@${HOSTNAME}"
+	info="\u@\H"
 	printf "%s|%s" "${color}" "${info}"
 }
 
 ___brainy_prompt_dir() {
 	color=$bold_yellow
 	box="[|]"
-	info="$(pwd | sed "s:^${HOME}:~:")"
+	info="\w"
 	printf "%s|%s|%s|%s" "${color}" "${info}" "${bold_white}" "${box}"
 }
 
