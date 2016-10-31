@@ -130,6 +130,7 @@ ___brainy_prompt_clock() {
 }
 
 ___brainy_prompt_battery() {
+	[ ! -e $BASH_IT/plugins/enabled/battery.plugin.bash ] ||
 	[ "${THEME_SHOW_BATTERY}" == "false" ] && return
 	info=$(battery_percentage)
 	color=$bold_green
@@ -139,6 +140,8 @@ ___brainy_prompt_battery() {
 		color=$bold_red
 	fi
 	box="[|]"
+	[[ $(ac_adapter_connected) -eq 0 ]] && info+="+"
+	[ "$info" == "100+" ] && info="AC"
 	printf "%s|%s|%s|%s" "${color}" "${info}" "${bold_white}" "${box}"
 }
 
