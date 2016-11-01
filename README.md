@@ -4,5 +4,5 @@
 ```bash
 git clone --depth 1 https://github.com/MunifTanjim/.dotfiles ~/.dotfiles
 cd ~/.dotfiles
-./install
+./install <base-distro>
 ```

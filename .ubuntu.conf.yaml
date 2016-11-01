@@ -1,0 +1,7 @@
+- defaults:
+    link:
+      force: true
+
+- link:
+    ~/.bashrc: scripts/ubuntu/bashrc.bash
+    ~/.gitconfig: configs/gitconfig.ubuntu
