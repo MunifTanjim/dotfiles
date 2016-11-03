@@ -115,10 +115,19 @@ ___brainy_prompt_python() {
 
 ___brainy_prompt_ruby() {
 	[ "${THEME_SHOW_RUBY}" == "false" ] && return
-	color=${bold_white}
+	color=$bold_white
 	box="[|]"
 	info="$(ruby_version_prompt)"
 	printf "%s|%s|%s|%s" "${color}" "${info}" "${bold_red}" "${box}"
+}
+
+___brainy_prompt_todo() {
+	[ "${THEME_SHOW_TODO}" == "false" ] && return
+	[ -z "$(which todo.sh)" ] && return
+	color=$bold_white
+	box="[|]"
+	info="$(todo.sh ls | egrep "TODO: [0-9]+ of ([0-9]+)" | awk '{ print $4 }' )"
+	printf "%s|%s|%s|%s" "${color}" "${info}" "${bold_green}" "${box}"
 }
 
 ___brainy_prompt_clock() {
@@ -191,7 +200,7 @@ _brainy_completion() {
 	cur="${COMP_WORDS[COMP_CWORD]}"
 	_action="${COMP_WORDS[1]}"
 	actions="show hide"
-	segments="battery clock exitcode python ruby scm sudo"
+	segments="battery clock exitcode python ruby scm sudo todo"
 	case "${_action}" in
 		show)
 			COMPREPLY=( $(compgen -W "${segments}" -- "${cur}") )
@@ -242,6 +251,7 @@ THEME_SHOW_SCM=${THEME_SHOW_SCM:-"true"}
 THEME_SHOW_RUBY=${THEME_SHOW_RUBY:-"false"}
 THEME_SHOW_PYTHON=${THEME_SHOW_PYTHON:-"false"}
 THEME_SHOW_CLOCK=${THEME_SHOW_CLOCK:-"true"}
+THEME_SHOW_TODO=${THEME_SHOW_TODO:-"false"}
 THEME_SHOW_BATTERY=${THEME_SHOW_BATTERY:-"false"}
 THEME_SHOW_EXITCODE=${THEME_SHOW_EXITCODE:-"true"}
 
@@ -252,7 +262,7 @@ __BRAINY_PROMPT_CHAR_PS1=${THEME_PROMPT_CHAR_PS1:-">"}
 __BRAINY_PROMPT_CHAR_PS2=${THEME_PROMPT_CHAR_PS2:-"\\"}
 
 ___BRAINY_TOP_LEFT=${___BRAINY_TOP_LEFT:-"user_info dir scm"}
-___BRAINY_TOP_RIGHT=${___BRAINY_TOP_RIGHT:-"python ruby clock battery"}
+___BRAINY_TOP_RIGHT=${___BRAINY_TOP_RIGHT:-"python ruby todo clock battery"}
 ___BRAINY_BOTTOM=${___BRAINY_BOTTOM:-"exitcode char"}
 
 complete -F _brainy_completion brainy
