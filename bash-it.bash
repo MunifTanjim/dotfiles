@@ -1,4 +1,4 @@
-export BASH_IT="$HOME/.dotfiles/.bash-it"
+export BASH_IT="${DOTFILES}/.bash-it"
 export BASH_IT_THEME='brainy'
 
 export THEME_SHOW_CLOCK="false"
@@ -21,4 +21,4 @@ export SCM_CHECK=true
 
 export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
 
-source $BASH_IT/bash_it.sh
+source "${BASH_IT}/bash_it.sh"

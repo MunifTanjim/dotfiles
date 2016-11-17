@@ -4,4 +4,5 @@
 
 - link:
     ~/.bashrc: scripts/arch/bashrc.bash
+    ~/.bash_aliases: scripts/arch/aliases.bash
     ~/.gitconfig: configs/gitconfig.arch

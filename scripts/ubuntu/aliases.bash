@@ -22,6 +22,9 @@ alias apt.o='apt-obsolete'
 alias aar='sudo add-apt-repository'
 alias pp='sudo ppa-purge'
 
+# fasd aliases
+alias o='a -e xdg-open'
+
 alias x='exit'
 
 alias system-monitor='mate-system-monitor'
