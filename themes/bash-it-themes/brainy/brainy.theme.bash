@@ -117,7 +117,7 @@ ___brainy_prompt_ruby() {
 	[ "${THEME_SHOW_RUBY}" == "false" ] && return
 	color=$bold_white
 	box="[|]"
-	info="$(ruby_version_prompt)"
+	info="rb-$(ruby_version_prompt)"
 	printf "%s|%s|%s|%s" "${color}" "${info}" "${bold_red}" "${box}"
 }
 
@@ -149,7 +149,7 @@ ___brainy_prompt_battery() {
 		color=$bold_red
 	fi
 	box="[|]"
-	[[ $(ac_adapter_connected) -eq 0 ]] && info+="+"
+	ac_adapter_connected && info+="+"
 	[ "$info" == "100+" ] && info="AC"
 	printf "%s|%s|%s|%s" "${color}" "${info}" "${bold_white}" "${box}"
 }
