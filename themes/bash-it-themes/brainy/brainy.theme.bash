@@ -98,7 +98,7 @@ ___brainy_prompt_dir() {
 }
 
 ___brainy_prompt_scm() {
-	[ "${THEME_SHOW_SCM}" == "false" ] && return
+	[ "${THEME_SHOW_SCM}" != "true" ] && return
 	color=$bold_green
 	box="$(scm_char) "
 	info="$(scm_prompt_info)"
@@ -106,7 +106,7 @@ ___brainy_prompt_scm() {
 }
 
 ___brainy_prompt_python() {
-	[ "${THEME_SHOW_PYTHON}" == "false" ] && return
+	[ "${THEME_SHOW_PYTHON}" != "true" ] && return
 	color=$bold_yellow
 	box="[|]"
 	info="$(python_version_prompt)"
@@ -114,7 +114,7 @@ ___brainy_prompt_python() {
 }
 
 ___brainy_prompt_ruby() {
-	[ "${THEME_SHOW_RUBY}" == "false" ] && return
+	[ "${THEME_SHOW_RUBY}" != "true" ] && return
 	color=$bold_white
 	box="[|]"
 	info="rb-$(ruby_version_prompt)"
@@ -122,16 +122,16 @@ ___brainy_prompt_ruby() {
 }
 
 ___brainy_prompt_todo() {
-	[ "${THEME_SHOW_TODO}" == "false" ] && return
+	[ "${THEME_SHOW_TODO}" != "true" ] ||
 	[ -z "$(which todo.sh)" ] && return
 	color=$bold_white
 	box="[|]"
-	info="$(todo.sh ls | egrep "TODO: [0-9]+ of ([0-9]+)" | awk '{ print $4 }' )"
+	info="t:$(todo.sh ls | egrep "TODO: [0-9]+ of ([0-9]+)" | awk '{ print $4 }' )"
 	printf "%s|%s|%s|%s" "${color}" "${info}" "${bold_green}" "${box}"
 }
 
 ___brainy_prompt_clock() {
-	[ "${THEME_SHOW_CLOCK}" == "false" ] && return
+	[ "${THEME_SHOW_CLOCK}" != "true" ] && return
 	color=$THEME_CLOCK_COLOR
 	box="[|]"
 	info="$(date +"${THEME_CLOCK_FORMAT}")"
@@ -140,7 +140,7 @@ ___brainy_prompt_clock() {
 
 ___brainy_prompt_battery() {
 	[ ! -e $BASH_IT/plugins/enabled/battery.plugin.bash ] ||
-	[ "${THEME_SHOW_BATTERY}" == "false" ] && return
+	[ "${THEME_SHOW_BATTERY}" != "true" ] && return
 	info=$(battery_percentage)
 	color=$bold_green
 	if [ "$info" -lt 50 ]; then
@@ -155,7 +155,7 @@ ___brainy_prompt_battery() {
 }
 
 ___brainy_prompt_exitcode() {
-	[ "${THEME_SHOW_EXITCODE}" == "false" ] && return
+	[ "${THEME_SHOW_EXITCODE}" != "true" ] && return
 	color=$bold_cyan
 	[ "$exitcode" -ne 0 ] && printf "%s|%s" "${color}" "${exitcode}"
 }
