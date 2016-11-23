@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-# Brainy Bash Prompt
+# Brainy Bash Prompt for Bash-it
 # by MunifTanjim
+
+#############
+## Parsers ##
+#############
 
 ____brainy_top_left_parse() {
 	ifs_old="${IFS}"
@@ -79,6 +83,10 @@ ____brainy_bottom() {
 	printf "\n%s" "${_BOTTOM}"
 }
 
+##############
+## Segments ##
+##############
+
 ___brainy_prompt_user_info() {
 	color=$bold_blue
 	if [ "${THEME_SHOW_SUDO}" == "true" ]; then
@@ -86,8 +94,13 @@ ___brainy_prompt_user_info() {
 			color=$bold_red
 		fi
 	fi
+	box="[|]"
 	info="\u@\H"
-	printf "%s|%s" "${color}" "${info}"
+	if [ -n "${SSH_CLIENT}" ]; then
+		printf "%s|%s|%s|%s" "${color}" "${info}" "${bold_white}" "${box}"
+	else
+		printf "%s|%s" "${color}" "${info}"
+	fi
 }
 
 ___brainy_prompt_dir() {
@@ -135,7 +148,7 @@ ___brainy_prompt_clock() {
 	color=$THEME_CLOCK_COLOR
 	box="[|]"
 	info="$(date +"${THEME_CLOCK_FORMAT}")"
-	printf "%s|%s|%s|%s" "${color}" "${info}" "${bold_white}" "${box}"
+	printf "%s|%s|%s|%s" "${color}" "${info}" "${bold_purple}" "${box}"
 }
 
 ___brainy_prompt_battery() {
@@ -156,7 +169,7 @@ ___brainy_prompt_battery() {
 
 ___brainy_prompt_exitcode() {
 	[ "${THEME_SHOW_EXITCODE}" != "true" ] && return
-	color=$bold_cyan
+	color=$bold_purple
 	[ "$exitcode" -ne 0 ] && printf "%s|%s" "${color}" "${exitcode}"
 }
 
@@ -165,6 +178,10 @@ ___brainy_prompt_char() {
 	prompt_char="${__BRAINY_PROMPT_CHAR_PS1}"
 	printf "%s|%s" "${color}" "${prompt_char}"
 }
+
+#########
+## cli ##
+#########
 
 __brainy_show() {
   typeset _seg=${1:-}
@@ -176,22 +193,6 @@ __brainy_hide() {
 	typeset _seg=${1:-}
 	shift
 	export THEME_SHOW_${_seg}=false
-}
-
-__brainy_ps1() {
-	printf "%s%s%s" "$(____brainy_top)" "$(____brainy_bottom)" "${normal}"
-}
-
-__brainy_ps2() {
-	color=$bold_white
-	printf "%s%s  %s" "${color}" "${__BRAINY_PROMPT_CHAR_PS2}" "${normal}"
-}
-
-_brainy_prompt() {
-    exitcode="$?"
-
-    PS1="$(__brainy_ps1)"
-    PS2="$(__brainy_ps2)"
 }
 
 _brainy_completion() {
@@ -233,6 +234,12 @@ brainy() {
 	done
 }
 
+complete -F _brainy_completion brainy
+
+###############
+## Variables ##
+###############
+
 export SCM_THEME_PROMPT_PREFIX=""
 export SCM_THEME_PROMPT_SUFFIX=""
 
@@ -255,7 +262,7 @@ THEME_SHOW_TODO=${THEME_SHOW_TODO:-"false"}
 THEME_SHOW_BATTERY=${THEME_SHOW_BATTERY:-"false"}
 THEME_SHOW_EXITCODE=${THEME_SHOW_EXITCODE:-"true"}
 
-THEME_CLOCK_COLOR=${THEME_CLOCK_COLOR:-"$bold_cyan"}
+THEME_CLOCK_COLOR=${THEME_CLOCK_COLOR:-"$bold_white"}
 THEME_CLOCK_FORMAT=${THEME_CLOCK_FORMAT:-"%H:%M:%S"}
 
 __BRAINY_PROMPT_CHAR_PS1=${THEME_PROMPT_CHAR_PS1:-">"}
@@ -265,6 +272,24 @@ ___BRAINY_TOP_LEFT=${___BRAINY_TOP_LEFT:-"user_info dir scm"}
 ___BRAINY_TOP_RIGHT=${___BRAINY_TOP_RIGHT:-"python ruby todo clock battery"}
 ___BRAINY_BOTTOM=${___BRAINY_BOTTOM:-"exitcode char"}
 
-complete -F _brainy_completion brainy
+############
+## Prompt ##
+############
+
+__brainy_ps1() {
+	printf "%s%s%s" "$(____brainy_top)" "$(____brainy_bottom)" "${normal}"
+}
+
+__brainy_ps2() {
+	color=$bold_white
+	printf "%s%s%s" "${color}" "${__BRAINY_PROMPT_CHAR_PS2}  " "${normal}"
+}
+
+_brainy_prompt() {
+    exitcode="$?"
+
+    PS1="$(__brainy_ps1)"
+    PS2="$(__brainy_ps2)"
+}
 
 safe_append_prompt_command _brainy_prompt

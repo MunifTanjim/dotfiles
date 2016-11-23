@@ -19,6 +19,7 @@ Simple colorful terminal prompt theme (inspired by a number of themes).
 ### Others
 
 - Indicator for cached `sudo` credential
+- Indicator for ssh login
 - `brainy` command for showing/hiding various prompt segments on-the-fly
 
 ## Configuration
