@@ -15,8 +15,3 @@
 
 - shell:
     - [git submodule update --init --depth 10, Initiating submodules...]
-
-- link:
-    ~/.dotfiles/.bash-it/custom/themes:
-      create: true
-      path: themes/bash-it-themes
