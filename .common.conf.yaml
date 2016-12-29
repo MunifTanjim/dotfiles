@@ -8,10 +8,6 @@
     ~/.bash_profile: bash_profile.bash
     ~/.bash_logout: bash_logout.bash
     ~/.nanorc: configs/nanorc
-    ~/.fasdrc: configs/fasdrc
-    ~/.todo/config:
-      create: true
-      path: configs/todo.cfg
 
 - shell:
     - [git submodule update --init --depth 10, Initiating submodules...]
