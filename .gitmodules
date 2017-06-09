@@ -1,11 +1,19 @@
 [submodule ".dotbot"]
 	path = .dotbot
 	url = https://github.com/anishathalye/dotbot.git
-[submodule ".bash-it"]
-	path = .bash-it
-	url = https://github.com/MunifTanjim/bash-it.git
-	shallow = true
 [submodule "scripts/scripts.bash"]
 	path = scripts/scripts.bash
 	url = https://bitbucket.org/MunifTanjim/scripts.bash.git
+	shallow = true
+[submodule "modules/.bash-sensible"]
+	path = modules/.bash-sensible
+	url = https://github.com/mrzool/bash-sensible
+	shallow = true
+[submodule "modules/.liquidprompt"]
+	path = modules/.liquidprompt
+	url = https://github.com/nojhan/liquidprompt
+	shallow = true
+[submodule "modules/.dircolors"]
+	path = modules/.dircolors
+	url = https://github.com/seebi/dircolors-solarized
 	shallow = true

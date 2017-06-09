@@ -1,5 +1,3 @@
-alias s='sudo'
-
 # APT aliases
 alias apt='sudo apt'
 alias aptf='sudo apt-fast'
@@ -15,19 +13,10 @@ alias aptf.ug='sudo apt-fast upgrade'
 alias apt.dug='sudo apt dist-upgrade'
 alias aptf.dug='sudo apt-fast dist-upgrade'
 alias apt.ar='sudo apt autoremove'
+
 alias apt-obsolete='apt-show-versions | grep "No available version"'
 alias apt.o='apt-obsolete'
 
 # Repository aliases
 alias aar='sudo add-apt-repository'
 alias pp='sudo ppa-purge'
-
-# fasd aliases
-alias o='a -e xdg-open'
-
-alias x='exit'
-
-alias system-monitor='mate-system-monitor'
-
-# Misc
-alias insults='wget http://www.randominsults.net -O - 2>/dev/null | grep \<strong\> | sed "s;^.*<i>\(.*\)</i>.*$;\1;";'

@@ -3,6 +3,5 @@
       force: true
 
 - link:
-    ~/.bashrc: scripts/ubuntu/bashrc.bash
-    ~/.bash_aliases: scripts/ubuntu/aliases.bash
+    ~/.bashrc: scripts/bashrc.ubuntu.bash
     ~/.gitconfig: configs/gitconfig.ubuntu
