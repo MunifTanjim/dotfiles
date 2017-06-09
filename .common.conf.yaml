@@ -4,6 +4,9 @@
 
 - clean: ['~']
 
+- shell:
+    - [git submodule update --init --depth 1, Initiating submodules...]
+
 - link:
     ~/.bash_profile: scripts/bash_profile.bash
     ~/.bash_logout: scripts/bash_logout.bash
@@ -11,5 +14,3 @@
     ~/.config/liquidpromptrc: configs/liquidpromptrc
     ~/.dircolors: modules/.dircolors/dircolors.256dark
 
-- shell:
-    - [git submodule update --init --depth 1, Initiating submodules...]
