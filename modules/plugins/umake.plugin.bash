@@ -1,6 +1,6 @@
 #!/usr/bin/evn bash
 
-_UMAKE_BIN="${HOME}/.local/share/umake/bin"
+( ! command_exists umake ) && return
 
-pathmunge $_UMAKE_BIN
+pathmunge "${HOME}/.local/share/umake/bin"
 

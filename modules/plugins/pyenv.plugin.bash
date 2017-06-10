@@ -1,12 +1,17 @@
+#!/usr/bin/env bash
+
 export PYENV_ROOT="$HOME/.pyenv"
-pathmunge "$PYENV_ROOT/bin"
+pathmunge "${PYENV_ROOT}/bin"
 
-[[ `which pyenv` ]] && eval "$(pyenv init -)"
+( command_exists pyenv ) && eval "$(pyenv init -)"
 
-#Load pyenv virtualenv if the virtualenv plugin is installed.
-if pyenv virtualenv-init - &> /dev/null; then
+# load pyenv virtualenv if the virtualenv plugin is installed
+if ( pyenv virtualenv-init - &>/dev/null ); then
   eval "$(pyenv virtualenv-init -)"
 fi
 
-# Load the auto-completion script if pyenv was loaded.
-[[ -e $PYENV_ROOT/completions/pyenv.bash ]] && source $PYENV_ROOT/completions/pyenv.bash
+# pyenv bash completion
+if [ -e "${PYENV_ROOT}/completions/pyenv.bash" ]; then
+  source "${PYENV_ROOT}/completions/pyenv.bash"
+fi
+

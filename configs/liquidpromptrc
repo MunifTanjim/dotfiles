@@ -1,11 +1,10 @@
-
 ####################################
 # LIQUID PROMPT CONFIGURATION FILE #
 ####################################
 
 # If you want to use different themes and features,
 # you can load the corresponding files here:
-#source ~/.config/liquidprompt/nojhan.theme
+source "${DOTFILES_MODULES}/themes/liquidprompt.theme.bash"
 #LP_PS1_FILE=~/.config/liquidprompt/nojhan.ps1
 
 #############
@@ -78,11 +77,11 @@ LP_ENABLE_JOBS=1
 
 # Enable the load feature.
 # Recommended value is 1
-LP_ENABLE_LOAD=1
+LP_ENABLE_LOAD=0
 
 # Enable the battery feature.
 # Recommended value is 1
-LP_ENABLE_BATT=1
+LP_ENABLE_BATT=0
 
 # Enable the 'sudo credentials' feature.
 # Be warned that this may pollute the syslog if you don't have sudo

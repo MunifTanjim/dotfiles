@@ -1,2 +1,4 @@
-command -v hub &> /dev/null && eval "$(hub alias -s)"
+#!/usr/bin/env bash
+
+( command_exists hub ) && eval "$(hub alias -s)"
 

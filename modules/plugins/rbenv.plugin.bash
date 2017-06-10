@@ -2,7 +2,9 @@
 
 pathmunge "${HOME}/.rbenv/bin"
 
-[ -x `which rbenv` ] && eval "$(rbenv init -)"
+( command_exists rbenv ) && eval "$(rbenv init -)"
 
-[ -d "${HOME}/.rbenv/plugins/ruby-build" ] && pathmunge "${HOME}/.rbenv/plugins/ruby-build/bin"
+if [ -d "${HOME}/.rbenv/plugins/ruby-build" ]; then
+  pathmunge "${HOME}/.rbenv/plugins/ruby-build/bin"
+fi
 

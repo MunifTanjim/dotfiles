@@ -1,5 +1,8 @@
-pathmunge ./node_modules/.bin
+#!/usr/bin/env bash
 
-# Make sure the global npm prefix is on the path
-[[ `which npm` ]] && pathmunge $(npm config get prefix)/bin
+pathmunge "./node_modules/.bin"
+
+if ( command_exists npm ); then
+  pathmunge "$(npm config get prefix)/bin"
+fi
 

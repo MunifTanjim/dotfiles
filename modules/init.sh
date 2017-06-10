@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
+DOTFILES_MODULES="${DOTFILES}/modules"
+
 # Sensible defaults for BASH
 if [ -f "${DOTFILES_MODULES}/.bash-sensible/sensible.bash" ]; then
   source $DOTFILES_MODULES/.bash-sensible/sensible.bash
 fi
-
-DOTFILES_MODULES="${DOTFILES}/modules"
 
 _HELPERS="${DOTFILES_MODULES}/helpers/*.bash"
 for file in $_HELPERS; do
@@ -20,6 +20,6 @@ done
 
 unset file module_type
 
-# LiquidPrompt
-source $DOTFILES_MODULES/.liquidprompt/liquidprompt
+# Bash theme
+source $DOTFILES_MODULES/themes/liquidprompt.bash
 
