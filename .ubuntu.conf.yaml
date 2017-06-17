@@ -3,5 +3,4 @@
       force: true
 
 - link:
-    ~/.bashrc: scripts/bashrc.ubuntu.bash
     ~/.gitconfig: configs/gitconfig.ubuntu

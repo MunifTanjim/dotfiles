@@ -9,8 +9,8 @@
 
 - link:
     ~/.bash_profile: scripts/bash_profile.bash
+    ~/.bashrc: scripts/bashrc.bash
     ~/.bash_logout: scripts/bash_logout.bash
     ~/.nanorc: configs/nanorc
     ~/.config/liquidpromptrc: configs/liquidpromptrc
     ~/.dircolors: modules/.dircolors/dircolors.256dark
-
