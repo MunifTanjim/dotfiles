@@ -4,7 +4,9 @@
 
 # If you want to use different themes and features,
 # you can load the corresponding files here:
-source "${DOTFILES_MODULES}/themes/liquidprompt.theme.bash"
+if [ -e "${DOTFILES_MODULES}/themes/liquidprompt.theme.bash" ]; then
+  source "${DOTFILES_MODULES}/themes/liquidprompt.theme.bash"
+fi
 #LP_PS1_FILE=~/.config/liquidprompt/nojhan.ps1
 
 #############

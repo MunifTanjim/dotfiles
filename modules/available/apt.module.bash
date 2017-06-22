@@ -1,6 +1,8 @@
+#!/usr/bin/env bash
+
 ( ! command_exists apt ) && return
 
-# APT aliases
+# Aliases: apt
 alias apt='sudo apt'
 alias apt.i='sudo apt install'
 alias apt.ud='sudo apt update'
@@ -22,7 +24,7 @@ alias apt.o='apt-obsolete'
 
 ( ! command_exists apt-fast ) && return
 
-# APT-Fast aliases
+# Aliases: apt-fast
 alias aptf='sudo apt-fast'
 alias aptf.d='sudo apt-fast download'
 alias aptf.i='sudo apt-fast install'

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-export PYENV_ROOT="$HOME/.pyenv"
-pathmunge "${PYENV_ROOT}/bin"
+PYENV_PATH=${PYENV_PATH:-"${HOME}/.pyenv"}
+
+pathmunge "${PYENV_PATH}/bin"
 
 ( command_exists pyenv ) && eval "$(pyenv init -)"
 
@@ -10,8 +11,8 @@ if ( pyenv virtualenv-init - &>/dev/null ); then
   eval "$(pyenv virtualenv-init -)"
 fi
 
-# pyenv bash completion
-if [ -e "${PYENV_ROOT}/completions/pyenv.bash" ]; then
-  source "${PYENV_ROOT}/completions/pyenv.bash"
+# Completion
+if [ -e "${PYENV_PATH}/completions/pyenv.bash" ]; then
+  source "${PYENV_PATH}/completions/pyenv.bash"
 fi
 

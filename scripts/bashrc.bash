@@ -9,6 +9,11 @@ fi
 
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# Bash Completion
+if [ -f /etc/bash_completion ]; then
+  source /etc/bash_completion
+fi
+
 export DOTFILES="${HOME}/.dotfiles"
 
 source "${DOTFILES}/scripts/paths.bash"

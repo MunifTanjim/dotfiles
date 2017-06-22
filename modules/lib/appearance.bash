@@ -5,10 +5,7 @@ if [ -x /usr/bin/dircolors ]; then
 rs -b)"
 fi
 
-if [ $(uname) = "Linux" ]; then
-  alias ls='ls --color=auto'
-fi
-
+alias ls='ls --color=auto'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto' 
 alias grep='grep --color=auto'
