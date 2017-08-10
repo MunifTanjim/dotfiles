@@ -1,3 +1,15 @@
+#!/usr/bin/env bash
+
+function load_module() {
+  local module="${1}.module.bash"
+  if [ -e "${DOTFILES_MODULES}/available/${module}" ]; then
+    source "${DOTFILES_MODULES}/available/${module}"
+    echo "Loaded Module: ${1}"
+  else
+    echo "No Module Named: ${1}"
+  fi
+}
+
 function disable_module() {
   local module="${1}.module.bash"
   if [ -e "${DOTFILES_MODULES}/enabled/${module}" ]; then
@@ -21,6 +33,10 @@ function enable_module() {
   fi
 }
 
+function _module_enabled() {
+  [ -e "${DOTFILES_MODULES}/enabled/${1}.module.bash" ]
+}
+
 if ! type pathmunge >/dev/null 2>&1; then
   function pathmunge () {
     if ! [[ ${PATH} =~ (^|:)${1}($|:) ]]; then
@@ -33,7 +49,7 @@ if ! type pathmunge >/dev/null 2>&1; then
   }
 fi
 
-function command_exists () {
+function command_exists() {
   type ${1} >/dev/null 2>&1
 }
 

@@ -7,7 +7,9 @@
 if [ -e "${DOTFILES_MODULES}/themes/liquidprompt.theme.bash" ]; then
   source "${DOTFILES_MODULES}/themes/liquidprompt.theme.bash"
 fi
-#LP_PS1_FILE=~/.config/liquidprompt/nojhan.ps1
+if [ -e "${DOTFILES_MODULES}/themes/liquid.ps1" ]; then
+  LP_PS1_FILE="${DOTFILES_MODULES}/themes/liquid.ps1"
+fi
 
 #############
 # BEHAVIOUR #
@@ -97,6 +99,12 @@ LP_ENABLE_VCS_ROOT=0
 # Enable the Git special features.
 # Recommended value is 1
 LP_ENABLE_GIT=1
+
+# Enable Git diff details
+LP_ENABLE_GIT_DIFF=0
+
+# Enable Git status details
+LP_ENABLE_GIT_STATUS=1
 
 # Enable the Subversion special features.
 # Recommended value is 1

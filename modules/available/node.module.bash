@@ -2,10 +2,11 @@
 
 pathmunge "./node_modules/.bin"
 
-if ( command_exists npm ); then
-  pathmunge "$(npm config get prefix)/bin"
-fi
+( ! _module_enabled nvm ) && load_module nvm &>/dev/null
+
+( ! command_exists npm ) && return
+
+pathmunge "$(npm config get prefix)/bin"
 
 # Completion
-( command_exists npm ) && source <(npm completion)
-
+source <(npm completion)
