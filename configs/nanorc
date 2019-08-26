@@ -1,7 +1,7 @@
 # set quiet
 set autoindent
 set backup
-set backupdir "/home/ubuntu/munif/.nano/backups"
+set backupdir "~/.nano/backups"
 # set backwards
 # set boldtext
 # set brackets ""')>]}"
