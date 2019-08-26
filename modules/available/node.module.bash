@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-pathmunge "./node_modules/.bin"
+( directory_exists "./node_modules/.bin" ) && pathmunge "./node_modules/.bin"
 
-( ! _module_enabled nvm ) && load_module nvm &>/dev/null
+( ! command_exists nvm ) && load_module nvm &>/dev/null
 
 ( ! command_exists npm ) && return
 
