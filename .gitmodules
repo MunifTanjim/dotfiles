@@ -11,7 +11,8 @@
 	shallow = true
 [submodule "modules/.liquidprompt"]
 	path = modules/.liquidprompt
-	url = https://github.com/nojhan/liquidprompt
+	url = https://github.com/MunifTanjim/liquidprompt
+	# upstream = https://github.com/nojhan/liquidprompt
 	shallow = true
 [submodule "modules/.dircolors"]
 	path = modules/.dircolors
