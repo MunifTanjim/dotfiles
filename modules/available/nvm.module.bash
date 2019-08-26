@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+( command_exists nvm ) && return
+
 export NVM_PATH="${HOME}/.nvm"
 
 [ -s "${NVM_PATH}/nvm.sh" ] && source "${NVM_PATH}/nvm.sh"
