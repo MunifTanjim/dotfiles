@@ -53,6 +53,10 @@ function command_exists() {
   type ${1} >/dev/null 2>&1
 }
 
+function directory_exists() {
+  [ -d "${1}" ]
+}
+
 function reload_bashrc() {
   [[ -e "${HOME}/.bashrc" ]] && source "${HOME}/.bashrc"
 }
