@@ -1,8 +1,6 @@
 [user]
   name = MunifTanjim
-  username = MunifTanjim
   email = ***REMOVED***
-  signingkey = 9FA86B9EC363F224
 
 [core]
   editor = nano
@@ -51,7 +49,7 @@
   username = MunifTanjim
   helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [credential "https://bitbucket.org"]
-  username = MunifTanjim
+  username = Shaikat_SF
   helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [credential "https://gitlab.com"]
   username = MunifTanjim

@@ -1,0 +1,6 @@
+- defaults:
+    link:
+      force: true
+
+- link:
+    ~/.gitconfig: configs/gitconfig.shopf.ubuntu
