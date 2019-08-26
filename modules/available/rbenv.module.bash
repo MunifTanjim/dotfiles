@@ -6,7 +6,7 @@ pathmunge "${RBENV_PATH}/bin"
 
 ( command_exists rbenv ) && eval "$(rbenv init -)"
 
-if [ -d "${RBENV_PATH}/plugins/ruby-build" ]; then
+if ( directory_exists "${RBENV_PATH}/plugins/ruby-build" ); then
   pathmunge "${RBENV_PATH}/plugins/ruby-build/bin"
 fi
 
