@@ -2,55 +2,6 @@
   name = MunifTanjim
   email = ***REMOVED***
 
-[core]
-  editor = nano
-
-[diff]
-  tool = default-difftool
-[difftool "default-difftool"]
-  cmd = code --wait --diff $LOCAL $REMOTE
-
-[alias]
-  br = branch
-  co = checkout
-  rb = rebase
-
-[web]
-  browser = google-chrome
-
-[push]
-  default = simple
-
-[color]
-  ui = true
-[color "branch"]
-  current = yellow reverse
-  local = yellow
-  remote = green
-[color "diff"]
-  meta = yellow bold
-  frag = magenta bold
-  old = red bold
-  new = green bold
-[color "status"]
-  added = yellow
-  changed = green
-  untracked = red
-
-[hub]
-  protocol = https
-
-[credential]
-  helper = cache --timeout=28800
-[credential "https://github.com"]
-  username = MunifTanjim
-  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
-[credential "https://gist.github.com"]
-  username = MunifTanjim
-  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [credential "https://bitbucket.org"]
   username = Shaikat_SF
-  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
-[credential "https://gitlab.com"]
-  username = MunifTanjim
   helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring

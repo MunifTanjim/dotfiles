@@ -56,3 +56,6 @@
 [credential "https://gitlab.com"]
   username = MunifTanjim
   helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+
+[includeIf "gitdir:~/shopf/"]
+  path = ~/.gitconfig.shopf
