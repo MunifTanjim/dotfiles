@@ -2,7 +2,7 @@
     link:
       force: true
 
-- clean: ['~']
+- clean: ["~"]
 
 - shell:
     - [git submodule update --init --depth 1, Initiating submodules...]
@@ -12,5 +12,6 @@
     ~/.bashrc: scripts/bashrc.bash
     ~/.bash_logout: scripts/bash_logout.bash
     ~/.nanorc: configs/nanorc
+    ~/.tmux.conf: configs/tmux.conf
     ~/.config/liquidpromptrc: configs/liquidpromptrc
     ~/.dircolors: modules/.dircolors/dircolors.256dark
