@@ -15,3 +15,4 @@
     ~/.tmux.conf: configs/tmux.conf
     ~/.config/liquidpromptrc: configs/liquidpromptrc
     ~/.dircolors: modules/.dircolors/dircolors.256dark
+    ~/.alacritty.yml: configs/alacritty.yml
