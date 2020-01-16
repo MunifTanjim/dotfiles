@@ -3,7 +3,7 @@
 	url = https://github.com/anishathalye/dotbot.git
 [submodule "scripts/scripts.bash"]
 	path = scripts/scripts.bash
-	url = https://bitbucket.org/MunifTanjim/scripts.bash.git
+	url = https://github.com/MunifTanjim/scripts.bash
 	shallow = true
 [submodule "modules/.bash-sensible"]
 	path = modules/.bash-sensible
