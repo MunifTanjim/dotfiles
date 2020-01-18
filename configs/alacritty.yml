@@ -38,7 +38,7 @@ window:
   #   y: 0
 
   # Spread additional padding evenly around the terminal content.
-  dynamic_padding: false
+  dynamic_padding: true
 
   # Window decorations
   #
@@ -66,11 +66,11 @@ window:
 #title: Alacritty
 
 # Window class (Linux/BSD only):
-class:
-  # Application instance name
-  #instance: Alacritty
-  # General application class
-  #general: Alacritty
+# class:
+# Application instance name
+#instance: Alacritty
+# General application class
+#general: Alacritty
 
 # GTK theme variant (Linux/BSD only)
 #
@@ -78,15 +78,15 @@ class:
 # Set this to `None` to use the default theme variant.
 gtk_theme_variant: dark
 
-# scrolling:
-# Maximum number of lines in the scrollback buffer.
-# Specifying '0' will disable scrolling.
-#history: 10000
-# Number of lines the viewport will move for every line scrolled when
-# scrollback is enabled (history > 0).
-#multiplier: 3
-# Scroll to the bottom when new text is written to the terminal.
-#auto_scroll: false
+scrolling:
+  # Maximum number of lines in the scrollback buffer.
+  # Specifying '0' will disable scrolling.
+  history: 100000
+  # Number of lines the viewport will move for every line scrolled when
+  # scrollback is enabled (history > 0).
+  multiplier: 3
+  # Scroll to the bottom when new text is written to the terminal.
+  auto_scroll: false
 
 # Spaces per Tab (changes require restart)
 #
@@ -174,7 +174,7 @@ colors:
   # Default colors
   primary:
     background: "0x282c34"
-    foreground: "0xabb2bf"
+    foreground: "0xc8c8c8"
   # Bright and dim foreground colors
   #
   # The dimmed foreground color is calculated automatically if it is not present.
@@ -186,39 +186,39 @@ colors:
   #
   # Colors which should be used to draw the terminal cursor. If these are unset,
   # the cursor color will be the inverse of the cell color.
-  #cursor:
-  #  text: '0x000000'
-  #  cursor: '0xffffff'
+  # cursor:
+  #   text: "0xffffff"
+  #   cursor: "0x528bff"
   # Selection colors
   #
   # Colors which should be used to draw the selection area. If selection
   # background is unset, selection color will be the inverse of the cell colors.
   # If only text is unset the cell text color will remain the same.
-  #selection:
-  #  text: '0xeaeaea'
-  #  background: '0x404040'
+  # selection:
+  #   text: "0xabb2bf"
+  #   background: "0x677696"
   # Normal colors
   normal:
     # NOTE: Use '0x131613' for the `black` color if you'd like to see
     # black text on the background.
-    black: "0x282c34"
+    black: "0x2d3139"
     red: "0xe06c75"
     green: "0x98c379"
-    yellow: "0xd19a66"
+    yellow: "0xe5c07b"
     blue: "0x61afef"
     magenta: "0xc678dd"
     cyan: "0x56b6c2"
-    white: "0xabb2bf"
+    white: "0xd7dae0"
   # Bright colors
   bright:
-    black: "0x5c6370"
-    red: "0xe06c75"
+    black: "0x7f848e"
+    red: "0xf44747"
     green: "0x98c379"
-    yellow: "0xd19a66"
-    blue: "0x61afef"
-    magenta: "0xc678dd"
+    yellow: "0xe5c07b"
+    blue: "0x528bff"
+    magenta: "0x7e0097"
     cyan: "0x56b6c2"
-    white: "0xffffff"
+    white: "0xd7dae0"
   # Dim colors
   #
   # If the dim colors are not set, they will be calculated automatically based
@@ -278,7 +278,7 @@ background_opacity: 1.0
 #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 
 # When set to `true`, selected text will be copied to the primary clipboard.
-#save_to_clipboard: false
+save_to_clipboard: true
 
 # Allow terminal applications to change Alacritty's window title.
 dynamic_title: true
