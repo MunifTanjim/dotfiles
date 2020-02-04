@@ -1,5 +1,5 @@
 [user]
-  name = MunifTanjim
+  name = Munif Tanjim
   username = MunifTanjim
   email = ***REMOVED***
   signingkey = 9FA86B9EC363F224
@@ -17,7 +17,7 @@
   co = checkout
   rb = rebase
 
-[web]
+[web]shopf
   browser = google-chrome
 
 [push]
@@ -43,19 +43,15 @@
   protocol = https
 
 [credential]
-  helper = cache --timeout=28800
+  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [credential "https://github.com"]
   username = MunifTanjim
-  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [credential "https://gist.github.com"]
   username = MunifTanjim
-  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [credential "https://bitbucket.org"]
   username = MunifTanjim
-  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [credential "https://gitlab.com"]
   username = MunifTanjim
-  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 
-[includeIf "gitdir:~/shopf/"]
-  path = ~/.gitconfig.shopf
+[includeIf "gitdir:~/Dev/bitbucket/team-shopup/"]
+  path = ~/.gitconfig.shopup

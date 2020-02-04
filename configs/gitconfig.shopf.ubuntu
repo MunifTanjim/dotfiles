@@ -1,7 +1,0 @@
-[user]
-  name = MunifTanjim
-  email = ***REMOVED***
-
-[credential "https://bitbucket.org"]
-  username = Shaikat_SF
-  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring

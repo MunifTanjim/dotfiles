@@ -4,4 +4,4 @@
 
 - link:
     ~/.gitconfig: configs/gitconfig.ubuntu
-    ~/.gitconfig.shopf: configs/gitconfig.shopf.ubuntu
+    ~/.gitconfig.shopup: configs/gitconfig.shopup.ubuntu
