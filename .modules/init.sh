@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-export DOTFILES_MODULES="${DOTFILES}/modules"
-
 # Sensible defaults for BASH
 if [ -f "${DOTFILES_MODULES}/.bash-sensible/sensible.bash" ]; then
   source "${DOTFILES_MODULES}/.bash-sensible/sensible.bash"

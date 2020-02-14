@@ -14,7 +14,14 @@ if [ -f /etc/bash_completion ]; then
   source /etc/bash_completion
 fi
 
-export DOTFILES="${HOME}/.dotfiles"
+if type chezmoi >/dev/null 2>&1; then
+  export DOTFILES=$(chezmoi source-path)
+  export DOTFILES_MODULES="${DOTFILES}/.modules"
 
-source "${DOTFILES}/scripts/paths.bash"
-source "${DOTFILES}/modules/init.sh"
+  _USER_SCRIPTS="${DOTFILES}/.scripts.bash"
+  _USER_BIN="${HOME}/.local/bin"
+
+  export PATH="${_USER_SCRIPTS}:${_USER_BIN}:${PATH}"
+
+  source "${DOTFILES_MODULES}/init.sh"
+fi

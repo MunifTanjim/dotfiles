@@ -1,20 +1,13 @@
-[submodule ".dotbot"]
-	path = .dotbot
-	url = https://github.com/anishathalye/dotbot.git
-[submodule "scripts/scripts.bash"]
-	path = scripts/scripts.bash
-	url = https://github.com/MunifTanjim/scripts.bash
-	shallow = true
-[submodule "modules/.bash-sensible"]
-	path = modules/.bash-sensible
+[submodule ".modules/.bash-sensible"]
+	path = .modules/.bash-sensible
 	url = https://github.com/mrzool/bash-sensible
-	shallow = true
-[submodule "modules/.liquidprompt"]
-	path = modules/.liquidprompt
-	url = https://github.com/MunifTanjim/liquidprompt
-	# upstream = https://github.com/nojhan/liquidprompt
-	shallow = true
-[submodule "modules/.dircolors"]
-	path = modules/.dircolors
+[submodule ".modules/.dircolors-solarized"]
+	path = .modules/.dircolors-solarized
 	url = https://github.com/seebi/dircolors-solarized
+[submodule ".modules/.liquidprompt"]
+	path = .modules/.liquidprompt
+	url = https://github.com/MunifTanjim/liquidprompt
+[submodule ".scripts.bash"]
+	path = .scripts.bash
+	url = https://github.com/MunifTanjim/scripts.bash
 	shallow = true

@@ -1,4 +1,4 @@
-modules/enabled/*
-modules/custom/*
-!modules/custom/example.bash
+.modules/enabled/*
+.modules/custom/*
+!.modules/custom/example.bash
 *~

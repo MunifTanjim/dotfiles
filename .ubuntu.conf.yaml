@@ -1,7 +1,0 @@
-- defaults:
-    link:
-      force: true
-
-- link:
-    ~/.gitconfig: configs/gitconfig.ubuntu
-    ~/.gitconfig.shopup: configs/gitconfig.shopup.ubuntu
