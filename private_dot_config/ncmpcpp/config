@@ -265,7 +265,7 @@ visualizer_in_stereo = no
 ## Note: Custom command that will be executed each time song changes. Useful for
 ## notifications etc.
 ##
-#execute_on_song_change = ""
+execute_on_song_change = "notify-send --hint=int:transient:1 'Now playing' "$(ncmpcpp --quiet --current-song='{%a - }{%t}|{%f}')""
 #
 ##
 ## Note: Custom command that will be executed each time player state
