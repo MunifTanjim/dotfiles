@@ -17,7 +17,7 @@
   co = checkout
   rb = rebase
 
-[web]shopf
+[web]
   browser = google-chrome
 
 [push]
