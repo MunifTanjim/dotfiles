@@ -6,14 +6,14 @@
 ## ncmpcpp.
 ##
 #
-ncmpcpp_directory = /opt/ncmpcpp
+ncmpcpp_directory = ~/.local/share/ncmpcpp
 #
 ##
 ## Directory for storing downloaded lyrics. It defaults to ~/.lyrics since other
 ## MPD clients (eg. ncmpc) also use that location.
 ##
 #
-lyrics_directory = /opt/ncmpcpp/lyrics
+lyrics_directory = ~/.local/share/ncmpcpp/lyrics
 #
 ##### connection settings #####
 #
@@ -104,7 +104,7 @@ visualizer_in_stereo = no
 ## Time of inactivity (in seconds) after playlist highlighting will be disabled
 ## (0 = always on).
 ##
-#playlist_disable_highlight_delay = 5
+playlist_disable_highlight_delay = 0
 #
 ## Defines how long messages are supposed to be visible.
 ##
@@ -265,7 +265,7 @@ visualizer_in_stereo = no
 ## Note: Custom command that will be executed each time song changes. Useful for
 ## notifications etc.
 ##
-execute_on_song_change = "notify-send --hint=int:transient:1 'Now playing' "$(ncmpcpp --quiet --current-song='{%a - }{%t}|{%f}')""
+#execute_on_song_change = "notify-send --hint=int:transient:1 'Now playing' "$(ncmpcpp --quiet --current-song='{%a - }{%t}|{%f}')""
 #
 ##
 ## Note: Custom command that will be executed each time player state
@@ -304,9 +304,9 @@ playlist_editor_display_mode = columns
 #
 #volume_change_step = 2
 #
-#autocenter_mode = no
+autocenter_mode = yes
 #
-#centered_cursor = no
+centered_cursor = no
 #
 ##
 ## Note: You can specify third character which will be used to build 'empty'
@@ -388,7 +388,7 @@ screen_switcher_mode = browser, media_library, playlist
 ##
 ## Note: You can define startup screen by choosing screen from the list above.
 ##
-startup_screen = media_library
+startup_screen = playlist
 #
 ##
 ## Note: You can define startup slave screen by choosing screen from the list
