@@ -43,7 +43,7 @@
   protocol = https
 
 [credential]
-  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+  helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 [credential "https://github.com"]
   username = MunifTanjim
 [credential "https://gist.github.com"]
