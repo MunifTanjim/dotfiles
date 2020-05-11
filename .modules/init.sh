@@ -27,4 +27,4 @@ if [ -d "${DOTFILES_MODULES}/enabled" ]; then
 fi
 
 # Load prompt theme
-source "${DOTFILES_MODULES}/themes/liquidprompt.bash"
+source "${DOTFILES_MODULES}/themes/starship.bash"
