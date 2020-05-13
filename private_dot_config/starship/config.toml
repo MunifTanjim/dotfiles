@@ -5,7 +5,8 @@ threshold = 20
 style = "bold red"
 
 [character]
-symbol = "$" # "➜" "▶"
+symbol = "❯" # "➜" "▶"
+vicmd_symbol = "❮"
 
 [cmd_duration]
 disabled = true
@@ -29,11 +30,15 @@ disabled = true
 disabled = true
 
 [git_status]
+show_sync_count = true
+prefix = "("
+suffix = ")"
 [git_status.conflicted_count]
 enabled = true
 [git_status.untracked_count]
 enabled = true
 [git_status.stashed_count]
+stashed = "≡"
 enabled = true
 [git_status.modified_count]
 enabled = true
@@ -42,8 +47,6 @@ enabled = true
 [git_status.renamed_count]
 enabled = true
 [git_status.deleted_count]
-enabled = true
-[git_status.show_sync_count]
 enabled = true
 
 [haskell]
