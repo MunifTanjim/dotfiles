@@ -1,40 +1,47 @@
 #!/usr/bin/env bash
 
 function load_module() {
-  local module="${1}.module.bash"
-  if [ -e "${DOTFILES_MODULES}/available/${module}" ]; then
-    source "${DOTFILES_MODULES}/available/${module}"
-    echo "Loaded Module: ${1}"
-  else
-    echo "No Module Named: ${1}"
-  fi
+  local module=("${1}.module.sh" "${1}.module.bash")
+  for mod in ${module[@]}; do
+    if [ -e "${DOTFILES_MODULES}/available/${mod}" ]; then
+      source "${DOTFILES_MODULES}/available/${mod}"
+      echo "Loaded Module: ${1}"
+      break
+    else
+      echo "No Module Named: ${1}"
+    fi
+  done
 }
 
 function disable_module() {
-  local module="${1}.module.bash"
-  if [ -e "${DOTFILES_MODULES}/enabled/${module}" ]; then
-    rm "${DOTFILES_MODULES}/enabled/${module}"
-    echo "Disabled Module: ${1}"
-  fi
+  local module=("${1}.module.sh" "${1}.module.bash")
+  for mod in ${module[@]}; do
+    if [ -e "${DOTFILES_MODULES}/enabled/${mod}" ]; then
+      rm "${DOTFILES_MODULES}/enabled/${mod}"
+      echo "Disabled Module: ${1}"
+    fi
+  done
 }
 
 function enable_module() {
-  local module="${1}.module.bash"
-  if [ -e "${DOTFILES_MODULES}/enabled/${module}" ]; then
-    echo "Already Enabled: ${1}"
-  elif [ -e "${DOTFILES_MODULES}/available/${module}" ]; then
-    if ! [ -d "${DOTFILES_MODULES}/enabled" ]; then
-      mkdir -p "${DOTFILES_MODULES}/enabled"
+  local module=("${1}.module.sh" "${1}.module.bash")
+  for mod in ${module[@]}; do
+    if [ -e "${DOTFILES_MODULES}/enabled/${mod}" ]; then
+      echo "Already Enabled: ${1}"
+      break
+    elif [ -e "${DOTFILES_MODULES}/available/${mod}" ]; then
+      if ! [ -d "${DOTFILES_MODULES}/enabled" ]; then
+        mkdir -p "${DOTFILES_MODULES}/enabled"
+      fi
+      ln -s "../available/${mod}" "${DOTFILES_MODULES}/enabled/${mod}"
+      echo "Enabled Module: ${1}"
+      break
     fi
-    ln -s "../available/${module}" "${DOTFILES_MODULES}/enabled/${module}"
-    echo "Enabled Module: ${1}"
-  else
-    echo "No Module Named: ${1}"
-  fi
+  done
 }
 
 function _module_enabled() {
-  [ -e "${DOTFILES_MODULES}/enabled/${1}.module.bash" ]
+  [ -e "${DOTFILES_MODULES}/enabled/${1}.module.sh" ] ||   [ -e "${DOTFILES_MODULES}/enabled/${1}.module.bash" ]
 }
 
 if ! type pathmunge >/dev/null 2>&1; then
