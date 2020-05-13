@@ -27,8 +27,6 @@ zinit ice \
   atload'zstyle ":completion:*" list-colors "${(s.:.)LS_COLORS}"'
 zinit light trapd00r/LS_COLORS
 zinit light zpm-zsh/ls
-zinit light zpm-zsh/colorize
-zinit light ael-code/zsh-colored-man-pages
 zinit light zdharma/fast-syntax-highlighting
 
 zinit light lukechilds/zsh-nvm
@@ -59,14 +57,27 @@ compinit -C -d "$ZINIT[ZCOMPDUMP_PATH]"
 
 zinit cdreplay -q
 
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "$key[Up]" up-line-or-beginning-search
-bindkey "$key[Down]" down-line-or-beginning-search
-
 export GPG_TTY=$(tty)
 
 export STARSHIP_CONFIG=~/.config/starship/config.toml
 eval "$(starship init zsh)"
+
+bindkey -e
+
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+declare -g -A key
+key[Up]="${terminfo[kcuu1]}"
+key[Down]="${terminfo[kcud1]}"
+key[Left]="${terminfo[kcub1]}"
+key[Right]="${terminfo[kcuf1]}"
+key[Shift-Tab]="${terminfo[kcbt]}"
+key[Control-Left]="^[[1;5D"
+key[Control-Right]="^[[1;5C"
+
+bindkey "$key[Up]" up-line-or-beginning-search
+bindkey "$key[Down]" down-line-or-beginning-search
+bindkey "${key[Control-Left]}"  backward-word
+bindkey "${key[Control-Right]}" forward-word
