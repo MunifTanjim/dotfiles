@@ -4,9 +4,6 @@
 [submodule ".modules/.dircolors-solarized"]
 	path = .modules/.dircolors-solarized
 	url = https://github.com/seebi/dircolors-solarized
-[submodule ".modules/.liquidprompt"]
-	path = .modules/.liquidprompt
-	url = https://github.com/MunifTanjim/liquidprompt
 [submodule ".scripts.bash"]
 	path = .scripts.bash
 	url = https://github.com/MunifTanjim/scripts.bash

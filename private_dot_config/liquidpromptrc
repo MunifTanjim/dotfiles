@@ -2,11 +2,6 @@
 # LIQUID PROMPT CONFIGURATION FILE #
 ####################################
 
-# If you want to use different themes and features,
-# you can load the corresponding files here:
-if [ -e "${DOTFILES_MODULES}/themes/liquidprompt.theme.bash" ]; then
-  source "${DOTFILES_MODULES}/themes/liquidprompt.theme.bash"
-fi
 if [ -e "${DOTFILES_MODULES}/themes/liquid.ps1" ]; then
   LP_PS1_FILE="${DOTFILES_MODULES}/themes/liquid.ps1"
 fi
