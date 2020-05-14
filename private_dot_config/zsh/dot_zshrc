@@ -49,7 +49,9 @@ zstyle ':completion:*:messages' format '%B%F{yellow}%d%f%b'
 zstyle ':completion:*:warnings' format '%B%F{red}No matches found!%f%b'
 
 zinit as"completion" wait lucid for \
-  https://raw.githubusercontent.com/docker/compose/master/contrib/completion/zsh/_docker-compose
+    https://raw.githubusercontent.com/docker/compose/master/contrib/completion/zsh/_docker-compose \
+  is-snippet \
+    "${DOTFILES_MODULES}/zsh/completions/_keybase"
 
 zinit wait lucid for \
   atinit"optimized_zicompinit; zicdreplay" \
