@@ -25,5 +25,5 @@ if type chezmoi >/dev/null 2>&1; then
 
   export PATH="${_USER_SCRIPTS}:${_USER_BIN}:${PATH}"
 
-  source "${DOTFILES_MODULES}/init.sh"
+  source "${DOTFILES_MODULES}/bash/init.bash"
 fi

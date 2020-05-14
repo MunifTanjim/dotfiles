@@ -17,3 +17,9 @@ export GREP_COLOR='1;33'
 
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# source "${DOTFILES_MODULES}/.liquidprompt/liquidprompt"
+
+export STARSHIP_CONFIG=~/.config/starship/config.toml
+eval "$(starship init bash)"
+export PROMPT_COMMAND="starship_precmd;${PROMPT_COMMAND/starship_precmd;/}"

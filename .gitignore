@@ -1,4 +1,3 @@
-.modules/enabled/*
+.modules/bash/plugins/enabled/*
 .modules/custom/*
-!.modules/custom/example.bash
 *~
