@@ -67,13 +67,16 @@ zinit light trapd00r/LS_COLORS
 zinit light zpm-zsh/ls
 
 zinit wait lucid for \
-  lukechilds/zsh-nvm
+  lukechilds/zsh-nvm \
+  momo-lab/auto-expand-alias \
+  momo-lab/zsh-replace-multiple-dots
 
 zinit wait lucid is-snippet for \
-  "${DOTFILES_MODULES}/available/helpers.module.sh" \
-  "${DOTFILES_MODULES}/available/go.module.sh" \
-  "${DOTFILES_MODULES}/available/rust.module.sh" \
-  "${DOTFILES_MODULES}/available/gpg.module.sh"
+  "${DOTFILES_MODULES}/aliases.sh" \
+  "${DOTFILES_MODULES}/helpers.sh" \
+  "${DOTFILES_MODULES}/go.plugin.sh" \
+  "${DOTFILES_MODULES}/gpg.plugin.sh" \
+  "${DOTFILES_MODULES}/rust.plugin.sh"
 
 export STARSHIP_CONFIG=~/.config/starship/config.toml
 eval "$(starship init zsh)"
