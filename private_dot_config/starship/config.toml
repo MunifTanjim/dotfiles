@@ -29,12 +29,17 @@ disabled = true
 [erlang]
 disabled = true
 
+[git_branch]
+style = "bold 164"
+
 [git_status]
 show_sync_count = true
 prefix = "("
-suffix = ")"
+suffix = ") "
+style = "bold yellow"
 [git_status.conflicted_count]
 enabled = true
+style = "bold red"
 [git_status.untracked_count]
 enabled = true
 [git_status.stashed_count]
