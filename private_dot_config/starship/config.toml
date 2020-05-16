@@ -37,13 +37,12 @@ show_sync_count = true
 prefix = "("
 suffix = ") "
 style = "bold yellow"
+stashed = "≡"
 [git_status.conflicted_count]
 enabled = true
-style = "bold red"
 [git_status.untracked_count]
 enabled = true
 [git_status.stashed_count]
-stashed = "≡"
 enabled = true
 [git_status.modified_count]
 enabled = true
