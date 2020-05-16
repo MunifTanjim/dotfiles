@@ -307,9 +307,9 @@ cursor:
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
 shell:
-  program: /bin/bash
+  program: /bin/sh
   args:
-    - --login
+    - -l
     - -c
     - "tmux attach || tmux"
 
