@@ -2,7 +2,7 @@
 
 if [ -x /usr/bin/dircolors ]; then
   _dircolors_file="${DOTFILES_MODULES}/.dircolors-solarized/dircolors.256dark"
-  test -r ${_dircolors_file} && eval "$(dircolors -b ${_dircolors_file})" || eval "$(dircolors -b)"
+  test -r "${_dircolors_file}" && eval "$(dircolors -b "${_dircolors_file}")" || eval "$(dircolors -b)"
 fi
 
 alias ls='ls --color=auto'

@@ -49,10 +49,10 @@ fi
 source "${DOTFILES_MODULES}/helpers.sh"
 
 # Load temporary scripts
-for script in ${DOTFILES_MODULES}/temp/*.sh; do
+for script in "${DOTFILES_MODULES}"/temp/*.sh; do
   [[ -e "${script}" ]] && source "${script}"
 done
-for temp in ${DOTFILES_MODULES}/temp/*.bash; do
+for script in "${DOTFILES_MODULES}"/temp/*.bash; do
   [[ -e "${script}" ]] && source "${script}"
 done
 

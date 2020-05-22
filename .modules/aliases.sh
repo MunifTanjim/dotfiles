@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 alias c='clear'
 alias x='exit'
 

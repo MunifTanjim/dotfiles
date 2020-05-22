@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 ( ! command_exists go ) && return
 
 export GOROOT=${GOROOT:-$(go env | grep GOROOT | cut -d'"' -f2)}
