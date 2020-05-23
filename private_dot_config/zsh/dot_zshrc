@@ -1,3 +1,7 @@
+setopt COMBINING_CHARS
+setopt INTERACTIVE_COMMENTS
+setopt RC_QUOTES
+
 setopt APPEND_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
@@ -6,6 +10,8 @@ setopt HIST_VERIFY
 
 setopt AUTO_CD
 setopt AUTO_PUSHD
+setopt PUSHD_SILENT
+setopt PUSHD_TO_HOME
 
 setopt AUTO_MENU
 setopt GLOB_COMPLETE
@@ -93,11 +99,16 @@ key[Up]="${terminfo[kcuu1]}"
 key[Down]="${terminfo[kcud1]}"
 key[Left]="${terminfo[kcub1]}"
 key[Right]="${terminfo[kcuf1]}"
-key[Shift-Tab]="${terminfo[kcbt]}"
 key[Control-Left]="^[[1;5D"
 key[Control-Right]="^[[1;5C"
+key[Control-Backspace]="^H"
+key[Control-Delete]="^[[3;5~"
+key[Shift-Tab]="${terminfo[kcbt]}"
 
-bindkey "$key[Up]" up-line-or-beginning-search
-bindkey "$key[Down]" down-line-or-beginning-search
+bindkey "${key[Up]}" up-line-or-beginning-search
+bindkey "${key[Down]}" down-line-or-beginning-search
 bindkey "${key[Control-Left]}"  backward-word
 bindkey "${key[Control-Right]}" forward-word
+bindkey "${key[Control-Backspace]}" backward-kill-word
+bindkey "${key[Control-Delete]}" kill-word
+bindkey "${key[Shift-Tab]}" reverse-menu-complete
