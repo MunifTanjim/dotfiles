@@ -1,6 +1,6 @@
-#compdef keybase
+#compdef _keybase keybase
 
-_cli_zsh_autocomplete() {
+_keybase() {
   local -a opts
   local cur
   cur=${words[-1]}
@@ -18,5 +18,3 @@ _cli_zsh_autocomplete() {
 
   return
 }
-
-compdef _cli_zsh_autocomplete keybase
