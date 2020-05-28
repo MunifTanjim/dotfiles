@@ -173,8 +173,8 @@ font:
 colors:
   # Default colors
   primary:
+    foreground: "0xabb2bf"
     background: "0x282c34"
-    foreground: "0xc8c8c8"
   # Bright and dim foreground colors
   #
   # The dimmed foreground color is calculated automatically if it is not present.
@@ -186,9 +186,9 @@ colors:
   #
   # Colors which should be used to draw the terminal cursor. If these are unset,
   # the cursor color will be the inverse of the cell color.
-  # cursor:
-  #   text: "0xffffff"
-  #   cursor: "0x528bff"
+  cursor:
+    text: "0x5c6370"
+    cursor: "0xabb2bf"
   # Selection colors
   #
   # Colors which should be used to draw the selection area. If selection
@@ -197,41 +197,33 @@ colors:
   # selection:
   #   text: "0xabb2bf"
   #   background: "0x677696"
-  # Normal colors
+  bright:
+    black: "0x4b5263"
+    red: "0xbe5046"
+    green: "0x98c379"
+    yellow: "0xd19a66"
+    blue: "0x61afef"
+    magenta: "0xc678dd"
+    cyan: "0x56b6c2"
+    white: "0x3e4452"
   normal:
-    # NOTE: Use '0x131613' for the `black` color if you'd like to see
-    # black text on the background.
-    black: "0x2d3139"
+    black: "0x5c6370"
     red: "0xe06c75"
     green: "0x98c379"
     yellow: "0xe5c07b"
     blue: "0x61afef"
     magenta: "0xc678dd"
     cyan: "0x56b6c2"
-    white: "0xd7dae0"
-  # Bright colors
-  bright:
-    black: "0x7f848e"
-    red: "0xf44747"
-    green: "0x98c379"
-    yellow: "0xe5c07b"
-    blue: "0x528bff"
-    magenta: "0x7e0097"
-    cyan: "0x56b6c2"
-    white: "0xd7dae0"
-  # Dim colors
-  #
-  # If the dim colors are not set, they will be calculated automatically based
-  # on the `normal` colors.
+    white: "0xabb2bf"
   # dim:
-  #   black: "0x000000"
-  #   red: "0x8c3336"
-  #   green: "0x7a8530"
-  #   yellow: "0x97822e"
-  #   blue: "0x506d8f"
-  #   magenta: "0x80638e"
-  #   cyan: "0x497e7a"
-  #   white: "0x9a9a9a"
+  # black: "0x5c6370"
+  # red: "0xe06c75"
+  # green: "0x98c379"
+  # yellow: "0xd19a66"
+  # blue: "0x528bff"
+  # magenta: "0xc678dd"
+  # cyan: "0x56b6c2"
+  # white: "0xabb2bf"
   # Indexed Colors
   #
   # The indexed colors include all colors from 16 to 256.
