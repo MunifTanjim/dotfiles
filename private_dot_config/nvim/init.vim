@@ -1,10 +1,12 @@
-syntax on
-
 set softtabstop=2
 set shiftwidth=2
 set expandtab
 set nu
 set incsearch
+
+if (has("termguicolors"))
+  set termguicolors
+endif
 
 " use different directories for vim and neovim
 let cache_dir = '~/.cache/' . ( has('nvim') ? 'nvim' : 'vim' )
@@ -26,7 +28,9 @@ Plug 'vim-airline/vim-airline'
 
 call plug#end()
 
+syntax on
 colorscheme onedark
+let g:onedark_terminal_italics=1
 let g:airline_theme='onedark'
 
 inoremap jk <Esc>
