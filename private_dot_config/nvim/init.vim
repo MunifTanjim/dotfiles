@@ -25,6 +25,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " functionality
+Plug 'vitalk/vim-shebang'
 if isdirectory(expand(fzf_root))
   Plug fzf_root
   Plug 'junegunn/fzf.vim'
@@ -51,6 +52,14 @@ if has('nvim') && !exists('g:fzf_layout')
 endif
 
 let g:fzf_command_prefix = 'Z'
+
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' 
+  \ }
+
+nmap <C-p> :ZFiles<CR>
 
 "## Plugin: COC
 let g:coc_global_extensions = [
