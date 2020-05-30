@@ -1,7 +1,7 @@
 # set quiet
 set autoindent
 set backup
-set backupdir "~/.nano/backups"
+set backupdir "~/.cache/nano/backup"
 # set backwards
 # set boldtext
 # set brackets ""')>]}"
