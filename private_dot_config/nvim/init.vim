@@ -34,6 +34,7 @@ Plug 'tpope/vim-surround'
 
 " integration
 Plug 'tpope/vim-fugitive'
+Plug 'wakatime/vim-wakatime'
 
 " dark magic
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
