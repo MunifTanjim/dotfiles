@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+{{ if eq .chezmoi.os "linux" }}
+
+echo ""
+echo "========================="
+echo "= Running Setup Scripts ="
+echo "========================="
+echo ""
+
+declare SETUP_SCRIPTS=(
+  setup-apt-fast
+  setup-docker
+  setup-fzf
+  setup-git-credential-libsecret
+  setup-github-cli
+  setup-keybase
+  setup-neovim
+  setup-nvm
+  setup-pyenv
+  setup-rbenv
+  setup-rofi
+  setup-starship
+  setup-tpm
+  setup-youtube-dl
+  setup-zinit
+)
+
+for script in "${SETUP_SCRIPTS[@]}"; do
+  echo ""
+  if type "${script}" >/dev/null 2>&1; then
+    echo "[${script}] started"
+    echo ""
+    ${script}
+    echo ""
+    echo "[${script}] ended"
+  else
+    echo "[${script}] not found!"
+  fi
+  echo ""
+done
+
+{{ end }}
+

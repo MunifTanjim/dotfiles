@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+{{ if eq .chezmoi.os "linux" }}
+
+echo ""
+echo "=================================="
+echo "= Creating Necessary Directories ="
+echo "=================================="
+echo ""
+
+declare NECESSARY_DIRECTORIES=(
+  "~/.config/nano/backup"
+)
+
+printf '> %s\n' "${NECESSARY_DIRECTORIES[@]}"
+echo ""
+
+mkdir -p "${NECESSARY_DIRECTORIES[@]}"
+
+{{ end }}
+

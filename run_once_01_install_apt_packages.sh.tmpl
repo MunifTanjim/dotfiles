@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+{{ if eq .chezmoi.os "linux" }}
+
+if ! type apt >/dev/null 2>&1; then
+  exit 0
+fi
+
+function update_cache() {
+  echo ""
+  echo "Updating APT Cache..."
+  echo ""
+  sudo apt update
+}
+
+echo ""
+echo "==========================="
+echo "= Installing APT Packages ="
+echo "==========================="
+echo ""
+
+declare APT_PACKAGES=(
+  curl git filezilla jq
+  gpa gparted htop
+  grc htop neofetch
+  vim zsh shellcheck
+  rar unrar tree
+  software-properties-common
+)
+
+echo "${APT_PACKAGES[@]}"
+echo ""
+
+update_cache
+
+sudo apt install --yes "${APT_PACKAGES[@]}"
+
+echo ""
+echo "======================================="
+echo "= Installing APT Packages (3rd Party) =" 
+echo "======================================="
+echo ""
+
+declare THIRD_PARTY_APT_PACKAGES=(
+  alacritty
+)
+
+echo "${THIRD_PARTY_APT_PACKAGES[@]}"
+echo ""
+
+declare APT_REPOSITORIES=(
+  ppa:mmstick76/alacritty
+)
+for apt_repo in "${APT_REPOSITORIES[@]}"; do
+  echo ""
+  echo "Adding APT Repository: ${apt_repo}"
+  echo ""
+  sudo add-apt-repository --yes --no-update "${apt_repo}"
+done
+
+update_cache
+
+sudo apt install --yes "${THIRD_PARTY_APT_PACKAGES[@]}"
+
+{{ end }}
+
