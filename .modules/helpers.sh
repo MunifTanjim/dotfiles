@@ -19,3 +19,14 @@ pathmunge() {
     fi
   fi
 }
+
+expunge_history() {
+  if ! command_exists fzf; then
+    echo "not found: fzf"
+  fi
+
+  local -r items="$(cat "${HISTFILE}" | nl -b a)"
+  local -r header="Expunge History (use TAB to select multiple)"
+  local -r expression="$(echo "${items}" | fzf --multi --header="${header}" | awk '{print $1}' ORS='d;')"
+  sed -i -e "${expression}" "${HISTFILE}"
+}
