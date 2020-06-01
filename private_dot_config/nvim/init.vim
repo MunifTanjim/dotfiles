@@ -12,6 +12,7 @@ let fzf_root = fnamemodify(data_dir, ':h') . '/fzf'
 set hidden
 set modelines=2
 
+set encoding=utf-8
 set softtabstop=2
 set shiftwidth=2
 set expandtab
@@ -112,6 +113,8 @@ command! -nargs=* -bang ZRG call RipgrepFzf(<q-args>, <bang>0)
 " keymaps: FZF
 nmap <C-p>     :ZFiles<CR>
 nmap <Leader>/ :ZRG<CR>
+nmap <Leader>b :ZBuffers<CR>
+nmap <Leader>w :ZWindows<CR>
 
 "## Plugin: COC
 let g:coc_global_extensions = [
@@ -168,7 +171,15 @@ endif
 " theme
 colorscheme onedark
 let g:onedark_terminal_italics=1
+
+"" airline
 let g:airline_theme='onedark'
+let g:airline_powerline_fonts = 1
+""" disable powerline arrows
+let g:airline_left_sep=""
+let g:airline_left_alt_sep=""
+let g:airline_right_sep=""
+let g:airline_right_alt_sep=""
 
 "# Language Specific Settings
 
@@ -232,3 +243,6 @@ nnoremap <silent> <M-k> :move-2<cr>
 nnoremap <silent> <M-j> :move+<cr>
 nnoremap <silent> <M-h> <<
 nnoremap <silent> <M-l> >>
+
+" switch buffer
+nmap <Leader><Tab> :call feedkeys(":b \<Tab>", 'tn')<CR>
