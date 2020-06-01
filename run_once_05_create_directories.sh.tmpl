@@ -9,7 +9,8 @@ echo "=================================="
 echo ""
 
 declare NECESSARY_DIRECTORIES=(
-  "~/.config/nano/backup"
+  ~/.cache/nano/backup
+  ~/.local/share/{nvim,vim}/{backup,swap,undo}
 )
 
 printf '> %s\n' "${NECESSARY_DIRECTORIES[@]}"
