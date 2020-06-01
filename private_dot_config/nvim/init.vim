@@ -37,6 +37,14 @@ if has('persistent_undo')
   set undofile
 endif
 
+" always show the signcolumn, otherwise it would shift the text each time diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " fecently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
 " <Leader> and <LocalLeader>
 let mapleader = "\<Space>"
 let maplocalleader = "\\"
@@ -133,18 +141,41 @@ let g:coc_global_extensions = [
       \ 'coc-yaml',
       \ ]
 
+" command: Prettier
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+" command: OI
+command! -nargs=0 OI       :call CocAction('runCommand', 'editor.action.organizeImport')
+
+" functions
+function! s:show_documentation()
+  if (index(['vim', 'help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
 " keymaps: COC
 "" trigger autocomplete popup menu
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <C-Space> coc#refresh()
 "" highlight next popup menu item
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 "" highlight prev popup menu item
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "" select highlighted popup menu item
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-
-" command: Prettier
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+"" code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+"" show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+"" rename symbol
+nmap <Leader>rn <Plug>(coc-rename)
+"" format code
+xmap <Leader>f  <Plug>(coc-format-selected)
+nmap <Leader>f  <Plug>(coc-format-selected)
 
 "## Plugin: vim-easy-align
 
