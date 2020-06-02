@@ -81,6 +81,15 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'wakatime/vim-wakatime'
 
+" language support
+Plug 'digitaltoad/vim-pug'
+Plug 'ericpruitt/tmux.vim', {'rtp': 'vim/'}
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'lifepillar/pgsql.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'zinit-zsh/zinit-vim-syntax'
+
 " dark magic
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -109,18 +118,19 @@ if has('nvim') && !exists('g:fzf_layout')
 endif
 
 " better ripgrep command: ZRG
+command! -nargs=* -bang ZRG call RipgrepFzf(<q-args>, <bang>0)
 function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  let command_fmt = '[ -n %s ] && rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query), shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}', '{q}')
+  let spec = {'options': ['--phony', '--prompt', 'Search > ', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
-command! -nargs=* -bang ZRG call RipgrepFzf(<q-args>, <bang>0)
 
 " keymaps: FZF
 nmap <C-p>     :ZFiles<CR>
-nmap <Leader>/ :ZRG<CR>
+nmap <Leader>/ :ZLines<CR>
+nmap <Leader>? :ZRG<CR>
 nmap <Leader>b :ZBuffers<CR>
 nmap <Leader>w :ZWindows<CR>
 
@@ -176,6 +186,12 @@ nmap <Leader>rn <Plug>(coc-rename)
 "" format code
 xmap <Leader>f  <Plug>(coc-format-selected)
 nmap <Leader>f  <Plug>(coc-format-selected)
+
+augroup js_ts_coc
+  autocmd!
+  " keymap: go to file
+  autocmd FileType javascript,typescript nmap <silent> gf <Plug>(coc-definition)
+augroup END
 
 "## Plugin: vim-easy-align
 
