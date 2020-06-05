@@ -30,3 +30,27 @@ expunge_history() {
   local -r expression="$(echo "${items}" | fzf --multi --header="${header}" | awk '{print $1}' ORS='d;')"
   sed -i -e "${expression}" "${HISTFILE}"
 }
+
+exit_or_tmux_detach() {
+  if [ -z "$TMUX" ]; then
+    exit
+  fi
+
+  if ! command_exists tmux; then
+    exit
+  fi
+
+  local -r total_windows=$(tmux list-windows | wc -l)
+
+  if [ $total_windows != 1 ]; then
+    exit
+  fi
+
+  local -r total_panes=$(tmux list-panes | wc -l)
+
+  if [ $total_panes != 1 ]; then
+    exit
+  fi
+
+  tmux detach
+}
