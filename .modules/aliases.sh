@@ -1,7 +1,7 @@
 # shellcheck shell=sh
 
 alias c='clear'
-alias x='exit'
+alias x='exit_or_tmux_detach'
 
 alias md='mkdir -p'
 
