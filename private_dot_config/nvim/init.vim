@@ -68,14 +68,16 @@ Plug 'vim-airline/vim-airline'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " functionality
-Plug 'vitalk/vim-shebang'
-Plug 'junegunn/vim-peekaboo'
 if isdirectory(fzf_root)
   Plug fzf_root
   Plug 'junegunn/fzf.vim'
 endif
 Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-peekaboo'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'vitalk/vim-shebang'
 
 " integration
 Plug 'tpope/vim-fugitive'
@@ -83,11 +85,11 @@ Plug 'wakatime/vim-wakatime'
 
 " language support
 Plug 'digitaltoad/vim-pug'
-Plug 'ericpruitt/tmux.vim', {'rtp': 'vim/'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'lifepillar/pgsql.vim'
 Plug 'pangloss/vim-javascript'
+Plug 'tmux-plugins/vim-tmux'
 Plug 'zinit-zsh/zinit-vim-syntax'
 
 " dark magic
@@ -140,10 +142,10 @@ let g:coc_global_extensions = [
       \ 'coc-css',
       \ 'coc-emoji',
       \ 'coc-eslint',
-      \ 'coc-highlight',
       \ 'coc-html',
       \ 'coc-json',
       \ 'coc-marketplace',
+      \ 'coc-pairs',
       \ 'coc-prettier',
       \ 'coc-snippets',
       \ 'coc-tsserver',
@@ -179,6 +181,9 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+" diagnostics navigation
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 "" show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 "" rename symbol
@@ -202,7 +207,7 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 "# Appearance Settings
-syntax on
+syntax enable
 set number relativenumber
 
 " enable truecolor
@@ -232,6 +237,9 @@ let g:airline_right_alt_sep=""
 
 "## Language: JSON
 autocmd FileType json syntax match Comment +\/\/.\+$+
+
+"## Language: TMUX
+autocmd FileType tmux nnoremap <silent><buffer> K :call tmux#man()<CR>
 
 "## Language: VIM
 autocmd FileType vim set foldexpr=VimFolds(v:lnum)
@@ -266,15 +274,9 @@ if $TERM =~ 'screen\|tmux'
   nnoremap <Leader><C-a> <C-a>
 endif
 
-" quit
-inoremap <C-q>     <Esc>:q<CR>
-nnoremap <C-q>     :q<CR>
-nnoremap <Leader>q :q<CR>
-vnoremap <C-q>     <Esc>
-
 " save
-inoremap <C-s> <C-o>:update<cr>
-nnoremap <C-s> :update<cr>
+inoremap <C-s> <C-o>:update<CR>
+nnoremap <C-s> :update<CR>
 
 " exit insert mode
 inoremap jk    <Esc>
@@ -285,11 +287,10 @@ inoremap <Esc> <Nop>
 nnoremap B ^
 nnoremap E $
 
-" move line
-nnoremap <silent> <M-k> :move-2<cr>
-nnoremap <silent> <M-j> :move+<cr>
-nnoremap <silent> <M-h> <<
-nnoremap <silent> <M-l> >>
-
-" switch buffer
-nmap <Leader><Tab> :call feedkeys(":b \<Tab>", 'tn')<CR>
+" move lines
+inoremap <M-j> <Esc>:move .+1<CR>==gi
+inoremap <M-k> <Esc>:move .-2<CR>==gi
+nnoremap <M-j> :move .+1<CR>==
+nnoremap <M-k> :move .-2<CR>==
+vnoremap <M-j> :move '>+1<CR>gv=gv
+vnoremap <M-k> :move '<-2<CR>gv=gv
