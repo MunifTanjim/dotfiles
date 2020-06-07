@@ -14,7 +14,7 @@ if [ -f /etc/bash_completion ]; then
   source /etc/bash_completion
 fi
 
-export EDITOR="nano"
+export EDITOR="vim"
 
 if type chezmoi >/dev/null 2>&1; then
   export DOTFILES=$(chezmoi source-path)
