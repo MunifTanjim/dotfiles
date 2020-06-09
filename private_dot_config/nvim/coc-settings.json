@@ -8,8 +8,21 @@
     "typescript",
     "typescriptreact"
   ],
+  // eslint
+  "eslint.run": "onSave",
+  "eslint.autoFixOnSave": true,
+  // explorer
+  "explorer.icon.enableNerdfont": true,
+  "explorer.previewAction.onHover": false,
+  "explorer.quitOnOpen": true,
+  "explorer.width": 40,
+  // javascript
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
   // prettier
   "prettier.arrowParens": "always",
+  "prettier.disableSuccessMessage": true,
   "prettier.singleQuote": true,
-  "prettier.trailingComma": "es5"
+  "prettier.trailingComma": "es5",
+  // typescript
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
 }

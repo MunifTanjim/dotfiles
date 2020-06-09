@@ -30,10 +30,10 @@ set nostartofline
 
 set clipboard=unnamed
 
-let &backupdir = data_dir . '/backup//'
-let &directory = data_dir . '/swap//'
+let &backupdir = data_dir . '/backup//,.'
+let &directory = data_dir . '/swap//,.'
 if has('persistent_undo')
-  let &undodir = data_dir . '/undo//'
+  let &undodir = data_dir . '/undo//,.'
   set undofile
 endif
 
@@ -65,7 +65,6 @@ Plug 'junegunn/vim-plug'
 " appearance
 Plug 'joshdick/onedark.vim'
 Plug 'vim-airline/vim-airline'
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " functionality
 if isdirectory(fzf_root)
@@ -85,6 +84,7 @@ Plug 'wakatime/vim-wakatime'
 
 " language support
 Plug 'digitaltoad/vim-pug'
+Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'lifepillar/pgsql.vim'
@@ -99,7 +99,7 @@ call plug#end()
 
 "# Plugin Settings
 
-"## Plugin: FZF
+"## Plugin: fzf
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -129,19 +129,20 @@ function! RipgrepFzf(query, fullscreen)
   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 
-" keymaps: FZF
+" keymaps: fzf
 nmap <C-p>     :ZFiles<CR>
 nmap <Leader>/ :ZLines<CR>
 nmap <Leader>? :ZRG<CR>
 nmap <Leader>b :ZBuffers<CR>
 nmap <Leader>w :ZWindows<CR>
 
-"## Plugin: COC
+"## Plugin: coc
 let g:coc_global_extensions = [
       \ 'coc-actions',
       \ 'coc-css',
       \ 'coc-emoji',
       \ 'coc-eslint',
+      \ 'coc-explorer',
       \ 'coc-html',
       \ 'coc-json',
       \ 'coc-marketplace',
@@ -181,21 +182,30 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-" diagnostics navigation
+"" diagnostics navigation
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
+"" perform code action
+nmap <Leader>do <Plug>(coc-codeaction)
 "" show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 "" rename symbol
 nmap <Leader>rn <Plug>(coc-rename)
 "" format code
-xmap <Leader>f  <Plug>(coc-format-selected)
-nmap <Leader>f  <Plug>(coc-format-selected)
+xmap <Leader>f <Plug>(coc-format-selected)
+nmap <Leader>f <Plug>(coc-format-selected)
+"" open explorer
+nmap <silent> <Space>e :CocCommand explorer<CR>
 
 augroup js_ts_coc
   autocmd!
   " keymap: go to file
   autocmd FileType javascript,typescript nmap <silent> gf <Plug>(coc-definition)
+augroup END
+
+augroup coc_explorer
+  autocmd!
+  autocmd User CocExplorerOpenPre setl statusline=%#NonText#
 augroup END
 
 "## Plugin: vim-easy-align
@@ -209,6 +219,7 @@ nmap ga <Plug>(EasyAlign)
 "# Appearance Settings
 syntax enable
 set number relativenumber
+set cursorline
 
 " enable truecolor
 if has('termguicolors')
@@ -233,16 +244,27 @@ let g:airline_left_alt_sep=""
 let g:airline_right_sep=""
 let g:airline_right_alt_sep=""
 
-"# Language Specific Settings
+" automatically toggle relative line number
+augroup auto_relaivenumber_toggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &l:nu && empty(&bt) | setl rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &l:nu && empty(&bt) | setl nornu | endif
+augroup END
 
-"## Language: JSON
+"# FileType Specific Settings
+
+"## FileType: json
+
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
-"## Language: TMUX
+"## FileType: tmux
+
 autocmd FileType tmux nnoremap <silent><buffer> K :call tmux#man()<CR>
 
-"## Language: VIM
+"## FileType: vim
+
 autocmd FileType vim set foldexpr=VimFolds(v:lnum)
+
 function! VimFolds(lnum)
   let s:cur_line = getline(a:lnum)
   if s:cur_line =~ '^"#'
@@ -286,6 +308,8 @@ inoremap <Esc> <Nop>
 " move to beginning/end of line
 nnoremap B ^
 nnoremap E $
+xnoremap B ^
+xnoremap E $
 
 " move lines
 inoremap <M-j> <Esc>:move .+1<CR>==gi
