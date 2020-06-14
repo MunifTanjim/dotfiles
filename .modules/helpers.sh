@@ -52,5 +52,5 @@ exit_or_tmux_detach() {
     exit
   fi
 
-  tmux detach
+  tmux detach && clear
 }
