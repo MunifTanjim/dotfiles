@@ -22,11 +22,12 @@ set ignorecase
 set smartcase
 set wildmenu
 
-set lazyredraw
+set nostartofline
 set splitbelow
 set splitright
 set scrolloff=5
-set nostartofline
+set lazyredraw
+set updatetime=1000
 
 set clipboard=unnamed
 
@@ -73,7 +74,10 @@ if isdirectory(fzf_root)
 endif
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-peekaboo'
+Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vitalk/vim-shebang'
@@ -88,8 +92,11 @@ Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'lifepillar/pgsql.vim'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'tmux-plugins/vim-tmux'
+Plug 'tpope/vim-git'
 Plug 'zinit-zsh/zinit-vim-syntax'
 
 " dark magic
@@ -137,6 +144,7 @@ nmap <Leader>b :ZBuffers<CR>
 nmap <Leader>w :ZWindows<CR>
 
 "## Plugin: coc
+
 let g:coc_global_extensions = [
       \ 'coc-actions',
       \ 'coc-css',
@@ -154,12 +162,19 @@ let g:coc_global_extensions = [
       \ 'coc-yaml',
       \ ]
 
-" command: Prettier
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
+"### coc: commands
+
+" command: Fold
+command! -nargs=? Fold     :call CocAction('fold', <f-args>)
+" command: Format
+command! -nargs=0 Format   :call CocAction('format')
 " command: OI
 command! -nargs=0 OI       :call CocAction('runCommand', 'editor.action.organizeImport')
+" command: Prettier
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
-" functions
+"### coc: functions
+
 function! s:show_documentation()
   if (index(['vim', 'help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -168,15 +183,24 @@ function! s:show_documentation()
   endif
 endfunction
 
-" keymaps: COC
+"### coc: keymaps
 "" trigger autocomplete popup menu
 inoremap <silent><expr> <C-Space> coc#refresh()
 "" highlight next popup menu item
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 "" highlight prev popup menu item
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-"" select highlighted popup menu item
-inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+"" select popup-menu item
+if exists('*complete_info')
+  inoremap <silent><expr> <CR> complete_info()["selected"] != "-1" ? coc#_select_confirm() : "\<C-g>u\<CR>"
+else
+  inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+endif
+"" map function text object
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
 "" code navigation
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -185,8 +209,10 @@ nmap <silent> gr <Plug>(coc-references)
 "" diagnostics navigation
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-"" perform code action
-nmap <Leader>do <Plug>(coc-codeaction)
+"" apply code action to current line
+nmap <Leader>ac <Plug>(coc-codeaction-line)
+"" apply autofix to problem on the current line
+nmap <Leader>qf  <Plug>(coc-fix-current)
 "" show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 "" rename symbol
@@ -196,6 +222,24 @@ xmap <Leader>f <Plug>(coc-format-selected)
 nmap <Leader>f <Plug>(coc-format-selected)
 "" open explorer
 nmap <silent> <Space>e :CocCommand explorer<CR>
+"" list diagnostics
+nnoremap <silent> <Leader>ld  :<C-u>CocList diagnostics<cr>
+"" list extensions
+nnoremap <silent> <Leader>le  :<C-u>CocList extensions<cr>
+"" list commands
+nnoremap <silent> <Leader>lc  :<C-u>CocList commands<cr>
+"" list outline - symbols from current buffer
+nnoremap <silent> <Leader>lo  :<C-u>CocList outline<cr>
+"" list symbols - from workspace
+nnoremap <silent> <Leader>ls  :<C-u>CocList -I symbols<cr>
+"" list: do default action for next item in last list
+nnoremap <silent> <Leader>lj  :<C-u>CocNext<CR>
+"" list: do default action for prev item in last list
+nnoremap <silent> <Leader>lk  :<C-u>CocPrev<CR>
+"" list: reopen last list
+nnoremap <silent> <Leader>lp  :<C-u>CocListResume<CR>
+
+"### coc: autocommands
 
 augroup js_ts_coc
   autocmd!
@@ -318,3 +362,8 @@ nnoremap <M-j> :move .+1<CR>==
 nnoremap <M-k> :move .-2<CR>==
 vnoremap <M-j> :move '>+1<CR>gv=gv
 vnoremap <M-k> :move '<-2<CR>gv=gv
+
+" yank from the cursor position to the end of the line
+nnoremap Y y$
+" yank to system clipboard
+map <Leader>y "+y
