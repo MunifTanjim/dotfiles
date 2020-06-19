@@ -25,7 +25,6 @@ set wildmenu
 set nostartofline
 set splitbelow
 set splitright
-set scrolloff=5
 set lazyredraw
 set updatetime=1000
 
@@ -36,14 +35,6 @@ let &directory = data_dir . '/swap//,.'
 if has('persistent_undo')
   let &undodir = data_dir . '/undo//,.'
   set undofile
-endif
-
-" always show the signcolumn, otherwise it would shift the text each time diagnostics appear/become resolved.
-if has("patch-8.1.1564")
-  " fecently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
 endif
 
 " <Leader> and <LocalLeader>
@@ -100,7 +91,7 @@ Plug 'tpope/vim-git'
 Plug 'zinit-zsh/zinit-vim-syntax'
 
 " dark magic
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 call plug#end()
 
@@ -261,9 +252,19 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 "# Appearance Settings
-syntax enable
-set number relativenumber
 set cursorline
+set number relativenumber
+set nowrap
+set scrolloff=3
+
+" always show the signcolumn, otherwise it would shift the text each time diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " fecently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+syntax enable
 
 " enable truecolor
 if has('termguicolors')
@@ -321,18 +322,18 @@ endfunction
 "# Keymaps
 
 " disable arrow keys
-inoremap <Up> <Nop>
+inoremap <Up>    <Nop>
 inoremap <Right> <Nop>
-inoremap <Down> <Nop>
-inoremap <Left> <Nop>
-nnoremap <Up> <Nop>
+inoremap <Down>  <Nop>
+inoremap <Left>  <Nop>
+nnoremap <Up>    <Nop>
 nnoremap <Right> <Nop>
-nnoremap <Down> <Nop>
-nnoremap <Left> <Nop>
-vnoremap <Up> <Nop>
+nnoremap <Down>  <Nop>
+nnoremap <Left>  <Nop>
+vnoremap <Up>    <Nop>
 vnoremap <Right> <Nop>
-vnoremap <Down> <Nop>
-vnoremap <Left> <Nop>
+vnoremap <Down>  <Nop>
+vnoremap <Left>  <Nop>
 
 " disable Ctrl-a on screen/tmux
 if $TERM =~ 'screen\|tmux'
@@ -345,13 +346,14 @@ inoremap <C-s> <C-o>:update<CR>
 nnoremap <C-s> :update<CR>
 
 " exit insert mode
-inoremap jk    <Esc>
-inoremap kj    <Esc>
-inoremap <Esc> <Nop>
+inoremap jk <Esc>
+inoremap kj <Esc>
 
-" move to beginning/end of line
+" beginning/end of line
 nnoremap B ^
 nnoremap E $
+onoremap B ^
+onoremap E $
 xnoremap B ^
 xnoremap E $
 
@@ -365,5 +367,8 @@ vnoremap <M-k> :move '<-2<CR>gv=gv
 
 " yank from the cursor position to the end of the line
 nnoremap Y y$
-" yank to system clipboard
-map <Leader>y "+y
+" yank/paste with system clipboard
+nnoremap <Leader>y "+y
+vnoremap <Leader>y "+y
+nnoremap <Leader>p "+p
+vnoremap <Leader>p "+p
