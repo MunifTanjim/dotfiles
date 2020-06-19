@@ -68,6 +68,11 @@ fi
 source "${DOTFILES_MODULES}/aliases.sh"
 source "${DOTFILES_MODULES}/go.plugin.sh"
 source "${DOTFILES_MODULES}/gpg.plugin.sh"
+source "${DOTFILES_MODULES}/python.plugin.sh"
+source "${DOTFILES_MODULES}/ruby.plugin.sh"
 source "${DOTFILES_MODULES}/rust.plugin.sh"
+
+source "${DOTFILES_MODULES}/fzf.plugin.sh"
+source "${DOTFILES_MODULES}/lf.plugin.sh"
 
 source "${DOTFILES_MODULES}/bash/appearance.bash"

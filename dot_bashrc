@@ -15,6 +15,7 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 export EDITOR="vim"
+export PAGER="less"
 
 if type chezmoi >/dev/null 2>&1; then
   export DOTFILES=$(chezmoi source-path)
