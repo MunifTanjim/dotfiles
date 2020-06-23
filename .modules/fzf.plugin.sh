@@ -1,7 +1,9 @@
 # shellcheck shell=sh
 
-if [ -f ~/.config/fzf/fzf.zsh ]; then
-  source ~/.config/fzf/fzf.zsh
+fzf_shell=$(basename $(readlink /proc/$$/exe))
+
+if [[ -f ~/.config/fzf/fzf.${fzf_shell} ]]; then
+  source ~/.config/fzf/fzf.${fzf_shell}
 fi
 
 if command_exists fd; then
