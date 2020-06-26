@@ -169,70 +169,89 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
-# Colors (One Dark)
-colors:
-  # Default colors
-  primary:
-    foreground: "0xabb2bf"
-    background: "0x282c34"
-  # Bright and dim foreground colors
-  #
-  # The dimmed foreground color is calculated automatically if it is not present.
-  # If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
-  # is `false`, the normal foreground color will be used.
-  #dim_foreground: '0x9a9a9a'
-  #bright_foreground: '0xffffff'
-  # Cursor colors
-  #
-  # Colors which should be used to draw the terminal cursor. If these are unset,
-  # the cursor color will be the inverse of the cell color.
-  cursor:
-    text: "0x5c6370"
-    cursor: "0xabb2bf"
-  # Selection colors
-  #
-  # Colors which should be used to draw the selection area. If selection
-  # background is unset, selection color will be the inverse of the cell colors.
-  # If only text is unset the cell text color will remain the same.
-  # selection:
-  #   text: "0xabb2bf"
-  #   background: "0x677696"
-  bright:
-    black: "0x4b5263"
-    red: "0xbe5046"
-    green: "0x98c379"
-    yellow: "0xd19a66"
-    blue: "0x61afef"
-    magenta: "0xc678dd"
-    cyan: "0x56b6c2"
-    white: "0x3e4452"
-  normal:
-    black: "0x5c6370"
-    red: "0xe06c75"
-    green: "0x98c379"
-    yellow: "0xe5c07b"
-    blue: "0x61afef"
-    magenta: "0xc678dd"
-    cyan: "0x56b6c2"
-    white: "0xabb2bf"
-  # dim:
-  # black: "0x5c6370"
-  # red: "0xe06c75"
-  # green: "0x98c379"
-  # yellow: "0xd19a66"
-  # blue: "0x528bff"
-  # magenta: "0xc678dd"
-  # cyan: "0x56b6c2"
-  # white: "0xabb2bf"
-  # Indexed Colors
-  #
-  # The indexed colors include all colors from 16 to 256.
-  # When these are not set, they're filled with sensible defaults.
-  #
-  # Example:
-  #   `- { index: 16, color: '0xff00ff' }`
-  #
-  # indexed_colors: []
+schemes:
+  gruvbox_dark: &gruvbox_dark
+    primary:
+      background:        '#282828'
+      foreground:        '#fbf1c7'
+      bright_foreground: '#f9f5d7'
+      dim_foreground:    '#f2e5bc'
+    # cursor:
+    #   text:   ''
+    #   cursor: ''
+    # selection:
+    #   text:       ''
+    #   background: ''
+    bright:
+      black:   '#1d2021'
+      red:     '#fb4934'
+      green:   '#b8bb26'
+      yellow:  '#fabd2f'
+      blue:    '#83a598'
+      magenta: '#d3869b'
+      cyan:    '#8ec07c'
+      white:   '#f9f5d7'
+    normal:
+      black:   '#282828'
+      red:     '#cc241d'
+      green:   '#98971a'
+      yellow:  '#d79921'
+      blue:    '#458588'
+      magenta: '#b16286'
+      cyan:    '#689d6a'
+      white:   '#fbf1c7'
+    dim:
+      black:   '#32302f'
+      red:     '#9d0006'
+      green:   '#79740e'
+      yellow:  '#b57614'
+      blue:    '#076678'
+      magenta: '#8f3f71'
+      cyan:    '#427b58'
+      white:   '#f2e5bc'
+    # indexed_colors: []
+  onedar: &onedark
+    primary:
+      foreground:        '#abb2bf'
+      background:        '#282c34'
+      # dim_foreground:    ''
+      # bright_foreground: ''
+    cursor:
+      text:   '#5c6370'
+      cursor: '#abb2bf'
+    # selection:
+    #   text:       ''
+    #   background: ''
+    bright:
+      black:   '#4b5263'
+      red:     '#be5046'
+      green:   '#98c379'
+      yellow:  '#d19a66'
+      blue:    '#61afef'
+      magenta: '#c678dd'
+      cyan:    '#56b6c2'
+      white:   '#3e4452'
+    normal:
+      black:   '#5c6370'
+      red:     '#e06c75'
+      green:   '#98c379'
+      yellow:  '#e5c07b'
+      blue:    '#61afef'
+      magenta: '#c678dd'
+      cyan:    '#56b6c2'
+      white:   '#abb2bf'
+    # dim:
+    #   black:   '#5c6370'
+    #   red:     '#e06c75'
+    #   green:   '#98c379'
+    #   yellow:  '#d19a66'
+    #   blue:    '#528bff'
+    #   magenta: '#c678dd'
+    #   cyan:    '#56b6c2'
+    #   white:   '#abb2bf'
+    # indexed_colors: []
+
+colors: *gruvbox_dark
 
 # Visual Bell
 #
