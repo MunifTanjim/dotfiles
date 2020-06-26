@@ -1,17 +1,28 @@
-ZSH_CACHE_DIR="$HOME/.cache/zsh"
+XDG_CONFIG_HOME="$HOME/.config"
+XDG_CACHE_HOME="$HOME/.cache"
+XDG_DATA_HOME="$HOME/.local/share"
 
-ZINIT_HOME="$HOME/.local/share/zinit"
+ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
+
+ZINIT_HOME="$XDG_DATA_HOME/zinit"
 
 declare -A ZINIT
 ZINIT[BIN_DIR]="$ZINIT_HOME/bin"
 ZINIT[HOME_DIR]="$ZINIT_HOME"
 ZINIT[ZCOMPDUMP_PATH]="$ZDOTDIR/.zcompdump"
+ZINIT[COMPINIT_OPTS]="-C"
 
 HISTFILE="$ZSH_CACHE_DIR/history"
 HISTSIZE=10000
 SAVEHIST=10000
 
 export EDITOR="vim"
+export VISUAL="nvim"
 export PAGER="less"
+export MANPAGER="less -R"
 
 ZSH_AUTOSUGGEST_USE_ASYNC=true
+ZSH_AUTOSUGGEST_COMPLETION_IGNORE="git *"
+ZSH_AUTOSUGGEST_HISTORY_IGNORE="(cd|rm) *"
+
+# vim: set filetype=sh :
