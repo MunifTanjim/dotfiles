@@ -55,7 +55,8 @@ call plug#begin(data_dir . '/plugged')
 Plug 'junegunn/vim-plug'
 
 " appearance
-Plug 'joshdick/onedark.vim'
+" Plug 'joshdick/onedark.vim'
+Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 
 " functionality
@@ -277,12 +278,17 @@ if has('termguicolors')
 endif
 
 " theme
-colorscheme onedark
-let g:onedark_terminal_italics=1
+set background=dark
+
+let g:gruvbox_italic=1
+colorscheme gruvbox
+
+" let g:onedark_terminal_italics=1
+" colorscheme onedark
 
 "" airline
-let g:airline_theme='onedark'
-let g:airline_powerline_fonts = 1
+let g:airline_theme='gruvbox'
+let g:airline_powerline_fonts=1
 """ disable powerline arrows
 let g:airline_left_sep=""
 let g:airline_left_alt_sep=""
@@ -295,6 +301,16 @@ augroup auto_relaivenumber_toggle
   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &l:nu && empty(&bt) | setl rnu   | endif
   autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &l:nu && empty(&bt) | setl nornu | endif
 augroup END
+
+" keymaps: gruvbox
+if g:colors_name == 'gruvbox'
+  nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
+  nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
+  nnoremap <silent> yoh :call gruvbox#hls_toggle()<CR>
+  nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
+  nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
+  nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
+endif
 
 "# FileType Specific Settings
 
