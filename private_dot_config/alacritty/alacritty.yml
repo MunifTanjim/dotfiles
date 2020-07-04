@@ -172,7 +172,7 @@ draw_bold_text_with_bright_colors: true
 schemes:
   gruvbox_dark: &gruvbox_dark
     primary:
-      background:        '#282828'
+      background:        '#1d2021'
       foreground:        '#fbf1c7'
       bright_foreground: '#f9f5d7'
       dim_foreground:    '#f2e5bc'
