@@ -1,172 +1,56 @@
-# Configuration for Alacritty, the GPU enhanced terminal emulator.
-
-# Any items in the `env` entry below will be added as
-# environment variables. Some entries may override variables
-# set by alacritty itself.
 env:
-  # TERM variable
-  #
-  # This value is used to set the `$TERM` environment variable for
-  # each instance of Alacritty. If it is not present, alacritty will
-  # check the local terminfo database and use `alacritty` if it is
-  # available, otherwise `xterm-256color` is used.
   TERM: xterm-256color
 
 window:
-  # Window dimensions (changes require restart)
-  #
-  # Specified in number of columns/lines, not pixels.
-  # If both are `0`, this setting is ignored.
   dimensions:
     columns: 120
     lines: 40
-
-  # Window position (changes require restart)
-  #
-  # Specified in number of pixels.
-  # If the position is not set, the window manager will handle the placement.
   # position:
   #   x: 0
   #   y: 0
-
-  # Window padding (changes require restart)
-  #
-  # Blank space added around the window in pixels. This padding is scaled
-  # by DPI and the specified value is always added at both opposing sides.
   padding:
     x: 2
     y: 0
-
-  # Spread additional padding evenly around the terminal content.
   dynamic_padding: true
+  decorations: none # full / none
+  startup_mode: Windowed # Windowed / Maximized / Fullscreen
 
-  # Window decorations
-  #
-  # Values for `decorations`:
-  #     - full: Borders and title bar
-  #     - none: Neither borders nor title bar
-  #
-  # Values for `decorations` (macOS only):
-  #     - transparent: Title bar, transparent background and title bar buttons
-  #     - buttonless: Title bar, transparent background, but no title bar buttons
-  decorations: none
+# title: Alacritty
 
-  # Startup Mode (changes require restart)
-  #
-  # Values for `startup_mode`:
-  #   - Windowed
-  #   - Maximized
-  #   - Fullscreen
-  #
-  # Values for `startup_mode` (macOS only):
-  #   - SimpleFullscreen
-  startup_mode: Windowed
-
-# Window title
-#title: Alacritty
-
-# Window class (Linux/BSD only):
 # class:
-# Application instance name
-#instance: Alacritty
-# General application class
-#general: Alacritty
+  # instance: Alacritty
+  # general: Alacritty
 
-# GTK theme variant (Linux/BSD only)
-#
-# Override the variant of the GTK theme. Commonly supported values are `dark` and `light`.
-# Set this to `None` to use the default theme variant.
-# gtk_theme_variant: dark
+# gtk_theme_variant: dark # dark / light / None
 
 scrolling:
-  # Maximum number of lines in the scrollback buffer.
-  # Specifying '0' will disable scrolling.
   history: 100000
-  # Number of lines the viewport will move for every line scrolled when
-  # scrollback is enabled (history > 0).
   multiplier: 3
-  # Scroll to the bottom when new text is written to the terminal.
-  auto_scroll: false
 
-# Spaces per Tab (changes require restart)
-#
-# This setting defines the width of a tab in cells.
-#
-# Some applications, like Emacs, rely on knowing about the width of a tab.
-# To prevent unexpected behavior in these applications, it's also required to
-# change the `it` value in terminfo when altering this setting.
 # tabspaces: 8
 
-# Font configuration
 font:
-  # Normal (roman) font face
   normal:
-    # Font family
-    #
-    # Default:
-    #   - (macOS) Menlo
-    #   - (Linux/BSD) monospace
-    #   - (Windows) Consolas
     family: JetBrainsMono Nerd Font
-    # The `style` can be specified to pick a specific face.
     # style: Regular
-  # Bold font face
   # bold:
-  # Font family
-  # If the bold family is not specified, it will fall back to the
-  # value specified for the normal font.
-  # family: monospace
-  # The `style` can be specified to pick a specific face.
-  # style: Bold
-  # Italic font face
+    # family: monospace
+    # style: Bold
   # italic:
-  # Font family
-  #
-  # If the italic family is not specified, it will fall back to the
-  # value specified for the normal font.
-  # family: monospace
-  # The `style` can be specified to pick a specific face.
-  # style: Italic
-  # Bold italic font face
+    # family: monospace
+    # style: Italic
   # bold_italic:
-  # Font family
-  #
-  # If the bold italic family is not specified, it will fall back to the
-  # value specified for the normal font.
-  # family: monospace
-  # The `style` can be specified to pick a specific face.
-  # style: Bold Italic
-  # Point size
+    # family: monospace
+    # style: Bold Italic
   size: 13.0
-  # Offset is the extra space around each character. `offset.y` can be thought of
-  # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
-  #offset:
-  #  x: 0
-  #  y: 0
-  # Glyph offset determines the locations of the glyphs within their cells with
-  # the default being at the bottom. Increasing `x` moves the glyph to the right,
-  # increasing `y` moves the glyph upwards.
-  #glyph_offset:
-  #  x: 0
-  #  y: 0
+  # offset:
+    # x: 0
+    # y: 0
+  # glyph_offset:
+    # x: 0
+    # y: 0
+  # use_thin_strokes: true
 
-# Thin stroke font rendering (macOS only)
-#
-# Thin strokes are suitable for retina displays, but for non-retina screens
-# it is recommended to set `use_thin_strokes` to `false`
-#
-# macOS >= 10.14.x:
-#
-# If the font quality on non-retina display looks bad then set
-# `use_thin_strokes` to `true` and enable font smoothing by running the
-# following command:
-#   `defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO`
-#
-# This is a global setting and will require a log out or restart to take
-# effect.
-#use_thin_strokes: true
-
-# If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
 schemes:
@@ -177,11 +61,11 @@ schemes:
       bright_foreground: '#f9f5d7'
       dim_foreground:    '#f2e5bc'
     # cursor:
-    #   text:   ''
-    #   cursor: ''
+      # text:   ''
+      # cursor: ''
     # selection:
-    #   text:       ''
-    #   background: ''
+      # text:       ''
+      # background: ''
     bright:
       black:   '#1d2021'
       red:     '#fb4934'
@@ -220,8 +104,8 @@ schemes:
       text:   '#5c6370'
       cursor: '#abb2bf'
     # selection:
-    #   text:       ''
-    #   background: ''
+      # text:       ''
+      # background: ''
     bright:
       black:   '#4b5263'
       red:     '#be5046'
@@ -241,82 +125,36 @@ schemes:
       cyan:    '#56b6c2'
       white:   '#abb2bf'
     # dim:
-    #   black:   '#5c6370'
-    #   red:     '#e06c75'
-    #   green:   '#98c379'
-    #   yellow:  '#d19a66'
-    #   blue:    '#528bff'
-    #   magenta: '#c678dd'
-    #   cyan:    '#56b6c2'
-    #   white:   '#abb2bf'
+      # black:   '#5c6370'
+      # red:     '#e06c75'
+      # green:   '#98c379'
+      # yellow:  '#d19a66'
+      # blue:    '#528bff'
+      # magenta: '#c678dd'
+      # cyan:    '#56b6c2'
+      # white:   '#abb2bf'
     # indexed_colors: []
-
 colors: *gruvbox_dark
 
-# Visual Bell
-#
-# Any time the BEL code is received, Alacritty "rings" the visual bell. Once
-# rung, the terminal background will be set to white and transition back to the
-# default background color. You can control the rate of this transition by
-# setting the `duration` property (represented in milliseconds). You can also
-# configure the transition function by setting the `animation` property.
-#
-# Values for `animation`:
-#   - Ease
-#   - EaseOut
-#   - EaseOutSine
-#   - EaseOutQuad
-#   - EaseOutCubic
-#   - EaseOutQuart
-#   - EaseOutQuint
-#   - EaseOutExpo
-#   - EaseOutCirc
-#   - Linear
-#
-# Specifying a `duration` of `0` will disable the visual bell.
-#visual_bell:
-#  animation: EaseOutExpo
-#  duration: 0
-#  color: '0xffffff'
+# visual_bell:
+  # animation: EaseOutExpo # Ease, EaseOut, EaseOutSine, EaseOutQuad, EaseOutCubic, EaseOutQuart, EaseOutQuint, EaseOutExpo, EaseOutCirc, Linear
+  # duration: 0
+  # color: '#ffffff'
 
-# Background opacity
-#
-# Window opacity as a floating point number from `0.0` to `1.0`.
-# The value `0.0` is completely transparent and `1.0` is opaque.
 background_opacity: 1.0
 
-#selection:
-#semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+selection:
+  # semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+  save_to_clipboard: true
 
-# When set to `true`, selected text will be copied to the primary clipboard.
-save_to_clipboard: true
-
-# Allow terminal applications to change Alacritty's window title.
 dynamic_title: true
 
 cursor:
-  # Cursor style
-  #
-  # Values for `style`:
-  #   - ▇ Block
-  #   - _ Underline
-  #   - | Beam
-  style: Block
-  # If this is `true`, the cursor will be rendered as a hollow box when the
-  # window is not focused.
+  style: Block # Block, Underline, Beam
   unfocused_hollow: true
-# Live config reload (changes require restart)
-#live_config_reload: true
 
-# Shell
-#
-# You can set `shell.program` to the path of your favorite shell, e.g. `/bin/fish`.
-# Entries in `shell.args` are passed unmodified as arguments to the shell.
-#
-# Default:
-#   - (macOS) /bin/bash --login
-#   - (Linux/BSD) user login shell
-#   - (Windows) powershell
+live_config_reload: true
+
 shell:
   program: /bin/sh
   args:
@@ -324,87 +162,29 @@ shell:
     - -c
     - "tmux attach || tmux"
 
-# Startup directory
-#
-# Directory the shell is started in. If this is unset, or `None`, the working
-# directory of the parent process will be used.
-#working_directory: None
+# working_directory: None
 
-# WinPTY backend (Windows only)
-#
-# Alacritty defaults to using the newer ConPTY backend if it is available,
-# since it resolves a lot of bugs and is quite a bit faster. If it is not
-# available, the the WinPTY backend will be used instead.
-#
-# Setting this option to `true` makes Alacritty use the legacy WinPTY backend,
-# even if the ConPTY backend is available.
-#winpty_backend: false
+# winpty_backend: false
 
-# Send ESC (\x1b) before characters when alt is pressed.
-#alt_send_esc: true
+# alt_send_esc: true
 
-#debug:
-# Display the time it takes to redraw each frame.
-#render_timer: false
-
-# Keep the log file after quitting Alacritty.
-#persistent_logging: false
-
-# Log level
-#
-# Values for `log_level`:
-#   - None
-#   - Error
-#   - Warn
-#   - Info
-#   - Debug
-#   - Trace
-#log_level: Warn
-
-# Print all received window events.
-#print_events: false
-
-# Record all characters and escape sequences as test data.
-#ref_test: false
-
-#mouse:
-# Click settings
-#
-# The `double_click` and `triple_click` settings control the time
-# alacritty should wait for accepting multiple clicks as one double
-# or triple click.
-#double_click: { threshold: 300 }
-#triple_click: { threshold: 300 }
-
-# If this is `true`, the cursor is temporarily hidden when typing.
-#hide_when_typing: false
-
-#url:
-# URL launcher
-#
-# This program is executed when clicking on a text which is recognized as a URL.
-# The URL is always added to the command as the last parameter.
-#
-# When set to `None`, URL launching will be disabled completely.
-#
-# Default:
-#   - (macOS) open
-#   - (Linux/BSD) xdg-open
-#   - (Windows) explorer
-#launcher:
-#  program: xdg-open
-#  args: []
-
-# URL modifiers
-#
-# These are the modifiers that need to be held down for opening URLs when clicking
-# on them. The available modifiers are documented in the key binding section.
-#modifiers: None
+# mouse:
+  # double_click: { threshold: 300 }
+  # triple_click: { threshold: 300 }
+  # hide_when_typing: false
+  # url:
+    # launcher:
+      # program: xdg-open
+      # args: []
+    # modifiers: None
 
 # Mouse bindings
 #
 # Mouse bindings are specified as a list of objects, much like the key
 # bindings further below.
+#
+# To trigger mouse bindings when an application running within Alacritty captures the mouse, the
+# `Shift` modifier is automatically added as a requirement.
 #
 # Each mouse binding will specify a:
 #
@@ -420,8 +200,9 @@ shell:
 # And optionally:
 #
 # - `mods` (see key bindings)
-mouse_bindings:
-  - { mouse: Middle, action: PasteSelection }
+# mouse_bindings:
+  # - { mouse: Middle, action: PasteSelection }
+
 # Key bindings
 #
 # Key bindings are specified as a list of objects. For example, this is the
@@ -522,40 +303,49 @@ mouse_bindings:
 # binding with the same triggers is defined. To unset a default binding, it can
 # be mapped to the `ReceiveChar` action. Alternatively, you can use `None` for
 # a no-op if you do not wish to receive input characters for that binding.
-#key_bindings:
-# (Windows, Linux, and BSD only)
-#- { key: V,        mods: Control|Shift, action: Paste            }
-#- { key: C,        mods: Control|Shift, action: Copy             }
-#- { key: Insert,   mods: Shift,         action: PasteSelection   }
-#- { key: Key0,     mods: Control,       action: ResetFontSize    }
-#- { key: Equals,   mods: Control,       action: IncreaseFontSize }
-#- { key: Add,      mods: Control,       action: IncreaseFontSize }
-#- { key: Subtract, mods: Control,       action: DecreaseFontSize }
-#- { key: Minus,    mods: Control,       action: DecreaseFontSize }
+#
+# If the same trigger is assigned to multiple actions, all of them are executed
+# at once.
+# key_bindings:
+  # (Windows, Linux, and BSD only)
+  # - { key: V,        mods: Control|Shift, action: Paste            }
+  # - { key: C,        mods: Control|Shift, action: Copy             }
+  # - { key: Insert,   mods: Shift,         action: PasteSelection   }
+  # - { key: Key0,     mods: Control,       action: ResetFontSize    }
+  # - { key: Equals,   mods: Control,       action: IncreaseFontSize }
+  # - { key: Add,      mods: Control,       action: IncreaseFontSize }
+  # - { key: Subtract, mods: Control,       action: DecreaseFontSize }
+  # - { key: Minus,    mods: Control,       action: DecreaseFontSize }
 
-# (Windows only)
-#- { key: Return,   mods: Alt,           action: ToggleFullscreen }
+  # (Windows only)
+  # - { key: Return,   mods: Alt,           action: ToggleFullscreen }
 
-# (macOS only)
-#- { key: Key0,   mods: Command,         action: ResetFontSize    }
-#- { key: Equals, mods: Command,         action: IncreaseFontSize }
-#- { key: Add,    mods: Command,         action: IncreaseFontSize }
-#- { key: Minus,  mods: Command,         action: DecreaseFontSize }
-#- { key: K,      mods: Command,         action: ClearHistory     }
-#- { key: K,      mods: Command,         chars: "\x0c"            }
-#- { key: V,      mods: Command,         action: Paste            }
-#- { key: C,      mods: Command,         action: Copy             }
-#- { key: H,      mods: Command,         action: Hide             }
-#- { key: M,      mods: Command,         action: Minimize         }
-#- { key: Q,      mods: Command,         action: Quit             }
-#- { key: W,      mods: Command,         action: Quit             }
-#- { key: F,      mods: Command|Control, action: ToggleFullscreen }
+  # (macOS only)
+  # - { key: Key0,   mods: Command,         action: ResetFontSize    }
+  # - { key: Equals, mods: Command,         action: IncreaseFontSize }
+  # - { key: Add,    mods: Command,         action: IncreaseFontSize }
+  # - { key: Minus,  mods: Command,         action: DecreaseFontSize }
+  # - { key: K,      mods: Command,         action: ClearHistory     }
+  # - { key: K,      mods: Command,         chars: "\x0c"            }
+  # - { key: V,      mods: Command,         action: Paste            }
+  # - { key: C,      mods: Command,         action: Copy             }
+  # - { key: H,      mods: Command,         action: Hide             }
+  # - { key: M,      mods: Command,         action: Minimize         }
+  # - { key: Q,      mods: Command,         action: Quit             }
+  # - { key: W,      mods: Command,         action: Quit             }
+  # - { key: F,      mods: Command|Control, action: ToggleFullscreen }
 
-#- { key: Paste,                    action: Paste                            }
-#- { key: Copy,                     action: Copy                             }
-#- { key: L,         mods: Control, action: ClearLogNotice                   }
-#- { key: L,         mods: Control, chars: "\x0c"                            }
-#- { key: PageUp,    mods: Shift,   action: ScrollPageUp,   mode: ~Alt       }
-#- { key: PageDown,  mods: Shift,   action: ScrollPageDown, mode: ~Alt       }
-#- { key: Home,      mods: Shift,   action: ScrollToTop,    mode: ~Alt       }
-#- { key: End,       mods: Shift,   action: ScrollToBottom, mode: ~Alt       }
+  # - { key: Paste,                    action: Paste                            }
+  # - { key: Copy,                     action: Copy                             }
+  # - { key: L,         mods: Control, action: ClearLogNotice                   }
+  # - { key: L,         mods: Control, chars: "\x0c"                            }
+  # - { key: PageUp,    mods: Shift,   action: ScrollPageUp,   mode: ~Alt       }
+  # - { key: PageDown,  mods: Shift,   action: ScrollPageDown, mode: ~Alt       }
+  # - { key: Home,      mods: Shift,   action: ScrollToTop,    mode: ~Alt       }
+  # - { key: End,       mods: Shift,   action: ScrollToBottom, mode: ~Alt       }
+
+# debug:
+  # render_timer: false
+  # persistent_logging: false
+  # log_level: Warn # None, Error, Warn, Info, Debug, Trace
+  # print_events: false
