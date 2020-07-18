@@ -16,6 +16,9 @@ case "$1" in
   *.pdf)
     pdftotext "$1" -
     ;;
+  *.jpg|*.jpeg|*.png)
+    echo "Image File!"
+    ;;
   *)
     unset COLORTERM
     bat --color=always --line-range=0:"$2" --paging=never --plain "$1"
