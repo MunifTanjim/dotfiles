@@ -56,7 +56,8 @@ Plug 'junegunn/vim-plug'
 
 " appearance
 " Plug 'joshdick/onedark.vim'
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 
 " functionality
@@ -85,10 +86,12 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'lifepillar/pgsql.vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'neoclide/jsonc.vim'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-git'
+Plug 'tpope/vim-markdown'
 Plug 'zinit-zsh/zinit-vim-syntax'
 
 " dark magic
@@ -252,6 +255,10 @@ xmap ga <Plug>(EasyAlign)
 "" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
+"## Plugin: vim-markdown
+
+let g:markdown_fenced_languages = ['css', 'html', 'javascript', 'js=javascript', 'json=javascript', 'sh', 'typescript', 'ts=typescript']
+
 "# Appearance Settings
 set cursorline
 set number relativenumber
@@ -260,11 +267,12 @@ set scrolloff=3
 
 " always show the signcolumn, otherwise it would shift the text each time diagnostics appear/become resolved.
 if has("patch-8.1.1564")
-  " fecently vim can merge signcolumn and number column into one
+  " recently vim can merge signcolumn and number column into one
   set signcolumn=number
 else
   set signcolumn=yes
 endif
+
 syntax enable
 
 " enable truecolor
@@ -314,10 +322,17 @@ if g:colors_name == 'gruvbox'
   nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
 endif
 
+" fold settings
+set foldlevelstart=15
+set foldminlines=3
+
+autocmd Syntax javascript,json,typescript setlocal foldmethod=syntax
+
 "# FileType Specific Settings
 
 "## FileType: json
 
+autocmd BufNewFile,BufRead tsconfig*.json setlocal filetype=jsonc
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
 "## FileType: tmux
@@ -388,5 +403,9 @@ nnoremap Y y$
 " yank/paste with system clipboard
 nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
+nnoremap <Leader>Y "+y$
+vnoremap <Leader>Y "+y$
 nnoremap <Leader>p "+p
 vnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
+vnoremap <Leader>P "+P
