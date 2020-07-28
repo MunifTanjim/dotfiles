@@ -4,7 +4,7 @@
 [submodule ".modules/.dircolors-solarized"]
 	path = .modules/.dircolors-solarized
 	url = https://github.com/seebi/dircolors-solarized
-[submodule ".scripts.bash"]
-	path = .scripts.bash
-	url = https://github.com/MunifTanjim/scripts.bash
+[submodule ".scripts.sh"]
+	path = .scripts.sh
+	url = https://github.com/MunifTanjim/scripts.sh
 	shallow = true
