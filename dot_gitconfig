@@ -5,17 +5,30 @@
   signingkey = 9FA86B9EC363F224
 
 [core]
-  editor = nano
+  editor = vim
 
 [diff]
-  tool = default-difftool
-[difftool "default-difftool"]
-  cmd = code --wait --diff $LOCAL $REMOTE
+  tool = vimdiff
+  algorithm = patience
+[difftool]
+  prompt = false
+  trustExitCode = true
+[difftool "code"]
+  cmd = code --wait --diff "$LOCAL" "$REMOTE"
+[difftool "vimdiff"]
+  cmd = vim -d "$LOCAL" "$REMOTE"
+
+[merge]
+  conflictStyle = merge
+  tool = vimdiff
+[mergetool]
+  prompt = true
+[mergetool "vimdiff"]
+  cmd = vim -d "$REMOVE" "$MERGED" "$LOCAL"
+  trustExitCode = true
 
 [alias]
-  br = branch
   co = checkout
-  rb = rebase
 
 [web]
   browser = google-chrome
@@ -24,7 +37,7 @@
   default = simple
 
 [color]
-  ui = true
+  ui = auto
 [color "branch"]
   current = yellow reverse
   local = yellow
@@ -53,5 +66,7 @@
 [credential "https://gitlab.com"]
   username = MunifTanjim
 
-[includeIf "gitdir:~/Dev/bitbucket/team-shopup/"]
+[includeIf "gitdir:team-shopup/**"]
   path = ~/.gitconfig.shopup
+
+# vim: set filetype=gitconfig foldmethod=indent :
