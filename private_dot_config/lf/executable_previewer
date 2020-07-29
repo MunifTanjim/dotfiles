@@ -17,7 +17,7 @@ case "$1" in
     pdftotext "$1" -
     ;;
   *.jpg|*.jpeg|*.png)
-    echo "Image File!"
+    chafa --colors=256 "$1"
     ;;
   *)
     unset COLORTERM
