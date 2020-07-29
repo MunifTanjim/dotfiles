@@ -24,7 +24,7 @@ if (( ${+commands[chezmoi]} )); then
   export DOTFILES=$(chezmoi source-path)
   export DOTFILES_MODULES="${DOTFILES}/.modules"
 
-  _USER_SCRIPTS="${DOTFILES}/.scripts.bash"
+  _USER_SCRIPTS="${DOTFILES}/.scripts.sh"
 
   path+=("${_USER_SCRIPTS}")
 fi
