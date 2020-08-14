@@ -55,7 +55,6 @@ call plug#begin(data_dir . '/plugged')
 Plug 'junegunn/vim-plug'
 
 " appearance
-" Plug 'joshdick/onedark.vim'
 " Plug 'morhetz/gruvbox'
 Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
@@ -112,7 +111,7 @@ let g:fzf_action = {
 let g:fzf_command_prefix = 'Z'
 
 " fzf in popup window
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'BoxChar' } }
 
 " hide statusline while fzf-ing
 if has('nvim') && !exists('g:fzf_layout')
@@ -285,6 +284,12 @@ if has('termguicolors')
   set termguicolors
 endif
 
+augroup override_highlight
+    autocmd!
+    autocmd ColorScheme gruvbox highlight link BoxChar GruvboxGray
+          \ | highlight link CocExplorerIndentLine BoxChar
+augroup END
+
 " theme
 set background=dark
 
@@ -292,9 +297,6 @@ let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_contrast_light='hard'
 colorscheme gruvbox
-
-" let g:onedark_terminal_italics=1
-" colorscheme onedark
 
 "" airline
 let g:airline_theme='gruvbox'
