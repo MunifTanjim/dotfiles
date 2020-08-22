@@ -31,6 +31,7 @@ if type chezmoi >/dev/null 2>&1; then
   source "${DOTFILES_MODULES}/aliases.sh"
   source "${DOTFILES_MODULES}/go.plugin.sh"
   source "${DOTFILES_MODULES}/gpg.plugin.sh"
+  source "${DOTFILES_MODULES}/node.plugin.sh"
   source "${DOTFILES_MODULES}/python.plugin.sh"
   source "${DOTFILES_MODULES}/ruby.plugin.sh"
   source "${DOTFILES_MODULES}/rust.plugin.sh"
