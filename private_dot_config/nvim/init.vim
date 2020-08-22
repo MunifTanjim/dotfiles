@@ -63,6 +63,7 @@ Plug 'vim-airline/vim-airline'
 if isdirectory(fzf_root)
   Plug fzf_root
   Plug 'junegunn/fzf.vim'
+  Plug 'stsewd/fzf-checkout.vim'
 endif
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-peekaboo'
@@ -81,7 +82,7 @@ Plug 'wakatime/vim-wakatime'
 " language support
 Plug 'digitaltoad/vim-pug'
 Plug 'ekalinin/Dockerfile.vim'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': ['go'] }
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'lifepillar/pgsql.vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
@@ -99,6 +100,11 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 call plug#end()
 
 "# Plugin Settings
+
+"## Plugin: vim-fugitive
+
+" keymaps: fugitive
+nmap <Leader>gs :G<CR>
 
 "## Plugin: fzf
 
@@ -137,6 +143,9 @@ nmap <Leader>? :ZRG<CR>
 nmap <Leader>b :ZBuffers<CR>
 nmap <Leader>w :ZWindows<CR>
 
+" keymaps: fzf-checkout
+nmap <Leader>gc :ZGCheckout<CR>
+
 "## Plugin: coc
 
 let g:coc_global_extensions = [
@@ -150,6 +159,8 @@ let g:coc_global_extensions = [
       \ 'coc-marketplace',
       \ 'coc-pairs',
       \ 'coc-prettier',
+      \ 'coc-rls',
+      \ 'coc-sh',
       \ 'coc-snippets',
       \ 'coc-tsserver',
       \ 'coc-vimlsp',
@@ -256,7 +267,7 @@ nmap ga <Plug>(EasyAlign)
 
 "## Plugin: vim-markdown
 
-let g:markdown_fenced_languages = ['css', 'html', 'javascript', 'js=javascript', 'json=javascript', 'sh', 'typescript', 'ts=typescript']
+let g:markdown_fenced_languages = ['css', 'help', 'html', 'javascript', 'js=javascript', 'json=javascript', 'sh', 'typescript', 'ts=typescript', 'vim']
 
 "# Appearance Settings
 set cursorline
@@ -296,6 +307,7 @@ set background=dark
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_contrast_light='hard'
+let g:gruvbox_invert_selection='0'
 colorscheme gruvbox
 
 "" airline

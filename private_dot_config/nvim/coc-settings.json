@@ -6,6 +6,7 @@
     "json",
     "jsonc",
     "markdown",
+    "rust",
     "typescript",
     "typescriptreact"
   ],
