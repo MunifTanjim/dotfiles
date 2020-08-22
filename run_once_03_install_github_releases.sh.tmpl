@@ -1,6 +1,5 @@
+{{ if eq .chezmoi.os "linux" -}}
 #!/usr/bin/env bash
-
-{{ if eq .chezmoi.os "linux" }}
 
 if ! type setup-from-github-release >/dev/null 2>&1; then
   echo "not found: setup-from-github-release"
@@ -16,12 +15,14 @@ echo ""
 declare -A GITHUB_PACKAGE_REPOSITORY=(
   [bat]="sharkdp/bat"
   [fd]="sharkdp/fd"
+  [gh]="cli/cli"
   [rg]="BurntSushi/ripgrep"
 )
 
 declare -A GITHUB_PACKAGE_URL_PATTERN=(
   [bat]="amd64.deb"
   [fd]="amd64.deb"
+  [gh]="_linux_amd64.deb"
   [rg]="amd64.deb"
 )
 
@@ -30,10 +31,10 @@ echo ""
 
 for bin_name in "${!GITHUB_PACKAGE_REPOSITORY[@]}"; do
   setup-from-github-release \
-    "${bin_name}" \
     "${GITHUB_PACKAGE_REPOSITORY[${bin_name}]}" \
     "${GITHUB_PACKAGE_URL_PATTERN[${bin_name}]}"
 done
 
-{{ end }}
+{{- end }}
 
+# vim: set filetype=gotexttmpl.sh :

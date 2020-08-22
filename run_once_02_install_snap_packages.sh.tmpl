@@ -1,6 +1,5 @@
+{{ if eq .chezmoi.os "linux" -}}
 #!/usr/bin/env bash
-
-{{ if eq .chezmoi.os "linux" }}
 
 if ! type snap >/dev/null 2>&1; then
   exit 0
@@ -30,8 +29,8 @@ echo "====================================="
 echo ""
 
 declare SNAP_PACKAGES=(
-  authy bucklespring hugo
-  opera postman vlc
+  authy bucklespring
+  hugo opera vlc
 )
 
 echo "${SNAP_PACKAGES[@]}"
@@ -41,5 +40,6 @@ for package in "${SNAP_PACKAGES[@]}"; do
   snap install "${package}"
 done
 
-{{ end }}
+{{- end }}
 
+# vim: set filetype=gotexttmpl.sh :

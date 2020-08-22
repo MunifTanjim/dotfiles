@@ -1,6 +1,5 @@
+{{ if eq .chezmoi.os "linux" -}}
 #!/usr/bin/env bash
-
-{{ if eq .chezmoi.os "linux" }}
 
 echo ""
 echo "=================================="
@@ -19,5 +18,6 @@ echo ""
 
 mkdir -p "${NECESSARY_DIRECTORIES[@]}"
 
-{{ end }}
+{{- end }}
 
+# vim: set syntax=gotexttmpl.sh :

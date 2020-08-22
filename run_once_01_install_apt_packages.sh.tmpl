@@ -1,6 +1,5 @@
+{{ if eq .chezmoi.os "linux" -}}
 #!/usr/bin/env bash
-
-{{ if eq .chezmoi.os "linux" }}
 
 if ! type apt >/dev/null 2>&1; then
   exit 0
@@ -24,7 +23,7 @@ declare APT_PACKAGES=(
   gpa gparted htop
   grc htop neofetch
   vim zsh shellcheck
-  rar unrar tree
+  rar unrar tmux tree
   software-properties-common
 )
 
@@ -37,7 +36,7 @@ sudo apt install --yes "${APT_PACKAGES[@]}"
 
 echo ""
 echo "======================================="
-echo "= Installing APT Packages (3rd Party) =" 
+echo "= Installing APT Packages (3rd Party) ="
 echo "======================================="
 echo ""
 
@@ -62,5 +61,6 @@ update_cache
 
 sudo apt install --yes "${THIRD_PARTY_APT_PACKAGES[@]}"
 
-{{ end }}
+{{- end }}
 
+# vim: set filetype=gotexttmpl.sh :
