@@ -41,6 +41,11 @@ endif
 let mapleader = "\<Space>"
 let maplocalleader = "\\"
 
+if exists('g:vscode')
+  source "./vscode.vim"
+  finish
+endif
+
 "# Plugins
 
 " install vim-plug automagically
@@ -212,8 +217,8 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 "" diagnostics navigation
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
 "" apply code action to current line
 nmap <Leader>ac <Plug>(coc-codeaction-line)
 "" apply autofix to problem on the current line
