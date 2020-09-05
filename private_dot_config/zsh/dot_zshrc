@@ -63,7 +63,6 @@ zinit as"completion" wait lucid for \
 
 zinit wait lucid for \
     momo-lab/auto-expand-alias \
-    momo-lab/zsh-replace-multiple-dots \
   atinit"optimized_zicompinit; zicdreplay" \
     zdharma/fast-syntax-highlighting \
   atload"_zsh_autosuggest_start" \
@@ -75,8 +74,9 @@ zinit ice \
   atclone'dircolors -b LS_COLORS > clrs.zsh' \
   atpull'%atclone' pick"clrs.zsh" nocompile'!' \
   atload'zstyle ":completion:*" list-colors "${(s.:.)LS_COLORS}"'
-zinit light trapd00r/LS_COLORS
-zinit light zpm-zsh/ls
+zinit load trapd00r/LS_COLORS
+zinit load zpm-zsh/colorize
+zinit load zpm-zsh/ls
 
 zinit wait lucid for \
   is-snippet "${DOTFILES_MODULES}/fzf.plugin.sh" \
@@ -86,7 +86,6 @@ zinit wait lucid for \
   is-snippet "${DOTFILES_MODULES}/python.plugin.sh" \
   is-snippet "${DOTFILES_MODULES}/ruby.plugin.sh" \
   is-snippet "${DOTFILES_MODULES}/rust.plugin.sh"
-
 
 zinit is-snippet for \
   "${DOTFILES_MODULES}/aliases.sh" \
