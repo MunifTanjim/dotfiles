@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# Return if not interactive shell
-[[ $- != *i* ]] && return
+# Return if not interactive shell [[ $- != *i* ]] && return
 
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
   debian_chroot=$(cat /etc/debian_chroot)
@@ -14,8 +13,20 @@ if [ -f /etc/bash_completion ]; then
   source /etc/bash_completion
 fi
 
+XDG_CONFIG_HOME="$HOME/.config"
+XDG_CACHE_HOME="$HOME/.cache"
+XDG_DATA_HOME="$HOME/.local/share"
+
 export EDITOR="vim"
+export VISUAL="nvim"
 export PAGER="less"
+export MANPAGER="less -R"
+
+reload_shell() {
+  if [[ -e "${HOME}/.bashrc" ]]; then
+    source "${HOME}/.bashrc"
+  fi
+}
 
 if type chezmoi >/dev/null 2>&1; then
   export DOTFILES=$(chezmoi source-path)
@@ -26,16 +37,21 @@ if type chezmoi >/dev/null 2>&1; then
 
   export PATH="${_USER_SCRIPTS}:${_USER_BIN}:${PATH}"
 
-  source "${DOTFILES_MODULES}/bash/init.bash"
+  # Sensible defaults for BASH
+  if [ -f "${DOTFILES_MODULES}/.bash-sensible/sensible.bash" ]; then
+    source "${DOTFILES_MODULES}/.bash-sensible/sensible.bash"
+  fi
 
+  source "${DOTFILES_MODULES}/helpers.sh"
   source "${DOTFILES_MODULES}/aliases.sh"
+  source "${DOTFILES_MODULES}/fzf.plugin.sh"
   source "${DOTFILES_MODULES}/go.plugin.sh"
   source "${DOTFILES_MODULES}/gpg.plugin.sh"
+  source "${DOTFILES_MODULES}/lf.plugin.sh"
   source "${DOTFILES_MODULES}/node.plugin.sh"
   source "${DOTFILES_MODULES}/python.plugin.sh"
   source "${DOTFILES_MODULES}/ruby.plugin.sh"
   source "${DOTFILES_MODULES}/rust.plugin.sh"
 
-  source "${DOTFILES_MODULES}/fzf.plugin.sh"
-  source "${DOTFILES_MODULES}/lf.plugin.sh"
+  source "${DOTFILES_MODULES}/bash/appearance.bash"
 fi
