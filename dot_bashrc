@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# Return if not interactive shell [[ $- != *i* ]] && return
+# Return if not interactive shell
+[[ $- != *i* ]] && return
 
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
   debian_chroot=$(cat /etc/debian_chroot)
