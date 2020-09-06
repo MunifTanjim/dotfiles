@@ -6,6 +6,7 @@
 
 [core]
   editor = vim
+  pager = delta
 
 [diff]
   tool = vimdiff
@@ -17,6 +18,9 @@
   cmd = code --wait --diff "$LOCAL" "$REMOTE"
 [difftool "vimdiff"]
   cmd = vim -d "$LOCAL" "$REMOTE"
+
+[interactive]
+  diffFilter = delta --color-only
 
 [merge]
   conflictStyle = merge
@@ -51,6 +55,10 @@
   added = yellow
   changed = green
   untracked = red
+
+[delta]
+  syntax-theme = TwoDark
+  line-numbers = true
 
 [hub]
   protocol = https
