@@ -79,13 +79,14 @@ zinit load zpm-zsh/colorize
 zinit load zpm-zsh/ls
 
 zinit wait lucid for \
-  is-snippet "${DOTFILES_MODULES}/fzf.plugin.sh" \
-  is-snippet "${DOTFILES_MODULES}/go.plugin.sh" \
-  is-snippet "${DOTFILES_MODULES}/lf.plugin.sh" \
-  is-snippet "${DOTFILES_MODULES}/node.plugin.sh" \
-  is-snippet "${DOTFILES_MODULES}/python.plugin.sh" \
-  is-snippet "${DOTFILES_MODULES}/ruby.plugin.sh" \
-  is-snippet "${DOTFILES_MODULES}/rust.plugin.sh"
+    is-snippet "${DOTFILES_MODULES}/fzf.plugin.sh" \
+    is-snippet "${DOTFILES_MODULES}/go.plugin.sh" \
+    is-snippet "${DOTFILES_MODULES}/lf.plugin.sh" \
+  atload"__init_nvm" \
+    is-snippet "${DOTFILES_MODULES}/node.plugin.sh" \
+    is-snippet "${DOTFILES_MODULES}/python.plugin.sh" \
+    is-snippet "${DOTFILES_MODULES}/ruby.plugin.sh" \
+    is-snippet "${DOTFILES_MODULES}/rust.plugin.sh"
 
 zinit is-snippet for \
   "${DOTFILES_MODULES}/aliases.sh" \
