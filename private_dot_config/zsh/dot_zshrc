@@ -17,6 +17,8 @@ setopt AUTO_MENU
 setopt GLOB_COMPLETE
 setopt LIST_ROWS_FIRST
 
+unsetopt MULTIOS
+
 autoload -U select-word-style
 select-word-style bash
 
@@ -67,7 +69,7 @@ zinit wait lucid for \
     zdharma/fast-syntax-highlighting \
   atload"_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions \
-  blockf atpull'zinit creinstall -q .' \
+  blockf atpull'zinit creinstall -q zsh-users/zsh-completions' \
     zsh-users/zsh-completions
 
 zinit ice \
@@ -78,23 +80,31 @@ zinit load trapd00r/LS_COLORS
 zinit load zpm-zsh/colorize
 zinit load zpm-zsh/ls
 
-zinit wait lucid for \
-    is-snippet "${DOTFILES_MODULES}/fzf.plugin.sh" \
-    is-snippet "${DOTFILES_MODULES}/go.plugin.sh" \
-    is-snippet "${DOTFILES_MODULES}/lf.plugin.sh" \
-  atload"__init_nvm" \
-    is-snippet "${DOTFILES_MODULES}/node.plugin.sh" \
-    is-snippet "${DOTFILES_MODULES}/python.plugin.sh" \
-    is-snippet "${DOTFILES_MODULES}/ruby.plugin.sh" \
-    is-snippet "${DOTFILES_MODULES}/rust.plugin.sh"
+zinit ice has'zoxide' wait lucid id-as'zoxide' \
+  atclone'zoxide init --no-aliases zsh > zoxide.zsh' \
+  atpull'%atclone' run-atpull pick='zoxide.zsh' nocompile'!'
+zinit load 'zdharma/null'
 
 zinit is-snippet for \
   "${DOTFILES_MODULES}/aliases.sh" \
   "${DOTFILES_MODULES}/helpers.sh" \
   "${DOTFILES_MODULES}/gpg.plugin.sh"
 
+zinit wait lucid is-snippet for \
+  "${DOTFILES_MODULES}/fzf.plugin.sh" \
+  "${DOTFILES_MODULES}/go.plugin.sh" \
+  "${DOTFILES_MODULES}/lf.plugin.sh" \
+  atload"__init_nvm" \
+    "${DOTFILES_MODULES}/node.plugin.sh" \
+  "${DOTFILES_MODULES}/python.plugin.sh" \
+  "${DOTFILES_MODULES}/ruby.plugin.sh" \
+  "${DOTFILES_MODULES}/rust.plugin.sh"
+
 export STARSHIP_CONFIG=~/.config/starship/config.toml
-eval "$(starship init zsh)"
+zinit ice has'starship' id-as'starship' \
+  atclone'starship init zsh --print-full-init > starship.zsh' \
+  atpull'%atclone' run-atpull pick'starship.zsh' nocompile'!'
+zinit load 'zdharma/null'
 
 bindkey -v
 export KEYTIMEOUT=10
