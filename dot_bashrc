@@ -54,5 +54,7 @@ if type chezmoi >/dev/null 2>&1; then
   source "${DOTFILES_MODULES}/ruby.plugin.sh"
   source "${DOTFILES_MODULES}/rust.plugin.sh"
 
+  source "${DOTFILES_MODULES}/bash/plugins/zoxide.plugin.bash"
+
   source "${DOTFILES_MODULES}/bash/appearance.bash"
 fi
