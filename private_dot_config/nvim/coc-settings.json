@@ -48,8 +48,8 @@
     "<BS>": "gotoParent",
     "<CR>": ["expandable?", "cd", "open"],
     "<C-t>": "open:tab",
-    "<C-v>": "open:vsplit",
-    "<C-x>": "open:split"
+    "<C-s>": "open:split",
+    "<C-v>": "open:vsplit"
   },
   "explorer.previewAction.onHover": false,
   "explorer.quitOnOpen": true,

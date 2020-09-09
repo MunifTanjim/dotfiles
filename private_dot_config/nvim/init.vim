@@ -41,10 +41,63 @@ endif
 let mapleader = "\<Space>"
 let maplocalleader = "\\"
 
-if exists('g:vscode')
-  source "./vscode.vim"
-  finish
+"# Keymaps
+
+" disable arrow keys
+inoremap <Up>    <Nop>
+inoremap <Right> <Nop>
+inoremap <Down>  <Nop>
+inoremap <Left>  <Nop>
+nnoremap <Up>    <Nop>
+nnoremap <Right> <Nop>
+nnoremap <Down>  <Nop>
+nnoremap <Left>  <Nop>
+vnoremap <Up>    <Nop>
+vnoremap <Right> <Nop>
+vnoremap <Down>  <Nop>
+vnoremap <Left>  <Nop>
+
+" disable Ctrl-a on screen/tmux
+if $TERM =~ 'screen\|tmux'
+  nnoremap <C-a>         <Nop>
+  nnoremap <Leader><C-a> <C-a>
 endif
+
+" save
+inoremap <Leader>s <C-o>:update<CR>
+nnoremap <Leader>s :update<CR>
+
+" exit insert mode
+inoremap jk <Esc>
+inoremap kj <Esc>
+
+" beginning/end of line
+nnoremap B ^
+nnoremap E $
+onoremap B ^
+onoremap E $
+xnoremap B ^
+xnoremap E $
+
+" move lines
+inoremap <M-j> <Esc>:move .+1<CR>==gi
+inoremap <M-k> <Esc>:move .-2<CR>==gi
+nnoremap <M-j> :move .+1<CR>==
+nnoremap <M-k> :move .-2<CR>==
+vnoremap <M-j> :move '>+1<CR>gv=gv
+vnoremap <M-k> :move '<-2<CR>gv=gv
+
+" yank from the cursor position to the end of the line
+nnoremap Y y$
+" yank/paste with system clipboard
+nnoremap <Leader>y "+y
+vnoremap <Leader>y "+y
+nnoremap <Leader>Y "+y$
+vnoremap <Leader>Y "+y$
+nnoremap <Leader>p "+p
+vnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
+vnoremap <Leader>P "+P
 
 "# Plugins
 
@@ -53,6 +106,11 @@ if empty(glob(config_dir . '/autoload/plug.vim'))
   silent execute '!curl -fLo ' . config_dir . '/autoload/plug.vim' . ' --create-dirs '
     \ . 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+if exists('g:vscode')
+  source "./vscode.vim"
+  finish
 endif
 
 call plug#begin(data_dir . '/plugged')
@@ -115,7 +173,7 @@ nmap <Leader>gs :G<CR>
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
+  \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit'
   \ }
 
@@ -371,60 +429,3 @@ function! VimFolds(lnum)
   endif
 endfunction
 
-"# Keymaps
-
-" disable arrow keys
-inoremap <Up>    <Nop>
-inoremap <Right> <Nop>
-inoremap <Down>  <Nop>
-inoremap <Left>  <Nop>
-nnoremap <Up>    <Nop>
-nnoremap <Right> <Nop>
-nnoremap <Down>  <Nop>
-nnoremap <Left>  <Nop>
-vnoremap <Up>    <Nop>
-vnoremap <Right> <Nop>
-vnoremap <Down>  <Nop>
-vnoremap <Left>  <Nop>
-
-" disable Ctrl-a on screen/tmux
-if $TERM =~ 'screen\|tmux'
-  nnoremap <C-a>         <Nop>
-  nnoremap <Leader><C-a> <C-a>
-endif
-
-" save
-inoremap <C-s> <C-o>:update<CR>
-nnoremap <C-s> :update<CR>
-
-" exit insert mode
-inoremap jk <Esc>
-inoremap kj <Esc>
-
-" beginning/end of line
-nnoremap B ^
-nnoremap E $
-onoremap B ^
-onoremap E $
-xnoremap B ^
-xnoremap E $
-
-" move lines
-inoremap <M-j> <Esc>:move .+1<CR>==gi
-inoremap <M-k> <Esc>:move .-2<CR>==gi
-nnoremap <M-j> :move .+1<CR>==
-nnoremap <M-k> :move .-2<CR>==
-vnoremap <M-j> :move '>+1<CR>gv=gv
-vnoremap <M-k> :move '<-2<CR>gv=gv
-
-" yank from the cursor position to the end of the line
-nnoremap Y y$
-" yank/paste with system clipboard
-nnoremap <Leader>y "+y
-vnoremap <Leader>y "+y
-nnoremap <Leader>Y "+y$
-vnoremap <Leader>Y "+y$
-nnoremap <Leader>p "+p
-vnoremap <Leader>p "+p
-nnoremap <Leader>P "+P
-vnoremap <Leader>P "+P
