@@ -41,7 +41,7 @@ endif
 let mapleader = "\<Space>"
 let maplocalleader = "\\"
 
-"# Keymaps
+"# General Keymaps
 
 " disable arrow keys
 inoremap <Up>    <Nop>
@@ -64,7 +64,6 @@ if $TERM =~ 'screen\|tmux'
 endif
 
 " save
-inoremap <Leader>s <C-o>:update<CR>
 nnoremap <Leader>s :update<CR>
 
 " exit insert mode
@@ -108,11 +107,6 @@ if empty(glob(config_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-if exists('g:vscode')
-  source "./vscode.vim"
-  finish
-endif
-
 call plug#begin(data_dir . '/plugged')
 
 Plug 'junegunn/vim-plug'
@@ -147,6 +141,8 @@ Plug 'digitaltoad/vim-pug'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': ['go'] }
 Plug 'HerringtonDarkholme/yats.vim'
+Plug 'jparise/vim-graphql'
+Plug 'jxnblk/vim-mdx-js'
 Plug 'lifepillar/pgsql.vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'neoclide/jsonc.vim'
@@ -428,4 +424,3 @@ function! VimFolds(lnum)
     return '='
   endif
 endfunction
-
