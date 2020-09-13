@@ -17,9 +17,10 @@ set shellopts '-eu'
 # commands accordingly.
 set ifs "\n"
 
-set scrolloff 5
 set color256
 set icons
+set period 15
+set scrolloff 5
 
 # define a custom 'open' command
 # This command is called when current file is not a directory. You may want to
@@ -45,13 +46,20 @@ cmd open ${{
 # (also see 'man mv' for backup/overwrite options)
 cmd trash ${{
   set -f
-  if type gio >/dev/null 2>&1; then
-    gio trash $fx
-  else
-    for f in $fx; do
-      mv $f ~/.trash/$(printf $f | tr '/' '%')
-    done
+  clear
+  printf "$fx\n"
+  printf "\nTrash? [y/n]: "
+  read answer
+  if [ $answer = "y" ]; then
+    if type gio >/dev/null 2>&1; then
+      gio trash $fx
+    else
+      for f in $fx; do
+        mv $f ~/.trash/$(printf $f | tr '/' '%')
+      done
+    fi
   fi
+  clear
 }}
 
 # define a custom 'delete' command
@@ -59,14 +67,18 @@ cmd delete ${{
   set -f
   clear
   printf "$fx\n"
-  printf "Delete? [y/n]: "
+  printf "\nDelete (permanently)? [y/n]: "
   read answer
-  [ $answer = "y" ] && rm -rf $fx
+  if [ $answer = "y" ]; then
+    rm -rf $fx
+  fi
   clear
 }}
 
-# use '<delete>' key for either 'trash' or 'delete' command
-map <delete> trash
+map d
+map dd cut
+map df trash
+map dF delete
 
 # (xkcd link: https://xkcd.com/1168/)
 # extract the current file with the right command
@@ -80,6 +92,7 @@ cmd extract ${{
     *.rar) unrar x $f;;
     *.7z) 7z x $f;;
   esac
+  clear
 }}
 
 map E extract "$f"
@@ -102,6 +115,11 @@ cmd zip ${{
   rm -rf $1
 }}
 
+# reload config and refresh ui
+cmd refresh :{{
+  source "~/.config/lf/lfrc"
+  reload
+}}
 
 set previewer "~/.config/lf/previewer"
 map i $~/.config/lf/previewer "$f" | less -R
@@ -109,9 +127,6 @@ map i $~/.config/lf/previewer "$f" | less -R
 map e $$EDITOR $f
 map i $$PAGER $f
 map w $$SHELL
-
-# reload config
-map R source "~/.config/lf/lfrc"
 
 # execute current file (must be executable)
 map x $$f
@@ -137,3 +152,8 @@ map st :set sortby time; set info time
 
 map gg top
 map gh cd ~
+map gq quit
+map gr refresh
+map g. set hidden!
+
+map <space> :toggle; down
