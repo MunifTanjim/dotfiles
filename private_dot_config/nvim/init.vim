@@ -98,6 +98,10 @@ vnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
 vnoremap <Leader>P "+P
 
+" make new split
+nnoremap <C-w>- :new<CR>
+nnoremap <C-w>\ :vnew<CR>
+
 "# Plugins
 
 " install vim-plug automagically
@@ -117,6 +121,7 @@ Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 
 " functionality
+Plug 'christoomey/vim-tmux-navigator'
 if isdirectory(fzf_root)
   Plug fzf_root
   Plug 'junegunn/fzf.vim'
@@ -327,6 +332,22 @@ nmap ga <Plug>(EasyAlign)
 "## Plugin: vim-markdown
 
 let g:markdown_fenced_languages = ['css', 'help', 'html', 'javascript', 'js=javascript', 'json=javascript', 'sh', 'typescript', 'ts=typescript', 'vim']
+
+"## Plugin: vim-tmux-navigator
+
+let g:tmux_navigator_disable_when_zoomed = 1
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <C-w>h     :TmuxNavigateLeft<CR>
+nnoremap <silent> <C-w><C-h> :TmuxNavigateLeft<CR>
+nnoremap <silent> <C-w>j     :TmuxNavigateDown<CR>
+nnoremap <silent> <C-w><C-j> :TmuxNavigateDown<CR>
+nnoremap <silent> <C-w>k     :TmuxNavigateUp<CR>
+nnoremap <silent> <C-w><C-k> :TmuxNavigateUp<CR>
+nnoremap <silent> <C-w>l     :TmuxNavigateRight<CR>
+nnoremap <silent> <C-w><C-l> :TmuxNavigateRight<CR>
+nnoremap <silent> <C-w>p     :TmuxNavigatePrevious<CR>
+nnoremap <silent> <C-w><C-p> :TmuxNavigatePrevious<CR>
 
 "# Appearance Settings
 set cursorline
