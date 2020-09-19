@@ -32,7 +32,7 @@ expunge_history() {
 }
 
 exit_or_tmux_detach() {
-  if [[ -z "$TMUX" ]] && [[ ! "$TERM" =~ "^(screen|tmux).*" ]]; then
+  if [[ -z "$TMUX" ]] || [[ ! "$TERM" =~ "^(screen|tmux).*" ]]; then
     exit
   fi
 
