@@ -59,6 +59,7 @@
   // prettier
   "prettier.arrowParens": "always",
   "prettier.disableSuccessMessage": true,
+  "prettier.semi": false,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "es5",
   // typescript

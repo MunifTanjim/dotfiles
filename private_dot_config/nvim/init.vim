@@ -121,7 +121,6 @@ Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 
 " functionality
-Plug 'christoomey/vim-tmux-navigator'
 if isdirectory(fzf_root)
   Plug fzf_root
   Plug 'junegunn/fzf.vim'
@@ -129,7 +128,6 @@ if isdirectory(fzf_root)
 endif
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-peekaboo'
-Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
@@ -138,6 +136,8 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vitalk/vim-shebang'
 
 " integration
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'RyanMillerC/better-vim-tmux-resizer'
 Plug 'tpope/vim-fugitive'
 Plug 'wakatime/vim-wakatime'
 
@@ -348,6 +348,17 @@ nnoremap <silent> <C-w>l     :TmuxNavigateRight<CR>
 nnoremap <silent> <C-w><C-l> :TmuxNavigateRight<CR>
 nnoremap <silent> <C-w>p     :TmuxNavigatePrevious<CR>
 nnoremap <silent> <C-w><C-p> :TmuxNavigatePrevious<CR>
+
+"## Plugin: vim-tmux-navigator
+
+let g:tmux_resizer_no_mappings = 1
+let g:tmux_resizer_resize_count = 5
+let g:tmux_resizer_vertical_resize_count = 10
+
+nnoremap <silent> <C-w><M-h> :TmuxResizeLeft<CR>
+nnoremap <silent> <C-w><M-j> :TmuxResizeDown<CR>
+nnoremap <silent> <C-w><M-k> :TmuxResizeUp<CR>
+nnoremap <silent> <C-w><M-l> :TmuxResizeRight<CR>
 
 "# Appearance Settings
 set cursorline
