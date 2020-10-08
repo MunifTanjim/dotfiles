@@ -1,16 +1,28 @@
 add_newline = false
+format      = "$all"
+
+[aws]
+symbol = " "
 
 [battery]
-full_symbol = ""
-charging_symbol = ""
+full_symbol        = ""
+charging_symbol    = ""
 discharging_symbol = ""
-[battery.display]
-style = "bold red"
-threshold = 20
+format             = "[$symbol$percentage]($style) "
+[[battery.display]]
+style              = "bold red"
+threshold          = 15
+[[battery.display]]
+style              = "bold yellow"
+threshold          = 30
 
 [character]
-symbol = "❯" # "➜" "▶"
-vicmd_symbol = "❮"
+error_symbol   = "[❯](bold red)"   # "➜" "▶"
+success_symbol = "[❯](bold green)" # "➜" "▶"
+vicmd_symbol   = "[❮](bold green)"
+
+[cmake]
+disabled = true
 
 [cmd_duration]
 min_time = 5000
@@ -22,104 +34,158 @@ symbol = " "
 [crystal]
 disabled = true
 
-[docker]
+[dart]
+disabled = true
+symbol   = " "
+
+[directory]
+format = "[$read_only](red)[$path](bold cyan) "
+read_only_symbol = " "
+truncation_symbol = "…/"
+
+[docker_context]
 symbol = " "
 
 [dotnet]
 disabled = true
+symbol = " "
 
 [elixir]
 disabled = true
-symbol = " "
+symbol   = " "
 
 [elm]
 disabled = true
-symbol = " "
+symbol   = " "
 
 [erlang]
 disabled = true
+symbol = " "
+
+[gcloud]
+symbol = " "
 
 [git_branch]
-style = "bold 164"
-symbol = " "
+format = "[( $branch )](bold bright-purple)"
+
+[git_commit]
+format             = "[( $hash )](bold blue)"
+commit_hash_length = 8
+
+[git_state]
+format      = "[($state\\($progress_current/$progress_total\\) )](bold red)"
 
 [git_status]
-show_sync_count = true
-prefix = "("
-suffix = ") "
-style = "bold yellow"
-stashed = "≡"
-[git_status.conflicted_count]
-enabled = true
-[git_status.untracked_count]
-enabled = true
-[git_status.stashed_count]
-enabled = true
-[git_status.modified_count]
-enabled = true
-[git_status.staged_count]
-enabled = true
-[git_status.renamed_count]
-enabled = true
-[git_status.deleted_count]
-enabled = true
+format     = "[(\\[$all_status$ahead_behind\\] )](bold yellow)"
+conflicted = "=${count}"
+ahead      = "⇡${count}"
+behind     = "⇣${count}"
+diverged   = "⇕⇡${ahead_count}⇣${behind_count}"
+untracked  = "?${count}"
+stashed    = "≡${count}"
+modified   = "!${count}"
+staged     = "+${count}"
+renamed    = "»${count}"
+deleted    = "✘${count}"
 
 [golang]
 symbol = " "
 
 [haskell]
 disabled = true
-symbol = " "
+symbol   = " "
+
+[helm]
+disabled = true
+symbol   = "⎈ "
 
 [hg_branch]
-symbol = " "
+disabled = true
+symbol   = " "
+
+[hostname]
+trim_at = ""
 
 [java]
 disabled = true
-symbol = " "
+symbol   = " "
 
 [jobs]
-symbol = "✦ "
+symbol = " "
 
 [julia]
 disabled = true
-symbol = " "
+symbol   = " "
 
 [kubernetes]
 disabled = true
+symbol   = "☸ "
 
 [memory_usage]
 symbol = " "
 
 [nim]
 disabled = true
-symbol = " "
+symbol   = " "
 
 [nix_shell]
 disabled = true
-symbol = " "
+symbol   = " "
 
 [nodejs]
-symbol = " "
+symbol = " "
 
 [package]
 symbol = " "
 
+[perl]
+disabled = false
+symbol   = " "
+
 [php]
 disabled = true
-symbol = " "
+symbol   = " "
+
+[purescript]
+disabled = true
 
 [python]
-symbol = " "
+symbol = " "
+
+[ocaml]
+disabled = true
+symbol   = "🐫 "
 
 [ruby]
 symbol = " "
 
 [rust]
-symbol = " "
+symbol = " "
+
+[shlvl]
+disabled = true
 
 [singularity]
 disabled = true
 
+[status]
+disabled = false
+format   = "[${status}](bold red) "
+
+[swift]
+disabled = true
+symbol   = " "
+
 [terraform]
 disabled = true
+symbol   = "💠 "
+
+[time]
+disabled = true
+
+[user]
+disabled = false
+
+[zig]
+disabled = true
+symbol   = "⚡️ "
