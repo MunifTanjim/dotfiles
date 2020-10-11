@@ -8,7 +8,7 @@ symbol = " "
 full_symbol        = ""
 charging_symbol    = ""
 discharging_symbol = ""
-format             = "[$symbol$percentage]($style) "
+format             = "[$symbol\\[$percentage\\]]($style) "
 [[battery.display]]
 style              = "bold red"
 threshold          = 15
@@ -17,8 +17,8 @@ style              = "bold yellow"
 threshold          = 30
 
 [character]
-error_symbol   = "[❯](bold red)"   # "➜" "▶"
-success_symbol = "[❯](bold green)" # "➜" "▶"
+error_symbol   = "[❯](bold red)"
+success_symbol = "[❯](bold green)"
 vicmd_symbol   = "[❮](bold green)"
 
 [cmake]
@@ -40,7 +40,7 @@ symbol   = " "
 
 [directory]
 format = "[$read_only](red)[$path](bold cyan) "
-read_only_symbol = " "
+read_only = " "
 truncation_symbol = "…/"
 
 [docker_context]
