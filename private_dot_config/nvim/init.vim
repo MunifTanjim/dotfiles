@@ -142,6 +142,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'wakatime/vim-wakatime'
 
 " language support
+Plug 'cespare/vim-toml'
 Plug 'digitaltoad/vim-pug'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': ['go'] }
@@ -248,11 +249,12 @@ function! s:show_documentation()
   if (index(['vim', 'help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
-    call CocAction('doHover')
+    call CocActionAsync('doHover')
   endif
 endfunction
 
 "### coc: keymaps
+
 "" trigger autocomplete popup menu
 inoremap <silent><expr> <C-Space> coc#refresh()
 "" highlight next popup menu item
@@ -314,11 +316,6 @@ augroup js_ts_coc
   autocmd!
   " keymap: go to file
   autocmd FileType javascript,typescript nmap <silent> gf <Plug>(coc-definition)
-augroup END
-
-augroup coc_explorer
-  autocmd!
-  autocmd User CocExplorerOpenPre setl statusline=%#NonText#
 augroup END
 
 "## Plugin: vim-easy-align
