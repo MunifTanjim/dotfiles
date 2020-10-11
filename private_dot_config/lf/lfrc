@@ -121,6 +121,8 @@ cmd refresh :{{
   reload
 }}
 
+cmd q :quit
+
 set previewer "~/.config/lf/previewer"
 map i $~/.config/lf/previewer "$f" | less -R
 
