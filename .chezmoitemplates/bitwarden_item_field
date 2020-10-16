@@ -1,0 +1,6 @@
+{{- $target_name := .name -}}
+{{- range .item.fields -}}
+  {{- if eq .name $target_name -}}
+    {{- .value -}}
+  {{- end -}}
+{{- end -}}
