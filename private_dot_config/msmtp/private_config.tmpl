@@ -10,9 +10,18 @@ host smtp.gmail.com
 port 465
 tls_fingerprint D6:75:EC:30:6C:71:36:35:7E:FA:A3:77:5F:93:B9:6A:C2:06:54:47
 auth oauthbearer
-user {{ template "bitwarden_chezmoi_config" "email_personal" }}
+user {{ template "bitwarden_chezmoi_config" "email.personal" }}
 passwordeval "gmail-oauth2 access_token personal"
-from {{ template "bitwarden_chezmoi_config" "email_personal_from" }}
+from {{ template "bitwarden_chezmoi_config" "email.personal.from" }}
+
+account shopup
+host smtp.gmail.com
+port 465
+tls_fingerprint D6:75:EC:30:6C:71:36:35:7E:FA:A3:77:5F:93:B9:6A:C2:06:54:47
+auth oauthbearer
+user {{ template "bitwarden_chezmoi_config" "email.shopup" }}
+passwordeval "gmail-oauth2 access_token {{ template "bitwarden_chezmoi_config" "email.shopup" }}"
+from {{ template "bitwarden_chezmoi_config" "email.shopup" }}
 
 account default : personal
 
