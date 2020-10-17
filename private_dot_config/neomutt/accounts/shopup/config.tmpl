@@ -1,0 +1,34 @@
+set folder    = "~/.local/share/Mail"
+
+set sendmail  = "msmtp -a shopup"
+
+set spoolfile = "+shopup/Inbox"
+set mbox      = "+shopup/Archive"
+set postponed = "+shopup/Drafts"
+set record    = ""
+set trash     = "+shopup/Trash"
+
+unmailboxes *
+mailboxes =shopup/Inbox =shopup/Starred
+mailboxes =shopup/Sent =shopup/Drafts
+mailboxes =shopup/Trash =shopup/Archive
+mailboxes =shopup/Spam
+
+set realname = "Munif Tanjim"
+set from     = "{{ template "bitwarden_chezmoi_config" "email.shopup" }}"
+alternates {{ template "bitwarden_chezmoi_config" "email.shopup.mutt.alternates" }}
+
+set signature = "~/.config/neomutt/signatures/shopup"
+
+set copy   = yes
+set delete = yes
+set move   = no
+
+macro index       gu "<shell-escape>mbsync shopup<enter>" "run mbsync to sync mail for this account"
+
+macro index,pager mA "<save-message>+shopup/Archive" "move message to the archive"
+folder-hook "+shopup/Archive" bind index,pager mA noop
+
+color status cyan default
+
+# vim: filetype=muttrc

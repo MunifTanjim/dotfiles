@@ -37,6 +37,6 @@ bind index,pager                \Co sidebar-open
 bind  pager,index df delete-message
 macro index       gU "<shell-escape>mbsync -a<enter>" "run mbsync to sync mail for all accounts"
 macro index,pager y* "<flag-message>"  "Toggle Star"
-macro index,pager yn "<toggle-new>"    "Toggle Read Status"
+macro index,pager yr "<toggle-new>"    "Toggle Read Status"
 
 # vim: filetype=muttrc

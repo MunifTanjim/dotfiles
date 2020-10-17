@@ -9,8 +9,12 @@ source "~/.config/neomutt/bindings"
 source "~/.config/neomutt/colors"
 
 # account setup
-source "~/.config/neomutt/accounts/personal/config"
 folder-hook personal/* source "~/.config/neomutt/accounts/personal/config"
+folder-hook shopup/* source   "~/.config/neomutt/accounts/shopup/config"
+
+macro index,pager c "<enter-command>source '~/.config/neomutt/scripts/switch_account.sh |'<enter><enter>"
+
+source "~/.config/neomutt/accounts/personal/config"
 
 # basic options
 set mbox_type = Maildir # mailbox type
@@ -79,13 +83,14 @@ hdr_order from: to: cc: bcc: date: subject:
 alternative_order text/plain text/enriched text/html
 auto_view text/html
 
-# sidebar config
-set sidebar_visible
-set sidebar_short_path
-set sidebar_folder_indent
+# sidebar
+set sidebar_visible       = yes
+set sidebar_short_path    = yes
+set sidebar_delim_chars   = "/"
+set sidebar_folder_indent = yes
+set sidebar_indent_string = ' '
 set sidebar_width         = 25
 set sidebar_divider_char  = '│'
-set sidebar_indent_string = ' '
 set sidebar_format        = "%B %* [%?N?%N / ?%S]"
 
 # vim: filetype=muttrc
