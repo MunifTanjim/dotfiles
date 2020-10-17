@@ -1,0 +1,60 @@
+Create Slave
+Expunge Slave
+SyncState *
+
+IMAPAccount personal
+Host imap.gmail.com
+SSLType IMAPS
+SSLVersions TLSv1.2
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+AuthMechs XOAUTH2
+User {{ template "bitwarden_chezmoi_config" "email_personal" }}
+PassCmd "gmail-oauth2 access_token personal"
+PipelineDepth 15
+
+IMAPStore personal-remote
+Account personal
+
+MaildirStore personal-local
+Path ~/.local/share/Mail/personal/
+Inbox ~/.local/share/Mail/personal/Inbox
+SubFolders Verbatim
+
+Channel personal-inbox
+Master :personal-remote:"INBOX"
+Slave :personal-local:Inbox
+
+Channel personal-starred
+Master :personal-remote:"[Gmail]/Starred"
+Slave :personal-local:Starred
+
+Channel personal-sent
+Master :personal-remote:"[Gmail]/Sent Mail"
+Slave :personal-local:Sent
+
+Channel personal-drafts
+Master :personal-remote:"[Gmail]/Drafts"
+Slave :personal-local:Drafts
+
+Channel personal-trash
+Master :personal-remote:"[Gmail]/Trash"
+Slave :personal-local:Trash
+
+Channel personal-archive
+Master :personal-remote:"[Gmail]/All Mail"
+Slave :personal-local:Archive
+
+Channel personal-spam
+Master :personal-remote:"[Gmail]/Spam"
+Slave :personal-local:Spam
+
+Group personal
+Channel personal-inbox
+Channel personal-starred
+Channel personal-sent
+Channel personal-drafts
+Channel personal-trash
+Channel personal-archive
+Channel personal-spam
+
+# vim: filetype=mbsync
