@@ -1,0 +1,42 @@
+bind index,pager                d noop
+bind attach,browser,index,pager g noop
+bind index,pager                m noop
+bind index,pager                y noop
+
+# moving around
+bind attach,browser,index gg first-entry
+bind pager                gg top
+bind attach,browser,index G  last-entry
+bind pager                G  bottom
+bind pager                j  next-line
+bind pager                k  previous-line
+
+# scrolling
+bind attach,browser,pager,index \CF next-page
+bind attach,browser,pager,index \CB previous-page
+bind attach,browser,pager,index \Cu half-up
+bind attach,browser,pager,index \Cd half-down
+bind browser,pager              \Ce next-line
+bind browser,pager              \Cy previous-line
+bind index                      \Ce next-line
+bind index                      \Cy previous-line
+
+# threads
+bind browser,pager,index        N   search-opposite
+bind pager,index                dT  delete-thread
+bind pager,index                dt  delete-subthread
+bind pager,index                gt  next-thread
+bind pager,index                gT  previous-thread
+
+# sidebar mappings
+bind index,pager                B   sidebar-toggle-visible
+bind index,pager                \Ck sidebar-prev
+bind index,pager                \Cj sidebar-next
+bind index,pager                \Co sidebar-open
+
+bind  pager,index df delete-message
+macro index       gU "<shell-escape>mbsync -a<enter>" "run mbsync to sync mail for all accounts"
+macro index,pager y* "<flag-message>"  "Toggle Star"
+macro index,pager yn "<toggle-new>"    "Toggle Read Status"
+
+# vim: filetype=muttrc

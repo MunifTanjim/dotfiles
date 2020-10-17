@@ -1,0 +1,33 @@
+set folder    = "~/.local/share/Mail"
+
+set sendmail  = "echo msmtp -a personal"
+
+set spoolfile = "+personal/Inbox"
+set mbox      = "+personal/Archive"
+set postponed = "+personal/Drafts"
+set record    = ""
+set trash     = "+personal/Trash"
+
+mailboxes =personal/Inbox =personal/Starred
+mailboxes =personal/Sent =personal/Drafts
+mailboxes =personal/Trash =personal/Archive
+mailboxes =personal/Spam
+
+set realname = "Munif Tanjim"
+set from     = "{{ template "bitwarden_chezmoi_config" "email.personal.from" }}"
+alternates {{ template "bitwarden_chezmoi_config" "email.personal.mutt.alternates" }}
+
+set signature = "~/.config/neomutt/signatures/personal"
+
+set copy   = yes
+set delete = yes
+set move   = no
+
+macro index       gu "<shell-escape>mbsync personal<enter>" "run mbsync to sync mail for this account"
+
+macro index,pager mA "<save-message>+personal/Archive" "move message to the archive"
+folder-hook "+personal/Archive" bind index,pager mA noop
+
+color status cyan default
+
+# vim: filetype=muttrc

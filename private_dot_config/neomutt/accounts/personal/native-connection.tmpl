@@ -1,0 +1,20 @@
+set folder                     = "imaps://imap.gmail.com:993"
+
+set imap_authenticators        = "oauthbearer"
+set imap_user                  = "{{ template "bitwarden_chezmoi_config" "email.personal" }}"
+set imap_oauth_refresh_command = "gmail-oauth2 access_token personal"
+
+set smtp_url                   = 'smtps://smtp.gmail.com:465'
+set smtp_authenticators        = "oauthbearer"
+set smtp_user                  = "{{ template "bitwarden_chezmoi_config" "email.personal" }}"
+set smtp_oauth_refresh_command = "gmail-oauth2 access_token personal"
+
+set spoolfile = "+INBOX"
+set mbox      = "+[Gmail]/All Mail"
+set postponed = "+[Gmail]/Drafts"
+set record    = ""
+set trash     = "+[Gmail]/Trash"
+
+mailboxes $folder
+
+# vim: filetype=muttrc

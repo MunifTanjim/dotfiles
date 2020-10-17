@@ -1,0 +1,91 @@
+set alias_file       = "~/.local/share/neomutt/alias"
+set header_cache     = "~/.cache/neomutt/headers"
+set message_cachedir = "~/.cache/neomutt/bodies"
+set mailcap_path     = "~/.local/share/neomutt/mailcap"
+set tmpdir           = "~/.cache/neomutt/tmp"
+set certificate_file = "/etc/ssl/certs/ca-certificates.crt"
+
+source "~/.config/neomutt/bindings"
+source "~/.config/neomutt/colors"
+
+# account setup
+source "~/.config/neomutt/accounts/personal/config"
+folder-hook personal/* source "~/.config/neomutt/accounts/personal/config"
+
+# basic options
+set mbox_type = Maildir # mailbox type
+set mark_old  = no      # read/new is good enough for me
+set beep_new            # bell on new mails
+set wait_key  = yes
+set timeout   = 3       # idle time before scanning
+set mail_check_stats
+set pipe_decode         # strip headers and eval mimes when piping
+set thorough_search     # strip headers and eval mimes before searching
+
+# compose View Options
+set editor         = "nvim"
+set envelope_from                       # which from?
+set edit_headers                        # show headers when composing
+set fast_reply     = no
+set askcc                               # ask for CC:
+set fcc_attach                          # save attachments with the body
+set forward_format = "Fwd: %s"          # format of subject when forwarding
+set forward_decode                      # decode when forwarding
+set attribution    = "On %d, %n wrote:" # format of quoting header
+set reply_to                            # reply to Reply to: field
+set reverse_name                        # reply as whomever it was to
+set include                             # include message in replies
+set forward_quote                       # include message in forwards
+set text_flowed                         # eliminate odd line breaks
+set sig_dashes     = no                 # no dashes before sig
+set mime_forward   = no                 # forward attachments as part of body
+
+# indicator characters
+ifdef crypt_chars set crypt_chars = " "
+set flag_chars   = ""
+set status_chars = "罹"
+set to_chars     = "ﴤ"
+set date_format  = "%Y-%m-%d %H:%M"
+
+# status bars
+set attach_format  = "%u%D  %T%-75.75d %?T?%&   ? %5s · %m/%M"
+set index_format   = " %zs %zc %zt %[%D] · %-28.28L  %?M?(%1M)&   ? %?X?&·? %s"
+set pager_format   = " %n %zc %T %s%*  %[%D] %?X? %X ? %P ☰"
+set status_format  = "[%f] %?r?%r ? %m %?u? %u ?%?d? %d ?%?t? %t ?%?F? %F ?%?p? %p ?%> (%s/%S)[%P]"
+set vfolder_format = " %N %?n?%3n&   ?  %8m 﫮 · %f"
+
+set sort          = threads
+set sort_aux      = reverse-last-date-received
+set uncollapse_jump
+set sort_re
+set reply_regexp  = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+set quote_regexp  = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+set send_charset  = "utf-8:iso-8859-1:us-ascii"
+set charset       = "utf-8"
+
+# pager view options
+set pager_index_lines = 10
+set pager_context     = 3
+set pager_stop
+set menu_scroll
+set tilde
+unset markers
+
+# email headers and attachments
+ignore *
+unignore from: to: cc: bcc: date: subject:
+unhdr_order *
+hdr_order from: to: cc: bcc: date: subject:
+alternative_order text/plain text/enriched text/html
+auto_view text/html
+
+# sidebar config
+set sidebar_visible
+set sidebar_short_path
+set sidebar_folder_indent
+set sidebar_width         = 25
+set sidebar_divider_char  = '│'
+set sidebar_indent_string = ' '
+set sidebar_format        = "%B %* [%?N?%N / ?%S]"
+
+# vim: filetype=muttrc
