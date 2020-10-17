@@ -8,7 +8,7 @@ SSLType IMAPS
 SSLVersions TLSv1.2
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 AuthMechs XOAUTH2
-User {{ template "bitwarden_chezmoi_config" "email_personal" }}
+User {{ template "bitwarden_chezmoi_config" "email.personal" }}
 PassCmd "gmail-oauth2 access_token personal"
 PipelineDepth 15
 
@@ -56,5 +56,60 @@ Channel personal-drafts
 Channel personal-trash
 Channel personal-archive
 Channel personal-spam
+
+IMAPAccount shopup
+Host imap.gmail.com
+SSLType IMAPS
+SSLVersions TLSv1.2
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+AuthMechs XOAUTH2
+User {{ template "bitwarden_chezmoi_config" "email.shopup" }}
+PassCmd "gmail-oauth2 access_token {{ template "bitwarden_chezmoi_config" "email.shopup" }}"
+PipelineDepth 15
+
+IMAPStore shopup-remote
+Account shopup
+
+MaildirStore shopup-local
+Path ~/.local/share/Mail/shopup/
+Inbox ~/.local/share/Mail/shopup/Inbox
+SubFolders Verbatim
+
+Channel shopup-inbox
+Master :shopup-remote:"INBOX"
+Slave :shopup-local:Inbox
+
+Channel shopup-starred
+Master :shopup-remote:"[Gmail]/Starred"
+Slave :shopup-local:Starred
+
+Channel shopup-sent
+Master :shopup-remote:"[Gmail]/Sent Mail"
+Slave :shopup-local:Sent
+
+Channel shopup-drafts
+Master :shopup-remote:"[Gmail]/Drafts"
+Slave :shopup-local:Drafts
+
+Channel shopup-trash
+Master :shopup-remote:"[Gmail]/Trash"
+Slave :shopup-local:Trash
+
+Channel shopup-archive
+Master :shopup-remote:"[Gmail]/All Mail"
+Slave :shopup-local:Archive
+
+Channel shopup-spam
+Master :shopup-remote:"[Gmail]/Spam"
+Slave :shopup-local:Spam
+
+Group shopup
+Channel shopup-inbox
+Channel shopup-starred
+Channel shopup-sent
+Channel shopup-drafts
+Channel shopup-trash
+Channel shopup-archive
+Channel shopup-spam
 
 # vim: filetype=mbsync
