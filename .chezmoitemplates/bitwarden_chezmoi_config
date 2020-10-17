@@ -1,2 +1,2 @@
 {{- $item := ( bitwarden "item" "io.chezmoi.config" ) -}}
-{{- template "bitwarden_item_field" ( dict "item" $item "name" . ) -}}
+{{- template "bitwarden_item_field" ( dict "id" "io.chezmoi.config" "item" $item "name" . ) -}}

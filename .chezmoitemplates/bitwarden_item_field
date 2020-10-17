@@ -1,6 +1,13 @@
+{{- $id := .id -}}
 {{- $target_name := .name -}}
+{{- $value := "" -}}
 {{- range .item.fields -}}
   {{- if eq .name $target_name -}}
-    {{- .value -}}
+    {{- $value = .value -}}
   {{- end -}}
+{{- end -}}
+{{- with $value -}}
+  {{- $value -}}
+{{- else -}}
+  {{- fail ( cat "item" $id "do not have" $target_name ) -}}
 {{- end -}}
