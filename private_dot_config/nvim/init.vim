@@ -43,20 +43,6 @@ let maplocalleader = "\\"
 
 "# General Keymaps
 
-" disable arrow keys
-inoremap <Up>    <Nop>
-inoremap <Right> <Nop>
-inoremap <Down>  <Nop>
-inoremap <Left>  <Nop>
-nnoremap <Up>    <Nop>
-nnoremap <Right> <Nop>
-nnoremap <Down>  <Nop>
-nnoremap <Left>  <Nop>
-vnoremap <Up>    <Nop>
-vnoremap <Right> <Nop>
-vnoremap <Down>  <Nop>
-vnoremap <Left>  <Nop>
-
 " disable Ctrl-a on screen/tmux
 if $TERM =~ 'screen\|tmux'
   nnoremap <C-a>         <Nop>
@@ -142,7 +128,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'wakatime/vim-wakatime'
 
 " language support
+Plug 'bronzehedwick/msmtp-syntax.vim'
 Plug 'cespare/vim-toml'
+Plug 'chunkhang/vim-mbsync'
 Plug 'digitaltoad/vim-pug'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': ['go'] }
@@ -152,6 +140,7 @@ Plug 'jxnblk/vim-mdx-js'
 Plug 'lifepillar/pgsql.vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'neoclide/jsonc.vim'
+Plug 'neomutt/neomutt.vim'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'tmux-plugins/vim-tmux'
