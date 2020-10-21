@@ -5,7 +5,7 @@ set sendmail  = "echo msmtp -a personal"
 set spoolfile = "+personal/Inbox"
 set mbox      = "+personal/Archive"
 set postponed = "+personal/Drafts"
-set record    = ""
+set record    = "+personal/Sent"
 set trash     = "+personal/Trash"
 
 unmailboxes *
@@ -20,14 +20,14 @@ alternates {{ template "bitwarden_chezmoi_config" "email.personal.mutt.alternate
 
 set signature = "~/.config/neomutt/signatures/personal"
 
-set copy   = yes
+set copy   = no
 set delete = yes
 set move   = no
 
 macro index       gu "<shell-escape>mbsync personal<enter>" "run mbsync to sync mail for this account"
 
 macro index,pager mA "<save-message>+personal/Archive" "move message to the archive"
-folder-hook "+personal/Archive" bind index,pager mA noop
+macro index,pager mI "<save-message>+personal/Inbox" "move message to the inbox"
 
 color status cyan default
 

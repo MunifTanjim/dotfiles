@@ -34,7 +34,7 @@ bind index,pager                \Ck sidebar-prev
 bind index,pager                \Cj sidebar-next
 bind index,pager                \Co sidebar-open
 
-bind  pager,index df delete-message
+bind  index,pager df delete-message
 macro index       gU "<shell-escape>mbsync -a<enter>" "run mbsync to sync mail for all accounts"
 macro index,pager y* "<flag-message>"  "Toggle Star"
 macro index,pager yr "<toggle-new>"    "Toggle Read Status"

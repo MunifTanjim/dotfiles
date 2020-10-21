@@ -5,7 +5,7 @@ set sendmail  = "msmtp -a shopup"
 set spoolfile = "+shopup/Inbox"
 set mbox      = "+shopup/Archive"
 set postponed = "+shopup/Drafts"
-set record    = ""
+set record    = "+shopup/Sent"
 set trash     = "+shopup/Trash"
 
 unmailboxes *
@@ -20,14 +20,14 @@ alternates {{ template "bitwarden_chezmoi_config" "email.shopup.mutt.alternates"
 
 set signature = "~/.config/neomutt/signatures/shopup"
 
-set copy   = yes
+set copy   = no
 set delete = yes
 set move   = no
 
 macro index       gu "<shell-escape>mbsync shopup<enter>" "run mbsync to sync mail for this account"
 
-macro index,pager mA "<save-message>+shopup/Archive" "move message to the archive"
-folder-hook "+shopup/Archive" bind index,pager mA noop
+macro index,pager mA "<save-message>+shopup/Archive<enter>" "move message to the archive"
+macro index,pager mI "<save-message>+shopup/Inbox<enter>" "move message to the inbox"
 
 color status cyan default
 
