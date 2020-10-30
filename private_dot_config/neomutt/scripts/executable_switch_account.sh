@@ -8,7 +8,7 @@ select_folder() {
   local folder
 
   if type "fzf" >/dev/null 2>&1; then
-    folder=$(echo "${folders}" | fzf --header="${title}" -i --info=hidden --layout=reverse)
+    folder=$(echo "${folders}" | fzf --header="${title}" -i --info=hidden --layout=reverse --cycle)
   else
     PS3="${title} > "
     select f in ${folders[@]}; do

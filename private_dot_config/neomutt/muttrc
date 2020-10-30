@@ -12,8 +12,6 @@ source "~/.config/neomutt/colors"
 folder-hook personal/* source "~/.config/neomutt/accounts/personal/config"
 folder-hook shopup/* source   "~/.config/neomutt/accounts/shopup/config"
 
-macro index,pager c "<enter-command>source '~/.config/neomutt/scripts/switch_account.sh |'<enter><enter>"
-
 source "~/.config/neomutt/accounts/personal/config"
 
 # basic options
@@ -52,6 +50,7 @@ set to_chars     = "ﴤ"
 set date_format  = "%Y-%m-%d %H:%M"
 
 # status bars
+set status_on_top  = yes
 set attach_format  = "%u%D  %T%-75.75d %?T?%&   ? %5s · %m/%M"
 set index_format   = " %zs %zc %zt %D · %-28.28L  %?M?(%1M)&   ? %?X?&·? %s"
 set pager_format   = " %n %zc %T %s%*  %D %?X? %X ? %P ☰"
@@ -77,14 +76,15 @@ unset markers
 
 # email headers and attachments
 ignore *
-unignore from: to: cc: bcc: date: subject:
+unignore from to cc bcc date subject
+unignore organization organisation x-mailer: x-newsreader: x-mailing-list: mailing-list:
+unignore posted-to:
 unhdr_order *
-hdr_order from: to: cc: bcc: date: subject:
+hdr_order date: from: to: cc: bcc: subject:
 alternative_order text/plain text/enriched text/html
-auto_view text/html
 
 # sidebar
-set sidebar_visible       = yes
+set sidebar_visible       = no
 set sidebar_short_path    = yes
 set sidebar_delim_chars   = "/"
 set sidebar_folder_indent = yes
