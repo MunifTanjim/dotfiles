@@ -10,7 +10,9 @@ let fzf_root = fnamemodify(data_dir, ':h') . '/fzf'
 
 "# General Settings
 set hidden
+set modeline
 set modelines=2
+set nomodelineexpr
 
 set encoding=utf-8
 set softtabstop=2
@@ -112,16 +114,21 @@ if isdirectory(fzf_root)
   Plug 'junegunn/fzf.vim'
   Plug 'stsewd/fzf-checkout.vim'
 endif
+Plug 'chaoren/vim-wordmotion'
+Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/vim-peekaboo'
+Plug 'junegunn/vim-slash'
+Plug 'mhinz/vim-startify'
+Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+Plug 'tpope/vim-capslock'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'vitalk/vim-shebang'
 
 " integration
+Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'RyanMillerC/better-vim-tmux-resizer'
 Plug 'tpope/vim-fugitive'
@@ -146,6 +153,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-markdown'
+Plug 'vitalk/vim-shebang'
 Plug 'zinit-zsh/zinit-vim-syntax'
 
 " dark magic
@@ -154,51 +162,6 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 call plug#end()
 
 "# Plugin Settings
-
-"## Plugin: vim-fugitive
-
-" keymaps: fugitive
-nmap <Leader>gs :G<CR>
-
-"## Plugin: fzf
-
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit'
-  \ }
-
-let g:fzf_command_prefix = 'Z'
-
-" fzf in popup window
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'BoxChar' } }
-
-" hide statusline while fzf-ing
-if has('nvim') && !exists('g:fzf_layout')
-  autocmd! FileType fzf
-  autocmd  FileType fzf set laststatus=0 nonumber norelativenumber noshowmode noruler
-    \| autocmd BufLeave <buffer> set laststatus=2 number relativenumber showmode ruler
-endif
-
-" better ripgrep command: ZRG
-command! -nargs=* -bang ZRG call RipgrepFzf(<q-args>, <bang>0)
-function! RipgrepFzf(query, fullscreen)
-  let command_fmt = '[ -n %s ] && rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
-  let initial_command = printf(command_fmt, shellescape(a:query), shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}', '{q}')
-  let spec = {'options': ['--phony', '--prompt', 'Search > ', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
-
-" keymaps: fzf
-nmap <C-p>     :ZFiles<CR>
-nmap <Leader>/ :ZLines<CR>
-nmap <Leader>? :ZRG<CR>
-nmap <Leader>b :ZBuffers<CR>
-nmap <Leader>w :ZWindows<CR>
-
-" keymaps: fzf-checkout
-nmap <Leader>gc :ZGCheckout<CR>
 
 "## Plugin: coc
 
@@ -211,7 +174,6 @@ let g:coc_global_extensions = [
       \ 'coc-html',
       \ 'coc-json',
       \ 'coc-marketplace',
-      \ 'coc-pairs',
       \ 'coc-prettier',
       \ 'coc-rls',
       \ 'coc-sh',
@@ -307,19 +269,86 @@ augroup js_ts_coc
   autocmd FileType javascript,typescript nmap <silent> gf <Plug>(coc-definition)
 augroup END
 
-"## Plugin: vim-easy-align
+"## Plugin: fzf
 
-" keymaps: vim-easy-align
+let g:fzf_action = {
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit'
+      \ }
+
+let g:fzf_command_prefix = 'Z'
+
+if has('nvim') || has('popupwin')
+  " fzf in popup window
+  let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'BoxChar' } }
+endif
+
+" hide statusline while fzf-ing
+if has('nvim') && !exists('g:fzf_layout')
+  autocmd! FileType fzf
+  autocmd  FileType fzf set laststatus=0 nonumber norelativenumber noshowmode noruler
+    \| autocmd BufLeave <buffer> set laststatus=2 number relativenumber showmode ruler
+endif
+
+" better ripgrep command: ZRG
+command! -nargs=* -bang ZRG call RipgrepFzf(<q-args>, <bang>0)
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = '[ -n %s ] && rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query), shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}', '{q}')
+  let spec = {'options': ['--phony', '--prompt', 'Search > ', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+" keymaps: fzf
+nmap <C-p>     :ZFiles<CR>
+nmap <Leader>/ :ZLines<CR>
+nmap <Leader>? :ZRG<CR>
+nmap <Leader>b :ZBuffers<CR>
+nmap <Leader>w :ZWindows<CR>
+
+" keymaps: fzf-checkout
+nmap <Leader>gc :ZGCheckout<CR>
+
+"## Plugin: easy-align
+
+" keymaps: easy-align
 "" Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 "" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-"## Plugin: vim-markdown
+"## Plugin: fugitive
+
+" keymaps: fugitive
+nmap <Leader>gs :G<CR>
+
+"## Plugin: hexokinase
+
+let g:Hexokinase_highlighters = ['foreground']
+
+"## Plugin: markdown
 
 let g:markdown_fenced_languages = ['css', 'help', 'html', 'javascript', 'js=javascript', 'json=javascript', 'sh', 'typescript', 'ts=typescript', 'vim']
 
-"## Plugin: vim-tmux-navigator
+"## Plugin: startify
+
+let g:startify_change_to_vcs_root = 1
+let g:startify_custom_header = 'startify#center(startify#pad(startify#fortune#boxed()))'
+let g:startify_fortune_use_unicode = 1
+let g:startify_session_persistence = 1
+let g:startify_session_sort = 1
+
+let g:startify_lists = [
+      \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+      \ { 'type': 'files',     'header': ['   MRU']            },
+      \ { 'type': 'sessions',  'header': ['   Sessions']       },
+      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+      \ { 'type': 'commands',  'header': ['   Commands']       },
+      \ ]
+
+"## Plugin: tmux-navigator
 
 let g:tmux_navigator_disable_when_zoomed = 1
 let g:tmux_navigator_no_mappings = 1
@@ -335,7 +364,7 @@ nnoremap <silent> <C-w><C-l> :TmuxNavigateRight<CR>
 nnoremap <silent> <C-w>p     :TmuxNavigatePrevious<CR>
 nnoremap <silent> <C-w><C-p> :TmuxNavigatePrevious<CR>
 
-"## Plugin: vim-tmux-navigator
+"## Plugin: tmux-navigator
 
 let g:tmux_resizer_no_mappings = 1
 let g:tmux_resizer_resize_count = 5
@@ -345,6 +374,12 @@ nnoremap <silent> <C-w><M-h> :TmuxResizeLeft<CR>
 nnoremap <silent> <C-w><M-j> :TmuxResizeDown<CR>
 nnoremap <silent> <C-w><M-k> :TmuxResizeUp<CR>
 nnoremap <silent> <C-w><M-l> :TmuxResizeRight<CR>
+
+"## Plugin: wordmotion
+
+" keep vim's special case behavior with `dw` and `cw`
+nmap dw de
+nmap cw ce
 
 "# Appearance Settings
 set cursorline
@@ -421,6 +456,13 @@ autocmd Syntax javascript,json,typescript setlocal foldmethod=syntax
 
 "# FileType Specific Settings
 
+"## FileType: help
+
+augroup help_custom_setting
+  autocmd!
+  autocmd FileType help nmap gq :quit<CR>
+augroup END
+
 "## FileType: json
 
 autocmd BufNewFile,BufRead tsconfig*.json setlocal filetype=jsonc
@@ -442,3 +484,5 @@ function! VimFolds(lnum)
     return '='
   endif
 endfunction
+
+" Everything that can happen, happens. It has to end well and it has to end badly. It has to end every way it can.

@@ -14,11 +14,22 @@
   "eslint.run": "onSave",
   "eslint.autoFixOnSave": true,
   // explorer
+  "explorer.file.column.root.git.icon.added": "+",
+  "explorer.file.column.root.git.icon.ahead": "⇡",
+  "explorer.file.column.root.git.icon.behind": "⇣",
+  "explorer.file.column.root.git.icon.conflicted": "=",
+  "explorer.file.column.root.git.icon.deleted": "✘",
+  "explorer.file.column.root.git.icon.modified": "!",
+  "explorer.file.column.root.git.icon.renamed": "»",
+  "explorer.file.column.root.git.icon.stashed": "≡",
+  "explorer.file.column.root.git.icon.untracked": "?",
   "explorer.icon.enableNerdfont": true,
   "explorer.keyMappingMode": "none",
-  "explorer.keyMappings": {
+  "explorer.keyMappings.global": {
     "h": "collapse",
     "l": ["expandable?", "expand", "open"],
+    "J": ["toggleSelection", "nodeNext"],
+    "K": ["toggleSelection", "nodePrev"],
     "yn": "copyFilename",
     "yp": "copyFilepath",
     "yy": "copyFile",
