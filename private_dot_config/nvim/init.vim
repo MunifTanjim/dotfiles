@@ -45,6 +45,16 @@ let maplocalleader = "\\"
 
 "# General Keymaps
 
+nnoremap <Leader>q :qa<CR>
+
+" beginning/end of line
+nnoremap B ^
+nnoremap E $
+onoremap B ^
+onoremap E $
+xnoremap B ^
+xnoremap E $
+
 " disable Ctrl-a on screen/tmux
 if $TERM =~ 'screen\|tmux'
   nnoremap <C-a>         <Nop>
@@ -57,14 +67,6 @@ nnoremap <Leader>s :update<CR>
 " exit insert mode
 inoremap jk <Esc>
 inoremap kj <Esc>
-
-" beginning/end of line
-nnoremap B ^
-nnoremap E $
-onoremap B ^
-onoremap E $
-xnoremap B ^
-xnoremap E $
 
 " move lines
 inoremap <M-j> <Esc>:move .+1<CR>==gi
@@ -114,12 +116,13 @@ if isdirectory(fzf_root)
   Plug 'junegunn/fzf.vim'
   Plug 'stsewd/fzf-checkout.vim'
 endif
-Plug 'chaoren/vim-wordmotion'
+Plug 'bkad/CamelCaseMotion'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/vim-slash'
 Plug 'mhinz/vim-startify'
+Plug 'puremourning/vimspector'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+Plug 'szw/vim-maximizer'
 Plug 'tpope/vim-capslock'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
@@ -162,6 +165,19 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 call plug#end()
 
 "# Plugin Settings
+
+"## Plugin: camelcasemotion
+
+map    <silent> <M-w>     <Plug>CamelCaseMotion_w
+map    <silent> <M-b>     <Plug>CamelCaseMotion_b
+map    <silent> <M-e>     <Plug>CamelCaseMotion_e
+map    <silent> g<M-e>    <Plug>CamelCaseMotion_ge
+sunmap <M-w>
+sunmap <M-b>
+sunmap <M-e>
+sunmap g<M-e>
+imap   <silent> <S-Left>  <C-o><Plug>CamelCaseMotion_b
+imap   <silent> <S-Right> <C-o><Plug>CamelCaseMotion_w
 
 "## Plugin: coc
 
@@ -332,6 +348,10 @@ let g:Hexokinase_highlighters = ['foreground']
 
 let g:markdown_fenced_languages = ['css', 'help', 'html', 'javascript', 'js=javascript', 'json=javascript', 'sh', 'typescript', 'ts=typescript', 'vim']
 
+"## Plugin: maximizer
+
+let g:maximizer_default_mapping_key = '<Leader>m'
+
 "## Plugin: startify
 
 let g:startify_change_to_vcs_root = 1
@@ -375,11 +395,20 @@ nnoremap <silent> <C-w><M-j> :TmuxResizeDown<CR>
 nnoremap <silent> <C-w><M-k> :TmuxResizeUp<CR>
 nnoremap <silent> <C-w><M-l> :TmuxResizeRight<CR>
 
-"## Plugin: wordmotion
+"## Plugin: vimspector
 
-" keep vim's special case behavior with `dw` and `cw`
-nmap dw de
-nmap cw ce
+nmap <Leader>dc  <Plug>VimspectorContinue
+nmap <Leader>ds  <Plug>VimspectorStop
+nmap <Leader>dr  <Plug>VimspectorRestart
+nmap <Leader>dp  <Plug>VimspectorPause
+nmap <Leader>db  <Plug>VimspectorToggleBreakpoint
+nmap <Leader>dcb <Plug>VimspectorToggleConditionalBreakpoint
+nmap <Leader>dfb <Plug>VimspectorAddFunctionBreakpoint
+nmap <Leader>dcc <Plug>VimspectorRunToCursor
+nmap <Leader>dj  <Plug>VimspectorStepOver
+nmap <Leader>dl  <Plug>VimspectorStepInto
+nmap <Leader>dk  <Plug>VimspectorStepOut
+nmap <Leader>dq  :VimspectorReset<CR>
 
 "# Appearance Settings
 set cursorline
@@ -460,7 +489,7 @@ autocmd Syntax javascript,json,typescript setlocal foldmethod=syntax
 
 augroup help_custom_setting
   autocmd!
-  autocmd FileType help nmap gq :quit<CR>
+  autocmd FileType help nmap <buffer> gq :quit<CR>
 augroup END
 
 "## FileType: json
