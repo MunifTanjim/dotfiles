@@ -100,7 +100,7 @@ schemes:
       cyan:    '#427b58'
       white:   '#f2e5bc'
     # indexed_colors: []
-  onedar: &onedark
+  onedark: &onedark
     primary:
       foreground:        '#abb2bf'
       background:        '#282c34'
