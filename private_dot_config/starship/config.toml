@@ -67,10 +67,12 @@ symbol = " "
 
 [git_branch]
 format = "[( $branch )](bold bright-purple)"
-
+ 
 [git_commit]
-format             = "[( $hash )](bold blue)"
+format             = "[( $hash)](bold blue)[($tag) ](bold green)"
 commit_hash_length = 8
+tag_disabled       = false
+tag_symbol         = " "
 
 [git_state]
 format      = "[($state\\($progress_current/$progress_total\\) )](bold red)"
