@@ -81,7 +81,7 @@ zinit load zpm-zsh/colorize
 zinit load zpm-zsh/ls
 
 zinit ice has'zoxide' wait lucid id-as'zoxide' \
-  atclone'zoxide init --no-aliases zsh > zoxide.zsh' \
+  atclone'zoxide init --no-aliases zsh > zoxide.zsh && echo "z() { __zoxide_z \$@ }" >> zoxide.zsh' \
   atpull'%atclone' run-atpull pick='zoxide.zsh' nocompile'!'
 zinit load 'zdharma/null'
 
