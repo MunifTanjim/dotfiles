@@ -191,6 +191,7 @@ let g:coc_global_extensions = [
       \ 'coc-json',
       \ 'coc-marketplace',
       \ 'coc-prettier',
+      \ 'coc-pyright',
       \ 'coc-rls',
       \ 'coc-sh',
       \ 'coc-snippets',
@@ -350,7 +351,7 @@ let g:markdown_fenced_languages = ['css', 'help', 'html', 'javascript', 'js=java
 
 "## Plugin: maximizer
 
-let g:maximizer_default_mapping_key = '<Leader>m'
+let g:maximizer_default_mapping_key = '<M-m>'
 
 "## Plugin: startify
 

@@ -6,6 +6,7 @@
     "json",
     "jsonc",
     "markdown",
+    "python",
     "rust",
     "typescript",
     "typescriptreact"
@@ -14,15 +15,15 @@
   "eslint.run": "onSave",
   "eslint.autoFixOnSave": true,
   // explorer
-  "explorer.file.column.root.git.icon.added": "+",
-  "explorer.file.column.root.git.icon.ahead": "⇡",
-  "explorer.file.column.root.git.icon.behind": "⇣",
-  "explorer.file.column.root.git.icon.conflicted": "=",
-  "explorer.file.column.root.git.icon.deleted": "✘",
-  "explorer.file.column.root.git.icon.modified": "!",
-  "explorer.file.column.root.git.icon.renamed": "»",
-  "explorer.file.column.root.git.icon.stashed": "≡",
-  "explorer.file.column.root.git.icon.untracked": "?",
+  "explorer.git.icon.rootStatus.added": "+",
+  "explorer.git.icon.rootStatus.ahead": "⇡",
+  "explorer.git.icon.rootStatus.behind": "⇣",
+  "explorer.git.icon.rootStatus.conflicted": "=",
+  "explorer.git.icon.rootStatus.deleted": "✘",
+  "explorer.git.icon.rootStatus.modified": "!",
+  "explorer.git.icon.rootStatus.renamed": "»",
+  "explorer.git.icon.rootStatus.stashed": "≡",
+  "explorer.git.icon.rootStatus.untracked": "?",
   "explorer.icon.enableNerdfont": true,
   "explorer.keyMappingMode": "none",
   "explorer.keyMappings.global": {
@@ -73,6 +74,7 @@
   "prettier.semi": false,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "es5",
+  // python
   // typescript
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
 }
