@@ -1,0 +1,72 @@
+/* focused window */
+decoration {
+  border: 2px solid #b16286;
+  background: #b16286;
+
+  /* switch colors smoothly with a transition animation */
+  transition: border-color ease-in 0.2s, background-color ease-in 0.2s;
+}
+
+/* unfocused window */
+decoration:backdrop {
+  border-color: #988374;
+  background-color: #988374;
+}
+
+/* focused window (server-side rendering hack) */
+.ssd .titlebar {
+  border: 2px solid #b16286;
+  border-bottom: none;
+
+  /* transition animation does not seem to work with server-side rendering */
+  /* transition: border-color ease-in 0.2s; */
+}
+
+/* unfocused window (server-side rendering hack) */
+.ssd .titlebar:backdrop {
+  border-color: #988374;
+}
+
+/* remove borders of maximized windows */
+.maximized decoration,
+.ssd.maximized .titlebar {
+  border: none;
+}
+
+/* shrink headerbars */
+headerbar {
+  min-height: 0px;
+  padding-left: 2px; /* same as childrens vertical margins for nicer proportions */
+  padding-right: 2px;
+}
+
+headerbar entry,
+headerbar spinbutton,
+headerbar button,
+headerbar separator {
+  margin-top: 2px; /* same as headerbar side padding for nicer proportions */
+  margin-bottom: 2px;
+}
+
+/* shrink ssd titlebars */
+.default-decoration {
+  min-height: 0; /* let the entry and button drive the titlebar size */
+  padding: 2px;
+}
+
+.default-decoration .titlebutton {
+  min-height: 16px; /* tweak these two props to reduce button size */
+  min-width: 16px;
+}
+
+window.ssd headerbar.titlebar {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  min-height: 0;
+}
+
+window.ssd headerbar.titlebar button.titlebutton {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  min-height: 0;
+}
