@@ -75,7 +75,13 @@
 [credential "https://gitlab.com"]
   username = MunifTanjim
 
-[includeIf "gitdir:team-shopup/**"]
+[includeIf "gitdir:github/newscred/**"]
+  path = ~/.gitconfig.newscred
+
+[includeIf "gitdir:github/shopuptech/**"]
+  path = ~/.gitconfig.shopup
+
+[includeIf "gitdir:bitbucket/team-shopup/**"]
   path = ~/.gitconfig.shopup
 
 # vim: set filetype=gitconfig foldmethod=indent :
