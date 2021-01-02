@@ -1,6 +1,10 @@
 # shellcheck shell=sh
 
-fzf_shell=$(basename $(readlink /proc/$$/exe))
+if [[ $OSTYPE = darwin* ]]; then
+  fzf_shell=$(echo ${$(ps -p$$ -ocommand=)#-})
+else
+  fzf_shell=$(basename $(readlink /proc/$$/exe))
+fi
 
 if [[ -f ~/.config/fzf/fzf.${fzf_shell} ]]; then
   source ~/.config/fzf/fzf.${fzf_shell}
