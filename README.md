@@ -16,7 +16,16 @@ chezmoi init https://github.com/MunifTanjim/.dotfiles.git
 chezmoi apply
 ```
 
-## Submodules
+## macOS Caveats
 
-- [bash-sensible](https://github.com/mrzool/bash-sensible) by Mattia Tezzele
-- [dircolors-solarized](https://github.com/seebi/dircolors-solarized) by Sebastian Tramp
+**Install Command Line Tools**:
+
+```sh
+xcode-select --install
+```
+
+**Install `python<3.7` with `openssl@1.0`**:
+
+```sh
+env OSX_OPENSSL_VERSION=1.0 zsh -i -c 'PYTHON_BUILD_HOMEBREW_OPENSSL_FORMULA=openssl@1.0 pyenv install <version>'
+```
