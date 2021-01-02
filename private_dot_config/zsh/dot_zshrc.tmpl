@@ -31,6 +31,11 @@ if (( ${+commands[chezmoi]} )); then
   path+=("${_USER_SCRIPTS}")
 fi
 
+{{ if eq .chezmoi.os "darwin" -}}
+_USER_BIN_HOME="$HOME/.local/bin"
+path=("${_USER_BIN_HOME}" ${path})
+{{- end }}
+
 optimized_zicompinit() {
   for compdump in $ZINIT[ZCOMPDUMP_PATH](N.mh+24); do
     compinit -d "$compdump"
@@ -88,6 +93,9 @@ zinit load 'zdharma/null'
 zinit is-snippet for \
   "${DOTFILES_MODULES}/aliases.sh" \
   "${DOTFILES_MODULES}/helpers.sh" \
+  {{ if eq .chezmoi.os "darwin" -}}
+    "${DOTFILES_MODULES}/osx.plugin.sh" \
+  {{ end -}}
   "${DOTFILES_MODULES}/gpg.plugin.sh"
 
 zinit wait lucid is-snippet for \
@@ -114,6 +122,17 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 
 declare -g -A key
+{{ if eq .chezmoi.os "darwin" -}}
+key[Up]="^[[A"
+key[Down]="^[[B"
+key[Left]="^[[D"
+key[Right]="^[[C"
+key[Control-Left]="^[[1;5D"
+key[Control-Backspace]="^H" # does not work
+key[Control-Right]="^[[1;5C"
+key[Control-Delete]="^[[3;5~"
+key[Shift-Tab]="^[[Z"
+{{- else -}}
 key[Up]="${terminfo[kcuu1]}"
 key[Down]="${terminfo[kcud1]}"
 key[Left]="${terminfo[kcub1]}"
@@ -123,6 +142,7 @@ key[Control-Right]="^[[1;5C"
 key[Control-Backspace]="^H"
 key[Control-Delete]="^[[3;5~"
 key[Shift-Tab]="${terminfo[kcbt]}"
+{{- end }}
 
 bindkey "${key[Up]}" up-line-or-beginning-search
 bindkey "${key[Down]}" down-line-or-beginning-search
