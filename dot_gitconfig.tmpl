@@ -65,7 +65,7 @@
   protocol = https
 
 [credential]
-  helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+  helper = {{ if eq .chezmoi.os "darwin" -}} osxkeychain {{- else -}} /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret {{- end }}
 [credential "https://github.com"]
   username = MunifTanjim
 [credential "https://gist.github.com"]
@@ -77,11 +77,5 @@
 
 [includeIf "gitdir:github/newscred/**"]
   path = ~/.gitconfig.newscred
-
-[includeIf "gitdir:github/shopuptech/**"]
-  path = ~/.gitconfig.shopup
-
-[includeIf "gitdir:bitbucket/team-shopup/**"]
-  path = ~/.gitconfig.shopup
 
 # vim: set filetype=gitconfig foldmethod=indent :
