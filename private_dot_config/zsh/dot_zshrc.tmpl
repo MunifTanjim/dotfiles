@@ -31,11 +31,6 @@ if (( ${+commands[chezmoi]} )); then
   path+=("${_USER_SCRIPTS}")
 fi
 
-{{ if eq .chezmoi.os "darwin" -}}
-_USER_BIN_HOME="$HOME/.local/bin"
-path=("${_USER_BIN_HOME}" ${path})
-{{- end }}
-
 optimized_zicompinit() {
   for compdump in $ZINIT[ZCOMPDUMP_PATH](N.mh+24); do
     compinit -d "$compdump"
@@ -94,7 +89,7 @@ zinit is-snippet for \
   "${DOTFILES_MODULES}/aliases.sh" \
   "${DOTFILES_MODULES}/helpers.sh" \
   {{ if eq .chezmoi.os "darwin" -}}
-    "${DOTFILES_MODULES}/osx.plugin.sh" \
+    "${DOTFILES_MODULES}/os.darwin.plugin.sh" \
   {{ end -}}
   "${DOTFILES_MODULES}/gpg.plugin.sh"
 
