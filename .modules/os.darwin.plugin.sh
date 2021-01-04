@@ -1,7 +1,7 @@
 # shellcheck shell=sh
 
-# sbin
 pathmunge "/usr/local/sbin"
+pathmunge "${HOME}/.local/bin"
 
 # coreutils
 pathmunge "/usr/local/opt/coreutils/libexec/gnubin"
