@@ -1,9 +1,23 @@
 # MunifTanjim's .dotfiles
 
-## Resources
+## Prerequisites
 
-- [chezmoi](https://www.chezmoi.io)
-- [scripts.sh](https://github.com/MunifTanjim/scripts.sh)
+### Linux Prerequisites
+
+```sh
+# install basic tools
+sudo apt install curl git
+
+# login to snap with ubuntu account (for sudo-less `snap install`)
+snap login
+```
+
+### macOS Prerequisites
+
+```sh
+# install command line tools
+xcode-select --install
+```
 
 ## Setup
 
@@ -16,16 +30,17 @@ chezmoi init https://github.com/MunifTanjim/.dotfiles.git
 chezmoi apply
 ```
 
-## macOS Caveats
+## Notes
 
-**Install Command Line Tools**:
-
-```sh
-xcode-select --install
-```
+### macOS Notes
 
 **Install `python<3.7` with `openssl@1.0`**:
 
 ```sh
 env OSX_OPENSSL_VERSION=1.0 zsh -i -c 'PYTHON_BUILD_HOMEBREW_OPENSSL_FORMULA=openssl@1.0 pyenv install <version>'
 ```
+
+## Resources
+
+- [chezmoi](https://www.chezmoi.io)
+- [scripts.sh](https://github.com/MunifTanjim/scripts.sh)
