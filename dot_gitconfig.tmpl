@@ -1,3 +1,5 @@
+# vim: set filetype=gitconfig foldmethod=indent :
+
 [user]
   name = Munif Tanjim
   username = MunifTanjim
@@ -23,6 +25,9 @@
 [interactive]
   diffFilter = delta --color-only
 
+[init]
+  defaultBranch = main
+
 [merge]
   conflictStyle = merge
   tool = vimdiff
@@ -31,6 +36,9 @@
 [mergetool "vimdiff"]
   cmd = vim -d "$REMOVE" "$MERGED" "$LOCAL"
   trustExitCode = true
+
+[pull]
+  ff = only
 
 [alias]
   co = checkout
@@ -77,5 +85,3 @@
 
 [includeIf "gitdir:github/newscred/**"]
   path = ~/.gitconfig.newscred
-
-# vim: set filetype=gitconfig foldmethod=indent :
