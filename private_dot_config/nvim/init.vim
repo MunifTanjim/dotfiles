@@ -9,10 +9,12 @@ let data_dir   = expand('~/.local/share/' . ( has('nvim') ? 'nvim' : 'vim' ))
 let fzf_root = fnamemodify(data_dir, ':h') . '/fzf'
 
 "# General Settings
+set exrc
 set hidden
 set modeline
 set modelines=2
 set nomodelineexpr
+set secure
 
 set encoding=utf-8
 set softtabstop=2
@@ -133,6 +135,7 @@ Plug 'tpope/vim-unimpaired'
 " integration
 Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'rhysd/git-messenger.vim'
 Plug 'RyanMillerC/better-vim-tmux-resizer'
 Plug 'tpope/vim-fugitive'
 Plug 'wakatime/vim-wakatime'
@@ -149,6 +152,7 @@ Plug 'jparise/vim-graphql'
 Plug 'jxnblk/vim-mdx-js'
 Plug 'lifepillar/pgsql.vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'mustache/vim-mustache-handlebars'
 Plug 'neoclide/jsonc.vim'
 Plug 'neomutt/neomutt.vim'
 Plug 'othree/html5.vim'
@@ -340,6 +344,14 @@ nmap ga <Plug>(EasyAlign)
 
 " keymaps: fugitive
 nmap <Leader>gs :G<CR>
+
+"## Plugin: git-messenger
+
+let g:git_messenger_no_default_mappings = v:true
+let g:git_messenger_always_into_popup = v:true
+
+" keymaps: git-messenger
+nmap <Leader>go <Plug>(git-messenger)
 
 "## Plugin: hexokinase
 
