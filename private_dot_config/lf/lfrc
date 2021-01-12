@@ -59,7 +59,7 @@ cmd trash ${{
   printf "$fx\n"
   printf "\nTrash? [y/n]: "
   read answer
-  if [ $answer = "y" ]; then
+  if [ "$answer" = "y" ]; then
     if type gio >/dev/null 2>&1; then
       gio trash $fx
     else
@@ -78,7 +78,7 @@ cmd delete ${{
   printf "$fx\n"
   printf "\nDelete (permanently)? [y/n]: "
   read answer
-  if [ $answer = "y" ]; then
+  if [ "$answer" = "y" ]; then
     rm -rf $fx
   fi
   clear
