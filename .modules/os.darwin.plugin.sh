@@ -3,8 +3,16 @@
 pathmunge "/usr/local/sbin"
 pathmunge "${HOME}/.local/bin"
 
-# coreutils
+# gnu tools
 pathmunge "/usr/local/opt/coreutils/libexec/gnubin"
+pathmunge "/usr/local/opt/findutils/libexec/gnubin"
+pathmunge "/usr/local/opt/gnu-getopt/bin"
+pathmunge "/usr/local/opt/gnu-indent/libexec/gnubin"
+pathmunge "/usr/local/opt/gnu-sed/libexec/gnubin"
+pathmunge "/usr/local/opt/gnu-tar/libexec/gnubin"
+pathmunge "/usr/local/opt/gnu-which/libexec/gnubin"
+pathmunge "/usr/local/opt/grep/libexec/gnubin"
+
 
 # openssl
 OSX_OPENSSL_VERSION="${OSX_OPENSSL_VERSION:-"1.1"}"
@@ -15,3 +23,6 @@ export CPPFLAGS="-I${brew_openssl_prefix}/include"
 export LDFLAGS="-L${brew_openssl_prefix}/lib"
 export PKG_CONFIG_PATH="${brew_openssl_prefix}/lib/pkgconfig"
 unset brew_openssl_prefix
+
+# homebrew
+export HOMEBREW_NO_AUTO_UPDATE=1
