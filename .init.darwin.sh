@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-section_header() {
+set -euo pipefail
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+export PATH="${DIR}/scripts.sh:${PATH}"
+
+TASK() {
   local -r str="$1"
   local -r str_len=$(( 4 + ${#str} ))
   local -r char="${2:-"="}"
@@ -12,12 +18,14 @@ section_header() {
   echo ""
 }
 
-task_header() {
+SUB_TASK() {
   local -r str="$1"
-  local -r char="${2:-"*"}"
+  local -r char="${2:-"="}"
 
   echo ""
-  echo "$char $str"
+  echo "$char"
+  echo "$str"
+  echo "$char"
   echo ""
 }
 
@@ -25,43 +33,224 @@ command_exists() {
   type "${1}" >/dev/null 2>&1
 }
 
-if ! command_exists brew; then
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
 
-brew install coreutils
-brew install ncurses
+ensure_darwin() {
+  if [[ $OSTYPE != darwin* ]]; then
+    exit 1
+  fi
+}
 
-/usr/local/opt/ncurses/bin/infocmp tmux-256color > /tmp/tmux-256color.info
-tic -xe tmux-256color /tmp/tmux-256color.info
+ensure_brew() {
+  if ! command_exists brew; then
+    echo "command not found: brew"
+    echo ""
+    echo "  bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+    exit 1
+  fi
+}
 
-brew install bash zsh tmux git gpg grc jq p7zip svn tree rar
-brew install bat exa fd gh git-delta lf ripgrep starship zoxide
-brew install go
+ensure_secret_manager() {
+  if ! command_exists bw; then
+    echo "command not found: bw"
+    echo ""
+    echo "  brew install bitwarden-cli"
+    exit 1
+  fi
 
-brew install autoconf pkg-config readline sqlite3 xz zlib
-brew install rbenv/tap/openssl@1.0 openssl
+  local status="$(bw status)"
+  status="${status##*\"status\":\"}"
+  status="${status%%\"*}"
 
-brew install pyenv pyenv-virtualenv
-brew install rbenv ruby-build
+  if [[ $status = "unauthenticated" ]]; then
+    echo "secret manager is not authenticated, run:"
+    echo ""
+    echo "  bw login"
+    echo ""
+    exit 1
+  fi
 
-brew install alacritty bitwarden-cli google-chrome visual-studio-code
-brew install asciinema keybase postman vlc
+  if [[ $status = "locked" ]]; then
+    echo "secret manager is locked, run:"
+    echo ""
+    echo "  export BW_SESSION=\$(bw unlock --raw)"
+    echo ""
+    exit 1
+  fi
 
-brew install --cask docker
+  if [[ $status != "unlocked" ]]; then
+    echo "secret manager is not unlocked"
+    echo ""
+    exit 1
+  fi
+}
 
-brew tap homebrew/cask-fonts
-brew install font-{fira-code,jetbrains-mono,ubuntu-mono}{,-nerd-font}
+setup_brew_packages() {
+  if ! command_exists brew; then
+    exit 1
+  fi
 
-brew install luajit --HEAD
-brew install neovim --HEAD
+  TASK "Setup Brew Packages"
 
-declare NECESSARY_DIRECTORIES=(
-  ~/.cache/nano/backup
-  ~/.local/share/mpd/playlists
-  ~/.local/share/{nvim,vim}/{backup,swap,undo}
-)
+  local brewfile=''
+  brew_bundle() {
+    echo "$brewfile" | brew bundle --no-lock --file=-
+  }
 
-printf '> %s\n' "${NECESSARY_DIRECTORIES[@]}"
-echo ""
-mkdir -p "${NECESSARY_DIRECTORIES[@]}"
+  brew tap "homebrew/bundle"
+  brew tap "homebrew/cask"
+
+  SUB_TASK "Fix terminfo"
+  brewfile='
+  brew "ncurses"
+  '
+  brew_bundle
+  $(brew --prefix ncurses)/bin/infocmp tmux-256color > /tmp/tmux-256color.info
+  tic -xe tmux-256color /tmp/tmux-256color.info
+
+  SUB_TASK "Setup GNU Tools"
+  brewfile='
+  brew "coreutils"
+  brew "findutils"
+  brew "gawk"
+  brew "gnu-getopt"
+  brew "gnu-indent"
+  brew "gnu-sed"
+  brew "gnu-tar"
+  brew "gnu-which"
+  brew "gnutls"
+  brew "grep"
+  '
+  brew_bundle
+
+  SUB_TASK "Setup tools and utilities"
+  brewfile='
+  brew "binutils"
+  brew "diffutils"
+  brew "gzip"
+  brew "wget"
+  brew "openssh"
+  brew "rsync"
+  brew "bash"
+  brew "zsh"
+  brew "tmux"
+  brew "git"
+  brew "gnupg"
+  brew "grc"
+  brew "jq"
+  brew "p7zip"
+  brew "subversion"
+  brew "tree"
+  cask "rar"
+  brew "asciinema"
+  brew "bat"
+  brew "exa"
+  brew "fd"
+  brew "gh"
+  brew "git-delta"
+  brew "lf"
+  brew "ripgrep"
+  brew "starship"
+  brew "zoxide"
+  brew "go"
+  brew "luajit", args: ["HEAD"]
+  brew "perl"
+  brew "neovim", args: ["HEAD"]
+  '
+  brew_bundle
+
+  SUB_TASK "Setup Programming Language Version Managers"
+  brewfile='
+  tap "rbenv/tap"
+
+  brew "autoconf"
+  brew "pkg-config"
+  brew "readline"
+  brew "sqlite"
+  brew "xz"
+  brew "zlib"
+  brew "rbenv/tap/openssl@1.0"
+  brew "openssl@1.1"
+  brew "pyenv"
+  brew "pyenv-virtualenv"
+  brew "rbenv"
+  brew "ruby-build"
+  '
+  brew_bundle
+
+  SUB_TASK "Setup Desktop Apps"
+  brewfile='
+  cask "alacritty"
+  cask "brave-browser"
+  cask "docker"
+  cask "google-chrome"
+  cask "keybase"
+  cask "megasync"
+  cask "postman"
+  cask "visual-studio-code"
+  cask "vlc"
+  '
+  brew_bundle
+
+  SUB_TASK "Setup Fonts"
+  brewfile='
+  tap "homebrew/cask-fonts"
+
+  cask "font-fira-code"
+  cask "font-fira-code-nerd-font"
+  cask "font-jetbrains-mono"
+  cask "font-jetbrains-mono-nerd-font"
+  cask "font-ubuntu"
+  cask "font-ubuntu-mono"
+  cask "font-ubuntu-mono-nerd-font"
+  cask "font-ubuntu-nerd-font"
+  '
+  brew_bundle
+}
+
+run_setup_scripts() {
+  TASK "Run Setup Scripts"
+
+  declare SETUP_SCRIPTS=(
+    setup-fzf
+    setup-nvm
+    setup-rust
+    setup-tpm
+    setup-zinit
+  )
+
+  for script in "${SETUP_SCRIPTS[@]}"; do
+    echo ""
+    if command_exists ${script}; then
+      echo "[${script}] started"
+      echo ""
+      ${script}
+      echo ""
+      echo "[${script}] ended"
+    else
+      echo "[${script}] not found!"
+    fi
+    echo ""
+  done
+}
+
+create_necessary_directories() {
+  TASK "Creating Necessary Directories"
+
+  declare NECESSARY_DIRECTORIES=(
+    ~/.cache/nano/backup
+    ~/.local/share/mpd/playlists
+    ~/.local/share/{nvim,vim}/{backup,swap,undo}
+  )
+
+  printf '> %s\n' "${NECESSARY_DIRECTORIES[@]}"
+  echo ""
+  mkdir -p "${NECESSARY_DIRECTORIES[@]}"
+}
+
+ensure_darwin
+ensure_brew
+ensure_secret_manager
+
+setup_brew_packages
+run_setup_scripts
+create_necessary_directories
