@@ -17,6 +17,8 @@ snap login
 ```sh
 # install command line tools
 xcode-select --install
+# install homebrew
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 ## Setup
