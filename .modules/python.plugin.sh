@@ -6,4 +6,3 @@ pathmunge "${PYENV_ROOT}/bin"
 
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-
