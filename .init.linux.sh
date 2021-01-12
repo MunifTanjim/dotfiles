@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 export PATH="${DIR}/scripts.sh:${PATH}"
@@ -41,6 +43,8 @@ SUB_TASK() {
 ensure_secret_manager() {
   if ! command_exists bw; then
     echo "command not found: bw"
+    echo ""
+    echo "  snap install bitwarden"
     exit 1
   fi
 
@@ -210,7 +214,9 @@ run_setup_scripts() {
     setup-neovim
     setup-postman
     setup-rofi
+    setup-rust
     setup-starship
+    setup-tpm
     setup-youtube-dl
   )
 
