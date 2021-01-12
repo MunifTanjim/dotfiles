@@ -1,8 +1,10 @@
 # shellcheck shell=sh
 
-( ! command_exists go ) && return
+if ! command_exists go; then
+  return
+fi
 
-export GOROOT=${GOROOT:-$(go env | grep GOROOT | cut -d'"' -f2)}
+export GOROOT=${GOROOT:-$(go env GOROOT)}
 pathmunge "${GOROOT}/bin"
-export GOPATH=${GOPATH:-"${HOME}/.go"}
+export GOPATH=${GOPATH:-"${HOME}/.local/share/go"}
 pathmunge "${GOPATH}/bin"
