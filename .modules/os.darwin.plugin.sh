@@ -12,6 +12,8 @@ pathmunge "/usr/local/opt/gnu-sed/libexec/gnubin"
 pathmunge "/usr/local/opt/gnu-tar/libexec/gnubin"
 pathmunge "/usr/local/opt/gnu-which/libexec/gnubin"
 pathmunge "/usr/local/opt/grep/libexec/gnubin"
+pathmunge "/usr/local/opt/util-linux/bin"
+pathmunge "/usr/local/opt/util-linux/sbin"
 
 
 # openssl
