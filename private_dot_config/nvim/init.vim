@@ -34,6 +34,8 @@ set updatetime=1000
 
 set clipboard=unnamed
 
+set mouse=a
+
 let &backupdir = data_dir . '/backup//,.'
 let &directory = data_dir . '/swap//,.'
 if has('persistent_undo')
