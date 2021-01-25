@@ -33,7 +33,6 @@ command_exists() {
   type "${1}" >/dev/null 2>&1
 }
 
-
 ensure_darwin() {
   if [[ $OSTYPE != darwin* ]]; then
     exit 1
@@ -107,7 +106,7 @@ setup_brew_packages() {
   $(brew --prefix ncurses)/bin/infocmp tmux-256color > /tmp/tmux-256color.info
   tic -xe tmux-256color /tmp/tmux-256color.info
 
-  SUB_TASK "Setup GNU Tools"
+  SUB_TASK "Setup Linux Tools"
   brewfile='
   brew "coreutils"
   brew "findutils"
