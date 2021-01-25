@@ -286,10 +286,14 @@ nnoremap <silent> <Leader>lp  :<C-u>CocListResume<CR>
 
 "### coc: autocommands
 
-augroup js_ts_coc
+augroup coc_augroup
   autocmd!
+  " formatexpr
+  autocmd FileType javascript,javascriptreact,typescript,typescriptreact,html,css,scss,json
+        \ setlocal formatexpr=CocAction('formatSelected')
   " keymap: go to file
-  autocmd FileType javascript,typescript nmap <silent> gf <Plug>(coc-definition)
+  autocmd FileType javascript,javascriptreact,typescript,typescriptreact
+        \ nmap <silent> gf <Plug>(coc-definition)
 augroup END
 
 "## Plugin: fzf
