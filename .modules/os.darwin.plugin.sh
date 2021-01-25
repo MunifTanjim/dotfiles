@@ -3,7 +3,7 @@
 pathmunge "/usr/local/sbin"
 pathmunge "${HOME}/.local/bin"
 
-# gnu tools
+# linux tools
 pathmunge "/usr/local/opt/coreutils/libexec/gnubin"
 pathmunge "/usr/local/opt/findutils/libexec/gnubin"
 pathmunge "/usr/local/opt/gnu-getopt/bin"
@@ -15,10 +15,9 @@ pathmunge "/usr/local/opt/grep/libexec/gnubin"
 pathmunge "/usr/local/opt/util-linux/bin"
 pathmunge "/usr/local/opt/util-linux/sbin"
 
-
 # openssl
-OSX_OPENSSL_VERSION="${OSX_OPENSSL_VERSION:-"1.1"}"
-brew_openssl_prefix="$(brew --prefix openssl@${OSX_OPENSSL_VERSION})"
+DARWIN_OPENSSL_VERSION="${DARWIN_OPENSSL_VERSION:-"1.1"}"
+brew_openssl_prefix="$(brew --prefix openssl@${DARWIN_OPENSSL_VERSION})"
 pathmunge "${brew_openssl_prefix}/bin"
 export CFLAGS="-I${brew_openssl_prefix}/include"
 export CPPFLAGS="-I${brew_openssl_prefix}/include"
