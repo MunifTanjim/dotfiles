@@ -17,6 +17,7 @@ snap login
 ```sh
 # install command line tools
 xcode-select --install
+
 # install homebrew
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
@@ -39,7 +40,7 @@ chezmoi apply
 **Install `python<3.7` with `openssl@1.0`**:
 
 ```sh
-env OSX_OPENSSL_VERSION=1.0 zsh -i -c 'PYTHON_BUILD_HOMEBREW_OPENSSL_FORMULA=openssl@1.0 pyenv install <version>'
+env DARWIN_OPENSSL_VERSION=1.0 zsh -i -c 'PYTHON_BUILD_HOMEBREW_OPENSSL_FORMULA=openssl@1.0 pyenv install <version>'
 ```
 
 ## Resources
