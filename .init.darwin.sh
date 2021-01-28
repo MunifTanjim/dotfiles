@@ -124,6 +124,8 @@ setup_brew_packages() {
 
   SUB_TASK "Setup tools and utilities"
   brewfile='
+  tap "yqrashawn/goku"
+
   brew "asciinema"
   brew "bash"
   brew "bat"
@@ -155,6 +157,7 @@ setup_brew_packages() {
   brew "zoxide"
   brew "zsh"
   cask "rar"
+  brew "yqrashawn/goku/goku"
   '
   brew_bundle
 
@@ -183,6 +186,7 @@ setup_brew_packages() {
   cask "brave-browser"
   cask "docker"
   cask "google-chrome"
+  cask "karabiner-elements"
   cask "keybase"
   cask "megasync"
   cask "postman"
