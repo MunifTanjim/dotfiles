@@ -1,0 +1,174 @@
+{
+ :profiles {:Default {;; "default true means" rules default goes into this rule if no profiles specified
+                      :default true
+                      ;; simultaneous_threshold_milliseconds
+                      :sim     250
+                      ;; to_delayed_action_delay_milliseconds
+                      ;; will register as delayed after this
+                      :delay   500
+                      ;; to_if_alone_timeout_milliseconds
+                      ;; simlayer is implemented with to_if_alone and simultaneous key press feature
+                      ;; will register as alone before this
+                      :alone   1000
+                      ;; to_if_held_down_threshold_milliseconds
+                      ;; will register again after this
+                      :held    500}}
+
+ :devices {:internal-keyboard [{:vendor_id 1452 :product_id 832}]}
+
+ :applications {:finder
+                ["^com.apple.finder"]
+                :terminal
+                ["^com\\.apple\\.Terminal$",
+                 "^com\\.googlecode\\.iterm2$",
+                 "^co\\.zeit\\.hyperterm$",
+                 "^co\\.zeit\\.hyper$",
+                 "^io\\.alacritty$",
+                 "^net\\.kovidgoyal\\.kitty$"]
+                :web-browser
+                ["^org\\.mozilla\\.firefox$",
+                 "^org\\.mozilla\\.nightly$",
+                 "^com\\.microsoft\\.Edge",
+                 "^com\\.google\\.Chrome$",
+                 "^com\\.brave\\.Browser$",
+                 "^com\\.apple\\.Safari$"]
+                :other-unknown
+                ["^com\\.microsoft\\.rdc$",
+                 "^com\\.microsoft\\.rdc\\.mac$",
+                 "^com\\.microsoft\\.rdc\\.macos$",
+                 "^com\\.microsoft\\.rdc\\.osx\\.beta$",
+                 "^net\\.sf\\.cord$",
+                 "^com\\.thinomenon\\.RemoteDesktopConnection$",
+                 "^com\\.itap-mobile\\.qmote$",
+                 "^com\\.nulana\\.remotixmac$",
+                 "^com\\.p5sys\\.jump\\.mac\\.viewer$",
+                 "^com\\.p5sys\\.jump\\.mac\\.viewer\\.web$",
+                 "^com\\.teamviewer\\.TeamViewer$",
+                 "^com\\.vmware\\.horizon$",
+                 "^com\\.2X\\.Client\\.Mac$",
+                 "^com\\.vmware\\.fusion$",
+                 "^com\\.vmware\\.horizon$",
+                 "^com\\.vmware\\.view$",
+                 "^com\\.parallels\\.desktop$",
+                 "^com\\.parallels\\.vm$",
+                 "^com\\.parallels\\.desktop\\.console$",
+                 "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                 "^com\\.citrix\\.XenAppViewer$",
+                 "^com\\.vmware\\.proxyApp\\.",
+                 "^com\\.parallels\\.winapp\\."]}
+
+ :input-sources {}
+
+ :templates {}
+
+ :modifiers {}
+
+ :froms {}
+
+ :tos {}
+
+ ; :layers {}
+
+ ; :simlayers {}
+ ; :simlayer-threshold 250
+
+ :main
+ ;; [<from> <to>]
+ ;; [<from> <to> <conditions>]
+ ;; [<from> <to> <conditions> <other options>]
+
+ ;; <from> can be keywords defined in froms or keycodes without `{:not-from true}`
+ ;; <to> can be keywords defined in tos, keycodes without `{:not-to true}`, string (shell script)
+ ;; <conditions> can be keywords defined in layers, devices, applications
+ ;; <other options>
+ ;;   to_if_alone                                    | :alone
+ ;;   to_if_held_down                                | :held
+ ;;   to_after_key_up                                | :afterup
+ ;;   to_delayed_action                              | :delayed
+ ;;     to_if_canceled                               |   :canceled
+ ;;     to_if_invoked                                |   :invoked
+ ;;   parameters                                     | :params
+ ;;     basic.to_if_alone_timeout_milliseconds       |   :alone
+ ;;     basic.to_if_held_down_threshold_milliseconds |   :held
+ ;;     basic.to_delayed_action_delay_milliseconds   |   :delay
+ ;;     basic.simultaneous_threshold_milliseconds    |   :sim
+ [
+  {:des "Caps Lock => Control"
+   :rules [[:##caps_lock :left_control]]}
+  {:des "Command <=> Option (Internal Keyboard)"
+   :rules [[:left_command :left_option [:internal-keyboard]]
+           [:left_option :left_command [:internal-keyboard]]]}
+
+  {:des "Ctrl+A => Cmd+A (Select All)"
+   :rules [[:!Ta :!Ca [:!terminal :!other-unknown]]]}
+  {:des "Ctrl+{C,V,X} => Cmd+{C,V,X} (Copy,Paste,Cut)"
+   :rules [[:!Tc :!Cc [:!terminal :!other-unknown]]
+           [:!Tv :!Cv [:!terminal :!other-unknown]]
+           [:!Tx :!Cx [:!terminal :!other-unknown]]]}
+  {:des "Ctrl+Z, Ctrl+Y => Cmd+Z (Undo), Cmd+Shift+Z (Redo)"
+   :rules [[:!Tz :!Cz [:!terminal :!other-unknown]]
+           [:!Ty :!CSz [:!terminal :!other-unknown]]]}
+  {:des "Ctrl+{B,I} => Cmd+{B,I} (Bold,Italic)"
+   :rules [[:!Tb :!Cb [:!terminal]]
+           [:!Ti :!Ci [:!terminal]]]}
+  {:des "Ctrl+S => Cmd+S (Save)"
+   :rules [[:!Ts :!Ca [:!terminal :!other-unknown]]]}
+  {:des "Ctrl+(Shift)+N => Cmd+(Shift)+N (New)"
+   :rules [[:!T#Sn :!Cn [:!terminal :!other-unknown]]]}
+  {:des "Ctrl+F => Cmd+F (Find)"
+   :rules [[:!Tf :!Cf [:!terminal :!other-unknown]]]}
+  {:des "Ctrl+W => Cmd+W (Close)"
+   :rules [[:!Tw :!Cw [:!terminal :!other-unknown]]]}
+  {:des "Ctrl+(Shift)+T => Cmd+(Shift)+T (New tab)"
+   :rules [[:!T#St :!Ct [:!terminal]]]}
+  {:des "(Shift)+F5 => Cmd+(Shift)+R (Reload)"
+   :rules [[:#Sf5 :!Cr [:!terminal :!other-unknown]]]}
+  {:des "Alt+F4 => Cmd+Q (Quit)"
+   :rules [[:!Of4 :!Cq [:!terminal :!other-unknown]]]}
+  {:des "Alt+(Shift)+Tab => Cmd+(Shift)+Tab (Switch application)"
+   :rules [[:!O#Stab :!Ctab]]}
+
+  {:des "Ctrl+Left Click => Cmd+Left Click (select multiple items)"
+   :rules [[:!Tbutton1 :!Cbutton1]]}
+
+  {:des "(Shift)+Home => Cmd+(Shift)+Left arrow (Move cursor to beginning of line w/ or w/o selection)"
+   :rules [[:#Shome :!Cleft_arrow [:!terminal]]]}
+  {:des "(Shift)+End => Cmd+(Shift)+Right arrow (Move cursor to end of line w/ or w/o select)"
+   :rules [[:#Send :!Cright_arrow [:!terminal]]]}
+  {:des "Ctrl+(Shift)+Home => Cmd+(Shift)+Up arrow (Move cursor to beginning of file w/ or w/o selection)"
+   :rules [[:!T#Shome :!Cup_arrow [:!terminal]]]}
+  {:des "Ctrl+(Shift)+End => Cmd+(Shift)+Down arrow (Move cursor to end of file w/ or w/o selection)"
+   :rules [[:!T#Send :!Cdown_arrow [:!terminal]]]}
+  {:des "Ctrl+(Shift)+{Right,Left} arrow => Alt+(Shift)+{Right/Left} arrow (Move cursor one word w/ or w/o selection)"
+   :rules [[:!T#Sleft_arrow :!Oleft_arrow [:!terminal :!other-unknown]]
+           [:!T#Sright_arrow :!Oright_arrow [:!terminal :!other-unknown]]]}
+
+  {:des "Ctrl+L => Cmd+L (Focus URL Bar) (Only in browsers)"
+   :rules [[:!Tl :!Cl [:web-browser]]]}
+  {:des "Ctrl+(Shift)+R => Cmd+(Shift)+R (Refresh Tab) (Only in browsers)"
+   :rules [[:!T#Sr :!Cr [:web-browser]]]}
+
+  {:des "Return => Cmd+o (Open) (Only in Finder)"
+   :rules [[:return_or_enter :!Co [:finder]]]}
+  {:des "F2 => Return (Rename) (Only in Finder)"
+   :rules [[:f2 :return_or_enter [:finder]]]}
+  {:des "Delete => Cmd+backspace (Delete) (Only in Finder)"
+   :rules [[:delete_forward :!Cdelete_or_backspace [:finder]]]}
+  {:des "Backspace => Cmd+up (Go back) (Only in Finder)"
+   :rules [[:delete_or_backspace :!Cup_arrow [:finder]]]}
+
+  {:des "Ctrl+Esc => Open Launchpad"
+   :rules [[:!Tescape :launchpad [:!other-unknown]]]}
+  {:des "Ctrl+Shift+Esc => Open Activity Monitor"
+   :rules [[:!TSescape "open -a 'Activity Monitor.app'" [:!other-unknown]]]}
+  {:des "Cmd+L => Logout (CGSession -suspend)",
+   :rules [[:!Cl "/System/Library/CoreServices/Menu\\ Extras/User.menu/Contents/Resources/CGSession -suspend"]]}
+  ]
+
+  ;; ! # ##  -> mandatory, optional, optional any
+  ;; !!      -> mandatory left_{command+control+option+shift}
+  ;; F P     -> fn, caps_lock
+  ;; C T O S -> left_{command, control, option, shift}
+  ;; Q W E R -> right_{command, control, option, shift}
+  :cheatsheet {}
+}
