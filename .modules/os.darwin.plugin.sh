@@ -5,7 +5,9 @@ pathmunge "${HOME}/.local/bin"
 
 # linux tools
 pathmunge "/usr/local/opt/coreutils/libexec/gnubin"
+pathmunge "/usr/local/opt/ed/libexec/gnubin"
 pathmunge "/usr/local/opt/findutils/libexec/gnubin"
+pathmunge "/usr/local/opt/gawk/libexec/gnubin"
 pathmunge "/usr/local/opt/gnu-getopt/bin"
 pathmunge "/usr/local/opt/gnu-indent/libexec/gnubin"
 pathmunge "/usr/local/opt/gnu-sed/libexec/gnubin"
