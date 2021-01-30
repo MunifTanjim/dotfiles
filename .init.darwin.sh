@@ -98,17 +98,28 @@ setup_brew_packages() {
   brew tap "homebrew/bundle"
   brew tap "homebrew/cask"
 
-  SUB_TASK "Fix terminfo"
+  SUB_TASK "Update terminfo database"
   brewfile='
   brew "ncurses"
   '
   brew_bundle
-  $(brew --prefix ncurses)/bin/infocmp tmux-256color > /tmp/tmux-256color.info
-  tic -xe tmux-256color /tmp/tmux-256color.info
 
-  SUB_TASK "Setup Linux Tools"
+  update_terminfo_database() {
+    local -r term_name="${1}"
+    $(brew --prefix ncurses)/bin/infocmp -x "${term_name}" > "/tmp/${term_name}.info"
+    $(brew --prefix ncurses)/bin/tic -x -o "${HOME}/.terminfo" -e "${term_name}" "/tmp/${term_name}.info"
+  }
+  update_terminfo_database alacritty
+  update_terminfo_database alacritty-direct
+  update_terminfo_database tmux
+  update_terminfo_database tmux-256color
+
+  SUB_TASK "Setup GNU Programs/Tools"
   brewfile='
   brew "coreutils"
+  brew "binutils"
+  brew "diffutils"
+  brew "ed"
   brew "findutils"
   brew "gawk"
   brew "gnu-getopt"
@@ -118,6 +129,9 @@ setup_brew_packages() {
   brew "gnu-which"
   brew "gnutls"
   brew "grep"
+  brew "gzip"
+  brew "less"
+  brew "screen"
   brew "util-linux"
   '
   brew_bundle
@@ -129,8 +143,6 @@ setup_brew_packages() {
   brew "asciinema"
   brew "bash"
   brew "bat"
-  brew "binutils"
-  brew "diffutils"
   brew "exa"
   brew "fd"
   brew "gh"
@@ -139,7 +151,6 @@ setup_brew_packages() {
   brew "gnupg"
   brew "go"
   brew "grc"
-  brew "gzip"
   brew "jq"
   brew "lf"
   brew "luajit", args: ["HEAD"]
@@ -243,6 +254,7 @@ create_necessary_directories() {
   declare NECESSARY_DIRECTORIES=(
     ~/.cache/nano/backup
     ~/.local/share/mpd/playlists
+    ~/.local/share/mpdscribble
     ~/.local/share/{nvim,vim}/{backup,swap,undo}
   )
 
