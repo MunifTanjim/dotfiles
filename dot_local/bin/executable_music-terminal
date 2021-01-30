@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+set -eu
+
+export PATH="/usr/local/bin:${PATH}"
+
+command_exists() {
+  type "${1}" >/dev/null 2>&1
+}
+
+process_running() {
+  pgrep "${1}$" >/dev/null 2>&1
+}
+
+notify() {
+  local -r title="${1}"
+  local -r description="${2}"
+  if [[ $OSTYPE = darwin* ]]; then
+    osascript -e "display notification \"${description}\" with title \"${title}\""
+  elif command_exists notify-send; then
+    notify-send --hint=int:transient:1 "${title}" "${description}"
+  fi
+}
+
+if ! process_running mpd; then
+  mpd >/dev/null 2>&1
+  killall mpdscribble >dev/null 2>&1 || true
+fi
+
+if ! process_running mpdscribble; then
+  mpdscribble --conf "${HOME}/.config/mpdscribble/mpdscribble.conf"
+fi
+
+if command_exists alacritty; then
+  terminal_emulator=$(which alacritty)
+elif command_exists x-terminal-emulator; then
+  terminal_emulator=$(readlink -f $(which x-terminal-emulator))
+fi
+
+if [[ -z "$terminal_emulator" ]]; then
+  echo "missing terminal emulator"
+  exit 1
+fi
+
+terminal_name=$(basename ${terminal_emulator})
+
+terminal_command=""
+
+case ${terminal_name} in
+  alacritty)
+    terminal_command="${terminal_emulator}";;
+  tilix)
+    terminal_command="${terminal_emulator} --window-style=disable-csd";;
+  mate-terminal)
+    terminal_command="${terminal_emulator} --hide-menubar";;
+  *)
+    terminal_command="${terminal_emulator}";;
+esac
+
+if process_running ncmpcpp; then
+  mpc toggle
+else
+  notify "Music Player" "Loading..."
+  ${terminal_command} --command ncmpcpp $*
+fi
