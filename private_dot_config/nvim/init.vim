@@ -213,17 +213,19 @@ command! -nargs=? Fold     :call CocAction('fold', <f-args>)
 " command: Format
 command! -nargs=0 Format   :call CocAction('format')
 " command: OI
-command! -nargs=0 OI       :call CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OI       :call CocActionAsync('runCommand', 'editor.action.organizeImport')
 " command: Prettier
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 "### coc: functions
 
 function! s:show_documentation()
-  if (index(['vim', 'help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '. expand('<cword>')
+  elseif (coc#rpc#ready())
     call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . ' ' . expand('<cword>')
   endif
 endfunction
 
@@ -231,21 +233,21 @@ endfunction
 
 "" trigger autocomplete popup menu
 inoremap <silent><expr> <C-Space> coc#refresh()
-"" highlight next popup menu item
+"" highlight next/prev popup menu item
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-"" highlight prev popup menu item
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "" select popup-menu item
-if exists('*complete_info')
-  inoremap <silent><expr> <CR> complete_info()["selected"] != "-1" ? coc#_select_confirm() : "\<C-g>u\<CR>"
-else
-  inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-endif
-"" map function text object
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+"" function text object
 xmap if <Plug>(coc-funcobj-i)
 omap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
 omap af <Plug>(coc-funcobj-a)
+"" class text object
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
 "" code navigation
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -265,32 +267,39 @@ nmap <Leader>rn <Plug>(coc-rename)
 "" format code
 xmap <Leader>f <Plug>(coc-format-selected)
 nmap <Leader>f <Plug>(coc-format-selected)
+"" selection range
+nmap <silent> <Leader>v <Plug>(coc-range-select)
+xmap <silent> <Leader>v <Plug>(coc-range-select)
 "" open explorer
 nmap <silent> <Space>e :CocCommand explorer<CR>
-"" list diagnostics
-nnoremap <silent> <Leader>ld  :<C-u>CocList diagnostics<cr>
-"" list extensions
-nnoremap <silent> <Leader>le  :<C-u>CocList extensions<cr>
-"" list commands
-nnoremap <silent> <Leader>lc  :<C-u>CocList commands<cr>
-"" list outline - symbols from current buffer
-nnoremap <silent> <Leader>lo  :<C-u>CocList outline<cr>
-"" list symbols - from workspace
-nnoremap <silent> <Leader>ls  :<C-u>CocList -I symbols<cr>
-"" list: do default action for next item in last list
-nnoremap <silent> <Leader>lj  :<C-u>CocNext<CR>
-"" list: do default action for prev item in last list
-nnoremap <silent> <Leader>lk  :<C-u>CocPrev<CR>
-"" list: reopen last list
-nnoremap <silent> <Leader>lp  :<C-u>CocListResume<CR>
+" "" list diagnostics
+" nnoremap <silent> <Leader>ld  :<C-u>CocList diagnostics<cr>
+" "" list extensions
+" nnoremap <silent> <Leader>le  :<C-u>CocList extensions<cr>
+" "" list commands
+" nnoremap <silent> <Leader>lc  :<C-u>CocList commands<cr>
+" "" list outline - symbols from current buffer
+" nnoremap <silent> <Leader>lo  :<C-u>CocList outline<cr>
+" "" list symbols - from workspace
+" nnoremap <silent> <Leader>ls  :<C-u>CocList -I symbols<cr>
+" "" list: do default action for next item in last list
+" nnoremap <silent> <Leader>lj  :<C-u>CocNext<CR>
+" "" list: do default action for prev item in last list
+" nnoremap <silent> <Leader>lk  :<C-u>CocPrev<CR>
+" "" list: reopen last list
+" nnoremap <silent> <Leader>lp  :<C-u>CocListResume<CR>
 
 "### coc: autocommands
 
 augroup coc_augroup
   autocmd!
-  " formatexpr
-  autocmd FileType javascript,javascriptreact,typescript,typescriptreact,html,css,scss,json
+  " highlight the symbol and its references when holding the cursor.
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+  " set formatexpr for specific filetypes
+  autocmd FileType javascript,javascriptreact,typescript,typescriptreact,json,graphql,html,css,scss
         \ setlocal formatexpr=CocAction('formatSelected')
+  " show signature help after jumping to a placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
   " keymap: go to file
   autocmd FileType javascript,javascriptreact,typescript,typescriptreact
         \ nmap <silent> gf <Plug>(coc-definition)
