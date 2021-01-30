@@ -59,7 +59,7 @@
 
  :input-sources {}
 
- :templates {}
+ :templates {:shell "osascript -e 'do shell script \"%s\"'"}
 
  :modifiers {}
 
@@ -96,8 +96,8 @@
   {:des "Caps Lock => Control"
    :rules [[:##caps_lock :left_control]]}
   {:des "Command <=> Option (Internal Keyboard)"
-   :rules [[:left_command :left_option [:internal-keyboard]]
-           [:left_option :left_command [:internal-keyboard]]]}
+   :rules [[:##left_command :left_option [:internal-keyboard]]
+           [:##left_option :left_command [:internal-keyboard]]]}
 
   {:des "Ctrl+A => Cmd+A (Select All)"
    :rules [[:!Ta :!Ca [:!terminal :!other-unknown]]]}
@@ -163,6 +163,11 @@
    :rules [[:!TSescape "open -a 'Activity Monitor.app'" [:!other-unknown]]]}
   {:des "Cmd+L => Logout (CGSession -suspend)",
    :rules [[:!Cl "/System/Library/CoreServices/Menu\\ Extras/User.menu/Contents/Resources/CGSession -suspend"]]}
+
+  {:des "MPD Music Terminal"
+   :rules [[:!COm [:shell "~/.local/bin/music-terminal"]]
+           [:!COcomma [:shell "/usr/local/bin/mpc prev"]]
+           [:!COperiod [:shell "/usr/local/bin/mpc next"]]]}
   ]
 
   ;; ! # ##  -> mandatory, optional, optional any
