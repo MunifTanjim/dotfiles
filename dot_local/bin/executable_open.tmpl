@@ -1,0 +1,32 @@
+{{/* vim: set filetype=bash : */}}
+
+{{- if eq .chezmoi.os "linux" -}}
+
+if grep -q Microsoft /proc/version >/dev/null 2>&1; then
+  exec explorer.exe $@
+elif type xdg-open >/dev/null 2>&1; then
+  exec xdg-open $@
+else
+  echo "[warning] this command does not exist!"
+  echo
+  echo "[countdown] self destructing in..."
+  echo
+
+  secs=$((5))
+  while [ $secs -ge 0 ]; do
+    sleep 1 &
+    printf "\r %d " $(( secs ))
+    secs=$(( $secs - 1 ))
+    wait
+  done
+  echo
+
+  mv -f "$0" "$(dirname $0)/__open"
+
+  echo
+  echo "[done] $0 is gone!"
+
+  exit 127
+fi
+
+{{- end -}}
