@@ -131,40 +131,45 @@
   {:des "Ctrl+Left Click => Cmd+Left Click (select multiple items)"
    :rules [[:!Tbutton1 :!Cbutton1]]}
 
-  {:des "(Shift)+Home => Cmd+(Shift)+Left arrow (Move cursor to beginning of line w/ or w/o selection)"
-   :rules [[:#Shome :!Cleft_arrow [:!terminal]]]}
-  {:des "(Shift)+End => Cmd+(Shift)+Right arrow (Move cursor to end of line w/ or w/o select)"
-   :rules [[:#Send :!Cright_arrow [:!terminal]]]}
-  {:des "Ctrl+(Shift)+Home => Cmd+(Shift)+Up arrow (Move cursor to beginning of file w/ or w/o selection)"
-   :rules [[:!T#Shome :!Cup_arrow [:!terminal]]]}
-  {:des "Ctrl+(Shift)+End => Cmd+(Shift)+Down arrow (Move cursor to end of file w/ or w/o selection)"
-   :rules [[:!T#Send :!Cdown_arrow [:!terminal]]]}
-  {:des "Ctrl+(Shift)+{Right,Left} arrow => Alt+(Shift)+{Right/Left} arrow (Move cursor one word w/ or w/o selection)"
-   :rules [[:!T#Sleft_arrow :!Oleft_arrow [:!terminal :!other-unknown]]
+  {:des "(Shift)+{Home,End} => Cmd+(Shift)+{Left,Right} arrow (Move cursor to beginning/end of line w/ or w/o selection)"
+   :rules [[:#Shome :!Cleft_arrow [:!terminal]]
+           [:#Send :!Cright_arrow [:!terminal]]]}
+  {:des "Ctrl+(Shift)+{Home,End} => Cmd+(Shift)+{Up,Down} arrow (Move cursor to beginning/end of file w/ or w/o selection)"
+   :rules [[:!T#Shome :!Cup_arrow [:!terminal]]
+           [:!T#Send :!Cdown_arrow [:!terminal]]]}
+  {:des "Ctrl+(Shift)+{Up,Left,Down,Right} arrow => Option+(Shift)+{Up,Left,Down,Right} arrow (Move cursor over line/word w/ or w/o selection)"
+   :rules [[:!T#Sup_arrow :!Oup_arrow [:!terminal :!other-unknown]]
+           [:!T#Sleft_arrow :!Oleft_arrow [:!terminal :!other-unknown]]
+           [:!T#Sdown_arrow :!Odown_arrow [:!terminal :!other-unknown]]
            [:!T#Sright_arrow :!Oright_arrow [:!terminal :!other-unknown]]]}
+  {:des "Ctrl+{Backspace,Delete} => Option+{Backspace,Delete} (Delete word backward/forward)"
+   :rules [[:!Tdelete_or_backspace :!Odelete_or_backspace [:!terminal :!other-unknown]]
+           [:!Tdelete_forward :!Odelete_forward [:!terminal :!other-unknown]]]}
 
   {:des "Ctrl+L => Cmd+L (Focus URL Bar) (Only in browsers)"
    :rules [[:!Tl :!Cl [:web-browser]]]}
   {:des "Ctrl+(Shift)+R => Cmd+(Shift)+R (Refresh Tab) (Only in browsers)"
    :rules [[:!T#Sr :!Cr [:web-browser]]]}
 
-  {:des "Return => Cmd+o (Open) (Only in Finder)"
+  {:des "Return => Cmd+O (Open) (Only in Finder)"
    :rules [[:return_or_enter :!Co [:finder]]]}
   {:des "F2 => Return (Rename) (Only in Finder)"
    :rules [[:f2 :return_or_enter [:finder]]]}
-  {:des "Delete => Cmd+backspace (Delete) (Only in Finder)"
+  {:des "Delete => Cmd+Backspace (Delete) (Only in Finder)"
    :rules [[:delete_forward :!Cdelete_or_backspace [:finder]]]}
-  {:des "Backspace => Cmd+up (Go back) (Only in Finder)"
-   :rules [[:delete_or_backspace :!Cup_arrow [:finder]]]}
+  {:des "Alt+Up arrow, Alt+{Left,Right} arrow => Cmd+Up arrow (Up), Cmd+{[,]} (Back,Forward) (Only in Finder)"
+   :rules [[:!Oup_arrow :!Cup_arrow [:finder]]
+           [:!Oleft_arrow :!Copen_bracket [:finder]]
+           [:!Oright_arrow :!Cclose_bracket [:finder]]]}
 
   {:des "Ctrl+Esc => Open Launchpad"
    :rules [[:!Tescape :launchpad [:!other-unknown]]]}
   {:des "Ctrl+Shift+Esc => Open Activity Monitor"
    :rules [[:!TSescape "open -a 'Activity Monitor.app'" [:!other-unknown]]]}
-  {:des "Cmd+L => Logout (CGSession -suspend)",
+  {:des "Cmd+L => Lock (CGSession -suspend)",
    :rules [[:!Cl "/System/Library/CoreServices/Menu\\ Extras/User.menu/Contents/Resources/CGSession -suspend"]]}
 
-  {:des "MPD Music Terminal"
+  {:des "Music Terminal (MPD,MPC,NCMPCPP)"
    :rules [[:!COm [:shell "~/.local/bin/music-terminal"]]
            [:!COcomma [:shell "/usr/local/bin/mpc prev"]]
            [:!COperiod [:shell "/usr/local/bin/mpc next"]]]}
