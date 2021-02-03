@@ -2,17 +2,17 @@
  :profiles {:Default {;; "default true means" rules default goes into this rule if no profiles specified
                       :default true
                       ;; simultaneous_threshold_milliseconds
-                      :sim     250
+                      ;; within x will be registered as simultaneous
+                      :sim     50
                       ;; to_delayed_action_delay_milliseconds
-                      ;; will register as delayed after this
-                      :delay   500
+                      ;; after x will be registered as delayed
+                      :delay   250
                       ;; to_if_alone_timeout_milliseconds
-                      ;; simlayer is implemented with to_if_alone and simultaneous key press feature
-                      ;; will register as alone before this
-                      :alone   1000
+                      ;; within x will be registered as alone
+                      :alone   500
                       ;; to_if_held_down_threshold_milliseconds
-                      ;; will register again after this
-                      :held    500}}
+                      ;; after x will be registered again
+                      :held    250}}
 
  :devices {:internal-keyboard [{:vendor_id 1452 :product_id 832}]}
 
@@ -93,63 +93,85 @@
  ;;     basic.to_delayed_action_delay_milliseconds   |   :delay
  ;;     basic.simultaneous_threshold_milliseconds    |   :sim
  [
-  {:des "Caps Lock => Control"
-   :rules [[:##caps_lock :left_control]]}
-  {:des "Command <=> Option (Internal Keyboard)"
-   :rules [[:##left_command :left_option [:internal-keyboard]]
-           [:##left_option :left_command [:internal-keyboard]]]}
+  {:des "Internal Keyboard: Caps Lock => Esc (Tap) / Ctrl (Hold)"
+   :rules [[:##caps_lock :left_control [:internal-keyboard] {:alone :escape}]]}
+  {:des "Internal Keyboard: Left Ctrl => Left Cmd"
+   :rules [[:##left_control :left_command [:internal-keyboard]]]}
+  {:des "Internal Keyboard: Command <=> Option"
+   :rules [:internal-keyboard
+           [:##left_command :left_option]
+           [:##left_option :left_command]
+           [:##right_command :right_option]
+           [:##right_option :right_command]]}
+  {:des "Internal Keyboard: Tilde => Esc (Hold)"
+   :rules [[:##grave_accent_and_tilde nil [:internal-keyboard] {:alone :grave_accent_and_tilde :held :escape}]]}
+  {:des "Internal Keyboard: Fn-Layer"
+   :rules [:internal-keyboard
+           [:!FT#SSh :!Oleft_arrow]
+           [:!FT#SSj :!Odown_arrow]
+           [:!FT#SSk :!Oup_arrow]
+           [:!FT#SSl :!Oright_arrow]
+           [:!F##h :left_arrow]
+           [:!F##j :down_arrow]
+           [:!F##k :up_arrow]
+           [:!F##l :right_arrow]
+           [:!F1 :f1] [:!F2 :f2] [:!F3 :f3]
+           [:!F4 :f4] [:!F5 :f5] [:!F6 :f6]
+           [:!F7 :f7] [:!F8 :f8] [:!F9 :f9]
+           [:!F0 :f10] [:!Fhyphen :f11] [:!Fequal_sign :f12]]}
 
   {:des "Ctrl+A => Cmd+A (Select All)"
-   :rules [[:!Ta :!Ca [:!terminal :!other-unknown]]]}
+   :rules [[:!TTa :!Ca [:!terminal :!other-unknown]]]}
   {:des "Ctrl+{C,V,X} => Cmd+{C,V,X} (Copy,Paste,Cut)"
-   :rules [[:!Tc :!Cc [:!terminal :!other-unknown]]
-           [:!Tv :!Cv [:!terminal :!other-unknown]]
-           [:!Tx :!Cx [:!terminal :!other-unknown]]]}
+   :rules [[:!TTc :!Cc [:!terminal :!other-unknown]]
+           [:!TTv :!Cv [:!terminal :!other-unknown]]
+           [:!TTx :!Cx [:!terminal :!other-unknown]]]}
   {:des "Ctrl+Z, Ctrl+Y => Cmd+Z (Undo), Cmd+Shift+Z (Redo)"
-   :rules [[:!Tz :!Cz [:!terminal :!other-unknown]]
-           [:!Ty :!CSz [:!terminal :!other-unknown]]]}
-  {:des "Ctrl+{B,I} => Cmd+{B,I} (Bold,Italic)"
-   :rules [[:!Tb :!Cb [:!terminal]]
-           [:!Ti :!Ci [:!terminal]]]}
+   :rules [[:!TTz :!Cz [:!terminal :!other-unknown]]
+           [:!TTy :!CSz [:!terminal :!other-unknown]]]}
   {:des "Ctrl+S => Cmd+S (Save)"
-   :rules [[:!Ts :!Ca [:!terminal :!other-unknown]]]}
+   :rules [[:!TTs :!Cs [:!terminal :!other-unknown]]]}
+  {:des "Ctrl+{B,I} => Cmd+{B,I} (Bold,Italic)"
+   :rules [[:!TTb :!Cb [:!terminal]]
+           [:!TTi :!Ci [:!terminal]]]}
   {:des "Ctrl+(Shift)+N => Cmd+(Shift)+N (New)"
-   :rules [[:!T#Sn :!Cn [:!terminal :!other-unknown]]]}
+   :rules [[:!TT#SSn :!Cn [:!terminal :!other-unknown]]]}
   {:des "Ctrl+F => Cmd+F (Find)"
-   :rules [[:!Tf :!Cf [:!terminal :!other-unknown]]]}
+   :rules [[:!TTf :!Cf [:!terminal :!other-unknown]]]}
   {:des "Ctrl+W => Cmd+W (Close)"
-   :rules [[:!Tw :!Cw [:!terminal :!other-unknown]]]}
+   :rules [[:!TTw :!Cw [:!terminal :!other-unknown]]]}
   {:des "Ctrl+(Shift)+T => Cmd+(Shift)+T (New tab)"
-   :rules [[:!T#St :!Ct [:!terminal]]]}
+   :rules [[:!TT#SSt :!Ct [:!terminal]]]}
   {:des "(Shift)+F5 => Cmd+(Shift)+R (Reload)"
-   :rules [[:#Sf5 :!Cr [:!terminal :!other-unknown]]]}
+   :rules [[:#SSf5 :!Cr [:!terminal :!other-unknown]]]}
   {:des "Alt+F4 => Cmd+Q (Quit)"
-   :rules [[:!Of4 :!Cq [:!terminal :!other-unknown]]]}
+   :rules [[:!OOf4 :!Cq [:!terminal :!other-unknown]]]}
   {:des "Alt+(Shift)+Tab => Cmd+(Shift)+Tab (Switch application)"
-   :rules [[:!O#Stab :!Ctab]]}
+   :rules [[:!OO#SStab :!Ctab]]}
 
-  {:des "Ctrl+Left Click => Cmd+Left Click (select multiple items)"
-   :rules [[:!Tbutton1 :!Cbutton1]]}
+  ; ; issue: https://github.com/yqrashawn/GokuRakuJoudo/issues/115
+  ; {:des "Ctrl+Left Click => Cmd+Left Click (select multiple items)"
+  ;  :rules [[:!TTbutton1 :!Cbutton1]]}
 
   {:des "(Shift)+{Home,End} => Cmd+(Shift)+{Left,Right} arrow (Move cursor to beginning/end of line w/ or w/o selection)"
-   :rules [[:#Shome :!Cleft_arrow [:!terminal]]
-           [:#Send :!Cright_arrow [:!terminal]]]}
+   :rules [[:#SShome :!Cleft_arrow [:!terminal]]
+           [:#SSend :!Cright_arrow [:!terminal]]]}
   {:des "Ctrl+(Shift)+{Home,End} => Cmd+(Shift)+{Up,Down} arrow (Move cursor to beginning/end of file w/ or w/o selection)"
-   :rules [[:!T#Shome :!Cup_arrow [:!terminal]]
-           [:!T#Send :!Cdown_arrow [:!terminal]]]}
+   :rules [[:!TT#SShome :!Cup_arrow [:!terminal]]
+           [:!TT#SSend :!Cdown_arrow [:!terminal]]]}
   {:des "Ctrl+(Shift)+{Up,Left,Down,Right} arrow => Option+(Shift)+{Up,Left,Down,Right} arrow (Move cursor over line/word w/ or w/o selection)"
-   :rules [[:!T#Sup_arrow :!Oup_arrow [:!terminal :!other-unknown]]
-           [:!T#Sleft_arrow :!Oleft_arrow [:!terminal :!other-unknown]]
-           [:!T#Sdown_arrow :!Odown_arrow [:!terminal :!other-unknown]]
-           [:!T#Sright_arrow :!Oright_arrow [:!terminal :!other-unknown]]]}
+   :rules [[:!TT#SSup_arrow :!Oup_arrow [:!terminal :!other-unknown]]
+           [:!TT#SSleft_arrow :!Oleft_arrow [:!terminal :!other-unknown]]
+           [:!TT#SSdown_arrow :!Odown_arrow [:!terminal :!other-unknown]]
+           [:!TT#SSright_arrow :!Oright_arrow [:!terminal :!other-unknown]]]}
   {:des "Ctrl+{Backspace,Delete} => Option+{Backspace,Delete} (Delete word backward/forward)"
-   :rules [[:!Tdelete_or_backspace :!Odelete_or_backspace [:!terminal :!other-unknown]]
-           [:!Tdelete_forward :!Odelete_forward [:!terminal :!other-unknown]]]}
+   :rules [[:!TTdelete_or_backspace :!Odelete_or_backspace [:!terminal :!other-unknown]]
+           [:!TTdelete_forward :!Odelete_forward [:!terminal :!other-unknown]]]}
 
   {:des "Ctrl+L => Cmd+L (Focus URL Bar) (Only in browsers)"
-   :rules [[:!Tl :!Cl [:web-browser]]]}
+   :rules [[:!TTl :!Cl [:web-browser]]]}
   {:des "Ctrl+(Shift)+R => Cmd+(Shift)+R (Refresh Tab) (Only in browsers)"
-   :rules [[:!T#Sr :!Cr [:web-browser]]]}
+   :rules [[:!TT#SSr :!Cr [:web-browser]]]}
 
   {:des "Return => Cmd+O (Open) (Only in Finder)"
    :rules [[:return_or_enter :!Co [:finder]]]}
@@ -158,27 +180,31 @@
   {:des "Delete => Cmd+Backspace (Delete) (Only in Finder)"
    :rules [[:delete_forward :!Cdelete_or_backspace [:finder]]]}
   {:des "Alt+Up arrow, Alt+{Left,Right} arrow => Cmd+Up arrow (Up), Cmd+{[,]} (Back,Forward) (Only in Finder)"
-   :rules [[:!Oup_arrow :!Cup_arrow [:finder]]
-           [:!Oleft_arrow :!Copen_bracket [:finder]]
-           [:!Oright_arrow :!Cclose_bracket [:finder]]]}
+   :rules [[:!OOup_arrow :!Cup_arrow [:finder]]
+           [:!OOleft_arrow :!Copen_bracket [:finder]]
+           [:!OOright_arrow :!Cclose_bracket [:finder]]]}
 
   {:des "Ctrl+Esc => Open Launchpad"
-   :rules [[:!Tescape :launchpad [:!other-unknown]]]}
+   :rules [[:!TTescape :launchpad [:!other-unknown]]]}
   {:des "Ctrl+Shift+Esc => Open Activity Monitor"
-   :rules [[:!TSescape "open -a 'Activity Monitor.app'" [:!other-unknown]]]}
-  {:des "Cmd+L => Lock (CGSession -suspend)",
-   :rules [[:!Cl "/System/Library/CoreServices/Menu\\ Extras/User.menu/Contents/Resources/CGSession -suspend"]]}
+   :rules [[:!TTSSescape "open -b com.apple.ActivityMonitor" [:!other-unknown]]]}
+  {:des "Cmd+L => Start ScreenSaver (and Lock)",
+   :rules [[:!CCl "open -a ScreenSaverEngine"]]}
+  {:des "Cmd+Shift+L => Sleep Display",
+   :rules [[:!CCSSl "pmset displaysleepnow"]]}
 
   {:des "Music Terminal (MPD,MPC,NCMPCPP)"
-   :rules [[:!COm [:shell "~/.local/bin/music-terminal"]]
-           [:!COcomma [:shell "/usr/local/bin/mpc prev"]]
-           [:!COperiod [:shell "/usr/local/bin/mpc next"]]]}
+   :rules [[:!CCOOm [:shell "~/.local/bin/music-terminal"]]
+           [:!CCOOcomma [:shell "/usr/local/bin/mpc prev"]]
+           [:!CCOOperiod [:shell "/usr/local/bin/mpc next"]]]}
   ]
 
-  ;; ! # ##  -> mandatory, optional, optional any
-  ;; !!      -> mandatory left_{command+control+option+shift}
-  ;; F P     -> fn, caps_lock
-  ;; C T O S -> left_{command, control, option, shift}
-  ;; Q W E R -> right_{command, control, option, shift}
+  ;; C  T  O  S  ->  left_{command, control, option, shift}
+  ;; Q  W  E  R  -> right_{command, control, option, shift}
+  ;; CC TT OO SS ->       {command, control, option, shift}
+  ;; F  P        -> fn, caps_lock
+  ;; !  #  ##    -> mandatory, optional, optional any
+  ;; !!          -> mandatory left_{command+control+option+shift}
+  ;; !!A         -> mandatory      {command+control+option+shift}
   :cheatsheet {}
 }
