@@ -33,6 +33,16 @@ command_exists() {
   type "${1}" >/dev/null 2>&1
 }
 
+ask_sudo() {
+  echo "Running this script would need 'sudo' permission."
+  echo ""
+
+  sudo -v
+
+  # keep sudo permission fresh
+  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+}
+
 ensure_darwin() {
   if [[ $OSTYPE != darwin* ]]; then
     exit 1
@@ -263,6 +273,14 @@ create_necessary_directories() {
   mkdir -p "${NECESSARY_DIRECTORIES[@]}"
 }
 
+write_macos_settings() {
+  TASK "Writing macOS Settings"
+
+  ${DIR}/.init.darwin.settings.sh
+}
+
+ask_sudo
+
 ensure_darwin
 ensure_brew
 ensure_secret_manager
@@ -270,3 +288,5 @@ ensure_secret_manager
 setup_brew_packages
 run_setup_scripts
 create_necessary_directories
+
+write_macos_settings
