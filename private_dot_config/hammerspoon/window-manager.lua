@@ -150,6 +150,40 @@ function mod:center()
   return self
 end
 
+-- move window to diffrent screen
+function mod:switch_screen(direction)
+  local total_screens = #hs.screen.allScreens()
+
+  if total_screens < 2 then
+    return self
+  end
+
+  local win = frontmost_window()
+  local is_fullscreen = win:isFullScreen()
+
+  if is_fullscreen then
+    win:setFullScreen(false)
+  end
+
+  if direction == 'up' then
+    win:moveOneScreenNorth(false, true)
+  elseif direction == 'down' then
+    win:moveOneScreenSouth(false, true)
+  elseif direction == 'left' then
+    win:moveOneScreenWest(false, true)
+  elseif direction == 'right' then
+    win:moveOneScreenEast(false, true)
+  end
+
+  if is_fullscreen then
+    hs.timer.doAfter(0.7, function()
+      win:setFullScreen(true)
+    end)
+  end
+
+  return self
+end
+
 function mod:bindHotkeys(mapping)
   local reverse_direction_modals = {}
 
@@ -194,6 +228,36 @@ function mod:bindHotkeys(mapping)
       mapping.center[2],
       function()
         self:center()
+      end
+    )
+  end
+
+  if mapping.switch_screen then
+    local modal = hs.hotkey.modal.new()
+
+    function modal.entered() self.logger.d("switch_screen modal entered") end
+    function modal.exited()  self.logger.d("switch_screen modal exited")  end
+
+    for _, direction in ipairs(directions) do
+      if mapping[direction] then
+        modal:bind(
+          mapping.switch_screen[1],
+          mapping[direction][2],
+          function()
+            self:switch_screen(direction)
+          end
+        )
+      end
+    end
+
+    hs.hotkey.bind(
+      mapping.switch_screen[1],
+      mapping.switch_screen[2],
+      function()
+        modal:enter()
+      end,
+      function()
+        modal:exit()
       end
     )
   end

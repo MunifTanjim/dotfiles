@@ -13,17 +13,25 @@ local modifier = {
 hs.window.animationDuration = 0
 
 wm = require("window-manager")
+-- wm.logger.setLogLevel('debug')
 wm:set_grid(6, 6):set_margins(hs.geometry.point(0, 0))
 wm:bindHotkeys({
-  up         = {modifier.cmd_alt, "up"},
-  right      = {modifier.cmd_alt, "right"},
-  down       = {modifier.cmd_alt, "down"},
-  left       = {modifier.cmd_alt, "left"},
-  center     = {modifier.cmd_alt, "c"},
+  up            = {modifier.cmd_alt, "up"},
+  right         = {modifier.cmd_alt, "right"},
+  down          = {modifier.cmd_alt, "down"},
+  left          = {modifier.cmd_alt, "left"},
+  center        = {modifier.cmd_alt, "c"},
+  switch_screen = {modifier.cmd_alt, "z"},
 })
 
 config_loader = require("config-loader")
+-- config_loader.logger.setLogLevel('debug')
 config_loader:start()
 config_loader:bindHotkeys({
   reload = {modifier.cmd_alt_shift, "r"}
 })
+
+-- MPD, MPC, MPDSCRIBBLE, NCMPCPP
+hs.hotkey.bind(modifier.cmd_alt, "m", function() os.execute("~/.local/bin/music-terminal") end)
+hs.hotkey.bind(modifier.cmd_alt, ",", function() os.execute("/usr/local/bin/mpc prev")     end)
+hs.hotkey.bind(modifier.cmd_alt, ".", function() os.execute("/usr/local/bin/mpc next")     end)
