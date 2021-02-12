@@ -103,7 +103,7 @@
            [:##left_option :left_command]
            [:##right_command :right_option]
            [:##right_option :right_command]]}
-  {:des "Internal Keyboard: Tilde => Esc (Hold)"
+  {:des "Internal Keyboard: Backtick => Esc (Hold)"
    :rules [[:##grave_accent_and_tilde nil [:internal-keyboard] {:alone :grave_accent_and_tilde :held :escape}]]}
   {:des "Internal Keyboard: Fn-Layer"
    :rules [:internal-keyboard
@@ -115,10 +115,19 @@
            [:!F##j :down_arrow]
            [:!F##k :up_arrow]
            [:!F##l :right_arrow]
+           [:!FT#SSa :!Oleft_arrow]
+           [:!FT#SSs :!Odown_arrow]
+           [:!FT#SSw :!Oup_arrow]
+           [:!FT#SSd :!Oright_arrow]
+           [:!F##a :left_arrow]
+           [:!F##s :down_arrow]
+           [:!F##w :up_arrow]
+           [:!F##d :right_arrow]
            [:!F1 :f1] [:!F2 :f2] [:!F3 :f3]
            [:!F4 :f4] [:!F5 :f5] [:!F6 :f6]
            [:!F7 :f7] [:!F8 :f8] [:!F9 :f9]
-           [:!F0 :f10] [:!Fhyphen :f11] [:!Fequal_sign :f12]]}
+           [:!F0 :f10] [:!Fhyphen :f11] [:!Fequal_sign :f12]
+           [:!F##backslash :delete_forward]]}
 
   {:des "Ctrl+A => Cmd+A (Select All)"
    :rules [[:!TTa :!Ca [:!terminal :!other-unknown]]]}
@@ -149,9 +158,10 @@
   {:des "Alt+(Shift)+Tab => Cmd+(Shift)+Tab (Switch application)"
    :rules [[:!OO#SStab :!Ctab]]}
 
-  ; ; issue: https://github.com/yqrashawn/GokuRakuJoudo/issues/115
+  ; ; issue with shorthand syntax: https://github.com/yqrashawn/GokuRakuJoudo/issues/115
+  ; ; does not work anymore anyway
   ; {:des "Ctrl+Left Click => Cmd+Left Click (select multiple items)"
-  ;  :rules [[:!TTbutton1 :!Cbutton1]]}
+  ;  :rules [[{:pkey :button1 :modi :control} {:pkey :button1 :modi :command}]]}
 
   {:des "(Shift)+{Home,End} => Cmd+(Shift)+{Left,Right} arrow (Move cursor to beginning/end of line w/ or w/o selection)"
    :rules [[:#SShome :!Cleft_arrow [:!terminal]]
@@ -192,11 +202,6 @@
    :rules [[:!CCl "open -a ScreenSaverEngine"]]}
   {:des "Cmd+Shift+L => Sleep Display",
    :rules [[:!CCSSl "pmset displaysleepnow"]]}
-
-  {:des "Music Terminal (MPD,MPC,NCMPCPP)"
-   :rules [[:!CCOOm [:shell "~/.local/bin/music-terminal"]]
-           [:!CCOOcomma [:shell "/usr/local/bin/mpc prev"]]
-           [:!CCOOperiod [:shell "/usr/local/bin/mpc next"]]]}
   ]
 
   ;; C  T  O  S  ->  left_{command, control, option, shift}
