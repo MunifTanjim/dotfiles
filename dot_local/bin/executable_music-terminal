@@ -2,7 +2,9 @@
 
 set -eu
 
-export PATH="/usr/local/bin:${PATH}"
+is_mac() {
+  [[ $OSTYPE = darwin* ]]
+}
 
 command_exists() {
   type "${1}" >/dev/null 2>&1
@@ -15,20 +17,26 @@ process_running() {
 notify() {
   local -r title="${1}"
   local -r description="${2}"
-  if [[ $OSTYPE = darwin* ]]; then
+  if is_mac; then
     osascript -e "display notification \"${description}\" with title \"${title}\""
   elif command_exists notify-send; then
     notify-send --hint=int:transient:1 "${title}" "${description}"
   fi
 }
 
+export PATH="/usr/local/bin:${PATH}"
+
+if is_mac; then
+  export PATH="/usr/local/opt/util-linux/bin:${PATH}"
+fi
+
 if ! process_running mpd; then
-  mpd >/dev/null 2>&1
-  killall mpdscribble >dev/null 2>&1 || true
+  setsid mpd >/dev/null 2>&1 &
+  killall mpdscribble >/dev/null 2>&1 || true
 fi
 
 if ! process_running mpdscribble; then
-  mpdscribble --conf "${HOME}/.config/mpdscribble/mpdscribble.conf"
+  setsid mpdscribble --conf "${HOME}/.config/mpdscribble/mpdscribble.conf" >/dev/null 2>&1 &
 fi
 
 if command_exists alacritty; then
@@ -61,5 +69,5 @@ if process_running ncmpcpp; then
   mpc toggle
 else
   notify "Music Player" "Loading..."
-  ${terminal_command} --command ncmpcpp $*
+  setsid ${terminal_command} --command ncmpcpp $* &
 fi
