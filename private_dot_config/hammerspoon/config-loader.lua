@@ -9,7 +9,7 @@ mod.license = "MIT (https://opensource.org/licenses/MIT)"
 
 mod.logger = hs.logger.new(mod.name)
 
-local function reload()
+function mod.reload()
   hs.notify.new({title="Hammerspoon", informativeText="Reloading Config...", withdrawAfter=1}):send()
   hs.timer.doAfter(1, hs.reload)
 end
@@ -17,7 +17,7 @@ end
 local watcher = hs.pathwatcher.new(hs.configdir, function(paths)
   for _, path in ipairs(paths) do
     if path:sub(-4) == ".lua" then
-      reload()
+      mod.reload()
       break
     end
   end
@@ -25,7 +25,7 @@ end)
 
 function mod:bindHotkeys(mapping)
   local spec = {
-    reload = reload,
+    reload = mod.reload,
   }
   hs.spoons.bindHotkeysToSpec(spec, mapping)
   return self

@@ -2,12 +2,13 @@
 -- $ defaults write org.hammerspoon.hammerspoon MJConfigFile "~/.config/hammerspoon/init.lua"
 
 local modifier = {
-  cmd = {"cmd"},
-  cmd_shift = {"cmd", "shift"},
-  cmd_alt = {"cmd", "alt"},
+  blank         = "",
+  cmd           = {"cmd"},
+  cmd_shift     = {"cmd", "shift"},
+  cmd_alt       = {"cmd", "alt"},
   cmd_alt_shift = {"cmd", "alt", "shift"},
-  ctrl = {"ctrl"},
-  ctrl_shift = {"ctrl", "shift"},
+  ctrl          = {"ctrl"},
+  ctrl_shift    = {"ctrl", "shift"},
 }
 
 hs.window.animationDuration = 0
@@ -35,3 +36,6 @@ config_loader:bindHotkeys({
 hs.hotkey.bind(modifier.cmd_alt, "m", function() os.execute("~/.local/bin/music-terminal") end)
 hs.hotkey.bind(modifier.cmd_alt, ",", function() os.execute("/usr/local/bin/mpc prev")     end)
 hs.hotkey.bind(modifier.cmd_alt, ".", function() os.execute("/usr/local/bin/mpc next")     end)
+
+-- Screenshot (f13 = print_screen)
+hs.hotkey.bind(modifier.blank, "f13", function() hs.application.open('com.apple.screenshot.launcher') end)
