@@ -99,35 +99,41 @@
    :rules [[:##left_control :left_command [:internal-keyboard]]]}
   {:des "Internal Keyboard: Command <=> Option"
    :rules [:internal-keyboard
-           [:##left_command :left_option]
-           [:##left_option :left_command]
+           [:##left_command  :left_option]
+           [:##left_option   :left_command]
            [:##right_command :right_option]
-           [:##right_option :right_command]]}
+           [:##right_option  :right_command]
+           ]}
   {:des "Internal Keyboard: Backtick => Esc (Hold)"
    :rules [[:##grave_accent_and_tilde nil [:internal-keyboard] {:alone :grave_accent_and_tilde :held :escape}]]}
   {:des "Internal Keyboard: Fn-Layer"
    :rules [:internal-keyboard
-           [:!FT#SSh :!Oleft_arrow]
-           [:!FT#SSj :!Odown_arrow]
-           [:!FT#SSk :!Oup_arrow]
-           [:!FT#SSl :!Oright_arrow]
-           [:!F##h :left_arrow]
-           [:!F##j :down_arrow]
-           [:!F##k :up_arrow]
-           [:!F##l :right_arrow]
-           [:!FT#SSa :!Oleft_arrow]
-           [:!FT#SSs :!Odown_arrow]
-           [:!FT#SSw :!Oup_arrow]
-           [:!FT#SSd :!Oright_arrow]
-           [:!F##a :left_arrow]
-           [:!F##s :down_arrow]
-           [:!F##w :up_arrow]
-           [:!F##d :right_arrow]
-           [:!F1 :f1] [:!F2 :f2] [:!F3 :f3]
-           [:!F4 :f4] [:!F5 :f5] [:!F6 :f6]
-           [:!F7 :f7] [:!F8 :f8] [:!F9 :f9]
+           ; num row => f1 to f12
+           [:!F1 :f1]  [:!F2      :f2]  [:!F3          :f3]
+           [:!F4 :f4]  [:!F5      :f5]  [:!F6          :f6]
+           [:!F7 :f7]  [:!F8      :f8]  [:!F9          :f9]
            [:!F0 :f10] [:!Fhyphen :f11] [:!Fequal_sign :f12]
-           [:!F##backslash :delete_forward]]}
+           ; hjkl => arrows
+           [:!FT#SSh :!Oleft_arrow  [:!terminal]] [:!F##h :left_arrow]
+           [:!FT#SSj :!Odown_arrow  [:!terminal]] [:!F##j :down_arrow]
+           [:!FT#SSk :!Oup_arrow    [:!terminal]] [:!F##k :up_arrow]
+           [:!FT#SSl :!Oright_arrow [:!terminal]] [:!F##l :right_arrow]
+           ; wasd => arrows
+           [:!FT#SSw :!Oup_arrow    [:!terminal]] [:!F##w :up_arrow]
+           [:!FT#SSa :!Oleft_arrow  [:!terminal]] [:!F##a :left_arrow]
+           [:!FT#SSs :!Odown_arrow  [:!terminal]] [:!F##s :down_arrow]
+           [:!FT#SSd :!Oright_arrow [:!terminal]] [:!F##d :right_arrow]
+           ; unmap default fn+arrows
+           [:!FT#SSup_arrow    :!Oup_arrow    [:!terminal]] [:!F##up_arrow    :up_arrow]
+           [:!FT#SSleft_arrow  :!Oleft_arrow  [:!terminal]] [:!F##left_arrow  :left_arrow]
+           [:!FT#SSdown_arrow  :!Odown_arrow  [:!terminal]] [:!F##down_arrow  :down_arrow]
+           [:!FT#SSright_arrow :!Oright_arrow [:!terminal]] [:!F##right_arrow :right_arrow]
+           ; navkeys and others
+           [:!F##p            :print_screen] [:!F##backslash     :delete_forward]
+           [:!F##open_bracket :home]         [:!F##close_bracket :end]
+           [:!F##semicolon    :page_up]      [:!F##quote         :page_down]
+           [:!F##period       :insert]       [:!F##slash         :delete_forward]
+           ]}
 
   {:des "Ctrl+A => Cmd+A (Select All)"
    :rules [[:!TTa :!Ca [:!terminal :!other-unknown]]]}
@@ -136,7 +142,7 @@
            [:!TTv :!Cv [:!terminal :!other-unknown]]
            [:!TTx :!Cx [:!terminal :!other-unknown]]]}
   {:des "Ctrl+Z, Ctrl+Y => Cmd+Z (Undo), Cmd+Shift+Z (Redo)"
-   :rules [[:!TTz :!Cz [:!terminal :!other-unknown]]
+   :rules [[:!TTz :!Cz  [:!terminal :!other-unknown]]
            [:!TTy :!CSz [:!terminal :!other-unknown]]]}
   {:des "Ctrl+S => Cmd+S (Save)"
    :rules [[:!TTs :!Cs [:!terminal :!other-unknown]]]}
@@ -164,35 +170,43 @@
   ;  :rules [[{:pkey :button1 :modi :control} {:pkey :button1 :modi :command}]]}
 
   {:des "(Shift)+{Home,End} => Cmd+(Shift)+{Left,Right} arrow (Move cursor to beginning/end of line w/ or w/o selection)"
-   :rules [[:#SShome :!Cleft_arrow [:!terminal]]
-           [:#SSend :!Cright_arrow [:!terminal]]]}
+   :rules [[:#SShome :!Cleft_arrow  [:!terminal]]
+           [:#SSend  :!Cright_arrow [:!terminal]]]}
   {:des "Ctrl+(Shift)+{Home,End} => Cmd+(Shift)+{Up,Down} arrow (Move cursor to beginning/end of file w/ or w/o selection)"
-   :rules [[:!TT#SShome :!Cup_arrow [:!terminal]]
-           [:!TT#SSend :!Cdown_arrow [:!terminal]]]}
+   :rules [[:!TT#SShome :!Cup_arrow   [:!terminal]]
+           [:!TT#SSend  :!Cdown_arrow [:!terminal]]]}
   {:des "Ctrl+(Shift)+{Up,Left,Down,Right} arrow => Option+(Shift)+{Up,Left,Down,Right} arrow (Move cursor over line/word w/ or w/o selection)"
-   :rules [[:!TT#SSup_arrow :!Oup_arrow [:!terminal :!other-unknown]]
-           [:!TT#SSleft_arrow :!Oleft_arrow [:!terminal :!other-unknown]]
-           [:!TT#SSdown_arrow :!Odown_arrow [:!terminal :!other-unknown]]
+   :rules [[:!TT#SSup_arrow    :!Oup_arrow    [:!terminal :!other-unknown]]
+           [:!TT#SSleft_arrow  :!Oleft_arrow  [:!terminal :!other-unknown]]
+           [:!TT#SSdown_arrow  :!Odown_arrow  [:!terminal :!other-unknown]]
            [:!TT#SSright_arrow :!Oright_arrow [:!terminal :!other-unknown]]]}
   {:des "Ctrl+{Backspace,Delete} => Option+{Backspace,Delete} (Delete word backward/forward)"
    :rules [[:!TTdelete_or_backspace :!Odelete_or_backspace [:!terminal :!other-unknown]]
-           [:!TTdelete_forward :!Odelete_forward [:!terminal :!other-unknown]]]}
+           [:!TTdelete_forward      :!Odelete_forward      [:!terminal :!other-unknown]]]}
 
-  {:des "Ctrl+L => Cmd+L (Focus URL Bar) (Only in browsers)"
-   :rules [[:!TTl :!Cl [:web-browser]]]}
-  {:des "Ctrl+(Shift)+R => Cmd+(Shift)+R (Refresh Tab) (Only in browsers)"
-   :rules [[:!TT#SSr :!Cr [:web-browser]]]}
 
-  {:des "Return => Cmd+O (Open) (Only in Finder)"
+  {:des "Finder: Return => Cmd+O (Open)"
    :rules [[:return_or_enter :!Co [:finder]]]}
-  {:des "F2 => Return (Rename) (Only in Finder)"
+  {:des "Finder: F2 => Return (Rename)"
    :rules [[:f2 :return_or_enter [:finder]]]}
-  {:des "Delete => Cmd+Backspace (Delete) (Only in Finder)"
+  {:des "Finder: Delete => Cmd+Backspace (Delete)"
    :rules [[:delete_forward :!Cdelete_or_backspace [:finder]]]}
-  {:des "Alt+Up arrow, Alt+{Left,Right} arrow => Cmd+Up arrow (Up), Cmd+{[,]} (Back,Forward) (Only in Finder)"
-   :rules [[:!OOup_arrow :!Cup_arrow [:finder]]
-           [:!OOleft_arrow :!Copen_bracket [:finder]]
-           [:!OOright_arrow :!Cclose_bracket [:finder]]]}
+  {:des "Finder: Alt+Up arrow, Alt+{Left,Right} arrow => Cmd+Up arrow (Up), Cmd+{[,]} (Back,Forward)"
+   :rules [:finder
+           [:!OOup_arrow    :!Cup_arrow]
+           [:!OOleft_arrow  :!Copen_bracket]
+           [:!OOright_arrow :!Cclose_bracket]
+           ]}
+
+  {:des "Web Browser: Ctrl+L => Cmd+L (Focus URL Bar)"
+   :rules [[:!TTl :!Cl [:web-browser]]]}
+  {:des "Web Browser: Ctrl+(Shift)+R => Cmd+(Shift)+R (Refresh Tab)"
+   :rules [[:!TT#SSr :!Cr [:web-browser]]]}
+  {:des "Web Browser: Alt+{Left,Right} arrow => Cmd+{[,]} (Back,Forward)"
+   :rules [:web-browser
+           [:!OOleft_arrow  :!Copen_bracket]
+           [:!OOright_arrow :!Cclose_bracket]
+           ]}
 
   {:des "Ctrl+Esc => Open Launchpad"
    :rules [[:!TTescape :launchpad [:!other-unknown]]]}
