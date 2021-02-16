@@ -1,3 +1,6 @@
+window:
+  decorations: buttonless # buttonless / full / none / transparent
+
 key_bindings:
   - { key: A,         mods: Alt,       chars: "\x1ba"                       }
   - { key: B,         mods: Alt,       chars: "\x1bb"                       }
@@ -74,5 +77,3 @@ key_bindings:
   - { key: Key6,      mods: Alt|Shift, chars: "\x1b^"                       } # Alt + ^
   - { key: Backslash, mods: Alt,       chars: "\x1b\\"                      } # Alt + \
   - { key: Backslash, mods: Alt|Shift, chars: "\x1b|"                       } # Alt + |
-
-# vim: set filetype=yaml.gotmpl foldmethod=indent :
