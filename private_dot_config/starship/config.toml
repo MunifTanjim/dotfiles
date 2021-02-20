@@ -1,25 +1,28 @@
 add_newline = false
-format      = "$all"
+format = '$all'
 
 [aws]
-symbol = " "
+disabled = true
+symbol = ' '
 
 [battery]
-full_symbol        = ""
-charging_symbol    = ""
-discharging_symbol = ""
-format             = "[$symbol\\[$percentage\\]]($style) "
+full_symbol = ''
+charging_symbol = ''
+discharging_symbol = ''
+format = '[$symbol\[$percentage\]]($style) '
+
 [[battery.display]]
-style              = "bold red"
-threshold          = 15
+style = 'bold red'
+threshold = 15
+
 [[battery.display]]
-style              = "bold yellow"
-threshold          = 30
+style = 'bold yellow'
+threshold = 30
 
 [character]
-error_symbol   = "[❯](bold red)"
-success_symbol = "[❯](bold green)"
-vicmd_symbol   = "[❮](bold green)"
+error_symbol = '[❯](bold red)'
+success_symbol = '[❯](bold green)'
+vicmd_symbol = '[❮](bold green)'
 
 [cmake]
 disabled = true
@@ -29,140 +32,141 @@ min_time = 5000
 
 [conda]
 disabled = true
-symbol = " "
+symbol = ' '
 
 [crystal]
 disabled = true
 
 [dart]
 disabled = true
-symbol   = " "
+symbol = ' '
 
 [directory]
-format = "[$read_only](red)[$path](bold cyan) "
-read_only = " "
-truncation_symbol = "…/"
+format = '[$read_only](red)[$path](bold cyan) '
+read_only = ' '
+truncation_symbol = '…/'
 
 [docker_context]
-symbol = " "
+symbol = ' '
 
 [dotnet]
 disabled = true
-symbol = " "
+symbol = ' '
 
 [elixir]
 disabled = true
-symbol   = " "
+symbol = ' '
 
 [elm]
 disabled = true
-symbol   = " "
+symbol = ' '
 
 [erlang]
 disabled = true
-symbol = " "
+symbol = ' '
 
 [gcloud]
-symbol = " "
+symbol = ' '
 
 [git_branch]
-format = "[( $branch )](bold bright-purple)"
- 
+format = '[( $branch )](bold bright-purple)'
+
 [git_commit]
-format             = "[( $hash)](bold blue)[($tag) ](bold green)"
+format = '[( $hash)](bold blue)[($tag) ](bold green)'
 commit_hash_length = 8
-tag_disabled       = false
-tag_symbol         = " "
+tag_disabled = false
+tag_symbol = ' '
 
 [git_state]
-format      = "[($state\\($progress_current/$progress_total\\) )](bold red)"
+format = '[($state\($progress_current/$progress_total\) )](bold red)'
 
 [git_status]
-format     = "[(\\[$all_status$ahead_behind\\] )](bold yellow)"
-conflicted = "=${count}"
-ahead      = "⇡${count}"
-behind     = "⇣${count}"
-diverged   = "⇕⇡${ahead_count}⇣${behind_count}"
-untracked  = "?${count}"
-stashed    = "≡${count}"
-modified   = "!${count}"
-staged     = "+${count}"
-renamed    = "»${count}"
-deleted    = "✘${count}"
+format = '[(\[$all_status$ahead_behind\] )](bold yellow)'
+conflicted = '=${count}'
+ahead = '⇡${count}'
+behind = '⇣${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+untracked = '?${count}'
+stashed = '≡${count}'
+modified = '!${count}'
+staged = '+${count}'
+renamed = '»${count}'
+deleted = '✘${count}'
 
 [golang]
-symbol = " "
+symbol = ' '
 
 [haskell]
 disabled = true
-symbol   = " "
+symbol = ' '
 
 [helm]
 disabled = true
-symbol   = "⎈ "
+symbol = '⎈ '
 
 [hg_branch]
 disabled = true
-symbol   = " "
+symbol = ' '
 
 [hostname]
-trim_at = ""
+trim_at = ''
 
 [java]
 disabled = true
-symbol   = " "
+symbol = ' '
 
 [jobs]
-symbol = " "
+symbol = ' '
 
 [julia]
 disabled = true
-symbol   = " "
+symbol = ' '
 
 [kubernetes]
 disabled = true
-symbol   = "☸ "
+symbol = '☸ '
 
 [memory_usage]
-symbol = " "
+symbol = ' '
 
 [nim]
 disabled = true
-symbol   = " "
+symbol = ' '
 
 [nix_shell]
 disabled = true
-symbol   = " "
+symbol = ' '
 
 [nodejs]
-symbol = " "
+symbol = ' '
 
 [package]
-symbol = " "
+symbol = ' '
 
 [perl]
 disabled = false
-symbol   = " "
+symbol = ' '
 
 [php]
 disabled = true
-symbol   = " "
+symbol = ' '
 
 [purescript]
 disabled = true
 
 [python]
-symbol = " "
+symbol = ' '
+format = 'via [${symbol}${pyenv_prefix}(${version} )(\(${virtualenv}\) )]($style)'
 
 [ocaml]
 disabled = true
-symbol   = "🐫 "
+symbol = '🐫 '
 
 [ruby]
-symbol = " "
+symbol = ' '
 
 [rust]
-symbol = " "
+symbol = ' '
 
 [shlvl]
 disabled = true
@@ -172,15 +176,15 @@ disabled = true
 
 [status]
 disabled = false
-format   = "[${status}](bold red) "
+format = '[${status}](bold red) '
 
 [swift]
 disabled = true
-symbol   = " "
+symbol = ' '
 
 [terraform]
 disabled = true
-symbol   = "💠 "
+symbol = '💠 '
 
 [time]
 disabled = true
@@ -190,4 +194,4 @@ disabled = false
 
 [zig]
 disabled = true
-symbol   = "⚡️ "
+symbol = '⚡️ '
