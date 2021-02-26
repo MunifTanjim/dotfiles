@@ -68,9 +68,9 @@ endif
 " save
 nnoremap <Leader>s :update<CR>
 
-" exit insert mode
-inoremap jk <Esc>
-inoremap kj <Esc>
+" " exit insert mode (caps_lock is the new escape)
+" inoremap jk <Esc>
+" inoremap kj <Esc>
 
 " move lines
 inoremap <M-j> <Esc>:move .+1<CR>==gi
@@ -121,6 +121,7 @@ if isdirectory(fzf_root)
   Plug 'stsewd/fzf-checkout.vim'
 endif
 Plug 'bkad/CamelCaseMotion'
+Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'javascriptreact'], 'do': 'make install' }
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
 Plug 'mhinz/vim-startify'
