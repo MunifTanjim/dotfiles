@@ -141,6 +141,7 @@ setup_brew_packages() {
   brew "grep"
   brew "gzip"
   brew "less"
+  brew "moreutils"
   brew "screen"
   brew "util-linux"
   '
@@ -153,6 +154,8 @@ setup_brew_packages() {
   brew "asciinema"
   brew "bash"
   brew "bat"
+  brew "docker-completion"
+  brew "docker-compose-completion"
   brew "exa"
   brew "fd"
   brew "gh"
@@ -173,12 +176,13 @@ setup_brew_packages() {
   brew "starship"
   brew "subversion"
   brew "tmux"
+  brew "trash"
   brew "tree"
   brew "wget"
+  brew "yqrashawn/goku/goku"
   brew "zoxide"
   brew "zsh"
   cask "rar"
-  brew "yqrashawn/goku/goku"
   '
   brew_bundle
 
