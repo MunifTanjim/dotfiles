@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -euf
+
+IFS='
+'
+
+format="$1"
+shift
+name="$1"
+shift
+fs="$@"
+
+if test -e "${name}"; then
+  exit 1
+fi
+
+mkdir "${name}"
+cp -r $fs "${name}"
+
+case "${format}" in
+  tar) tar czf "${name}.tar.gz" "${name}";;
+  zip) zip -r "${name}.zip" "${name}";;
+  *) exit 1;;
+esac
+
+rm -rf "${name}"

@@ -17,6 +17,7 @@ set shellopts '-eu'
 # commands accordingly.
 set ifs "\n"
 
+set drawbox
 set icons
 set period 15
 set scrolloff 5
@@ -60,15 +61,8 @@ cmd trash ${{
   printf "\nTrash? [y/n]: "
   read answer
   if [ "$answer" = "y" ]; then
-    if type gio >/dev/null 2>&1; then
-      gio trash $fx
-    else
-      for f in $fx; do
-        mv $f ~/.trash/$(printf $f | tr '/' '%')
-      done
-    fi
+    ~/.config/lf/trash "$fx"
   fi
-  clear
 }}
 
 # define a custom 'delete' command
@@ -81,43 +75,41 @@ cmd delete ${{
   if [ "$answer" = "y" ]; then
     rm -rf $fx
   fi
-  clear
 }}
 
-cmd mkdir %mkdir -p $1 && lf -remote "send $id select $1"
-cmd touch %touch $1 && lf -remote "send $id select $1"
+cmd mkdir %{{
+    IFS=" "
+    mkdir -p -- "$*"
+    lf -remote "send $id select \"$*\""
+}}
+
+cmd touch %{{
+    IFS=" "
+    touch -- "$*"
+    lf -remote "send $id select \"$*\""
+}}
 
 # (xkcd link: https://xkcd.com/1168/)
 # extract the current file with the right command
 cmd extract ${{
   set -f
-  case $f in
-    *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
-    *.tar.gz|*.tgz) tar xzvf $f;;
-    *.tar.xz|*.txz) tar xJvf $f;;
-    *.zip) unzip $f;;
-    *.rar) unrar x $f;;
-    *.7z) 7z x $f;;
-  esac
-  clear
+  ~/.config/lf/extract "$f"
 }}
 
 # compress current file or selected files with tar and gunzip
 cmd tar ${{
   set -f
-  mkdir $1
-  cp -r $fx $1
-  tar czf $1.tar.gz $1
-  rm -rf $1
+  name="${@}"
+  ~/.config/lf/compress tar "$name" "$fx"
+  lf -remote "send $id unselect"
 }}
 
 # compress current file or selected files with zip
 cmd zip ${{
   set -f
-  mkdir $1
-  cp -r $fx $1
-  zip -r $1.zip $1
-  rm -rf $1
+  name="${@}"
+  ~/.config/lf/compress zip "$name" "$fx"
+  lf -remote "send $id unselect"
 }}
 
 # reload config and refresh ui
@@ -130,6 +122,11 @@ cmd q :quit
 
 set previewer "~/.config/lf/previewer"
 map i $~/.config/lf/previewer "$f" | less -R
+
+set mouse
+map <m-down> down
+map <m-up> up
+map <m-3> :toggle
 
 map e $$EDITOR $f
 map i $$PAGER $f

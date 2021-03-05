@@ -1,0 +1,32 @@
+#!/bin/sh
+
+set -euf
+
+command_exists() {
+  type "${1}" >/dev/null 2>&1
+}
+
+is_mac() {
+  [[ $OSTYPE = darwin* ]]
+}
+
+IFS='
+'
+
+fs="$@"
+
+if is_mac; then
+  if command_exists trash; then
+    trash -F $fs
+    exit 0
+  fi
+else
+  if command_exists gio; then
+    gio trash $fs
+    exit 0
+  fi
+fi
+
+for f in $fs; do
+  mv "$f" "${HOME}/.trash/$(printf $f | tr '/' '%')"
+done

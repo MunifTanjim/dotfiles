@@ -1,5 +1,11 @@
 #!/bin/sh
 
+set -euf
+
+command_exists() {
+  type "${1}" >/dev/null 2>&1
+}
+
 case "$1" in
   *.tar*)
     tar tf "$1"
@@ -17,7 +23,11 @@ case "$1" in
     pdftotext "$1" -
     ;;
   *.jpg|*.jpeg|*.png)
-    chafa --colors=256 "$1"
+    if command_exists chafa; then
+      chafa --colors=256 "$1"
+    elif command_exists viu; then
+      viu -w "$2" "$1"
+    fi
     ;;
   *)
     unset COLORTERM
