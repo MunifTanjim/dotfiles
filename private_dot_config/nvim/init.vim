@@ -160,6 +160,7 @@ Plug 'neoclide/jsonc.vim'
 Plug 'neomutt/neomutt.vim'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
+Plug 'rust-lang/rust.vim'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-markdown'
@@ -368,6 +369,11 @@ let g:git_messenger_always_into_popup = v:true
 
 " keymaps: git-messenger
 nmap <Leader>go <Plug>(git-messenger)
+
+function! s:setup_git_messenger_popup() abort
+    nmap <buffer><Esc> <Plug>(git-messenger-close)
+endfunction
+autocmd FileType gitmessengerpopup call <SID>setup_git_messenger_popup()
 
 "## Plugin: hexokinase
 
