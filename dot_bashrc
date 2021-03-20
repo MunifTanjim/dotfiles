@@ -12,6 +12,8 @@ fi
 # Bash Completion
 if [ -f /etc/bash_completion ]; then
   source /etc/bash_completion
+elif [ -r /usr/local/etc/profile.d/bash_completion.sh ]; then
+  source /usr/local/etc/profile.d/bash_completion.sh
 fi
 
 XDG_CONFIG_HOME="$HOME/.config"
