@@ -109,10 +109,10 @@
   {:des "Internal Keyboard: Fn-Layer"
    :rules [:internal-keyboard
            ; num row => f1 to f12
-           [:!F1 :f1]  [:!F2      :f2]  [:!F3          :f3]
-           [:!F4 :f4]  [:!F5      :f5]  [:!F6          :f6]
-           [:!F7 :f7]  [:!F8      :f8]  [:!F9          :f9]
-           [:!F0 :f10] [:!Fhyphen :f11] [:!Fequal_sign :f12]
+           [:!F##1 :f1]  [:!F##2      :f2]  [:!F##3          :f3]
+           [:!F##4 :f4]  [:!F##5      :f5]  [:!F##6          :f6]
+           [:!F##7 :f7]  [:!F##8      :f8]  [:!F##9          :f9]
+           [:!F##0 :f10] [:!F##hyphen :f11] [:!F##equal_sign :f12]
            ; hjkl => arrows
            [:!FT#SSh :!Oleft_arrow  [:!terminal]] [:!F##h :left_arrow]
            [:!FT#SSj :!Odown_arrow  [:!terminal]] [:!F##j :down_arrow]
