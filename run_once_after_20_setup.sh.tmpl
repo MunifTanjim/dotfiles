@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-script={{ .chezmoi.sourceDir }}/.init.{{ .chezmoi.os }}.sh
+script={{ .chezmoi.sourceDir }}/.20_setup.{{ .chezmoi.os }}.sh
 
 if [[ -x "${script}" ]]; then
   ${script}

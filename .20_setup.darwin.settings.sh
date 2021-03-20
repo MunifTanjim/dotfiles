@@ -2,6 +2,12 @@
 
 set -euo pipefail
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source "${DIR}/.00_helpers.sh"
+
+ensure_darwin
+ask_sudo
+
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we're about to change
 osascript -e 'tell application "System Preferences" to quit'
@@ -20,7 +26,7 @@ osascript -e 'tell application "System Preferences" to quit'
 sudo nvram SystemAudioVolume=" "
 
 # Disable transparency in the menu bar and elsewhere on Yosemite
-defaults write com.apple.universalaccess reduceTransparency -bool true
+sudo defaults write com.apple.universalaccess reduceTransparency -bool true
 
 # Use Dark interface
 defaults write -g AppleInterfaceStyle -string "Dark"

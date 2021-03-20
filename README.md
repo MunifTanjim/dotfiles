@@ -1,27 +1,5 @@
 # MunifTanjim's .dotfiles
 
-## Prerequisites
-
-### Linux Prerequisites
-
-```sh
-# install basic tools
-sudo apt install curl git
-
-# login to snap with ubuntu account (for sudo-less `snap install`)
-snap login
-```
-
-### macOS Prerequisites
-
-```sh
-# install command line tools
-xcode-select --install
-
-# install homebrew
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
 ## Setup
 
 ```sh

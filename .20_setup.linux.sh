@@ -3,77 +3,8 @@
 set -euo pipefail
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
+source "${DIR}/.00_helpers.sh"
 export PATH="${DIR}/scripts.sh:${PATH}"
-
-command_exists() {
-  type "${1}" >/dev/null 2>&1
-}
-
-ensure_linux() {
-  if [[ $OSTYPE != linux* ]]; then
-    exit 1
-  fi
-}
-
-
-TASK() {
-  local -r str="$1"
-  local -r str_len=$(( 4 + ${#str} ))
-  local -r char="${2:-"="}"
-
-  echo ""
-  echo "$(printf '%*s' "${str_len}" | tr ' ' "${char}")"
-  echo "$char $str $char"
-  echo "$(printf '%*s' "${str_len}" | tr ' ' "${char}")"
-  echo ""
-}
-
-SUB_TASK() {
-  local -r str="$1"
-  local -r char="${2:-"="}"
-
-  echo ""
-  echo "$char"
-  echo "$str"
-  echo "$char"
-  echo ""
-}
-
-ensure_secret_manager() {
-  if ! command_exists bw; then
-    echo "command not found: bw"
-    echo ""
-    echo "  snap install bitwarden"
-    exit 1
-  fi
-
-  local status="$(bw status)"
-  status="${status##*\"status\":\"}"
-  status="${status%%\"*}"
-
-  if [[ $status = "unauthenticated" ]]; then
-    echo "secret manager is not authenticated, run:"
-    echo ""
-    echo "  bw login"
-    echo ""
-    exit 1
-  fi
-
-  if [[ $status = "locked" ]]; then
-    echo "secret manager is locked, run:"
-    echo ""
-    echo "  export BW_SESSION=\$(bw unlock --raw)"
-    echo ""
-    exit 1
-  fi
-
-  if [[ $status != "unlocked" ]]; then
-    echo "secret manager is not unlocked"
-    echo ""
-    exit 1
-  fi
-}
 
 install_apt_packages() {
   if ! command_exists apt; then
@@ -250,7 +181,7 @@ create_necessary_directories() {
 }
 
 ensure_linux
-ensure_secret_manager
+ask_sudo
 
 install_apt_packages
 install_snap_packages

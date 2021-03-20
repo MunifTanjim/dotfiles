@@ -3,95 +3,8 @@
 set -euo pipefail
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
+source "${DIR}/.00_helpers.sh"
 export PATH="${DIR}/scripts.sh:${PATH}"
-
-TASK() {
-  local -r str="$1"
-  local -r str_len=$(( 4 + ${#str} ))
-  local -r char="${2:-"="}"
-
-  echo ""
-  echo "$(printf '%*s' "${str_len}" | tr ' ' "${char}")"
-  echo "$char $str $char"
-  echo "$(printf '%*s' "${str_len}" | tr ' ' "${char}")"
-  echo ""
-}
-
-SUB_TASK() {
-  local -r str="$1"
-  local -r char="${2:-"="}"
-
-  echo ""
-  echo "$char"
-  echo "$str"
-  echo "$char"
-  echo ""
-}
-
-command_exists() {
-  type "${1}" >/dev/null 2>&1
-}
-
-ask_sudo() {
-  echo "Running this script would need 'sudo' permission."
-  echo ""
-
-  sudo -v
-
-  # keep sudo permission fresh
-  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-}
-
-ensure_darwin() {
-  if [[ $OSTYPE != darwin* ]]; then
-    exit 1
-  fi
-}
-
-ensure_brew() {
-  if ! command_exists brew; then
-    echo "command not found: brew"
-    echo ""
-    echo "  bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
-    exit 1
-  fi
-}
-
-ensure_secret_manager() {
-  if ! command_exists bw; then
-    echo "command not found: bw"
-    echo ""
-    echo "  brew install bitwarden-cli"
-    exit 1
-  fi
-
-  local status="$(bw status)"
-  status="${status##*\"status\":\"}"
-  status="${status%%\"*}"
-
-  if [[ $status = "unauthenticated" ]]; then
-    echo "secret manager is not authenticated, run:"
-    echo ""
-    echo "  bw login"
-    echo ""
-    exit 1
-  fi
-
-  if [[ $status = "locked" ]]; then
-    echo "secret manager is locked, run:"
-    echo ""
-    echo "  export BW_SESSION=\$(bw unlock --raw)"
-    echo ""
-    exit 1
-  fi
-
-  if [[ $status != "unlocked" ]]; then
-    echo "secret manager is not unlocked"
-    echo ""
-    exit 1
-  fi
-}
 
 setup_brew_packages() {
   if ! command_exists brew; then
@@ -153,6 +66,7 @@ setup_brew_packages() {
 
   brew "asciinema"
   brew "bash"
+  brew "bash-completion"
   brew "bat"
   brew "docker-completion"
   brew "docker-compose-completion"
@@ -280,14 +194,10 @@ create_necessary_directories() {
 write_macos_settings() {
   TASK "Writing macOS Settings"
 
-  ${DIR}/.init.darwin.settings.sh
+  ${DIR}/.20_setup.darwin.settings.sh
 }
 
-ask_sudo
-
 ensure_darwin
-ensure_brew
-ensure_secret_manager
 
 setup_brew_packages
 run_setup_scripts
