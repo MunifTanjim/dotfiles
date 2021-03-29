@@ -1,1 +1,12 @@
 README.md
+
+{{ if not .meta.is_personal_machine }}
+.mbsyncrc
+.cache/neomutt
+.config/msmtp
+.config/neomutt
+{{ end }}
+
+{{ if ne .chezmoi.os "darwin" }}
+.config/karabiner.edn
+{{ end }}
