@@ -1,9 +1,8 @@
-#!/usr/bin/env bash
+{{/* vim: set filetype=gotexttmpl.sh : */}}
 
-script={{ .chezmoi.sourceDir }}/.20_setup.{{ .chezmoi.os }}.sh
+{{- $scriptName := ( list ".20_setup" .chezmoi.os "sh" | join "." ) -}}
+{{- $scriptPath := ( joinPath ( toString .chezmoi.sourceDir ) $scriptName ) -}}
 
-if [[ -x "${script}" ]]; then
-  ${script}
-fi
-
-# vim: set filetype=gotexttmpl.sh :
+{{- if stat $scriptPath -}}
+  {{ include $scriptName }}
+{{- end -}}

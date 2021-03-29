@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR="$(chezmoi source-path)"
 source "${DIR}/.00_helpers.sh"
 export PATH="${DIR}/scripts.sh:${PATH}"
 
@@ -154,13 +154,13 @@ run_setup_scripts() {
   for script in "${SETUP_SCRIPTS[@]}"; do
     echo ""
     if command_exists ${script}; then
-      echo "[${script}] started"
+      echo_info "[${script}] started"
       echo ""
       ${script}
       echo ""
-      echo "[${script}] ended"
+      echo_info "[${script}] ended"
     else
-      echo "[${script}] not found!"
+      echo_warn "[${script}] not found!"
     fi
     echo ""
   done

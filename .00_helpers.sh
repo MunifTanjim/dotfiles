@@ -1,11 +1,29 @@
 #!/usr/bin/env bash
 
+red='\033[0;31m'
+green='\033[0;32m'
+orange='\033[0;33m'
+blue='\033[0;34m'
+normal='\033[0m' # No Color
+
+echo_error() {
+  printf "${red}[error] ${normal}$@\n"
+}
+
+echo_info() {
+  printf "${blue}[info] ${normal}$@\n"
+}
+
+echo_warn() {
+  printf "${orange}[warn] ${normal}$@\n"
+}
+
 command_exists() {
   type "${1}" >/dev/null 2>&1
 }
 
 ask_sudo() {
-  echo "Running this script would need 'sudo' permission."
+  echo_info "running this script would need 'sudo' permission."
   echo ""
 
   sudo -v
@@ -24,12 +42,14 @@ is_linux() {
 
 ensure_darwin() {
   if ! is_darwin; then
+    echo_error "unexpected os (${OSTYPE}), expected darwin!"
     exit 1
   fi
 }
 
 ensure_linux() {
   if ! is_linux; then
+    echo_error "unexpected os (${OSTYPE}), expected linux!"
     exit 1
   fi
 }

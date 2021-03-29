@@ -2,7 +2,7 @@
 
 set -eu
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR="$(chezmoi source-path)"
 source "${DIR}/.00_helpers.sh"
 
 install_basic_tools() {

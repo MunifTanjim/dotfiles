@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR="$(chezmoi source-path)"
 source "${DIR}/.00_helpers.sh"
 export PATH="${DIR}/scripts.sh:${PATH}"
 
@@ -66,10 +66,8 @@ setup_brew_packages() {
 
   brew "asciinema"
   brew "bash"
-  brew "bash-completion"
+  brew "bash-completion@2"
   brew "bat"
-  brew "docker-completion"
-  brew "docker-compose-completion"
   brew "exa"
   brew "fd"
   brew "gh"
@@ -85,6 +83,7 @@ setup_brew_packages() {
   brew "openssh"
   brew "p7zip"
   brew "perl"
+  brew "pinentry-mac"
   brew "ripgrep"
   brew "rsync"
   brew "starship"
@@ -191,16 +190,8 @@ create_necessary_directories() {
   mkdir -p "${NECESSARY_DIRECTORIES[@]}"
 }
 
-write_macos_settings() {
-  TASK "Writing macOS Settings"
-
-  ${DIR}/.20_setup.darwin.settings.sh
-}
-
 ensure_darwin
 
 setup_brew_packages
 run_setup_scripts
 create_necessary_directories
-
-write_macos_settings
