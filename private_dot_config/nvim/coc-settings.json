@@ -1,6 +1,7 @@
 {
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
+    "html",
     "javascript",
     "javascriptreact",
     "json",
@@ -8,6 +9,7 @@
     "markdown",
     "python",
     "rust",
+    "scss",
     "typescript",
     "typescriptreact"
   ],
@@ -71,7 +73,6 @@
   // prettier
   "prettier.arrowParens": "always",
   "prettier.disableSuccessMessage": true,
-  "prettier.semi": false,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "es5",
   // python

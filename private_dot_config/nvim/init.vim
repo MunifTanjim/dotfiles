@@ -298,7 +298,7 @@ augroup coc_augroup
   " highlight the symbol and its references when holding the cursor.
   autocmd CursorHold * silent call CocActionAsync('highlight')
   " set formatexpr for specific filetypes
-  autocmd FileType javascript,javascriptreact,typescript,typescriptreact,json,graphql,html,css,scss
+  autocmd FileType javascript,javascriptreact,typescript,typescriptreact,json,graphql
         \ setlocal formatexpr=CocAction('formatSelected')
   " show signature help after jumping to a placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
