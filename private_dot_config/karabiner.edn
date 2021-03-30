@@ -25,6 +25,8 @@
                  "^co\\.zeit\\.hyper$",
                  "^io\\.alacritty$",
                  "^net\\.kovidgoyal\\.kitty$"]
+                :vscode
+                ["^com\\.microsoft\\.VSCode$"]
                 :web-browser
                 ["^org\\.mozilla\\.firefox$",
                  "^org\\.mozilla\\.nightly$",
@@ -136,25 +138,25 @@
            ]}
 
   {:des "Ctrl+A => Cmd+A (Select All)"
-   :rules [[:!TTa :!Ca [:!terminal :!other-unknown]]]}
-  {:des "Ctrl+{C,V,X} => Cmd+{C,V,X} (Copy,Paste,Cut)"
-   :rules [[:!TTc :!Cc [:!terminal :!other-unknown]]
-           [:!TTv :!Cv [:!terminal :!other-unknown]]
-           [:!TTx :!Cx [:!terminal :!other-unknown]]]}
+   :rules [[:!TTa :!Ca [:!terminal :!vscode :!other-unknown]]]}
+  {:des "Ctrl+{C,V,X} => Cmd+{C,V,X:!vscode } (Copy,Paste,Cut)"
+   :rules [[:!TTc :!Cc [:!terminal :!vscode :!other-unknown]]
+           [:!TTv :!Cv [:!terminal :!vscode :!other-unknown]]
+           [:!TTx :!Cx [:!terminal :!vscode :!other-unknown]]]}
   {:des "Ctrl+Z, Ctrl+Y => Cmd+Z (Undo), Cmd+Shift+Z (Redo)"
-   :rules [[:!TTz :!Cz  [:!terminal :!other-unknown]]
-           [:!TTy :!CSz [:!terminal :!other-unknown]]]}
+   :rules [[:!TTz :!Cz  [:!terminal :!vscode :!other-unknown]]
+           [:!TTy :!CSz [:!terminal :!vscode :!other-unknown]]]}
   {:des "Ctrl+S => Cmd+S (Save)"
    :rules [[:!TTs :!Cs [:!terminal :!other-unknown]]]}
   {:des "Ctrl+{B,I} => Cmd+{B,I} (Bold,Italic)"
-   :rules [[:!TTb :!Cb [:!terminal]]
-           [:!TTi :!Ci [:!terminal]]]}
+   :rules [[:!TTb :!Cb [:!terminal :!vscode]]
+           [:!TTi :!Ci [:!terminal :!vscode]]]}
   {:des "Ctrl+(Shift)+N => Cmd+(Shift)+N (New)"
-   :rules [[:!TT#SSn :!Cn [:!terminal :!other-unknown]]]}
+   :rules [[:!TT#SSn :!Cn [:!terminal :!vscode :!other-unknown]]]}
   {:des "Ctrl+F => Cmd+F (Find)"
-   :rules [[:!TTf :!Cf [:!terminal :!other-unknown]]]}
+   :rules [[:!TTf :!Cf [:!terminal :!vscode :!other-unknown]]]}
   {:des "Ctrl+W => Cmd+W (Close)"
-   :rules [[:!TTw :!Cw [:!terminal :!other-unknown]]]}
+   :rules [[:!TTw :!Cw [:!terminal :!vscode :!other-unknown]]]}
   {:des "Ctrl+(Shift)+T => Cmd+(Shift)+T (New tab)"
    :rules [[:!TT#SSt :!Ct [:!terminal]]]}
   {:des "(Shift)+F5 => Cmd+(Shift)+R (Reload)"
