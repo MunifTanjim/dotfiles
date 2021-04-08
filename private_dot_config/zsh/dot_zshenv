@@ -1,10 +1,10 @@
-XDG_CONFIG_HOME="$HOME/.config"
-XDG_CACHE_HOME="$HOME/.cache"
-XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
 
 ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 
-ZINIT_HOME="$XDG_DATA_HOME/zinit"
+export ZINIT_HOME="$XDG_DATA_HOME/zinit"
 
 declare -A ZINIT
 ZINIT[BIN_DIR]="$ZINIT_HOME/bin"
