@@ -3,6 +3,7 @@
 alias c='clear -x'
 alias x='exit_or_tmux_detach'
 alias :q='exit_or_tmux_detach'
+alias :w=''
 
 alias md='mkdir -p'
 
@@ -23,6 +24,3 @@ alias aptf.dug='sudo apt-fast dist-upgrade'
 
 # git
 alias g='git'
-alias g.co='git checkout'
-alias g.s='git status -s'
-alias g.ll='git log --graph --pretty=oneline --abbrev-commit'
