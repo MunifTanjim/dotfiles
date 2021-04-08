@@ -67,6 +67,7 @@ endif
 
 " save
 nnoremap <Leader>s :update<CR>
+nnoremap <Leader>js :noa update<CR>
 
 " " exit insert mode (caps_lock is the new escape)
 " inoremap jk <Esc>
