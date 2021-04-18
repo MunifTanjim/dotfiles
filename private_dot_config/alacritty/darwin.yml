@@ -1,6 +1,9 @@
 window:
   decorations: buttonless # buttonless / full / none / transparent
 
+font:
+  size: 15.0
+
 key_bindings:
   - { key: A,         mods: Alt,       chars: "\x1ba"                       }
   - { key: B,         mods: Alt,       chars: "\x1bb"                       }
