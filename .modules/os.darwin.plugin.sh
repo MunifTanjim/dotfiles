@@ -1,5 +1,7 @@
 # shellcheck shell=sh
 
+current_shell="${current_shell:-"$(ps -p$$ -oucomm= | xargs)"}"
+
 manpathmunge() {
   export MANPATH="${1}:${MANPATH}"
 }
@@ -23,6 +25,12 @@ manpathmunge "${brew_prefix}/opt/util-linux/share/man"
 for gnuman_path in ${brew_prefix}/opt/*/libexec/gnuman; do
   manpathmunge "${gnuman_path}"
 done
+
+# google-cloud-sdk
+if [[ -d "${brew_prefix}/Caskroom/google-cloud-sdk" ]]; then
+  pathmunge "${brew_prefix}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin"
+  . "${brew_prefix}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.${current_shell}.inc"
+fi
 
 # openssl
 DARWIN_OPENSSL_VERSION="${DARWIN_OPENSSL_VERSION:-"1.1"}"
