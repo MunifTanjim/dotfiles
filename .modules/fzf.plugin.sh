@@ -1,10 +1,9 @@
 # shellcheck shell=sh
 
-fzf_shell="$(ps -p$$ -ocomm=)"
-fzf_shell="${fzf_shell#-}"
+current_shell="${current_shell:-"$(ps -p$$ -oucomm= | xargs)"}"
 
-if [[ -f ~/.config/fzf/fzf.${fzf_shell} ]]; then
-  source ~/.config/fzf/fzf.${fzf_shell}
+if [[ -f ~/.config/fzf/fzf.${current_shell} ]]; then
+  source ~/.config/fzf/fzf.${current_shell}
 fi
 
 export FZF_DEFAULT_OPTS='--color=dark
