@@ -1,5 +1,7 @@
 # shellcheck shell=sh
 
+export current_shell="$(ps -p$$ -oucomm= | xargs)"
+
 command_exists() {
   type "${1}" >/dev/null 2>&1
 }
