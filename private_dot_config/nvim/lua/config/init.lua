@@ -2,6 +2,10 @@
 
 require("config.exrc")
 
+-- completion
+
+require("config.completion")
+
 -- nvim-spectre
 
 vim.api.nvim_exec(
@@ -10,6 +14,22 @@ vim.api.nvim_exec(
   ]],
   false
 )
+
+-- lsp
+
+require("config.lsp")
+
+-- snippet
+
+require("config.snippet")
+
+-- telescope
+
+require("config.telescope")
+
+-- tree
+
+require("config.tree")
 
 -- treesitter
 

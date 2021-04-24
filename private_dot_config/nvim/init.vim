@@ -119,7 +119,7 @@ augroup END
 "## FileType: json
 
 autocmd BufNewFile,BufRead tsconfig*.json setlocal filetype=jsonc
-autocmd FileType json syntax match Comment +\/\/.\+$+
+autocmd FileType jsonc syntax match Comment +\/\/.\+$+
 
 "## FileType: tmux
 
@@ -210,8 +210,45 @@ Plug 'tpope/vim-git'
 Plug 'tpope/vim-markdown'
 Plug 'vitalk/vim-shebang'
 
-" dark magic
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+if has('nvim')
+  Plug 'folke/lsp-colors.nvim'
+  Plug 'folke/lua-dev.nvim'
+  Plug 'folke/trouble.nvim'
+  Plug 'glepnir/lspsaga.nvim'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-vsnip'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/vim-vsnip'
+  Plug 'hrsh7th/vim-vsnip-integ'
+  Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+  Plug 'jose-elias-alvarez/null-ls.nvim'
+  Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+  Plug 'kosayoda/nvim-lightbulb'
+  Plug 'MunifTanjim/eslint.nvim'
+  Plug 'MunifTanjim/exrc.nvim'
+  Plug 'MunifTanjim/prettier.nvim'
+  Plug 'MunifTanjim/nui.nvim'
+  Plug 'MunifTanjim/nvim-treesitter-lua'
+  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'kyazdani42/nvim-tree.lua'
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+  Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+  Plug 'nvim-treesitter/playground'
+  Plug 'onsails/lspkind-nvim'
+  Plug 'williamboman/nvim-lsp-installer'
+  Plug 'windwp/nvim-spectre'
+  Plug 'windwp/nvim-ts-autotag'
+else
+  Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+endif
 
 if has('nvim')
   Plug 'folke/lua-dev.nvim'
@@ -255,6 +292,8 @@ let g:carbon_now_sh_options = {
       \ 't': 'monokai' }
 
 "## Plugin: coc
+
+if !has('nvim')
 
 let g:coc_global_extensions = [
       \ 'coc-actions',
@@ -383,6 +422,8 @@ augroup coc_augroup
 augroup END
 
 lua require("config.coc")
+
+endif
 
 "## Plugin: fzf
 
