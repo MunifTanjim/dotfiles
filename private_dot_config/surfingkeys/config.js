@@ -1,43 +1,39 @@
-settings.hintAlign = 'left'
-settings.modeAfterYank = 'Normal'
-settings.omnibarPosition = 'bottom'
+settings.hintAlign = 'left';
+settings.modeAfterYank = 'Normal';
+settings.omnibarPosition = 'bottom';
 
 settings.theme = `
 .sk_theme {
-    font-family: Input Sans Condensed, Charcoal, sans-serif;
-    font-size: 10pt;
-    background: #24272e;
-    color: #abb2bf;
+    font-family: JetBrainsMono Nerd Font, JetBrainsMono, Ubuntu Mono, monospace;
+    font-size: 14px;
+    background: #282828;
+    color: #ebdbb2;
 }
 .sk_theme tbody {
-    color: #fff;
+    color: #b8bb26;
 }
 .sk_theme input {
-    color: #d0d0d0;
+    color: #d9dce0;
 }
 .sk_theme .url {
-    color: #61afef;
+    color: #98971a;
 }
 .sk_theme .annotation {
-    color: #56b6c2;
+    color: #b16286;
 }
 .sk_theme .omnibar_highlight {
-    color: #528bff;
-}
-.sk_theme .omnibar_timestamp {
-    color: #e5c07b;
-}
-.sk_theme .omnibar_visitcount {
-    color: #98c379;
+    color: #ebdbb2;
 }
 .sk_theme #sk_omnibarSearchResult ul li:nth-child(odd) {
-    background: #303030;
+    background: #282828;
 }
 .sk_theme #sk_omnibarSearchResult ul li.focused {
-    background: #3e4452;
+    background: #d3869b;
 }
 #sk_status, #sk_find {
     font-size: 20pt;
 }
-`
-iunmap(':')
+`;
+
+// disable emoji completion
+iunmap(':');
