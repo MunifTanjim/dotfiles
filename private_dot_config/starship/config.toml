@@ -97,10 +97,6 @@ deleted = '✘${count}'
 [golang]
 symbol = ' '
 
-[haskell]
-disabled = true
-symbol = ' '
-
 [helm]
 disabled = true
 symbol = '⎈ '
@@ -190,7 +186,7 @@ symbol = '💠 '
 [time]
 disabled = true
 
-[user]
+[username]
 disabled = false
 
 [zig]
