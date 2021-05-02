@@ -4,7 +4,7 @@ set -euo pipefail
 
 DIR="$(chezmoi source-path)"
 source "${DIR}/.00_helpers.sh"
-export PATH="${DIR}/scripts.sh:${PATH}"
+export PATH="${DIR}/.scripts.sh:${PATH}"
 
 setup_brew_packages() {
   if ! command_exists brew; then
@@ -30,7 +30,7 @@ setup_brew_packages() {
   update_terminfo_database() {
     local -r term_name="${1}"
     $(brew --prefix ncurses)/bin/infocmp -x "${term_name}" > "/tmp/${term_name}.info"
-    $(brew --prefix ncurses)/bin/tic -x -o "${HOME}/.terminfo" -e "${term_name}" "/tmp/${term_name}.info"
+    tic -x -o "${HOME}/.terminfo" -e "${term_name}" "/tmp/${term_name}.info"
   }
   update_terminfo_database alacritty
   update_terminfo_database alacritty-direct
