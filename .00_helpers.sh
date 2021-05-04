@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-red='\033[0;31m'
-green='\033[0;32m'
-orange='\033[0;33m'
-blue='\033[0;34m'
-normal='\033[0m' # No Color
+declare -r red='\033[0;31m'
+declare -r green='\033[0;32m'
+declare -r orange='\033[0;33m'
+declare -r blue='\033[0;34m'
+declare -r normal='\033[0m' # No Color
 
 echo_error() {
   printf "${red}[error] ${normal}$@\n"
@@ -66,11 +66,14 @@ ensure_linux() {
 
 ensure_secret_manager() {
   if ! command_exists bw; then
-    echo "installing secret manager"
+    echo_info "installing secret manager"
     if is_darwin; then
       brew install bitwarden-cli
     elif is_linux; then
       snap install bw
+
+      echo "linking bitwarden snap package config directory"
+      ln -sf "${HOME}/snap/bw/current/.config/Bitwarden CLI" "${HOME}/.config/Bitwarden CLI"
     fi
   fi
 
