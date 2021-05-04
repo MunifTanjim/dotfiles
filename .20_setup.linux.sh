@@ -4,7 +4,7 @@ set -euo pipefail
 
 DIR="$(chezmoi source-path)"
 source "${DIR}/.00_helpers.sh"
-export PATH="${DIR}/scripts.sh:${PATH}"
+export PATH="${DIR}/.scripts.sh:${PATH}"
 
 install_apt_packages() {
   if ! command_exists apt; then
@@ -21,9 +21,9 @@ install_apt_packages() {
   apt_install() {
     SUB_TASK "sudo apt install --yes $*"
     if command_exists apt-fast; then
-      sudo apt install --yes $@
-    else
       sudo apt-fast install --yes $@
+    else
+      sudo apt install --yes $@
     fi
   }
 
@@ -37,20 +37,22 @@ install_apt_packages() {
   }
 
   declare APT_REPOSITORIES=(
-    ppa:mmstick76/alacritty
+    ppa:git-core/ppa
   )
 
   declare APT_PACKAGES=(
-    alacritty
-    chafa curl filezilla
-    git gpa gparted grc
+    chafa curl git grc
     htop jq neofetch
     rar unrar shellcheck
     libsecret-tools moreutils
     tmux tree vim
     xclip xsel zsh
-    ibus-avro translate-shell
+    translate-shell
   )
+
+  if ! is_headless_machine; then
+    APT_PACKAGES+=(filezilla gpa gparted ibus-avro)
+  fi
 
   for apt_repo in "${APT_REPOSITORIES[@]}"; do
     add_apt_repository ${apt_repo}
@@ -75,16 +77,68 @@ install_snap_packages() {
 
   declare SNAP_PACKAGES=(
     "--classic asciinema"
-    "--classic code"
     "--classic go"
-    "--beta authy"
-    "hugo"
-    "opera"
-    "vlc"
   )
+
+  if ! is_headless_machine; then
+    SNAP_PACKAGES+=("--beta authy")
+    SNAP_PACKAGES+=("--classic code")
+    SNAP_PACKAGES+=("opera")
+    SNAP_PACKAGES+=("vlc")
+  fi
 
   for package in "${SNAP_PACKAGES[@]}"; do
     snap_install ${package}
+  done
+}
+
+run_setup_scripts() {
+  TASK "Run Setup Scripts"
+
+  declare SETUP_SCRIPTS=(
+    setup-apt-fast
+    setup-nvm
+    setup-pyenv
+    setup-rbenv
+    setup-tpm
+    setup-zinit
+
+    setup-docker
+    setup-exa
+    setup-fzf
+    setup-gh
+    setup-git-credential-libsecret
+    setup-neovim
+    setup-rust
+    setup-starship
+    setup-youtube-dl
+    setup-zoxide
+  )
+
+  if ! command_exists keybase; then
+    SETUP_SCRIPTS+=(setup-keybase)
+  fi
+
+  if ! is_headless_machine; then
+    SETUP_SCRIPTS+=(setup-alacritty)
+    if ! command_exists postman; then
+      SETUP_SCRIPTS+=(setup-postman)
+    fi
+    SETUP_SCRIPTS+=(setup-rofi)
+  fi
+
+  for script in "${SETUP_SCRIPTS[@]}"; do
+    echo ""
+    if command_exists ${script}; then
+      echo_info "[${script}] started"
+      echo ""
+      ${script}
+      echo ""
+      echo_info "[${script}] ended"
+    else
+      echo_warn "[${script}] not found!"
+    fi
+    echo ""
   done
 }
 
@@ -109,7 +163,6 @@ install_github_release_packages() {
     [bat]="sharkdp/bat"
     [delta]="dandavison/delta"
     [fd]="sharkdp/fd"
-    [gh]="cli/cli"
     [rg]="BurntSushi/ripgrep"
   )
 
@@ -117,7 +170,6 @@ install_github_release_packages() {
     [bat]="musl.+amd64.deb"
     [delta]="musl.+amd64.deb"
     [fd]="musl.+amd64.deb"
-    [gh]="_linux_amd64.deb"
     [rg]="amd64.deb"
   )
 
@@ -125,44 +177,6 @@ install_github_release_packages() {
     setup_from_github_release "${bin_name}" \
       "${GITHUB_PACKAGE_REPOSITORY[${bin_name}]}" \
       "${GITHUB_PACKAGE_URL_PATTERN[${bin_name}]}"
-  done
-}
-
-run_setup_scripts() {
-  TASK "Run Setup Scripts"
-
-  declare SETUP_SCRIPTS=(
-    setup-nvm
-    setup-pyenv
-    setup-rbenv
-    setup-volta
-    setup-zinit
-    setup-apt-fast
-    setup-docker
-    setup-fzf
-    setup-git-credential-libsecret
-    setup-keybase
-    setup-neovim
-    setup-postman
-    setup-rofi
-    setup-rust
-    setup-starship
-    setup-tpm
-    setup-youtube-dl
-  )
-
-  for script in "${SETUP_SCRIPTS[@]}"; do
-    echo ""
-    if command_exists ${script}; then
-      echo_info "[${script}] started"
-      echo ""
-      ${script}
-      echo ""
-      echo_info "[${script}] ended"
-    else
-      echo_warn "[${script}] not found!"
-    fi
-    echo ""
   done
 }
 
@@ -185,6 +199,6 @@ ask_sudo
 
 install_apt_packages
 install_snap_packages
-install_github_release_packages
 run_setup_scripts
+install_github_release_packages
 create_necessary_directories
