@@ -77,7 +77,7 @@
   protocol = https
 
 [credential]
-  helper = {{ if eq .chezmoi.os "darwin" -}} osxkeychain {{- else -}} /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret {{- end }}
+  helper = {{ if .meta.is_headless_machine -}} store {{- else if eq .chezmoi.os "darwin" -}} osxkeychain {{- else -}} /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret {{- end }}
 [credential "https://github.com"]
   username = MunifTanjim
 [credential "https://gist.github.com"]
