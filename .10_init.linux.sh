@@ -14,7 +14,7 @@ login_to_snap() {
   local -r email=$(snap whoami | cut -d ' ' -f 2)
   if ! [[ $email = *@* ]]; then
     echo "login to snap with ubuntu account (for sudo-less \`snap install\`)"
-    snap login
+    sudo snap login
   fi
 }
 
