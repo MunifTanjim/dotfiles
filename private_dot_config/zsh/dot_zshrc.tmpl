@@ -22,22 +22,13 @@ unsetopt MULTIOS
 autoload -U select-word-style
 select-word-style bash
 
-typeset -U path
-
-path+=("${HOME}/.local/bin")
-
-if (( ${+commands[chezmoi]} )); then
-  export DOTFILES=$(chezmoi source-path)
-  export DOTFILES_MODULES="${DOTFILES}/.modules"
-
-  _USER_SCRIPTS="${DOTFILES}/.scripts.sh"
-
-  path+=("${_USER_SCRIPTS}")
-fi
-
 optimized_zicompinit() {
-  for compdump in $ZINIT[ZCOMPDUMP_PATH](N.mh+24); do
-    compinit -d "$compdump"
+  for zcompdump in $ZINIT[ZCOMPDUMP_PATH](N.mh+24); do
+    # only run once a day
+    compinit -d "${zcompdump}"
+    if [[ ! -s "${zcompdump}.zwc" ]] || [[ "${zcompdump}" -nt "${zcompdump}.zwc" ]]; then
+      zcompile "${zcompdump}"
+    fi
   done
   compinit -C -d "$ZINIT[ZCOMPDUMP_PATH]"
 }

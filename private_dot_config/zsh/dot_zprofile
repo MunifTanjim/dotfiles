@@ -1,0 +1,12 @@
+typeset -U path
+
+path=("${HOME}/.local/bin" ${path[@]})
+
+if (( ${+commands[chezmoi]} )); then
+  export DOTFILES=$(chezmoi source-path)
+  export DOTFILES_MODULES="${DOTFILES}/.modules"
+
+  path+=("${DOTFILES}/.scripts.sh")
+fi
+
+# vim: set filetype=zsh :
