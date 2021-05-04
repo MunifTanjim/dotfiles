@@ -22,6 +22,10 @@ unsetopt MULTIOS
 autoload -U select-word-style
 select-word-style bash
 
+typeset -U path
+
+path+=("${HOME}/.local/bin")
+
 if (( ${+commands[chezmoi]} )); then
   export DOTFILES=$(chezmoi source-path)
   export DOTFILES_MODULES="${DOTFILES}/.modules"
