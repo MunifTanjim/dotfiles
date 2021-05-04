@@ -40,6 +40,16 @@ is_linux() {
   [[ $OSTYPE = linux* ]]
 }
 
+is_headless_machine() {
+  local -r is_headless="$(chezmoi execute-template '{{ get .meta "is_headless_machine" }}')"
+  test "${is_headless}" = "true"
+}
+
+is_personal_machine() {
+  local -r is_personal="$(chezmoi execute-template '{{ get .meta "is_personal_machine" }}')"
+  test "${is_personal}" = "true"
+}
+
 ensure_darwin() {
   if ! is_darwin; then
     echo_error "unexpected os (${OSTYPE}), expected darwin!"
