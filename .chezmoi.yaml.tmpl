@@ -1,7 +1,9 @@
+{{ $is_headless_machine := promptBool "Is this a Headless Machine" -}}
 {{ $is_personal_machine := promptBool "Is this a Personal Machine" -}}
 
 data:
   meta:
+    is_headless_machine: {{ $is_headless_machine }}
     is_personal_machine: {{ $is_personal_machine }}
 
 # vim: set filetype=gotexttmpl.yaml :
