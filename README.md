@@ -4,7 +4,7 @@
 
 ```sh
 # [READY] setup chezmoi
-curl -sfL https://raw.githubusercontent.com/MunifTanjim/scripts.sh/main/setup-chezmoi | sh
+curl -sfL https://raw.githubusercontent.com/MunifTanjim/scripts.sh/main/setup-chezmoi | bash
 # [SET] initialize
 chezmoi init https://github.com/MunifTanjim/.dotfiles.git
 # [GO] apply
