@@ -153,11 +153,12 @@ run_setup_scripts() {
   TASK "Run Setup Scripts"
 
   declare SETUP_SCRIPTS=(
-    setup-fzf
     setup-nvm
-    setup-rust
     setup-tpm
     setup-zinit
+
+    setup-fzf
+    setup-rust
   )
 
   for script in "${SETUP_SCRIPTS[@]}"; do
@@ -183,6 +184,7 @@ create_necessary_directories() {
     ~/.local/share/mpd/playlists
     ~/.local/share/mpdscribble
     ~/.local/share/{nvim,vim}/{backup,swap,undo}
+    ~/.ssh/control
   )
 
   printf '> %s\n' "${NECESSARY_DIRECTORIES[@]}"
