@@ -1,6 +1,8 @@
 {{ $is_headless_machine := promptBool "Is this a Headless Machine" -}}
 {{ $is_personal_machine := promptBool "Is this a Personal Machine" -}}
 
+sourceDir: ~/.local/share/chezmoi
+
 data:
   meta:
     is_headless_machine: {{ $is_headless_machine }}
