@@ -7,7 +7,6 @@ manpathmunge() {
 }
 
 pathmunge "/usr/local/sbin"
-pathmunge "${HOME}/.local/bin"
 
 brew_prefix="$(brew --prefix)"
 
