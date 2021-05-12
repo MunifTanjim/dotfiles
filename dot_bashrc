@@ -1,62 +1,110 @@
 #!/usr/bin/env bash
 
-# Return if not interactive shell
-[[ $- != *i* ]] && return
+# return if not interactive shell
+if [[ $- != *i* ]]; then
+  return
+fi
 
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
   debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# Bash Completion
-if [ -f /etc/bash_completion ]; then
-  source /etc/bash_completion
-elif [ -r /usr/local/etc/profile.d/bash_completion.sh ]; then
-  source /usr/local/etc/profile.d/bash_completion.sh
+if [ -x /usr/bin/lesspipe ]; then
+  eval "$(SHELL=/bin/sh lesspipe)"
 fi
 
-XDG_CONFIG_HOME="$HOME/.config"
-XDG_CACHE_HOME="$HOME/.cache"
-XDG_DATA_HOME="$HOME/.local/share"
+# {{{ env
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_CACHE_HOME="${HOME}/.cache"
+export XDG_DATA_HOME="${HOME}/.local/share"
 
 export EDITOR="vim"
 export VISUAL="nvim"
 export PAGER="less"
 export MANPAGER="less -R"
+# env }}}
 
-reload_shell() {
-  if [[ -e "${HOME}/.bashrc" ]]; then
-    source "${HOME}/.bashrc"
-  fi
-}
+export DOTFILES="${HOME}/.local/share/chezmoi"
+export DOTFILES_MODULES="${DOTFILES}/.modules"
 
-if type chezmoi >/dev/null 2>&1; then
-  export DOTFILES=$(chezmoi source-path)
-  export DOTFILES_MODULES="${DOTFILES}/.modules"
+export PATH="${HOME}/.local/bin:${DOTFILES}/.scripts.sh:${PATH}"
 
-  _USER_SCRIPTS="${DOTFILES}/.scripts.sh"
-  _USER_BIN="${HOME}/.local/bin"
-
-  export PATH="${_USER_SCRIPTS}:${_USER_BIN}:${PATH}"
-
-  # Sensible defaults for BASH
-  if [ -f "${DOTFILES_MODULES}/.bash-sensible/sensible.bash" ]; then
-    source "${DOTFILES_MODULES}/.bash-sensible/sensible.bash"
-  fi
-
-  source "${DOTFILES_MODULES}/helpers.sh"
-  source "${DOTFILES_MODULES}/aliases.sh"
-  source "${DOTFILES_MODULES}/fzf.plugin.sh"
-  source "${DOTFILES_MODULES}/go.plugin.sh"
-  source "${DOTFILES_MODULES}/gpg.plugin.sh"
-  source "${DOTFILES_MODULES}/lf.plugin.sh"
-  source "${DOTFILES_MODULES}/node.plugin.sh"
-  source "${DOTFILES_MODULES}/python.plugin.sh"
-  source "${DOTFILES_MODULES}/ruby.plugin.sh"
-  source "${DOTFILES_MODULES}/rust.plugin.sh"
-
-  source "${DOTFILES_MODULES}/bash/plugins/zoxide.plugin.bash"
-
-  source "${DOTFILES_MODULES}/bash/appearance.bash"
+# {{{ completion
+if [ -f /etc/bash_completion ]; then
+  source /etc/bash_completion
+elif [ -r /usr/local/etc/profile.d/bash_completion.sh ]; then
+  source /usr/local/etc/profile.d/bash_completion.sh
 fi
+# completion }}}
+
+# sensible defaults
+if [ -f "${DOTFILES_MODULES}/.bash-sensible/sensible.bash" ]; then
+  source "${DOTFILES_MODULES}/.bash-sensible/sensible.bash"
+fi
+
+source "${DOTFILES_MODULES}/helpers.sh"
+source "${DOTFILES_MODULES}/aliases.sh"
+source "${DOTFILES_MODULES}/fzf.plugin.sh"
+source "${DOTFILES_MODULES}/go.plugin.sh"
+source "${DOTFILES_MODULES}/gpg.plugin.sh"
+source "${DOTFILES_MODULES}/lf.plugin.sh"
+source "${DOTFILES_MODULES}/node.plugin.sh"
+source "${DOTFILES_MODULES}/python.plugin.sh"
+source "${DOTFILES_MODULES}/ruby.plugin.sh"
+source "${DOTFILES_MODULES}/rust.plugin.sh"
+
+# {{{ appearance
+if [ -x /usr/bin/dircolors ]; then
+  _dircolors_file="${DOTFILES_MODULES}/.dircolors-solarized/dircolors.256dark"
+  test -r "${_dircolors_file}" && eval "$(dircolors -b "${_dircolors_file}")" || eval "$(dircolors -b)"
+fi
+
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+export GREP_COLOR='1;33'
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+# appearance }}}
+
+# {{{ ls
+if command_exists exa; then
+  declare -g exa_params=("--git" "--icons" "--classify" "--group-directories-first" "--time-style=long-iso" "--group" "--color-scale");
+  ls() { exa "${exa_params[@]}" $@; }
+  l() { exa --git-ignore "${exa_params[@]}" $@; }
+  la() { exa -a "${exa_params[@]}" $@; }
+  ll() { exa --header --long "${exa_params[@]}" $@; }
+else
+  declare -g ls_params=("-hF" "--group-directories-first" "--time-style=+%Y-%m-%d %H:%M" "--quoting-style=literal" "--color=auto");
+  ls() { command ls "${ls_params[@]}" -C $@; }
+  l() { command ls "${ls_params[@]}" -C $@; }
+  la() { command ls "${ls_params[@]}" -C -A $@; }
+  ll() { command ls "${ls_params[@]}" -l $@; }
+fi
+# ls }}}
+
+# {{{ zoxide
+if command_exists zoxide; then
+  eval "$(zoxide init --no-aliases bash)"
+  z() { __zoxide_z $@; }
+fi
+# zoxide }}}
+
+# {{{ utilities
+reload_shell() {
+  exec ${current_shell:-"bash"}
+}
+# utilities }}}
+
+# {{{ starship
+export STARSHIP_CONFIG=~/.config/starship/config.toml
+eval "$(starship init bash)"
+export PROMPT_COMMAND="starship_precmd;${PROMPT_COMMAND/starship_precmd;/}"
+# starship }}}
+
+# vim: set foldmethod=marker :
