@@ -2,7 +2,10 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_CACHE_HOME="${HOME}/.cache"
 export XDG_DATA_HOME="${HOME}/.local/share"
 
-ZSH_CACHE_DIR="${XDG_CACHE_HOME}/zsh"
+export EDITOR="vim"
+export VISUAL="nvim"
+export PAGER="less"
+export MANPAGER="less -R"
 
 export ZINIT_HOME="${XDG_DATA_HOME}/zinit"
 
@@ -12,14 +15,11 @@ ZINIT[HOME_DIR]="${ZINIT_HOME}"
 ZINIT[ZCOMPDUMP_PATH]="${ZDOTDIR}/.zcompdump"
 ZINIT[COMPINIT_OPTS]="-C"
 
+ZSH_CACHE_DIR="${XDG_CACHE_HOME}/zsh"
+
 HISTFILE="${ZSH_CACHE_DIR}/history"
 HISTSIZE=10000
 SAVEHIST=10000
-
-export EDITOR="vim"
-export VISUAL="nvim"
-export PAGER="less"
-export MANPAGER="less -R"
 
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 ZSH_AUTOSUGGEST_COMPLETION_IGNORE="git *"

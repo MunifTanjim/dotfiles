@@ -1,3 +1,6 @@
+# vim: set filetype=zsh foldmethod=marker foldmarker=[[[,]]] :
+
+# [[[ options
 setopt COMBINING_CHARS
 setopt INTERACTIVE_COMMENTS
 setopt RC_QUOTES
@@ -18,10 +21,12 @@ setopt GLOB_COMPLETE
 setopt LIST_ROWS_FIRST
 
 unsetopt MULTIOS
+# options ]]]
 
 autoload -U select-word-style
 select-word-style bash
 
+# [[[ completion
 optimized_zicompinit() {
   for zcompdump in $ZINIT[ZCOMPDUMP_PATH](N.mh+24); do
     # only run once a day
@@ -32,8 +37,6 @@ optimized_zicompinit() {
   done
   compinit -C -d "$ZINIT[ZCOMPDUMP_PATH]"
 }
-
-source "${ZINIT[BIN_DIR]}/zinit.zsh"
 
 autoload -Uz compinit
 
@@ -47,12 +50,15 @@ zstyle '*' single-ignored 'show'
 
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "$ZSH_CACHE_DIR/zcompcache"
+zstyle ':completion:*' cache-path "${ZSH_CACHE_DIR}/zcompcache"
 
 zstyle ':completion:*:corrections' format '%B%d%b (%e errors)'
 zstyle ':completion:*:descriptions' format '%B%d%b'
 zstyle ':completion:*:messages' format '%B%F{yellow}%d%f%b'
 zstyle ':completion:*:warnings' format '%B%F{red}No matches found!%f%b'
+# completion ]]]
+
+source "${ZINIT[BIN_DIR]}/zinit.zsh"
 
 zinit as'completion' wait lucid for \
   is-snippet \
@@ -98,41 +104,70 @@ zinit wait lucid is-snippet for \
   "${DOTFILES_MODULES}/ruby.plugin.sh" \
   "${DOTFILES_MODULES}/rust.plugin.sh"
 
-export STARSHIP_CONFIG=~/.config/starship/config.toml
-zinit ice has'starship' id-as'starship' \
-  atclone'starship init zsh --print-full-init > starship.zsh' \
-  atpull'%atclone' run-atpull pick'starship.zsh' nocompile'!'
-zinit load zdharma/null
+# [[[ zle utilities
+zle--change-cursor() {
+  local -r style="${1}"
+  local -r cursor="\x1b[%s q"
+  if [[ "${style}" == "beam" ]]; then
+    printf "${cursor}" 6
+  elif [[ "${style}" == "block" ]]; then
+    printf "${cursor}" 2
+  fi
+}
+# zle utilities ]]]
+
+# [[[ zle-keymap-select
+zle-keymap-select() {
+  if [[ $KEYMAP == "vicmd" ]]; then
+    zle--change-cursor "block"
+  else
+    zle--change-cursor "beam"
+  fi
+  zle -R
+}
+zle -N zle-keymap-select
+# zle-keymap-select ]]]
+
+# [[[ zle-line-{init,finish}
+zle-line-init () {
+  zle--change-cursor "beam"
+  printf '%s' ${terminfo[smkx]}
+}
+zle -N zle-line-init
+
+zle-line-finish () {
+  printf '%s' ${terminfo[rmkx]}
+}
+zle -N zle-line-finish
+# zle-line-{init-finish} ]]]
+
+# [[[ keybindings
+export KEYTIMEOUT=10
+
+declare -g -A key=(
+  Up                "${terminfo[kcuu1]}"
+  Down              "${terminfo[kcud1]}"
+  Left              "${terminfo[kcub1]}"
+  Right             "${terminfo[kcuf1]}"
+  Home              "${terminfo[khome]}"
+  End               "${terminfo[kend]}"
+  PageUp            "${terminfo[kpp]}"
+  PageDown          "${terminfo[knp]}"
+  Insert            "${terminfo[kich1]}"
+  Delete            "${terminfo[kdch1]}"
+  BackSpace         "${terminfo[kbs]}"
+  Control-Left      "^[[1;5D"
+  Control-Right     "^[[1;5C"
+  Control-Delete    "^[[3;5~"
+  Control-Backspace "^H"
+  Shift-Tab         "${terminfo[kcbt]}"
+)
 
 bindkey -v
-export KEYTIMEOUT=10
 
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-
-declare -g -A key
-{{ if eq .chezmoi.os "darwin" -}}
-key[Up]="^[[A"
-key[Down]="^[[B"
-key[Left]="^[[D"
-key[Right]="^[[C"
-key[Control-Left]="^[[1;5D"
-key[Control-Backspace]="^H" # does not work
-key[Control-Right]="^[[1;5C"
-key[Control-Delete]="^[[3;5~"
-key[Shift-Tab]="^[[Z"
-{{- else -}}
-key[Up]="${terminfo[kcuu1]}"
-key[Down]="${terminfo[kcud1]}"
-key[Left]="${terminfo[kcub1]}"
-key[Right]="${terminfo[kcuf1]}"
-key[Control-Left]="^[[1;5D"
-key[Control-Right]="^[[1;5C"
-key[Control-Backspace]="^H"
-key[Control-Delete]="^[[3;5~"
-key[Shift-Tab]="${terminfo[kcbt]}"
-{{- end }}
 
 bindkey "${key[Up]}" up-line-or-beginning-search
 bindkey "${key[Down]}" down-line-or-beginning-search
@@ -141,5 +176,10 @@ bindkey "${key[Control-Right]}" forward-word
 bindkey "${key[Control-Backspace]}" backward-kill-word
 bindkey "${key[Control-Delete]}" kill-word
 bindkey "${key[Shift-Tab]}" reverse-menu-complete
+# keybindings ]]]
 
-# vim: set filetype=zsh :
+export STARSHIP_CONFIG=~/.config/starship/config.toml
+zinit ice has'starship' id-as'starship' \
+  atclone'starship init zsh --print-full-init > starship.zsh' \
+  atpull'%atclone' run-atpull pick'starship.zsh' nocompile'!'
+zinit load zdharma/null
