@@ -186,7 +186,9 @@ create_necessary_directories() {
   declare NECESSARY_DIRECTORIES=(
     ~/.cache/nano/backup
     ~/.local/share/mpd/playlists
+    ~/.local/share/mpdscribble
     ~/.local/share/{nvim,vim}/{backup,swap,undo}
+    ~/.ssh/control
   )
 
   printf '> %s\n' "${NECESSARY_DIRECTORIES[@]}"
