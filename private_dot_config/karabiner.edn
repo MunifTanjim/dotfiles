@@ -137,6 +137,10 @@
            [:!F##period       :insert]       [:!F##slash         :delete_forward]
            ]}
 
+  {:des "{Left+Right} Shift => Caps Lock"
+   :rules [[:!S#Pright_shift :caps_lock]
+           [:!R#Pleft_shift :caps_lock]]}
+
   {:des "Ctrl+A => Cmd+A (Select All)"
    :rules [[:!TTa :!Ca [:!terminal :!vscode :!other-unknown]]]}
   {:des "Ctrl+{C,V,X} => Cmd+{C,V,X:!vscode } (Copy,Paste,Cut)"
