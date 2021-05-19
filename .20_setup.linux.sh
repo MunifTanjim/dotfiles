@@ -51,6 +51,7 @@ install_apt_packages() {
   )
 
   if ! is_headless_machine; then
+    APT_PACKAGES+=(dconf-editor)
     APT_PACKAGES+=(filezilla gpa gparted ibus-avro)
   fi
 
