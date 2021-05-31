@@ -11,6 +11,10 @@ install_basic_tools() {
 }
 
 login_to_snap() {
+  if ! command_exists snap; then
+    return 0
+  fi
+
   local -r email=$(snap whoami | cut -d ' ' -f 2)
   if ! [[ $email = *@* ]]; then
     echo "login to snap with ubuntu account (for sudo-less \`snap install\`)"
