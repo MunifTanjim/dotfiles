@@ -1,11 +1,22 @@
-{{ $is_headless_machine := promptBool "Is this a Headless Machine" -}}
-{{ $is_personal_machine := promptBool "Is this a Personal Machine" -}}
+{{- $is_headless_machine := promptBool "Is this a Headless Machine" -}}
+{{- $is_personal_machine := promptBool "Is this a Personal Machine" -}}
+
+{{- $should_include_secrets := promptBool "Should this machine store secrets" -}}
+
+{{- $personal_email := promptString "Personal Email" -}}
+{{- $newscred_email := promptString "NewsCred Email" -}}
 
 sourceDir: ~/.local/share/chezmoi
 
 data:
   meta:
-    is_headless_machine: {{ $is_headless_machine }}
-    is_personal_machine: {{ $is_personal_machine }}
+    is:
+      headless_machine: {{ $is_headless_machine }}
+      personal_machine: {{ $is_personal_machine }}
+    should:
+      include_secrets: {{ $should_include_secrets }}
+  email:
+    personal: {{ $personal_email }}
+    newscred: {{ $newscred_email }}
 
 # vim: set filetype=gotexttmpl.yaml :
