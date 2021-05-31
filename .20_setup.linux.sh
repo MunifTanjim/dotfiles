@@ -51,7 +51,7 @@ install_apt_packages() {
   )
 
   if ! is_headless_machine; then
-    APT_PACKAGES+=(dconf-editor)
+    APT_PACKAGES+=(dconf-cli dconf-editor)
     APT_PACKAGES+=(filezilla gpa gparted ibus-avro)
   fi
 
@@ -66,7 +66,8 @@ install_apt_packages() {
 
 install_snap_packages() {
   if ! command_exists snap; then
-    exit 1
+    echo_warn "skipping install_snap_packages"
+    return 0
   fi
 
   TASK "Install Snap Packages"
@@ -116,16 +117,18 @@ run_setup_scripts() {
     setup-zoxide
   )
 
-  if ! command_exists keybase; then
-    SETUP_SCRIPTS+=(setup-keybase)
-  fi
-
   if ! is_headless_machine; then
     SETUP_SCRIPTS+=(setup-alacritty)
     if ! command_exists postman; then
       SETUP_SCRIPTS+=(setup-postman)
     fi
     SETUP_SCRIPTS+=(setup-rofi)
+  fi
+
+  if should_include_secrets; then
+    if ! command_exists keybase; then
+        SETUP_SCRIPTS+=(setup-keybase)
+    fi
   fi
 
   for script in "${SETUP_SCRIPTS[@]}"; do
