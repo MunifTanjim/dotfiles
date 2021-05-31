@@ -1,10 +1,22 @@
 README.md
 
-{{ if not .meta.is_personal_machine }}
-.mbsyncrc
+{{ if not .meta.is.personal_machine }}
 .cache/neomutt
 .config/msmtp
 .config/neomutt
+.mbsyncrc
+{{ end }}
+
+{{ if .meta.is.headless_machine }}
+.config/mpd
+.config/mpdscribble
+.config/ncmpcpp
+.mpdconf
+{{ end }}
+
+{{ if not .meta.should.include_secrets }}
+.ssh/id_rsa
+.ssh/id_rsa.pub
 {{ end }}
 
 {{ if ne .chezmoi.os "darwin" }}
