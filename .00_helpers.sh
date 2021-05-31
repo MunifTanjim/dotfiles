@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+DIR="$(chezmoi source-path)"
+export PATH="${DIR}/.scripts.sh:${PATH}"
+
 declare -r red='\033[0;31m'
 declare -r green='\033[0;32m'
 declare -r orange='\033[0;33m'
@@ -41,13 +44,18 @@ is_linux() {
 }
 
 is_headless_machine() {
-  local -r is_headless="$(chezmoi execute-template '{{ get .meta "is_headless_machine" }}')"
-  test "${is_headless}" = "true"
+  local -r bool="$(chezmoi execute-template '{{ get .meta.is "headless_machine" }}')"
+  test "${bool}" = "true"
 }
 
 is_personal_machine() {
-  local -r is_personal="$(chezmoi execute-template '{{ get .meta "is_personal_machine" }}')"
-  test "${is_personal}" = "true"
+  local -r bool="$(chezmoi execute-template '{{ get .meta.is "personal_machine" }}')"
+  test "${bool}" = "true"
+}
+
+should_include_secrets() {
+  local -r bool="$(chezmoi execute-template '{{ get .meta.should "include_secrets" }}')"
+  test "${bool}" = "true"
 }
 
 ensure_darwin() {
@@ -65,16 +73,14 @@ ensure_linux() {
 }
 
 ensure_secret_manager() {
+  if ! should_include_secrets; then
+    echo_warn "skipping ensure_secret_manager"
+    return 0
+  fi
+
   if ! command_exists bw; then
     echo_info "installing secret manager"
-    if is_darwin; then
-      brew install bitwarden-cli
-    elif is_linux; then
-      snap install bw
-
-      echo "linking bitwarden snap package config directory"
-      ln -sf "${HOME}/snap/bw/current/.config/Bitwarden CLI" "${HOME}/.config/Bitwarden CLI"
-    fi
+    setup-bitwarden-cli
   fi
 
   local status="$(bw status)"
