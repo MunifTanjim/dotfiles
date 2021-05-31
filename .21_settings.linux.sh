@@ -10,6 +10,11 @@ TASK "Writing Linux Settings"
 ensure_linux
 ask_sudo
 
+if is_headless_machine; then
+  echo_warn "skipping dconf settings on headless machine"
+  exit 0
+fi
+
 # press both shift together to toggle capslock
 dconf write /org/gnome/desktop/input-sources/xkb-options "['shift:both_capslock']"
 
