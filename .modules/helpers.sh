@@ -33,6 +33,21 @@ expunge_history() {
   sed -i -e "${expression}" "${HISTFILE}"
 }
 
+refresh_and_clear() {
+  if test -n "${SSH_CLIENT}" -o -n "${SSH_TTY}"; then
+    # inside ssh session
+    if [[ -n "$TMUX" ]] || [[ "$TERM" =~ "^(screen|tmux).*" ]]; then
+      # inside tmux
+      if [[ -n "${SSH_AUTH_SOCK}" ]] && [[ ! -S ${SSH_AUTH_SOCK} ]]; then
+        # has stale ${SSH_AUTH_SOCK}
+        eval "$(tmux show-environment -s | grep '^SSH_AUTH_SOCK')"
+      fi
+    fi
+  fi
+
+  clear -x
+}
+
 exit_or_tmux_detach() {
   if [[ -z "$TMUX" ]] || [[ ! "$TERM" =~ "^(screen|tmux).*" ]]; then
     exit
