@@ -1,6 +1,6 @@
 # shellcheck shell=sh
 
-alias c='clear -x'
+alias c='refresh_and_clear'
 alias x='exit_or_tmux_detach'
 alias :q='exit_or_tmux_detach'
 alias :w=''
