@@ -139,6 +139,7 @@ Plug 'tpope/vim-unimpaired'
 " integration
 Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'rhysd/git-messenger.vim'
 Plug 'RyanMillerC/better-vim-tmux-resizer'
 Plug 'tpope/vim-fugitive'
@@ -187,6 +188,14 @@ sunmap <M-e>
 sunmap g<M-e>
 imap   <silent> <S-Left>  <C-o><Plug>CamelCaseMotion_b
 imap   <silent> <S-Right> <C-o><Plug>CamelCaseMotion_w
+
+"## Plugin: carbon-now-sh
+let g:carbon_now_sh_options = {
+      \ 'bg': '#8f3f71',
+      \ 'ln': 'true',
+      \ 'fm': 'JetBrains Mono',
+      \ 'wc': 'false',
+      \ 't': 'monokai' }
 
 "## Plugin: coc
 
@@ -420,7 +429,7 @@ nnoremap <silent> <C-w><C-l> :TmuxNavigateRight<CR>
 nnoremap <silent> <C-w>p     :TmuxNavigatePrevious<CR>
 nnoremap <silent> <C-w><C-p> :TmuxNavigatePrevious<CR>
 
-"## Plugin: tmux-navigator
+"## Plugin: tmux-resizer
 
 let g:tmux_resizer_no_mappings = 1
 let g:tmux_resizer_resize_count = 5
