@@ -1,12 +1,12 @@
-# MunifTanjim's .dotfiles
+# MunifTanjim's dotfiles
 
 ## Setup
 
 ```sh
 # [READY] setup chezmoi
-curl -sfL https://raw.githubusercontent.com/MunifTanjim/scripts.sh/main/setup-chezmoi | bash
+curl -fsSL https://raw.githubusercontent.com/MunifTanjim/scripts.sh/main/setup-chezmoi | bash
 # [SET] initialize
-chezmoi init https://github.com/MunifTanjim/.dotfiles.git
+chezmoi init MunifTanjim
 # [GO] apply
 chezmoi apply
 ```
