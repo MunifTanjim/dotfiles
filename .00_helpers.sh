@@ -43,6 +43,11 @@ is_linux() {
   [[ $OSTYPE = linux* ]]
 }
 
+is_github_codespace() {
+  local -r bool="$(chezmoi execute-template '{{ get .meta.is "github_codespace" }}')"
+  test "${bool}" = "true"
+}
+
 is_headless_machine() {
   local -r bool="$(chezmoi execute-template '{{ get .meta.is "headless_machine" }}')"
   test "${bool}" = "true"
