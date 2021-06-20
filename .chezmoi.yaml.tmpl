@@ -1,22 +1,24 @@
-{{- $is_headless_machine := promptBool "Is this a Headless Machine" -}}
-{{- $is_personal_machine := promptBool "Is this a Personal Machine" -}}
+{{- $is_headless_machine := true -}}
+{{- $is_personal_machine := false -}}
+{{- $should_include_secrets := false -}}
 
-{{- $should_include_secrets := promptBool "Should this machine store secrets" -}}
+{{- $is_github_codespace := empty ( env "CODESPACES" ) | not -}}
 
-{{- $personal_email := promptString "Personal Email" -}}
-{{- $newscred_email := promptString "NewsCred Email" -}}
+{{- if not $is_github_codespace -}}
+  {{- $is_headless_machine = promptBool "meta.is.headless_machine" -}}
+  {{- $is_personal_machine = promptBool "meta.is.personal_machine" -}}
+  {{- $should_include_secrets = promptBool "meta.should.include_secrets" -}}
+{{- end -}}
 
-sourceDir: ~/.local/share/chezmoi
+sourceDir: {{ .chezmoi.sourceDir }}
 
 data:
   meta:
     is:
+      github_codespace: {{ $is_github_codespace }}
       headless_machine: {{ $is_headless_machine }}
       personal_machine: {{ $is_personal_machine }}
     should:
       include_secrets: {{ $should_include_secrets }}
-  email:
-    personal: {{ $personal_email }}
-    newscred: {{ $newscred_email }}
 
 # vim: set filetype=gotexttmpl.yaml :
