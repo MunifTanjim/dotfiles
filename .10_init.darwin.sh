@@ -20,6 +20,7 @@ ensure_homebrew() {
 }
 
 ensure_darwin
+ask_sudo
 
 ensure_command_line_tools
 ensure_homebrew
