@@ -41,13 +41,26 @@ install_apt_packages() {
   )
 
   declare APT_PACKAGES=(
-    chafa curl git grc
-    htop jq neofetch
-    rar unrar shellcheck
-    libsecret-tools moreutils
-    tmux tree vim
-    xclip xsel zsh
+    chafa
+    curl
+    git
+    gnupg2
+    grc
+    htop
+    jq
+    libsecret-tools
+    moreutils
+    neofetch
+    rar
+    shellcheck
+    tmux
     translate-shell
+    tree
+    unrar
+    vim
+    xclip
+    xsel
+    zsh
   )
 
   if ! is_headless_machine; then
@@ -121,7 +134,9 @@ run_setup_scripts() {
     if ! command_exists postman; then
       SETUP_SCRIPTS+=(setup-postman)
     fi
-    SETUP_SCRIPTS+=(setup-rofi)
+    if ! command_exists rofi; then
+      SETUP_SCRIPTS+=(setup-rofi)
+    fi
   fi
 
   if should_include_secrets; then
