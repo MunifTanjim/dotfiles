@@ -481,6 +481,12 @@ if has('termguicolors')
   set termguicolors
 endif
 
+if !has('nvim')
+  let &t_SI = "\e[6 q"
+  let &t_SR = "\e[4 q"
+  let &t_EI = "\e[2 q"
+endif
+
 augroup override_highlight
     autocmd!
     autocmd ColorScheme gruvbox highlight link BoxChar GruvboxGray
