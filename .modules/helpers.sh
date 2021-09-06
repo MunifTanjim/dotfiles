@@ -49,14 +49,22 @@ refresh_and_clear() {
 }
 
 exit_or_tmux_detach() {
+  if [[ -n "$LF_LEVEL" ]]; then
+    # inside lf
+    exit
+  fi
+
   if [[ -z "$TMUX" ]] || [[ ! "$TERM" =~ "^(screen|tmux).*" ]]; then
+    # outside tmux
     exit
   fi
 
   if ! command_exists tmux; then
+    # no tmux
     exit
   fi
 
+  # inside tmux
   local -r total_windows=$(tmux list-windows | wc -l)
 
   if [ $total_windows != 1 ]; then
