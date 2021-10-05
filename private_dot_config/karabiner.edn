@@ -135,6 +135,8 @@
            [:!F##open_bracket :home]         [:!F##close_bracket :end]
            [:!F##semicolon    :page_up]      [:!F##quote         :page_down]
            [:!F##period       :insert]       [:!F##slash         :delete_forward]
+           ; fn+tab => enter
+           [:!Ftab :return_or_enter]
            ]}
 
   {:des "{Left+Right} Shift => Caps Lock"
