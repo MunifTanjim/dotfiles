@@ -78,15 +78,19 @@ cmd delete ${{
 }}
 
 cmd mkdir %{{
-    IFS=" "
-    mkdir -p -- "$*"
-    lf -remote "send $id select \"$*\""
+  IFS=" "
+  mkdir -p -- "$*"
+  lf -remote "send $id select \"$*\""
 }}
 
 cmd touch %{{
-    IFS=" "
-    touch -- "$*"
-    lf -remote "send $id select \"$*\""
+  IFS=" "
+  touch -- "$*"
+  lf -remote "send $id select \"$*\""
+}}
+
+cmd z %{{
+  lf -remote "send $id cd $(zoxide query $@)"
 }}
 
 # (xkcd link: https://xkcd.com/1168/)
@@ -169,6 +173,7 @@ map gg top
 map gh cd ~
 map gq quit
 map gr refresh
+map gz push :z<space>
 map g. set hidden!
 
 map J :toggle; down
