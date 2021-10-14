@@ -217,10 +217,12 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 if has('nvim')
   Plug 'folke/lua-dev.nvim'
   Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+  Plug 'kyazdani42/nvim-web-devicons'
   Plug 'MunifTanjim/exrc.nvim'
   Plug 'MunifTanjim/nui.nvim'
   Plug 'MunifTanjim/nvim-treesitter-lua'
-  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'nvim-treesitter/playground'
@@ -269,6 +271,8 @@ let g:coc_global_extensions = [
       \ 'coc-rls',
       \ 'coc-sh',
       \ 'coc-snippets',
+      \ 'coc-stylua',
+      \ 'coc-sumneko-lua',
       \ 'coc-tsserver',
       \ 'coc-vimlsp',
       \ 'coc-yaml',
@@ -306,6 +310,9 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "" select popup-menu item
 inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+
+if !has('nvim')
+
 "" function text object
 xmap if <Plug>(coc-funcobj-i)
 omap if <Plug>(coc-funcobj-i)
@@ -316,6 +323,9 @@ xmap ic <Plug>(coc-classobj-i)
 omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
+
+endif
+
 "" code navigation
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -372,6 +382,8 @@ augroup coc_augroup
   autocmd FileType javascript,javascriptreact,typescript,typescriptreact
         \ nmap <silent> gf <Plug>(coc-definition)
 augroup END
+
+lua require("config.coc")
 
 "## Plugin: fzf
 

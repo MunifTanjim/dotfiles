@@ -47,6 +47,7 @@ treesitter_configs.setup({
     "regex",
     "ruby",
     "rust",
+    "vim",
   },
   autotag = {
     enable = true,

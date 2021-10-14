@@ -6,6 +6,7 @@
     "javascriptreact",
     "json",
     "jsonc",
+    "lua",
     "markdown",
     "python",
     "rust",
@@ -70,6 +71,14 @@
   "explorer.width": 40,
   // javascript
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  // lua
+  "Lua.diagnostics.globals": ["vim"],
+  "Lua.hint.enable": false,
+  "Lua.runtime.path": ["?.lua", "lua/?.lua", "lua/?/init.lua"],
+  "Lua.runtime.version": "LuaJIT",
+  "Lua.telemetry.enable": false,
+  "Lua.workspace.maxPreload": 10000,
+  "Lua.workspace.preloadFileSize": 10000,
   // prettier
   "prettier.arrowParens": "always",
   "prettier.disableSuccessMessage": true,
