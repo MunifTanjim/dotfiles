@@ -224,6 +224,9 @@
    :rules [[:!CCl "open -a ScreenSaverEngine"]]}
   {:des "Cmd+Shift+L => Sleep Display",
    :rules [[:!CCSSl "pmset displaysleepnow"]]}
+
+  {:des "Emoji: Cmd+E => Cmd+Ctrl+Space"
+   :rules [[:!Ce :!CTspacebar]]}
   ]
 
   ;; C  T  O  S  ->  left_{command, control, option, shift}
