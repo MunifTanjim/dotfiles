@@ -27,19 +27,6 @@ autoload -U select-word-style
 select-word-style bash
 
 # [[[ completion
-optimized_zicompinit() {
-  for zcompdump in $ZINIT[ZCOMPDUMP_PATH](N.mh+24); do
-    # only run once a day
-    compinit -d "${zcompdump}"
-    if [[ ! -s "${zcompdump}.zwc" ]] || [[ "${zcompdump}" -nt "${zcompdump}.zwc" ]]; then
-      zcompile "${zcompdump}"
-    fi
-  done
-  compinit -C -d "$ZINIT[ZCOMPDUMP_PATH]"
-}
-
-autoload -Uz compinit
-
 zstyle ':completion:*' menu select=2
 zstyle ':completion:*' group-name ''
 zstyle ':completion:::::' completer _expand _expand_alias _complete _ignored _correct _approximate
@@ -58,51 +45,41 @@ zstyle ':completion:*:messages' format '%B%F{yellow}%d%f%b'
 zstyle ':completion:*:warnings' format '%B%F{red}No matches found!%f%b'
 # completion ]]]
 
-source "${ZINIT[BIN_DIR]}/zinit.zsh"
+source "${HOME}/Dev/github/MunifTanjim/zed/zed.zsh"
 
-zinit as'completion' wait lucid for \
-  is-snippet \
-    "${DOTFILES_MODULES}/zsh/completions/_keybase"
+zed init
 
-zinit wait lucid for \
-    momo-lab/auto-expand-alias \
-  atinit'optimized_zicompinit; zicdreplay' \
-    zdharma/fast-syntax-highlighting \
-  atload'_zsh_autosuggest_start' \
-    zsh-users/zsh-autosuggestions \
-  blockf atpull'zinit creinstall -q zsh-users/zsh-completions' \
-    zsh-users/zsh-completions
+fpath+="${DOTFILES_MODULES}/zsh/completions"
+fpath+="${ZSH_DATA_DIR}/completions"
 
-zinit ice \
-  atclone'dircolors -b LS_COLORS > clrs.zsh' \
-  atpull'%atclone' pick'clrs.zsh' nocompile'!' \
-  atload'zstyle ":completion:*" list-colors "${(s.:.)LS_COLORS}"'
-zinit load trapd00r/LS_COLORS
-zinit load zpm-zsh/colorize
-zinit load zpm-zsh/ls
+zed load github.com/zsh-users/zsh-completions
 
-zinit ice has'zoxide' wait lucid id-as'zoxide' \
-  atclone'zoxide init --no-aliases zsh > zoxide.zsh && echo "z() { __zoxide_z \$@ }" >> zoxide.zsh' \
-  atpull'%atclone' run-atpull pick'zoxide.zsh' nocompile'!'
-zinit load zdharma/null
+zed load github.com/trapd00r/LS_COLORS \
+  onpull:'dircolors -b LS_COLORS > LS_COLORS.plugin.zsh' \
+  onload:'zstyle ":completion:*" list-colors "${(s.:.)LS_COLORS}"'
+zed load github.com/zpm-zsh/colorize
+zed load github.com/zpm-zsh/ls
 
-zinit is-snippet for \
-  "${DOTFILES_MODULES}/aliases.sh" \
-  "${DOTFILES_MODULES}/helpers.sh" \
-  {{ if eq .chezmoi.os "darwin" -}}
-    "${DOTFILES_MODULES}/os.darwin.plugin.sh" \
-  {{ end -}}
-  "${DOTFILES_MODULES}/gpg.plugin.sh"
+if (( ${+commands[zoxide]} )); then
+  zed load github.com/MunifTanjim/null name:'zoxide' \
+    onpull:'zoxide init --no-aliases zsh > zoxide.plugin.zsh && echo "z() { __zoxide_z \$@ }" >> zoxide.plugin.zsh'
+fi
 
-zinit wait lucid is-snippet for \
-  "${DOTFILES_MODULES}/fzf.plugin.sh" \
-  "${DOTFILES_MODULES}/go.plugin.sh" \
-  "${DOTFILES_MODULES}/lf.plugin.sh" \
-  atload'__init_nvm' \
-    "${DOTFILES_MODULES}/node.plugin.sh" \
-  "${DOTFILES_MODULES}/python.plugin.sh" \
-  "${DOTFILES_MODULES}/ruby.plugin.sh" \
-  "${DOTFILES_MODULES}/rust.plugin.sh"
+zed load "${DOTFILES_MODULES}/aliases.sh"
+zed load "${DOTFILES_MODULES}/helpers.sh"
+{{ if eq .chezmoi.os "darwin" -}}
+  zed load "${DOTFILES_MODULES}/os.darwin.plugin.sh"
+{{ end -}}
+zed load "${DOTFILES_MODULES}/gpg.plugin.sh"
+
+zed load "${DOTFILES_MODULES}/fzf.plugin.sh"
+zed load "${DOTFILES_MODULES}/go.plugin.sh"
+zed load "${DOTFILES_MODULES}/lf.plugin.sh"
+zed load "${DOTFILES_MODULES}/node.plugin.sh" \
+  onload:'__init_nvm'
+zed load "${DOTFILES_MODULES}/python.plugin.sh"
+zed load "${DOTFILES_MODULES}/ruby.plugin.sh"
+zed load "${DOTFILES_MODULES}/rust.plugin.sh"
 
 # [[[ zle utilities
 zle--change-cursor() {
@@ -178,8 +155,14 @@ bindkey "${key[Control-Delete]}" kill-word
 bindkey "${key[Shift-Tab]}" reverse-menu-complete
 # keybindings ]]]
 
+zed load github.com/momo-lab/auto-expand-alias
+zed load github.com/zsh-users/zsh-autosuggestions
+zed load github.com/zdharma-mirror/fast-syntax-highlighting
+
 export STARSHIP_CONFIG=~/.config/starship/config.toml
-zinit ice has'starship' id-as'starship' \
-  atclone'starship init zsh --print-full-init > starship.zsh' \
-  atpull'%atclone' run-atpull pick'starship.zsh' nocompile'!'
-zinit load zdharma/null
+if (( ${+commands[starship]} )); then
+  zed load github.com/MunifTanjim/null name:'starship' \
+    onpull:'starship init zsh --print-full-init > starship.plugin.zsh'
+fi
+
+zed done
