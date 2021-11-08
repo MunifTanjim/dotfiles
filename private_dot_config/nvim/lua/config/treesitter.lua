@@ -1,7 +1,15 @@
 local treesitter_configs = require("nvim-treesitter.configs")
 local treesitter_lua = require("nvim-treesitter-lua")
 
--- local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+
+-- disable treesitter for zsh
+parser_config.zsh = {
+  install_info = {},
+  used_by = {},
+  maintainers = {},
+}
+
 -- parser_config.json = {
 --   install_info = {
 --     url = "~/Dev/github/tree-sitter/tree-sitter-json",
