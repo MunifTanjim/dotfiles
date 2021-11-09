@@ -209,7 +209,6 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-markdown'
 Plug 'vitalk/vim-shebang'
-Plug 'zinit-zsh/zinit-vim-syntax'
 
 " dark magic
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
