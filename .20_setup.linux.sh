@@ -112,7 +112,7 @@ run_setup_scripts() {
 
   declare SETUP_SCRIPTS=(
     setup-tpm
-    setup-zinit
+    setup-zed
 
     setup-exa
     setup-fzf
