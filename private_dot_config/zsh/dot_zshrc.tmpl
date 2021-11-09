@@ -45,7 +45,7 @@ zstyle ':completion:*:messages' format '%B%F{yellow}%d%f%b'
 zstyle ':completion:*:warnings' format '%B%F{red}No matches found!%f%b'
 # completion ]]]
 
-source "${HOME}/Dev/github/MunifTanjim/zed/zed.zsh"
+source "${ZED[DATA_DIR]}/self/zed.zsh"
 
 zed init
 
@@ -154,6 +154,10 @@ bindkey "${key[Control-Backspace]}" backward-kill-word
 bindkey "${key[Control-Delete]}" kill-word
 bindkey "${key[Shift-Tab]}" reverse-menu-complete
 # keybindings ]]]
+
+{{ if eq .chezmoi.os "darwin" -}}
+  zed load github.com/ohmyzsh/ohmyzsh dir:'plugins/macos'
+{{ end -}}
 
 zed load github.com/momo-lab/auto-expand-alias
 zed load github.com/zsh-users/zsh-autosuggestions
