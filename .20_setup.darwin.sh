@@ -155,7 +155,7 @@ run_setup_scripts() {
   declare SETUP_SCRIPTS=(
     setup-nvm
     setup-tpm
-    setup-zinit
+    setup-zed
 
     setup-fzf
     setup-rust
