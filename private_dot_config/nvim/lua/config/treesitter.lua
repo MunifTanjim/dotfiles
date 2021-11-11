@@ -1,5 +1,4 @@
 local treesitter_configs = require("nvim-treesitter.configs")
-local treesitter_lua = require("nvim-treesitter-lua")
 
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 
@@ -33,7 +32,10 @@ parser_config.zsh = {
 --  "lua", "highlights", read_query("~/Dev/github/MunifTanjim/tree-sitter-lua/queries/lua/highlights.scm")
 --)
 
-treesitter_lua.setup()
+local treesitter_lua_ok, treesitter_lua = pcall(require, "nvim-treesitter-lua")
+if treesitter_lua_ok then
+  treesitter_lua.setup()
+end
 
 treesitter_configs.setup({
   ensure_installed = {

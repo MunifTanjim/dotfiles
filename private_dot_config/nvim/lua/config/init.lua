@@ -1,7 +1,6 @@
 -- exrc.nvim
 
-vim.o.exrc = false
-require("exrc").setup()
+require("config.exrc")
 
 -- nvim-spectre
 
