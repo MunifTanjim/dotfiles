@@ -5,7 +5,7 @@
 #proxy = http://the.proxy.server:3128
 
 # The location of the pid file.  mpdscribble saves its process id there.
-pidfile = {{ .chezmoi.homedir }}/.local/share/mpdscribble/pid
+pidfile = {{ .chezmoi.homeDir }}/.local/share/mpdscribble/pid
 
 # Change to this system user after daemonization.
 #daemon_user = mpdscribble
@@ -14,7 +14,7 @@ pidfile = {{ .chezmoi.homedir }}/.local/share/mpdscribble/pid
 # "syslog" makes mpdscribble use the local syslog daemon.  On most
 # systems, log messages will appear in /var/log/daemon.log then.
 # "-" means log to stderr (the current terminal).
-log = {{ .chezmoi.homedir }}/.local/share/mpdscribble/log
+log = {{ .chezmoi.homeDir }}/.local/share/mpdscribble/log
 
 # How verbose mpdscribble's logging should be.  Default is 1.
 verbose = 1
@@ -36,19 +36,19 @@ port = 6600
 # password =
 # The file where mpdscribble should store its Last.fm journal in case
 # you do not have a connection to the Last.fm server.
-# journal = {{ .chezmoi.homedir }}/.local/share/mpdscribble/lastfm.journal
+# journal = {{ .chezmoi.homeDir }}/.local/share/mpdscribble/lastfm.journal
 
 # [libre.fm]
 # url = http://turtle.libre.fm/
 # username = MunifTanjim
 # password = {{ ( bitwarden "item" "libre.fm" ).login.password }}
-# journal = {{ .chezmoi.homedir }}/.local/share/mpdscribble/librefm.journal
+# journal = {{ .chezmoi.homeDir }}/.local/share/mpdscribble/librefm.journal
 
 #[jamendo]
 #url = http://postaudioscrobbler.jamendo.com/
 #username = my_username
 #password = my_password
-#journal = {{ .chezmoi.homedir }}/.local/share/mpdscribble/jamendo.journal
+#journal = {{ .chezmoi.homeDir }}/.local/share/mpdscribble/jamendo.journal
 
 #[file]
-#file = {{ .chezmoi.homedir }}/.local/share/mpdscribble/file.journal
+#file = {{ .chezmoi.homeDir }}/.local/share/mpdscribble/file.journal
