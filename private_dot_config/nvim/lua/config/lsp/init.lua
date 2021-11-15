@@ -32,7 +32,7 @@ local function setup_null_ls()
 
   local eslint = require("eslint")
   eslint.setup({
-    bin = "eslint",
+    bin = "eslint_d",
   })
 
   local prettier = require("prettier")
