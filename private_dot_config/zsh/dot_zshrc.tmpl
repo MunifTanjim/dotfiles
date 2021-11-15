@@ -1,49 +1,61 @@
 # vim: set filetype=zsh foldmethod=marker foldmarker=[[[,]]] :
 
 # [[[ options
+setopt AUTO_PARAM_SLASH
 setopt COMBINING_CHARS
 setopt INTERACTIVE_COMMENTS
-setopt RC_QUOTES
 
 setopt APPEND_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
-setopt SHARE_HISTORY
 setopt HIST_VERIFY
+setopt SHARE_HISTORY
 
 setopt AUTO_CD
 setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
 setopt PUSHD_SILENT
-setopt PUSHD_TO_HOME
 
+setopt ALWAYS_TO_END
 setopt AUTO_MENU
+setopt COMPLETE_IN_WORD
 setopt GLOB_COMPLETE
 setopt LIST_ROWS_FIRST
 
 unsetopt MULTIOS
 # options ]]]
 
+declare -U path
+
 autoload -U select-word-style
 select-word-style bash
 
 # [[[ completion
-zstyle ':completion:*' menu select=2
-zstyle ':completion:*' group-name ''
-zstyle ':completion:::::' completer _expand _expand_alias _complete _ignored _correct _approximate
-zstyle ':completion:*' squeeze-slashes true
-
-zstyle ':completion:*:functions' ignored-patterns '_*'
-zstyle '*' single-ignored 'show'
-
-zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' verbose yes
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "${ZSH_CACHE_DIR}/zcompcache"
 
-zstyle ':completion:*:corrections' format '%B%d%b (%e errors)'
+zstyle ':completion:*' completer _expand_alias _complete _ignored _correct _approximate
+
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select=2
+zstyle ':completion:*' squeeze-slashes true
+
+zstyle -e ':completion:*' special-dirs \
+  '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)'
+
+zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec)|nvm_*)'
+zstyle ':completion:*' single-ignored show
+
+zstyle ':completion:*:corrections' format '%B%d%b (~%e errors)'
 zstyle ':completion:*:descriptions' format '%B%d%b'
 zstyle ':completion:*:messages' format '%B%F{yellow}%d%f%b'
-zstyle ':completion:*:warnings' format '%B%F{red}No matches found!%f%b'
+zstyle ':completion:*:warnings' format '%B%F{red}(no match found)%f%b'
 # completion ]]]
+
+declare -A ZED
+ZED[CACHE_DIR]="${ZSH_CACHE_DIR}/.zed"
+ZED[DATA_DIR]="${ZSH_DATA_DIR}/.zed"
 
 source "${ZED[DATA_DIR]}/self/zed.zsh"
 
@@ -86,7 +98,7 @@ zed load "${DOTFILES_MODULES}/zsh/plugins/rbenv" \
 zed load "${DOTFILES_MODULES}/rust.plugin.sh"
 
 # [[[ zle utilities
-zle--change-cursor() {
+function zle--change-cursor() {
   local -r style="${1}"
   local -r cursor="\x1b[%s q"
   if [[ "${style}" == "beam" ]]; then
@@ -98,7 +110,7 @@ zle--change-cursor() {
 # zle utilities ]]]
 
 # [[[ zle-keymap-select
-zle-keymap-select() {
+function zle-keymap-select() {
   if [[ $KEYMAP == "vicmd" ]]; then
     zle--change-cursor "block"
   else
@@ -110,22 +122,24 @@ zle -N zle-keymap-select
 # zle-keymap-select ]]]
 
 # [[[ zle-line-{init,finish}
-zle-line-init () {
-  zle--change-cursor "beam"
-  printf '%s' ${terminfo[smkx]}
-}
-zle -N zle-line-init
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+  function zle-line-init () {
+    zle--change-cursor "beam"
+    printf '%s' ${terminfo[smkx]}
+  }
+  zle -N zle-line-init
 
-zle-line-finish () {
-  printf '%s' ${terminfo[rmkx]}
-}
-zle -N zle-line-finish
+  function zle-line-finish () {
+    printf '%s' ${terminfo[rmkx]}
+  }
+  zle -N zle-line-finish
+fi
 # zle-line-{init-finish} ]]]
 
 # [[[ keybindings
 export KEYTIMEOUT=10
 
-declare -g -A key=(
+declare -gA key=(
   Up                "${terminfo[kcuu1]}"
   Down              "${terminfo[kcud1]}"
   Left              "${terminfo[kcub1]}"
@@ -163,8 +177,13 @@ bindkey "${key[Shift-Tab]}" reverse-menu-complete
   zed load github.com/ohmyzsh/ohmyzsh dir:'plugins/macos'
 {{ end -}}
 
-zed load github.com/momo-lab/auto-expand-alias
+ZSH_AUTOSUGGEST_USE_ASYNC=true
+ZSH_AUTOSUGGEST_COMPLETION_IGNORE="git *"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#928374"
+ZSH_AUTOSUGGEST_HISTORY_IGNORE="(cd|rm|z) *"
+
 zed load github.com/zsh-users/zsh-autosuggestions
+
 zed load github.com/zdharma-mirror/fast-syntax-highlighting
 
 export STARSHIP_CONFIG=~/.config/starship/config.toml
