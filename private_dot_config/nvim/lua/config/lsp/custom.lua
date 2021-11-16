@@ -16,7 +16,7 @@ function mod.rename()
 
     params.newName = new_name
 
-    vim.lsp.buf_request(0, "textDocument/rename", params, function(_, _, result)
+    vim.lsp.buf_request(0, "textDocument/rename", params, function(_, result, _, _)
       if not result then
         return
       end
