@@ -1,8 +1,10 @@
 # shellcheck shell=sh
 
-declare filename="$(dirname $0)/_generated.zsh"
+__generated_file="$(dirname $(realpath $0))/_generated.zsh"
 
-rm -f "${filename}"
-pyenv init --path zsh >> "${filename}"
-pyenv init - --no-rehash zsh >> "${filename}"
-pyenv virtualenv-init - zsh >> "${filename}"
+rm -f "${__generated_file}"
+pyenv init --path zsh >> "${__generated_file}"
+pyenv init - --no-rehash zsh >> "${__generated_file}"
+pyenv virtualenv-init - zsh >> "${__generated_file}"
+
+unset __generated_file
