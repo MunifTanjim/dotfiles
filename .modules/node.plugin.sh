@@ -5,7 +5,7 @@
 
 export NVM_DIR="${HOME}/.local/share/nvm"
 
-pathmunge "${PWD}/node_modules/.bin"
+PATH="./node_modules/.bin:${PATH}"
 
 if [ -d "${NVM_DIR}" ]; then
   __node_global_bins=("nvm" "node" $(find ${NVM_DIR}/versions/node -maxdepth 3 -path '*/bin/*' -type l -print0 2>/dev/null | xargs -0 -n1 basename | sort | uniq))
