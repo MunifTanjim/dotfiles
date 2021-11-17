@@ -5,6 +5,10 @@ local exrc = require("config.exrc")
 
 require("config.lsp.custom")
 
+vim.diagnostic.config({
+  virtual_text = false,
+})
+
 local function setup_null_ls()
   local null_ls = require("null-ls")
 
