@@ -14,7 +14,6 @@ setopt SHARE_HISTORY
 setopt AUTO_CD
 setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
-setopt PUSHD_SILENT
 
 setopt ALWAYS_TO_END
 setopt AUTO_MENU
@@ -72,11 +71,6 @@ zed load github.com/trapd00r/LS_COLORS \
 zed load github.com/zpm-zsh/colorize
 zed load github.com/zpm-zsh/ls
 
-if (( ${+commands[zoxide]} )); then
-  zed load github.com/MunifTanjim/null name:'zoxide' \
-    onpull:'zoxide init --no-aliases zsh > zoxide.plugin.zsh && echo "z() { __zoxide_z \$@ }" >> zoxide.plugin.zsh'
-fi
-
 zed load "${DOTFILES_MODULES}/aliases.sh"
 zed load "${DOTFILES_MODULES}/helpers.sh"
 {{ if eq .chezmoi.os "darwin" -}}
@@ -87,7 +81,8 @@ zed load "${DOTFILES_MODULES}/gpg.plugin.sh"
 zed load "${DOTFILES_MODULES}/fzf.plugin.sh"
 zed load "${DOTFILES_MODULES}/go.plugin.sh"
 zed load "${DOTFILES_MODULES}/lf.plugin.sh"
-zed load "${DOTFILES_MODULES}/node.plugin.sh" \
+zed load "${DOTFILES_MODULES}/node.plugin.sh" name:'nvm' \
+  compile:'nvm.plugin.zsh ${NVM_DIR}/nvm.sh' \
   onload:'__init_nvm'
 zed load "${DOTFILES_MODULES}/zsh/plugins/pyenv" \
   compile:'pyenv.plugin.zsh _generated.zsh' \
@@ -172,6 +167,11 @@ bindkey "${key[Control-Backspace]}" backward-kill-word
 bindkey "${key[Control-Delete]}" kill-word
 bindkey "${key[Shift-Tab]}" reverse-menu-complete
 # keybindings ]]]
+
+if (( ${+commands[zoxide]} )); then
+  zed load github.com/MunifTanjim/null name:'zoxide' \
+    onpull:'zoxide init --no-aliases zsh > zoxide.plugin.zsh && echo "z() { __zoxide_z \$@ }" >> zoxide.plugin.zsh'
+fi
 
 {{ if eq .chezmoi.os "darwin" -}}
   zed load github.com/ohmyzsh/ohmyzsh dir:'plugins/macos'
