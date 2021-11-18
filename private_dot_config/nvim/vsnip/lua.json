@@ -1,0 +1,37 @@
+{
+  "local": {
+    "prefix": "l",
+    "body": ["local ${0}"],
+    "description": "local variable"
+  },
+  "require": {
+    "prefix": "rq",
+    "body": ["require(\"${1:mod}\")"],
+    "description": "require module"
+  },
+  "local_require": {
+    "prefix": "lrq",
+    "body": ["local ${1:var} = require(\"${2:mod}\")"],
+    "description": "require module as local variable"
+  },
+  "function": {
+    "prefix": ["fn"],
+    "body": ["function ${1:fn_name}(${2})", "  ${3}", "end"],
+    "description": "function"
+  },
+  "local_function": {
+    "prefix": ["lfn"],
+    "body": ["local function ${1:fn_name}(${2})", "  ${3}", "end"],
+    "description": "local function"
+  },
+  "print": {
+    "prefix": "p",
+    "body": ["print(${0})"],
+    "description": "print"
+  },
+  "print_vim_inspect": {
+    "prefix": "pvi",
+    "body": ["print(vim.inspect(${0}))"],
+    "description": "print vim.inspect"
+  }
+}
