@@ -14,12 +14,9 @@ telescope.setup({
 
 telescope.load_extension("fzf")
 
-vim.api.nvim_exec(
-  [[
+vim.cmd([[
   nnoremap <Leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
   nnoremap <Leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
   nnoremap <Leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
   nnoremap <Leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-]],
-  false
-)
+]])

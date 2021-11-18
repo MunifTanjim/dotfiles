@@ -89,18 +89,12 @@ treesitter_configs.setup({
   },
 })
 
-vim.api.nvim_exec(
-  [[
+vim.cmd([[
   nmap <Leader>ghg :TSHighlightCapturesUnderCursor<CR>
   nmap <Leader>gtr :TSPlaygroundToggle<CR>
-  ]],
-  false
-)
+]])
 
-vim.api.nvim_exec(
-  [[
+vim.cmd([[
   set foldmethod=expr
   set foldexpr=nvim_treesitter#foldexpr()
-  ]],
-  false
-)
+]])

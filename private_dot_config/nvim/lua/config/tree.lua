@@ -88,11 +88,8 @@ require("nvim-tree").setup({
   },
 })
 
-vim.api.nvim_exec(
-  [[
+vim.cmd([[
   nnoremap <silent> <Leader>e :NvimTreeToggle<CR>
 
   highlight NvimTreeFolderIcon guibg=green
-  ]],
-  false
-)
+]])

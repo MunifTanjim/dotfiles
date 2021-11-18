@@ -1,8 +1,13 @@
--- source: https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils/blob/1af2922c/lua/nvim-lsp-ts-utils/client.lua
-
+local api = vim.api
 local lsp = vim.lsp
 
 local exrc = require("config.exrc")
+
+local method = {
+  APPLY_EDIT = "workspace/applyEdit",
+  EXECUTE_COMMAND = "workspace/executeCommand",
+  PUBLISH_DIAGNOSTICS = "textDocument/publishDiagnostics",
+}
 
 local severities = {
   error = 1,
@@ -10,6 +15,23 @@ local severities = {
   information = 3,
   hint = 4,
 }
+
+local function make_organize_imports_params(bufnr)
+  return {
+    command = "_typescript.organizeImports",
+    arguments = { api.nvim_buf_get_name(bufnr) },
+  }
+end
+
+local function organize_imports(bufnr, callback)
+  bufnr = bufnr or api.nvim_get_current_buf()
+  lsp.buf_request(bufnr, method.EXECUTE_COMMAND, make_organize_imports_params(bufnr), callback)
+end
+
+local function organize_imports_sync(bufnr)
+  bufnr = bufnr or api.nvim_get_current_buf()
+  lsp.buf_request_sync(bufnr, method.EXECUTE_COMMAND, make_organize_imports_params(bufnr), 500)
+end
 
 local function fix_range(range)
   if range["end"].character == -1 then
@@ -101,22 +123,27 @@ local function make_diagnostics_handler(original_handler)
   end
 end
 
-local M = {}
-
-function M.patch_client(client)
+local function patch_client(client)
   if client._patched_handlers then
     return
   end
 
-  local APPLY_EDIT = "workspace/applyEdit"
-  local edit_handler = client.handlers[APPLY_EDIT] or lsp.handlers[APPLY_EDIT]
-  client.handlers[APPLY_EDIT] = make_edit_handler(edit_handler)
+  local edit_handler = client.handlers[method.APPLY_EDIT] or lsp.handlers[method.APPLY_EDIT]
+  client.handlers[method.APPLY_EDIT] = make_edit_handler(edit_handler)
 
-  local PUBLISH_DIAGNOSTICS = "textDocument/publishDiagnostics"
-  local diagnostics_handler = client.handlers[PUBLISH_DIAGNOSTICS] or lsp.handlers[PUBLISH_DIAGNOSTICS]
-  client.handlers[PUBLISH_DIAGNOSTICS] = make_diagnostics_handler(diagnostics_handler)
+  local diagnostics_handler = client.handlers[method.PUBLISH_DIAGNOSTICS] or lsp.handlers[method.PUBLISH_DIAGNOSTICS]
+  client.handlers[method.PUBLISH_DIAGNOSTICS] = make_diagnostics_handler(diagnostics_handler)
 
   client._patched_handlers = true
 end
 
-return M
+local mod = {
+  -- source: https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils/blob/4405c1a9/lua/nvim-lsp-ts-utils/organize-imports.lua
+  organize_imports = organize_imports,
+  organize_imports_sync = organize_imports_sync,
+
+  -- source: https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils/blob/1af2922c/lua/nvim-lsp-ts-utils/client.lua
+  patch_client = patch_client,
+}
+
+return mod

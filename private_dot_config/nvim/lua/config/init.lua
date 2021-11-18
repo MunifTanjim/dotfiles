@@ -2,18 +2,17 @@
 
 require("config.exrc")
 
+-- autopairs
+
+require("config.autopairs")
+
 -- completion
 
 require("config.completion")
 
 -- nvim-spectre
 
-vim.api.nvim_exec(
-  [[
-  nnoremap <Leader>S :lua require('spectre').open()<CR>
-  ]],
-  false
-)
+vim.cmd("nnoremap <Leader>S :lua require('spectre').open()<CR>")
 
 -- lsp
 

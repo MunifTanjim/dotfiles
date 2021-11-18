@@ -5,8 +5,7 @@ vim.g.vsnip_filetypes = {
   typescriptreact = { "typescript" },
 }
 
-vim.api.nvim_exec(
-  [[
+vim.cmd([[
   " Expand
   imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
   smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
@@ -23,6 +22,4 @@ vim.api.nvim_exec(
 
   xmap        <C-j>   <Plug>(vsnip-select-text)
   xmap        <C-l>   <Plug>(vsnip-cut-text)
-  ]],
-  false
-)
+]])

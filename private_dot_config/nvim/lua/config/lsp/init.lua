@@ -9,6 +9,11 @@ vim.diagnostic.config({
   virtual_text = false,
 })
 
+local function remove_formatting_capabilities(client)
+  client.resolved_capabilities.document_formatting = false
+  client.resolved_capabilities.document_range_formatting = false
+end
+
 local function setup_null_ls()
   local null_ls = require("null-ls")
 
@@ -19,17 +24,19 @@ local function setup_null_ls()
   })
 
   lsp_config["null-ls"].setup({
-    on_attach = function(client, _bufnr)
+    on_attach = function(client, bufnr)
+      local map_opts = { noremap = true, silent = true }
+
       if client.resolved_capabilities.document_formatting then
-        vim.cmd("nnoremap <silent><buffer> <Leader>f :lua vim.lsp.buf.formatting()<CR>")
+        vim.api.nvim_buf_set_keymap(bufnr, "n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", map_opts)
+
         if exrc.lsp.format_on_save then
-          -- format on save
-          vim.cmd("autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting()")
+          vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
         end
       end
 
       if client.resolved_capabilities.document_range_formatting then
-        vim.cmd("xnoremap <silent><buffer> <Leader>f :lua vim.lsp.buf.range_formatting({})<CR>")
+        vim.api.nvim_buf_set_keymap(bufnr, "x", "<Leader>f", "<cmd>lua vim.lsp.buf.range_formatting({})<CR>", map_opts)
       end
     end,
   })
@@ -48,72 +55,54 @@ end
 setup_null_ls()
 
 local function on_attach(client, bufnr)
+  vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+
   local function buf_set_keymap(...)
     vim.api.nvim_buf_set_keymap(bufnr, ...)
   end
-  local function buf_set_option(...)
-    vim.api.nvim_buf_set_option(bufnr, ...)
-  end
 
-  buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+  local map_opts = { noremap = true, silent = true }
 
-  local opts = {
-    noremap = true,
-    silent = true,
-  }
-
-  buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-  buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", map_opts)
+  buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", map_opts)
+  buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", map_opts)
+  buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", map_opts)
+  buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", map_opts)
+  buf_set_keymap("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", map_opts)
   -- buf_set_keymap("n", "<Leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
   -- buf_set_keymap("n", "<Leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
   -- buf_set_keymap("n", "<Leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
-  buf_set_keymap("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+  buf_set_keymap("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", map_opts)
   -- buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  buf_set_keymap("n", "<Leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", map_opts)
+  buf_set_keymap("n", "<Leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", map_opts)
+  -- buf_set_keymap("v", "<leader>ca", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)
   -- buf_set_keymap("n", "<Leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
-  buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
-  buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
+  buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", map_opts)
+  buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", map_opts)
   -- buf_set_keymap("n", "<Leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
 
-  buf_set_keymap("n", "<Leader>rn", '<cmd>lua require("config.lsp.custom").rename()<CR>', opts)
+  buf_set_keymap("n", "<Leader>rn", '<cmd>lua require("config.lsp.custom").rename()<CR>', map_opts)
 
-  -- vim.api.nvim_exec(
-  --   [[
-  --   nnoremap <silent> <leader>ac :Lspsaga code_action<CR>
-  --   vnoremap <silent> <leader>ac :<C-U>Lspsaga range_code_action<CR>
-  --   nnoremap <silent> K :Lspsaga hover_doc<CR>
-  --   nnoremap <silent> <C-k> :Lspsaga signature_help<CR>
-  --   nnoremap <silent> <Leader>rn :Lspsaga rename<CR>
-  --   nnoremap <silent> [d :Lspsaga diagnostic_jump_prev<CR>
-  --   nnoremap <silent> ]d :Lspsaga diagnostic_jump_next<CR>
-  --   ]]
-  --   , false
-  -- )
-
-  -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  elseif client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap("n", "<Leader>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+    buf_set_keymap("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", map_opts)
   end
 
-  -- Set autocommands conditional on server_capabilities
+  if client.resolved_capabilities.document_range_formatting then
+    buf_set_keymap("x", "<Leader>f", "<cmd>lua vim.lsp.buf.range_formatting({})<CR>", map_opts)
+  end
+
   if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec(
-      [[
+    vim.cmd([[
       augroup lsp_document_highlight
         autocmd! * <buffer>
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
       augroup END
-      ]],
-      false
-    )
+    ]])
   end
+
+  vim.cmd([[command! Format execute 'lua vim.lsp.buf.formatting()']])
 end
 
 local function make_config()
@@ -135,9 +124,7 @@ lsp_installer.on_server_ready(function(server)
       local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
 
       if filetype == "markdown" then
-        -- disable formatting
-        client.resolved_capabilities.document_formatting = false
-        client.resolved_capabilities.document_range_formatting = false
+        remove_formatting_capabilities(client)
       end
 
       on_attach(client, bufnr)
@@ -185,25 +172,27 @@ lsp_installer.on_server_ready(function(server)
 
   if server.name == "jsonls" then
     config.on_attach = function(client, bufnr)
-      -- disable formatting
-      client.resolved_capabilities.document_formatting = false
-      client.resolved_capabilities.document_range_formatting = false
+      remove_formatting_capabilities(client)
 
       on_attach(client, bufnr)
     end
+
+    config.settings = {
+      json = {
+        schemas = require("schemastore").json.schemas(),
+      },
+    }
   end
 
   if server.name == "tsserver" then
     config.on_attach = function(client, bufnr)
-      -- disable tsserver formatting
-      client.resolved_capabilities.document_formatting = false
-      client.resolved_capabilities.document_range_formatting = false
+      require("config.lsp.typescript").patch_client(client)
+
+      remove_formatting_capabilities(client)
 
       on_attach(client, bufnr)
 
-      vim.cmd("command! -buffer OI lua require'nvim-lsp-ts-utils'.organize_imports()")
-
-      require("config.lsp.typescript").patch_client(client)
+      vim.cmd("command! -buffer OI lua require('config.lsp.typescript').organize_imports()")
     end
   end
 
@@ -219,33 +208,9 @@ local function setup_trouble()
     },
   })
 
-  vim.api.nvim_exec(
-    [[
-    nnoremap <silent> <Leader>xx :TroubleToggle<CR>
-    ]],
-    false
-  )
+  vim.cmd("nnoremap <silent> <Leader>xx :TroubleToggle<CR>")
 end
 
 setup_trouble()
 
--- local lsp_saga = require('lspsaga')
---
--- lsp_saga.init_lsp_saga({
---   code_action_keys = {
---     quit = { '<Esc>', 'q' },
---   },
---   finder_action_keys = {
---     quit = { '<Esc>', 'q' },
---   },
---   rename_action_keys = {
---     quit = { '<Esc>' },
---   },
--- })
-
-vim.api.nvim_exec(
-  [[
-  autocmd CursorHold,CursorHoldI * lua require("nvim-lightbulb").update_lightbulb()
-  ]],
-  false
-)
+vim.cmd("autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()")

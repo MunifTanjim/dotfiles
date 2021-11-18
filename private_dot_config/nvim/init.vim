@@ -165,7 +165,6 @@ if isdirectory(fzf_root)
 endif
 Plug 'bkad/CamelCaseMotion'
 Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'javascriptreact'], 'do': 'make install' }
-Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
 Plug 'mhinz/vim-startify'
 Plug 'puremourning/vimspector'
@@ -211,10 +210,10 @@ Plug 'tpope/vim-markdown'
 Plug 'vitalk/vim-shebang'
 
 if has('nvim')
+  Plug 'b0o/schemastore.nvim'
   Plug 'folke/lsp-colors.nvim'
   Plug 'folke/lua-dev.nvim'
   Plug 'folke/trouble.nvim'
-  Plug 'glepnir/lspsaga.nvim'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'hrsh7th/cmp-nvim-lsp'
@@ -245,26 +244,12 @@ if has('nvim')
   Plug 'nvim-treesitter/playground'
   Plug 'onsails/lspkind-nvim'
   Plug 'williamboman/nvim-lsp-installer'
+  Plug 'windwp/nvim-autopairs'
   Plug 'windwp/nvim-spectre'
   Plug 'windwp/nvim-ts-autotag'
 else
+  Plug 'jiangmiao/auto-pairs'
   Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-endif
-
-if has('nvim')
-  Plug 'folke/lua-dev.nvim'
-  Plug 'JoosepAlviste/nvim-ts-context-commentstring'
-  Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'MunifTanjim/exrc.nvim'
-  Plug 'MunifTanjim/nui.nvim'
-  Plug 'MunifTanjim/nvim-treesitter-lua'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-lua/popup.nvim'
-  Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
-  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-  Plug 'nvim-treesitter/playground'
-  Plug 'windwp/nvim-spectre'
-  Plug 'windwp/nvim-ts-autotag'
 endif
 
 call plug#end()
