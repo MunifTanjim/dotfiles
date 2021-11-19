@@ -231,7 +231,6 @@ if has('nvim')
   Plug 'MunifTanjim/exrc.nvim'
   Plug 'MunifTanjim/prettier.nvim'
   Plug 'MunifTanjim/nui.nvim'
-  Plug 'MunifTanjim/nvim-treesitter-lua'
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'kyazdani42/nvim-tree.lua'
   Plug 'neovim/nvim-lspconfig'
@@ -247,6 +246,9 @@ if has('nvim')
   Plug 'windwp/nvim-autopairs'
   Plug 'windwp/nvim-spectre'
   Plug 'windwp/nvim-ts-autotag'
+
+  " https://github.com/neovim/neovim/pull/15260
+  lua if type(vim.treesitter.config) ~= "nil" then vim.cmd("Plug 'MunifTanjim/nvim-treesitter-lua' , { 'branch': 'plugin-lua' }") end
 else
   Plug 'jiangmiao/auto-pairs'
   Plug 'neoclide/coc.nvim', { 'branch': 'release' }
