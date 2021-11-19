@@ -429,8 +429,8 @@ endif
 " hide statusline while fzf-ing
 if has('nvim') && !exists('g:fzf_layout')
   autocmd! FileType fzf
-  autocmd  FileType fzf set laststatus=0 nonumber norelativenumber noshowmode noruler
-    \| autocmd BufLeave <buffer> set laststatus=2 number relativenumber showmode ruler
+  autocmd  FileType fzf set laststatus=0 nonumber noshowmode noruler
+    \| autocmd BufLeave <buffer> set laststatus=2 number showmode ruler
 endif
 
 " better ripgrep command: ZRG
@@ -563,7 +563,7 @@ endif
 
 "# Appearance Settings
 set cursorline
-set number relativenumber
+set number
 set nowrap
 set scrolloff=3
 
@@ -616,23 +616,6 @@ let g:airline_left_sep=""
 let g:airline_left_alt_sep=""
 let g:airline_right_sep=""
 let g:airline_right_alt_sep=""
-
-" automatically toggle relative line number
-augroup auto_relaivenumber_toggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &l:nu && empty(&bt) | setl rnu   | endif
-  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &l:nu && empty(&bt) | setl nornu | endif
-augroup END
-
-" " keymaps: gruvbox
-" if g:colors_name == 'gruvbox'
-"   nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
-"   nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
-"   nnoremap <silent> yoh :call gruvbox#hls_toggle()<CR>
-"   nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
-"   nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
-"   nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
-" endif
 
 " fold settings
 set foldlevelstart=15
