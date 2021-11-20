@@ -1,0 +1,97 @@
+{
+  "hook": {
+    "prefix": "hook",
+    "body": ["export function use${1:Hook}($2) {", "  $3", "}"],
+    "description": "create new hook"
+  },
+  "jsx map": {
+    "prefix": "xm",
+    "body": [
+      "{${1:items}.map((${2:item}) => (",
+      "  <${3:Item} key={${4:${2}.id}} $5 />",
+      "))}$0"
+    ],
+    "description": "jsx map return component"
+  },
+  "jsx map including children": {
+    "prefix": "xmc",
+    "body": [
+      "{${1:items}.map((${2:item}) => (",
+      "  <${3:Item} key={${4:${2}.id}} $5 >$0</${3}>",
+      "))}"
+    ],
+    "description": "jsx map return component with childen"
+  },
+  "jsx map with body": {
+    "prefix": "xmb",
+    "body": [
+      "{${1:items}.map((${2:item}) => {",
+      "  $3",
+      "  return (",
+      "    <${4:Item} key={${5:${2}.id}} $6 />",
+      "  )",
+      "})}$0"
+    ],
+    "description": "jsx map (with body) return component"
+  },
+  "jsx map with body including children": {
+    "prefix": "xmbc",
+    "body": [
+      "{${1:items}.map((${2:item}) => {",
+      "  $3",
+      "  return (",
+      "    <${4:Item} key={${5:${2}.id}} $6 >$0</${4}>",
+      "  )",
+      "})}"
+    ],
+    "description": "jsx map (with body) return component with children"
+  },
+  "useCallback": {
+    "prefix": "ucb",
+    "body": [
+      "const ${1:callback} = useCallback(($2) => {",
+      "  $3",
+      "}, [$4])$0"
+    ],
+    "description": "hook: useCallback"
+  },
+  "useContext": {
+    "prefix": "uc",
+    "body": [
+      "const ${1:name} = useContext(${2:${1/(.*)/${1:/capitalize}/}Context})$0"
+    ],
+    "description": "hook: useContext"
+  },
+  "useEffect": {
+    "prefix": "ue",
+    "body": ["useEffect(() => {", "  $1", "}, [$2])$0"],
+    "description": "hook: useEffect"
+  },
+  "useEffect with cleanup": {
+    "prefix": "uec",
+    "body": [
+      "useEffect(() => {",
+      "  $1",
+      "  return () => {",
+      "    $2",
+      "  }",
+      "}, [$3])$0"
+    ],
+    "description": "hook: useEffect with cleanup"
+  },
+  "useMemo": {
+    "prefix": "um",
+    "body": ["const ${1:value} = useMemo(() => ${2}, [$3])$0"],
+    "description": "hook: useMemo"
+  },
+  "useRef": {
+    "prefix": "ur",
+    "body": ["const ${1:ref} = useRef(${2:null})$0"],
+    "description": "hook: useContext"
+  },
+  "useState": {
+    "prefix": "us",
+    "body": "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState(${2:initial${1/(.*)/${1:/capitalize}/}})$0",
+    "description": "hook: useState"
+  }
+}

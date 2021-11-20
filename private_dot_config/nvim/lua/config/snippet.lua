@@ -2,7 +2,8 @@ vim.g.vsnip_snippet_dir = vim.fn.stdpath("config") .. "/vsnip"
 
 vim.g.vsnip_filetypes = {
   javascriptreact = { "javascript" },
-  typescriptreact = { "typescript" },
+  typescript = { "javascript" },
+  typescriptreact = { "typescript", "javascriptreact" },
 }
 
 vim.cmd([[
