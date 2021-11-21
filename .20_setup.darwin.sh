@@ -153,7 +153,7 @@ run_setup_scripts() {
   TASK "Run Setup Scripts"
 
   declare SETUP_SCRIPTS=(
-    setup-nvm
+    setup-fnm
     setup-tpm
     setup-zed
 

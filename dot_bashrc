@@ -32,8 +32,8 @@ export PATH="${HOME}/.local/bin:${DOTFILES}/.scripts.sh:${PATH}"
 # {{{ tools
 export CARGO_HOME="${XDG_DATA_HOME}/cargo"
 export RUSTUP_HOME="${XDG_DATA_HOME}/rustup"
+export FNM_DIR="${XDG_DATA_HOME}/fnm"
 export GOPATH="${XDG_DATA_HOME}/go"
-export NVM_DIR="${XDG_DATA_HOME}/nvm"
 export PYENV_ROOT="${HOME}/.pyenv"
 export RBENV_ROOT="${HOME}/.rbenv"
 # tools }}}
@@ -53,11 +53,11 @@ fi
 
 source "${DOTFILES_MODULES}/helpers.sh"
 source "${DOTFILES_MODULES}/aliases.sh"
+source "${DOTFILES_MODULES}/fnm.plugin.sh"
 source "${DOTFILES_MODULES}/fzf.plugin.sh"
 source "${DOTFILES_MODULES}/go.plugin.sh"
 source "${DOTFILES_MODULES}/gpg.plugin.sh"
 source "${DOTFILES_MODULES}/lf.plugin.sh"
-source "${DOTFILES_MODULES}/node.plugin.sh"
 source "${DOTFILES_MODULES}/python.plugin.sh"
 source "${DOTFILES_MODULES}/ruby.plugin.sh"
 source "${DOTFILES_MODULES}/rust.plugin.sh"

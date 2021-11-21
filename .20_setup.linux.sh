@@ -123,7 +123,7 @@ run_setup_scripts() {
 
   if ! is_github_codespace; then
     SETUP_SCRIPTS+=(setup-apt-fast)
-    SETUP_SCRIPTS+=(setup-nvm setup-pyenv setup-rbenv)
+    SETUP_SCRIPTS+=(setup-fnm setup-pyenv setup-rbenv)
     SETUP_SCRIPTS+=(setup-docker setup-gh)
     SETUP_SCRIPTS+=(setup-git-credential-libsecret)
     SETUP_SCRIPTS+=(setup-rust)

@@ -43,7 +43,7 @@ zstyle ':completion:*' squeeze-slashes true
 zstyle -e ':completion:*' special-dirs \
   '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)'
 
-zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec)|nvm_*)'
+zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
 zstyle ':completion:*' single-ignored show
 
 zstyle ':completion:*:corrections' format '%B%d%b (~%e errors)'
@@ -78,12 +78,10 @@ zed load "${DOTFILES_MODULES}/helpers.sh"
 {{ end -}}
 zed load "${DOTFILES_MODULES}/gpg.plugin.sh"
 
+zed load "${DOTFILES_MODULES}/fnm.plugin.sh" name:'fnm'
 zed load "${DOTFILES_MODULES}/fzf.plugin.sh"
 zed load "${DOTFILES_MODULES}/go.plugin.sh"
 zed load "${DOTFILES_MODULES}/lf.plugin.sh"
-zed load "${DOTFILES_MODULES}/node.plugin.sh" name:'nvm' \
-  compile:'nvm.plugin.zsh ${NVM_DIR}/nvm.sh' \
-  onload:'__init_nvm'
 zed load "${DOTFILES_MODULES}/zsh/plugins/pyenv" \
   compile:'pyenv.plugin.zsh _generated.zsh' \
   onpull:'./generate.sh'
