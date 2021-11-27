@@ -19,6 +19,11 @@
     "body": ["function ${1:fn_name}(${2})", "  ${3}", "end"],
     "description": "function"
   },
+  "method_function": {
+    "prefix": ["mfn"],
+    "body": ["function ${1:class_name}:${2:fn_name}(${3})", "  ${4}", "end"],
+    "description": "method function"
+  },
   "local_function": {
     "prefix": ["lfn"],
     "body": ["local function ${1:fn_name}(${2})", "  ${3}", "end"],
