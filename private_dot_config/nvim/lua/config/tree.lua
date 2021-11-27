@@ -1,4 +1,3 @@
-vim.g.nvim_tree_gitignore = 1
 vim.g.nvim_tree_quit_on_open = 1
 vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_git_hl = 1
@@ -56,11 +55,12 @@ require("nvim-tree").setup({
   ignore_ft_on_setup = {},
   auto_close = false,
   open_on_tab = false,
-  update_to_buf_dir = {
-    enable = true,
-  },
   hijack_cursor = false,
   update_cwd = true,
+  update_to_buf_dir = {
+    enable = true,
+    auto_open = true,
+  },
   diagnostics = {
     enable = false,
   },
@@ -68,17 +68,23 @@ require("nvim-tree").setup({
     dotfiles = true,
     custom = {},
   },
-  update_focused_file = {
+  git = {
     enable = true,
-    update_cwd = false,
-    ignore_list = {},
+    ignore = true,
+    timeout = 500,
   },
   system_open = {
     cmd = nil,
     args = {},
   },
+  update_focused_file = {
+    enable = true,
+    update_cwd = false,
+    ignore_list = {},
+  },
   view = {
     width = 40,
+    hide_root_folder = false,
     side = "left",
     auto_resize = false,
     mappings = {
