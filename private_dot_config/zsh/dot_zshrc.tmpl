@@ -182,7 +182,8 @@ ZSH_AUTOSUGGEST_HISTORY_IGNORE="(cd|rm|z) *"
 
 zed load github.com/zsh-users/zsh-autosuggestions
 
-zed load github.com/zdharma-mirror/fast-syntax-highlighting
+zed load github.com/zsh-users/zsh-syntax-highlighting \
+  compile:'zsh-syntax-highlighting.zsh zsh-syntax-highlighting.plugin.zsh'
 
 export STARSHIP_CONFIG=~/.config/starship/config.toml
 if (( ${+commands[starship]} )); then
