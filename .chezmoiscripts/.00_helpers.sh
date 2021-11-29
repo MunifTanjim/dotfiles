@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-DIR="$(chezmoi source-path)"
-export PATH="${DIR}/.scripts.sh:${PATH}"
+CHEZMOI_SOURCE="$(chezmoi source-path)"
+export PATH="${CHEZMOI_SOURCE}/.scripts.sh:${PATH}"
 
 declare -r red='\033[0;31m'
 declare -r green='\033[0;32m'

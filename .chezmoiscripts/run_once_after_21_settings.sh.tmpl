@@ -1,8 +1,8 @@
 {{/* vim: set filetype=gotexttmpl.sh : */}}
 
 {{- $scriptName := ( list ".21_settings" .chezmoi.os "sh" | join "." ) -}}
-{{- $scriptPath := ( joinPath ( toString .chezmoi.sourceDir ) $scriptName ) -}}
+{{- $scriptPath := ( joinPath ( toString .chezmoi.sourceDir ) ".chezmoiscripts" $scriptName ) -}}
 
 {{- if stat $scriptPath -}}
-  {{ include $scriptName }}
+  {{ include $scriptPath }}
 {{- end -}}

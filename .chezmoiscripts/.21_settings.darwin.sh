@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-DIR="$(chezmoi source-path)"
-source "${DIR}/.00_helpers.sh"
+CHEZMOI_SOURCE="$(chezmoi source-path)"
+source "${CHEZMOI_SOURCE}/.chezmoiscripts/.00_helpers.sh"
 
 TASK "Writing macOS Settings"
 

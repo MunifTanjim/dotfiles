@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-DIR="$(chezmoi source-path)"
-source "${DIR}/.00_helpers.sh"
+CHEZMOI_SOURCE="$(chezmoi source-path)"
+source "${CHEZMOI_SOURCE}/.chezmoiscripts/.00_helpers.sh"
 
 ensure_command_line_tools() {
   if ! xcode-select -p >/dev/null 2>&1; then
