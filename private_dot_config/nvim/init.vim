@@ -242,6 +242,7 @@ if has('nvim')
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'nvim-treesitter/playground'
   Plug 'onsails/lspkind-nvim'
+  Plug 'RRethy/nvim-treesitter-textsubjects'
   Plug 'williamboman/nvim-lsp-installer'
   Plug 'windwp/nvim-autopairs'
   Plug 'windwp/nvim-spectre'

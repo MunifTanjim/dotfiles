@@ -65,6 +65,13 @@ treesitter_configs.setup({
       },
     },
   },
+  textsubjects = {
+    enable = true,
+    keymaps = {
+      ["."] = "textsubjects-smart",
+      [";"] = "textsubjects-container-outer",
+    },
+  },
 })
 
 vim.cmd([[
