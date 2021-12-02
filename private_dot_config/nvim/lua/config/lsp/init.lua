@@ -119,6 +119,10 @@ end
 lsp_installer.on_server_ready(function(server)
   local config = make_config()
 
+  if server.name == "emmet_ls" then
+    config.filetypes = { "html", "css", "scss" }
+  end
+
   if server.name == "html" then
     config.on_attach = function(client, bufnr)
       local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
