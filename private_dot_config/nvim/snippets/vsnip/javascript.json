@@ -1,0 +1,22 @@
+{
+  "forof": {
+    "prefix": "forof",
+    "body": ["for (const ${1:item} of ${2:${1}s}) {", "  $3", "}"]
+  },
+  "import": {
+    "prefix": "imp",
+    "body": ["import ${2} from '${1}'$0"]
+  },
+  "import_sideeffect": {
+    "prefix": "imps",
+    "body": ["import '${1}'$0"]
+  },
+  "log": {
+    "prefix": "log",
+    "body": "console.log(${1:null})$0"
+  },
+  "log json stringify": {
+    "prefix": "logjs",
+    "body": "console.log(JSON.stringify(${1:null}, null, 2))$0"
+  }
+}
