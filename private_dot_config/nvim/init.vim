@@ -171,7 +171,6 @@ Plug 'puremourning/vimspector'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'szw/vim-maximizer'
 Plug 'tpope/vim-capslock'
-Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
@@ -234,6 +233,7 @@ if has('nvim')
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'kyazdani42/nvim-tree.lua'
   Plug 'neovim/nvim-lspconfig'
+  Plug 'numToStr/Comment.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-telescope/telescope.nvim'
@@ -253,6 +253,7 @@ if has('nvim')
 else
   Plug 'jiangmiao/auto-pairs'
   Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+  Plug 'tpope/vim-commentary'
 endif
 
 call plug#end()

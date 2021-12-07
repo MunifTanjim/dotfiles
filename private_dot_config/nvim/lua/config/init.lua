@@ -6,6 +6,10 @@ require("config.exrc")
 
 require("config.autopairs")
 
+-- comment
+
+require("config.comment")
+
 -- completion
 
 require("config.completion")
