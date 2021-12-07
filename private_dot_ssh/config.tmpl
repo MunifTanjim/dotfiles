@@ -1,0 +1,17 @@
+{{- /* vim: set filetype=sshconfig : */ -}}
+
+Include config_tailscale
+
+Include config_misc
+
+Host *
+User {{ "c2hhaWthdA==" | b64dec }}
+ControlMaster auto
+ControlPath ~/.ssh/control/%C.sock
+AddKeysToAgent yes
+IgnoreUnknown UseKeychain
+UseKeychain yes
+IdentityFile ~/.ssh/id_rsa
+KeepAlive yes
+ServerAliveInterval 60
+ServerAliveCountMax 6

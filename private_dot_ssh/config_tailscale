@@ -1,0 +1,41 @@
+# vim: set filetype=sshconfig :
+
+Host omega
+  HostName omega.tailscale.muniftanjim.dev
+
+Host toolbox
+  HostName toolbox.tailscale.muniftanjim.dev
+
+Host newscred
+  HostName newscred.tailscale.muniftanjim.dev
+
+Host newscred-mbp
+  HostName newscred-mbp.tailscale.muniftanjim.dev
+
+# headless dev machine
+Host dev-newscred*
+  HostName newscred.tailscale.muniftanjim.dev
+  ForwardAgent yes
+  # ForwardX11 yes
+  # ForwardX11Trusted yes
+  LocalForward 3000 localhost:3000
+  LocalForward 3333 localhost:3333
+  LocalForward 4000 localhost:4000
+  LocalForward 5000 localhost:5000
+  LocalForward 5049 localhost:5049
+  LocalForward 7848 localhost:7848
+  LocalForward 9201 localhost:9201
+  LocalForward 9204 localhost:9204
+  LocalForward 35729 localhost:35729
+  # transmission
+  LocalForward 7451 localhost:7451
+Host dev-newscred-bare
+  # without tmux
+Host dev-newscred
+  RequestTTY yes
+  RemoteCommand tmux attach-session -t dev || tmux new-session -s dev
+
+Host dotfiles-codespaces
+  HostName dotfiles-codespaces.tailscale.muniftanjim.dev
+  Port 2222
+  User codespace
