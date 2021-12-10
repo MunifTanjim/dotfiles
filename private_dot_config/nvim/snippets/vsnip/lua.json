@@ -38,5 +38,25 @@
     "prefix": "pvi",
     "body": ["print(vim.inspect(${0}))"],
     "description": "print vim.inspect"
+  },
+  "test_describe": {
+    "prefix": "td",
+    "body": ["describe(\"$1\", function()", "  $0", "end)"],
+    "description": "test describe block"
+  },
+  "test_it": {
+    "prefix": "ti",
+    "body": ["it(\"$1\", function()", "  $0", "end)"],
+    "description": "test it block"
+  },
+  "test_before_each": {
+    "prefix": "tbe",
+    "body": ["before_each(function()", "  $0", "end)"],
+    "description": "test before_each block"
+  },
+  "test_after_each": {
+    "prefix": "tae",
+    "body": ["after_each(function()", "  $0", "end)"],
+    "description": "test after_each block"
   }
 }
