@@ -1,9 +1,7 @@
-local lsp_config = require("lspconfig")
 local lsp_installer = require("nvim-lsp-installer")
 
-local exrc = require("config.exrc")
-
 require("config.lsp.custom")
+require("config.lsp.null-ls")
 
 vim.diagnostic.config({
   virtual_text = false,
@@ -13,46 +11,6 @@ local function remove_formatting_capabilities(client)
   client.resolved_capabilities.document_formatting = false
   client.resolved_capabilities.document_range_formatting = false
 end
-
-local function setup_null_ls()
-  local null_ls = require("null-ls")
-
-  null_ls.config({
-    sources = {
-      null_ls.builtins.formatting.stylua,
-    },
-  })
-
-  lsp_config["null-ls"].setup({
-    on_attach = function(client, bufnr)
-      local map_opts = { noremap = true, silent = true }
-
-      if client.resolved_capabilities.document_formatting then
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", map_opts)
-
-        if exrc.lsp.format_on_save then
-          vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
-        end
-      end
-
-      if client.resolved_capabilities.document_range_formatting then
-        vim.api.nvim_buf_set_keymap(bufnr, "x", "<Leader>f", "<cmd>lua vim.lsp.buf.range_formatting({})<CR>", map_opts)
-      end
-    end,
-  })
-
-  local eslint = require("eslint")
-  eslint.setup({
-    bin = "eslint_d",
-  })
-
-  local prettier = require("prettier")
-  prettier.setup({
-    bin = "prettier",
-  })
-end
-
-setup_null_ls()
 
 local function on_attach(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
