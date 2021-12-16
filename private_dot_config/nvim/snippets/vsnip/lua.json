@@ -1,42 +1,52 @@
 {
-  "local": {
-    "prefix": "l",
-    "body": ["local ${0}"],
-    "description": "local variable"
+  "local_assignment": {
+    "prefix": "l=",
+    "body": ["local ${1:name} = ${0:value}"],
+    "description": "local assignment"
   },
   "require": {
     "prefix": "rq",
-    "body": ["require(\"${1:mod}\")"],
+    "body": ["require(\"${1:mod}\")$0"],
     "description": "require module"
   },
   "local_require": {
     "prefix": "lrq",
-    "body": ["local ${1:var} = require(\"${2:mod}\")"],
+    "body": ["local ${1:module} = require(\"${2:module}\")$0"],
     "description": "require module as local variable"
   },
   "function": {
     "prefix": ["fn"],
-    "body": ["function ${1:fn_name}(${2})", "  ${3}", "end"],
+    "body": ["function ${1:fn_name}($2)", "  $0", "end"],
     "description": "function"
   },
-  "method_function": {
-    "prefix": ["mfn"],
-    "body": ["function ${1:class_name}:${2:fn_name}(${3})", "  ${4}", "end"],
-    "description": "method function"
+  "anonymous_function": {
+    "prefix": ["afn"],
+    "body": ["function ($1)", "  $0", "end"],
+    "description": "anonymous function"
   },
   "local_function": {
     "prefix": ["lfn"],
-    "body": ["local function ${1:fn_name}(${2})", "  ${3}", "end"],
+    "body": ["local function ${1:fn_name}($2)", "  $0", "end"],
     "description": "local function"
+  },
+  "method_function": {
+    "prefix": ["mfn"],
+    "body": ["function ${1:class_name}:${2:fn_name}($3)", "  $0", "end"],
+    "description": "method function"
+  },
+  "static_function": {
+    "prefix": ["sfn"],
+    "body": ["function ${1:object}.${2:fn_name}($3)", "  $0", "end"],
+    "description": "method function"
   },
   "print": {
     "prefix": "p",
-    "body": ["print(${0})"],
+    "body": ["print($0)"],
     "description": "print"
   },
   "print_vim_inspect": {
     "prefix": "pvi",
-    "body": ["print(vim.inspect(${0}))"],
+    "body": ["print(vim.inspect($0))"],
     "description": "print vim.inspect"
   },
   "test_describe": {
