@@ -43,3 +43,8 @@ require("config.tree")
 -- treesitter
 
 require("config.treesitter")
+
+-- ui
+
+require("config.ui").override_input()
+require("config.ui").override_select()
