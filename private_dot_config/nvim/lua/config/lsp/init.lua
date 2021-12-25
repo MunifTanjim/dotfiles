@@ -94,7 +94,7 @@ lsp_installer.on_server_ready(function(server)
   end
 
   if server.name == "sumneko_lua" then
-    local runtime_path = { "./?.lua", "lua/?.lua", "lua/?/init.lua" }
+    local runtime_path = { "?.lua", "?/init.lua", "lua/?.lua", "lua/?/init.lua" }
 
     local workspace_library = {
       vim.fn.expand("$VIMRUNTIME/lua"),
