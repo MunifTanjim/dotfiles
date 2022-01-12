@@ -9,11 +9,7 @@ parser_config.zsh = {
   maintainers = {},
 }
 
--- https://github.com/MunifTanjim/nvim-treesitter-lua/pull/2
-local treesitter_lua_ok, treesitter_lua = pcall(require, "nvim-treesitter-lua")
-if treesitter_lua_ok then
-  treesitter_lua.setup()
-end
+require("nvim-treesitter-lua").setup()
 
 treesitter_configs.setup({
   ensure_installed = {
