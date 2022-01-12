@@ -409,7 +409,9 @@ augroup coc_augroup
         \ nmap <silent> gf <Plug>(coc-definition)
 augroup END
 
-lua require("config.coc")
+if has("lua")
+  lua require("config.coc")
+endif
 
 endif
 
