@@ -230,7 +230,6 @@ if has('nvim')
   Plug 'MunifTanjim/exrc.nvim'
   Plug 'MunifTanjim/prettier.nvim'
   Plug 'MunifTanjim/nui.nvim'
-  Plug 'MunifTanjim/nvim-treesitter-lua'
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'kyazdani42/nvim-tree.lua'
   Plug 'neovim/nvim-lspconfig'

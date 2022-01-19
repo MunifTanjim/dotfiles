@@ -9,8 +9,6 @@ parser_config.zsh = {
   maintainers = {},
 }
 
-require("nvim-treesitter-lua").setup()
-
 treesitter_configs.setup({
   ensure_installed = {
     "comment",
