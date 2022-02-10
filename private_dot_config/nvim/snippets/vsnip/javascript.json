@@ -1,22 +1,62 @@
 {
+  "const": {
+    "prefix": "con",
+    "body": "const ${1:name} = ${0:null}"
+  },
+  "let": {
+    "prefix": "let",
+    "body": "let ${1:n} = ${0:null}"
+  },
+  "export": {
+    "prefix": "exp",
+    "body": "export "
+  },
+  "export_default": {
+    "prefix": "expd",
+    "body": "export default "
+  },
+  "export_from": {
+    "prefix": "expf",
+    "body": "export ${2} from '${1}'"
+  },
   "forof": {
     "prefix": "forof",
     "body": ["for (const ${1:item} of ${2:${1}s}) {", "  $3", "}"]
   },
+  "import_from": {
+    "prefix": "impf",
+    "body": ["import ${2} from '${1}'"]
+  },
   "import": {
     "prefix": "imp",
-    "body": ["import ${2} from '${1}'$0"]
+    "body": ["import '${1}'"]
   },
-  "import_sideeffect": {
-    "prefix": "imps",
-    "body": ["import '${1}'$0"]
+  "console_log": {
+    "prefix": "cl",
+    "body": "console.log(${1:null})"
   },
-  "log": {
-    "prefix": "log",
-    "body": "console.log(${1:null})$0"
+  "console_log_json_stringify": {
+    "prefix": "cljs",
+    "body": "console.log(JSON.stringify(${1:null}, null, 2))"
   },
-  "log json stringify": {
-    "prefix": "logjs",
-    "body": "console.log(JSON.stringify(${1:null}, null, 2))$0"
+  "console_log_variable": {
+    "prefix": "clv",
+    "body": "console.log('${1:null}', $1)"
+  },
+  "function": {
+    "prefix": "fn",
+    "body": ["function ${1:name}($2) {", "  $3", "}"]
+  },
+  "export_function": {
+    "prefix": "efn",
+    "body": ["export function ${1:name}($2) {", "  $3", "}"]
+  },
+  "export_default_function": {
+    "prefix": "edfn",
+    "body": ["export default function ${1:name}($2) {", "  $3", "}"]
+  },
+  "arrow_function": {
+    "prefix": "afn",
+    "body": ["($1) => {", "  $2", "}"]
   }
 }
