@@ -158,6 +158,14 @@ lsp_installer.on_server_ready(function(server)
     end
   end
 
+  if server.name == "stylelint_lsp" then
+    config.on_attach = function(client, bufnr)
+      remove_formatting_capabilities(client)
+
+      on_attach(client, bufnr)
+    end
+  end
+
   server:setup(config)
 end)
 
