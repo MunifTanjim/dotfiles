@@ -191,7 +191,6 @@ Plug 'cespare/vim-toml'
 Plug 'chunkhang/vim-mbsync'
 Plug 'digitaltoad/vim-pug'
 Plug 'ekalinin/Dockerfile.vim'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': ['go'] }
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'jparise/vim-graphql'
 Plug 'jxnblk/vim-mdx-js'
