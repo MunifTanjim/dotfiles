@@ -224,7 +224,7 @@ if has('nvim')
   Plug 'jose-elias-alvarez/null-ls.nvim'
   Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
   Plug 'kosayoda/nvim-lightbulb'
-  Plug 'luukvbaal/stabilize.nvim'
+  " Plug 'luukvbaal/stabilize.nvim'
   Plug 'MunifTanjim/eslint.nvim'
   Plug 'MunifTanjim/exrc.nvim'
   Plug 'MunifTanjim/prettier.nvim'

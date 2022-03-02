@@ -26,11 +26,11 @@ require("config.lsp")
 
 require("config.snippet")
 
--- stabilize
-
-require("stabilize").setup({
-  force = false,
-})
+-- -- stabilize
+--
+-- require("stabilize").setup({
+--   force = false,
+-- })
 
 -- telescope
 
