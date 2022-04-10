@@ -1,4 +1,3 @@
-vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_git_hl = 1
 vim.g.nvim_tree_highlight_opened_files = 1
 vim.g.nvim_tree_root_folder_modifier = ":~"
@@ -25,7 +24,7 @@ local mapping_list = {
   { key = "gp", cb = tree_cb("preview") },
   { key = "[[", cb = tree_cb("first_sibling") },
   { key = "]]", cb = tree_cb("last_sibling") },
-  { key = "gi", cb = tree_cb("toggle_ignored") },
+  { key = "gi", cb = tree_cb("toggle_git_ignored") },
   { key = "g.", cb = tree_cb("toggle_dotfiles") },
   { key = "gr", cb = tree_cb("refresh") },
   { key = "a", cb = tree_cb("create") },
@@ -51,14 +50,9 @@ require("nvim-tree").setup({
   hijack_netrw = true,
   open_on_setup = false,
   ignore_ft_on_setup = {},
-  auto_close = false,
   open_on_tab = false,
   hijack_cursor = false,
   update_cwd = true,
-  update_to_buf_dir = {
-    enable = true,
-    auto_open = true,
-  },
   diagnostics = {
     enable = false,
   },
@@ -84,10 +78,19 @@ require("nvim-tree").setup({
     width = 40,
     hide_root_folder = false,
     side = "left",
-    auto_resize = false,
     mappings = {
       custom_only = true,
       list = mapping_list,
+    },
+  },
+  renderer = {
+    indent_markers = {
+      enable = true,
+      icons = {
+        corner = "└ ",
+        edge = "│ ",
+        none = "  ",
+      },
     },
   },
   actions = {
