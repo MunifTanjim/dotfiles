@@ -39,6 +39,7 @@ require("config.telescope")
 -- tree
 
 require("config.tree")
+require("config.neo-tree")
 
 -- treesitter
 

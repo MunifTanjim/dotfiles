@@ -70,7 +70,7 @@ require("nvim-tree").setup({
   view = {
     width = 40,
     hide_root_folder = false,
-    side = "left",
+    side = "right",
     mappings = {
       custom_only = true,
       list = mapping_list,
@@ -106,7 +106,7 @@ require("nvim-tree").setup({
 })
 
 vim.cmd([[
-  nnoremap <silent> <Leader>e :NvimTreeToggle<CR>
+  nnoremap <silent> <Leader>E :NvimTreeToggle<CR>
 
   highlight NvimTreeFolderIcon guibg=green
 ]])

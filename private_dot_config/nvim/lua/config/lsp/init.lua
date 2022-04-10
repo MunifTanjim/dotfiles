@@ -1,7 +1,10 @@
 local lsp_server_names = {
+  "angularls",
   "bashls",
+  "clangd",
   "cssls",
   "dockerls",
+  "emmet_ls",
   "gopls",
   "html",
   "jsonls",

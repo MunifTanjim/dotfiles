@@ -236,6 +236,7 @@ if has('nvim')
   Plug 'numToStr/Comment.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'main' }
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
   Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
@@ -244,6 +245,7 @@ if has('nvim')
   Plug 'nvim-treesitter/playground'
   Plug 'onsails/lspkind-nvim'
   Plug 'RRethy/nvim-treesitter-textsubjects'
+  Plug 's1n7ax/nvim-window-picker'
   Plug 'williamboman/nvim-lsp-installer'
   Plug 'windwp/nvim-autopairs'
   Plug 'windwp/nvim-spectre'
