@@ -1,4 +1,20 @@
-local lsp_installer = require("nvim-lsp-installer")
+local lsp_server_names = {
+  "bashls",
+  "cssls",
+  "dockerls",
+  "gopls",
+  "html",
+  "jsonls",
+  "pyright",
+  "sumneko_lua",
+  "tsserver",
+  "vimls",
+  "yamlls",
+}
+
+require("nvim-lsp-installer").setup({
+  ensure_installed = lsp_server_names,
+})
 
 require("config.lsp.custom")
 require("config.lsp.null-ls")
@@ -6,11 +22,6 @@ require("config.lsp.null-ls")
 vim.diagnostic.config({
   virtual_text = false,
 })
-
-local function remove_formatting_capabilities(client)
-  client.resolved_capabilities.document_formatting = false
-  client.resolved_capabilities.document_range_formatting = false
-end
 
 local function on_attach(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -34,7 +45,7 @@ local function on_attach(client, bufnr)
   -- buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
   buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", map_opts)
   buf_set_keymap("n", "<Leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", map_opts)
-  -- buf_set_keymap("v", "<leader>ca", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)
+  -- buf_set_keymap("v", "<Leader>ca", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)
   -- buf_set_keymap("n", "<Leader>e", "<cmd>lua vim.diagnostic.open_float({ scope = 'line' })<CR>", map_opts)
   buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", map_opts)
   buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", map_opts)
@@ -42,25 +53,20 @@ local function on_attach(client, bufnr)
 
   buf_set_keymap("n", "<Leader>rn", '<cmd>lua require("config.lsp.custom").rename()<CR>', map_opts)
 
-  if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", map_opts)
-  end
+  buf_set_keymap("n", "<Leader>f", "<cmd>lua require('config.lsp.formatting').format()<CR>", map_opts)
+  buf_set_keymap("x", "<Leader>f", "<cmd>lua require('config.lsp.formatting').range_format()<CR>", map_opts)
 
-  if client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap("x", "<Leader>f", "<cmd>lua vim.lsp.buf.range_formatting({})<CR>", map_opts)
-  end
+  -- if client.server_capabilities.document_highlight then
+  --   vim.cmd([[
+  --     augroup lsp_document_highlight
+  --       autocmd! * <buffer>
+  --       autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+  --       autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+  --     augroup END
+  --   ]])
+  -- end
 
-  if client.resolved_capabilities.document_highlight then
-    vim.cmd([[
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]])
-  end
-
-  vim.cmd([[command! Format execute 'lua vim.lsp.buf.formatting()']])
+  vim.cmd([[command! Format execute 'lua require('config.lsp.formatting').format()']])
 end
 
 local function make_config()
@@ -74,23 +80,11 @@ local function make_config()
   }
 end
 
-lsp_installer.on_server_ready(function(server)
+local function setup_server(server)
   local config = make_config()
 
   if server.name == "emmet_ls" then
     config.filetypes = { "html", "css", "scss" }
-  end
-
-  if server.name == "html" then
-    config.on_attach = function(client, bufnr)
-      local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
-
-      if filetype == "markdown" then
-        remove_formatting_capabilities(client)
-      end
-
-      on_attach(client, bufnr)
-    end
   end
 
   if server.name == "sumneko_lua" then
@@ -133,12 +127,6 @@ lsp_installer.on_server_ready(function(server)
   end
 
   if server.name == "jsonls" then
-    config.on_attach = function(client, bufnr)
-      remove_formatting_capabilities(client)
-
-      on_attach(client, bufnr)
-    end
-
     config.settings = {
       json = {
         schemas = require("schemastore").json.schemas(),
@@ -150,24 +138,18 @@ lsp_installer.on_server_ready(function(server)
     config.on_attach = function(client, bufnr)
       require("config.lsp.typescript").patch_client(client)
 
-      remove_formatting_capabilities(client)
-
       on_attach(client, bufnr)
 
       vim.cmd("command! -buffer OI lua require('config.lsp.typescript').organize_imports()")
     end
   end
 
-  if server.name == "stylelint_lsp" then
-    config.on_attach = function(client, bufnr)
-      remove_formatting_capabilities(client)
+  server.setup(config)
+end
 
-      on_attach(client, bufnr)
-    end
-  end
-
-  server:setup(config)
-end)
+for _, server_name in ipairs(lsp_server_names) do
+  setup_server(require("lspconfig")[server_name])
+end
 
 local function setup_trouble()
   local trouble = require("trouble")
