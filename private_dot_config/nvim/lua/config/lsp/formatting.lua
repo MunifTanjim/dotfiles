@@ -14,20 +14,18 @@ local denylist_by_filetype = {
 }
 
 local function get_filter(bufnr)
-  return function(clients)
-    local allowed_clients = vim.tbl_filter(function(client)
-      return not denylist[client.name]
-    end, clients)
+  return function(client)
+    if denylist[client.name] then
+      return false
+    end
 
     local filetype = vim.api.nvim_buf_get_option(bufnr or 0, "filetype")
     local denylist_for_filetype = denylist_by_filetype[filetype]
     if not denylist_for_filetype then
-      return allowed_clients
+      return true
     end
 
-    return vim.tbl_filter(function(client)
-      return not denylist_for_filetype[client.name]
-    end, allowed_clients)
+    return not denylist_for_filetype[client.name]
   end
 end
 
@@ -43,10 +41,12 @@ end
 local function range_format(bufnr, start_pos, end_pos)
   bufnr = bufnr or 0
 
-  local clients = vim.lsp.buf_get_clients(bufnr)
-  clients = get_filter(bufnr)(clients)
+  local clients = vim.lsp.get_active_clients({
+    bufnr = bufnr,
+  })
+  local is_allowed = get_filter(bufnr)
   clients = vim.tbl_filter(function(client)
-    return client.supports_method("textDocument/rangeFormatting")
+    return client.supports_method("textDocument/rangeFormatting") and is_allowed(client)
   end, clients)
 
   if #clients == 0 then
