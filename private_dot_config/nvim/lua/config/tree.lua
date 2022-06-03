@@ -1,12 +1,3 @@
-vim.g.nvim_tree_git_hl = 1
-vim.g.nvim_tree_highlight_opened_files = 1
-vim.g.nvim_tree_root_folder_modifier = ":~"
-vim.g.nvim_tree_add_trailing = 1
-vim.g.nvim_tree_group_empty = 0
-vim.g.nvim_tree_icon_padding = " "
-vim.g.nvim_tree_symlink_arrow = " ➛ "
-vim.g.nvim_tree_respect_buf_cwd = 0
-vim.g.nvim_tree_create_in_closed_folder = 0
 vim.g.nvim_tree_refresh_wait = 1000
 
 local tree_cb = require("nvim-tree.config").nvim_tree_callback
@@ -46,6 +37,7 @@ local mapping_list = {
 }
 
 require("nvim-tree").setup({
+  create_in_closed_folder = false,
   disable_netrw = true,
   hijack_netrw = true,
   open_on_setup = false,
@@ -53,6 +45,7 @@ require("nvim-tree").setup({
   open_on_tab = false,
   hijack_cursor = false,
   update_cwd = true,
+  respect_buf_cwd = false,
   diagnostics = {
     enable = false,
   },
@@ -84,6 +77,14 @@ require("nvim-tree").setup({
     },
   },
   renderer = {
+    add_trailing = true,
+    group_empty = false,
+    highlight_git = true,
+    highlight_opened_files = "icon",
+    icons = {
+      padding = " ",
+      symlink_arrow = " ➛ ",
+    },
     indent_markers = {
       enable = true,
       icons = {
@@ -92,6 +93,7 @@ require("nvim-tree").setup({
         none = "  ",
       },
     },
+    root_folder_modifier = ":~",
   },
   actions = {
     open_file = {
