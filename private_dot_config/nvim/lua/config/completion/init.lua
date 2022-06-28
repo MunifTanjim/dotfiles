@@ -12,6 +12,8 @@ local function feedkey(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
+cmp.register_source("copilot", require("config.completion.cmp-copilot").new())
+
 cmp.setup({
   completion = {
     autocomplete = false,
@@ -25,6 +27,7 @@ cmp.setup({
       with_text = true,
       menu = {
         buffer = "[buf]",
+        copilot = "[ai]",
         nvim_lsp = "[lsp]",
         nvim_lua = "[vim]",
         path = "[path]",
@@ -67,8 +70,9 @@ cmp.setup({
     end,
   },
   sources = cmp.config.sources({
-    { name = "nvim_lsp" },
-    { name = "vsnip" },
+    { name = "nvim_lsp", priority = 3 },
+    { name = "copilot", priority = 2 },
+    { name = "vsnip", priority = 1 },
   }, {
     { name = "buffer" },
   }),

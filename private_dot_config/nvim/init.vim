@@ -212,6 +212,7 @@ if has('nvim')
   Plug 'folke/lsp-colors.nvim'
   Plug 'folke/lua-dev.nvim'
   Plug 'folke/trouble.nvim'
+  Plug 'github/copilot.vim'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'hrsh7th/cmp-nvim-lsp'
@@ -412,6 +413,10 @@ if has("lua")
 endif
 
 endif
+
+"## Plugin: copilot
+
+let g:copilot_no_maps = v:true
 
 "## Plugin: fzf
 
