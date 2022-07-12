@@ -18,6 +18,10 @@ setup.sh
 {{ end }}
 
 {{ if not .meta.should.include_secrets }}
+.config/mpdscribble
+.config/msmtp
+.config/neomutt
+.mbsyncrc
 .ssh/id_rsa
 .ssh/id_rsa.pub
 {{ end }}
