@@ -141,7 +141,7 @@ endfunction
 "# Plugins
 
 " install vim-plug automagically
-let plug_path = (has('nvim') ? data_dir : config_dir) . '/autoload/plug.vim'
+let plug_path = config_dir . '/autoload/plug.vim'
 if empty(glob(plug_path))
   silent execute '!curl -fLo ' . plug_path . ' --create-dirs '
     \ . 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
