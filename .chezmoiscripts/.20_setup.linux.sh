@@ -37,9 +37,11 @@ install_apt_packages() {
 
   declare APT_REPOSITORIES=(
     ppa:git-core/ppa
+    ppa:zanchey/asciinema
   )
 
   declare APT_PACKAGES=(
+    asciinema
     chafa
     curl
     git
@@ -52,7 +54,6 @@ install_apt_packages() {
     neofetch
     rar
     shellcheck
-    tmux
     translate-shell
     tree
     unrar
@@ -65,6 +66,7 @@ install_apt_packages() {
   if ! is_headless_machine; then
     APT_PACKAGES+=(dconf-cli dconf-editor)
     APT_PACKAGES+=(filezilla gpa gparted ibus-avro)
+    APT_PACKAGES+=(vlc)
   fi
 
   for apt_repo in "${APT_REPOSITORIES[@]}"; do
@@ -90,15 +92,11 @@ install_snap_packages() {
   }
 
   declare SNAP_PACKAGES=(
-    "--classic asciinema"
     "--classic go"
   )
 
   if ! is_headless_machine; then
     SNAP_PACKAGES+=("--beta authy")
-    SNAP_PACKAGES+=("--classic code")
-    SNAP_PACKAGES+=("opera")
-    SNAP_PACKAGES+=("vlc")
   fi
 
   for package in "${SNAP_PACKAGES[@]}"; do
@@ -112,12 +110,6 @@ run_setup_scripts() {
   declare SETUP_SCRIPTS=(
     setup-tpm
     setup-zed
-
-    setup-exa
-    setup-fzf
-    setup-neovim
-    setup-starship
-    setup-zoxide
   )
 
   if ! is_github_codespace; then
@@ -128,8 +120,32 @@ run_setup_scripts() {
     SETUP_SCRIPTS+=(setup-rust)
   fi
 
+  SETUP_SCRIPTS+=(
+    setup-bat
+    setup-delta
+    setup-exa
+    setup-fd
+    setup-fzf
+    setup-ripgrep
+    setup-starship
+    setup-zoxide
+  )
+
+  if ! command_exists nvim; then
+    SETUP_SCRIPTS+=(setup-neovim)
+  fi
+
+  if ! command_exists tmux; then
+    SETUP_SCRIPTS+=(setup-tmux)
+  fi
+
   if ! is_headless_machine; then
-    SETUP_SCRIPTS+=(setup-alacritty)
+    if ! command_exists alacritty; then
+      SETUP_SCRIPTS+=(setup-alacritty)
+    fi
+    if ! command_exists code; then
+      SETUP_SCRIPTS+=(setup-vscode)
+    fi
     if ! command_exists postman; then
       SETUP_SCRIPTS+=(setup-postman)
     fi
@@ -140,7 +156,7 @@ run_setup_scripts() {
 
   if should_include_secrets; then
     if ! command_exists keybase; then
-        SETUP_SCRIPTS+=(setup-keybase)
+      SETUP_SCRIPTS+=(setup-keybase)
     fi
   fi
 
@@ -151,49 +167,16 @@ run_setup_scripts() {
       echo ""
       ${script}
       echo ""
+
+      if [[ "${script}" == "setup-rust" ]]; then
+        source "${CARGO_HOME:-"${HOME}/.local/share/cargo"}/env"
+      fi
+
       echo_info "[${script}] ended"
     else
       echo_warn "[${script}] not found!"
     fi
     echo ""
-  done
-}
-
-install_github_release_packages() {
-  if ! command_exists setup-from-github-release; then
-    exit 1
-  fi
-
-  TASK "Install Packages from GitHub Release"
-
-  setup_from_github_release() {
-    local -r bin_name="${1}"
-    local -r repo="${2}"
-    local -r url_pattern="${3}"
-    SUB_TASK "setup-from-github-release ${repo} ${url_pattern}"
-    if ! command_exists "${bin_name}"; then
-      setup-from-github-release "${repo}" "${url_pattern}"
-    fi
-  }
-
-  declare -A GITHUB_PACKAGE_REPOSITORY=(
-    [bat]="sharkdp/bat"
-    [delta]="dandavison/delta"
-    [fd]="sharkdp/fd"
-    [rg]="BurntSushi/ripgrep"
-  )
-
-  declare -A GITHUB_PACKAGE_URL_PATTERN=(
-    [bat]="musl.+amd64.deb"
-    [delta]="musl.+amd64.deb"
-    [fd]="musl.+amd64.deb"
-    [rg]="amd64.deb"
-  )
-
-  for bin_name in "${!GITHUB_PACKAGE_REPOSITORY[@]}"; do
-    setup_from_github_release "${bin_name}" \
-      "${GITHUB_PACKAGE_REPOSITORY[${bin_name}]}" \
-      "${GITHUB_PACKAGE_URL_PATTERN[${bin_name}]}"
   done
 }
 
@@ -219,5 +202,4 @@ ask_sudo
 install_apt_packages
 install_snap_packages
 run_setup_scripts
-install_github_release_packages
 create_necessary_directories
