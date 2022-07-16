@@ -209,7 +209,6 @@ Plug 'vitalk/vim-shebang'
 
 if has('nvim')
   Plug 'b0o/schemastore.nvim'
-  Plug 'folke/lsp-colors.nvim'
   Plug 'folke/lua-dev.nvim'
   Plug 'folke/trouble.nvim'
   Plug 'github/copilot.vim'
@@ -223,7 +222,7 @@ if has('nvim')
   Plug 'hrsh7th/vim-vsnip-integ'
   Plug 'JoosepAlviste/nvim-ts-context-commentstring'
   Plug 'jose-elias-alvarez/null-ls.nvim'
-  Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+  Plug 'jose-elias-alvarez/typescript.nvim'
   Plug 'kosayoda/nvim-lightbulb'
   " Plug 'luukvbaal/stabilize.nvim'
   Plug 'MunifTanjim/eslint.nvim'

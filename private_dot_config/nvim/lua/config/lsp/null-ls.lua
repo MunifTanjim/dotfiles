@@ -2,6 +2,7 @@ local exrc = require("config.exrc")
 
 local null_ls = require("null-ls")
 
+---@diagnostic disable-next-line: redundant-parameter
 null_ls.setup({
   sources = {
     null_ls.builtins.formatting.stylua,

@@ -1,32 +1,29 @@
-local lsp_server_names = {
-  "angularls",
-  "bashls",
-  "clangd",
-  "cssls",
-  "dockerls",
-  "emmet_ls",
-  "gopls",
-  "html",
-  "jsonls",
-  "pyright",
-  "sumneko_lua",
-  "tsserver",
-  "vimls",
-  "yamlls",
-}
+local lsp_installer = require("nvim-lsp-installer")
 
-require("nvim-lsp-installer").setup({
-  ensure_installed = lsp_server_names,
+lsp_installer.setup({
+  ensure_installed = {
+    "bashls",
+    "cssls",
+    "emmet_ls",
+    "gopls",
+    "html",
+    "jsonls",
+    "pyright",
+    "rust_analyzer",
+    "sumneko_lua",
+    "tsserver",
+    "vimls",
+    "yamlls",
+  },
 })
 
-require("config.lsp.custom")
 require("config.lsp.null-ls")
 
 vim.diagnostic.config({
   virtual_text = false,
 })
 
-local function on_attach(client, bufnr)
+local function default_on_attach(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
   local function buf_set_keymap(...)
@@ -41,33 +38,32 @@ local function on_attach(client, bufnr)
   buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", map_opts)
   buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", map_opts)
   buf_set_keymap("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", map_opts)
-  -- buf_set_keymap("n", "<Leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
-  -- buf_set_keymap("n", "<Leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-  -- buf_set_keymap("n", "<Leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
+  -- buf_set_keymap("n", "<Leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", map_opts)
+  -- buf_set_keymap("n", "<Leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", map_opts)
+  -- buf_set_keymap("n", "<Leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", map_opts)
   buf_set_keymap("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", map_opts)
-  -- buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  -- buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", map_opts)
+  buf_set_keymap("n", "<Leader>rn", '<cmd>lua require("config.lsp.custom").rename()<CR>', map_opts)
   buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", map_opts)
   buf_set_keymap("n", "<Leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", map_opts)
-  -- buf_set_keymap("v", "<Leader>ca", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)
-  -- buf_set_keymap("n", "<Leader>e", "<cmd>lua vim.diagnostic.open_float({ scope = 'line' })<CR>", map_opts)
+  buf_set_keymap("v", "<Leader>ac", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", map_opts)
+  buf_set_keymap("n", "<Leader>do", "<cmd>lua vim.diagnostic.open_float({ scope = 'line' })<CR>", map_opts)
   buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", map_opts)
   buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", map_opts)
-  -- buf_set_keymap("n", "<Leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-
-  buf_set_keymap("n", "<Leader>rn", '<cmd>lua require("config.lsp.custom").rename()<CR>', map_opts)
+  buf_set_keymap("n", "<Leader>qf", "<cmd>lua vim.diagnostic.setloclist()<CR>", map_opts)
 
   buf_set_keymap("n", "<Leader>f", "<cmd>lua require('config.lsp.formatting').format()<CR>", map_opts)
   buf_set_keymap("x", "<Leader>f", "<cmd>lua require('config.lsp.formatting').range_format()<CR>", map_opts)
 
-  -- if client.server_capabilities.document_highlight then
-  --   vim.cmd([[
-  --     augroup lsp_document_highlight
-  --       autocmd! * <buffer>
-  --       autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-  --       autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-  --     augroup END
-  --   ]])
-  -- end
+  if client.server_capabilities.documentHighlightProvider then
+    vim.cmd([[
+      augroup lsp_document_highlight
+        autocmd! * <buffer>
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]])
+  end
 
   vim.cmd([[command! Format execute 'lua require('config.lsp.formatting').format()']])
 end
@@ -79,7 +75,7 @@ local function make_config()
 
   return {
     capabilities = capabilities,
-    on_attach = on_attach,
+    on_attach = default_on_attach,
   }
 end
 
@@ -138,20 +134,24 @@ local function setup_server(server)
   end
 
   if server.name == "tsserver" then
-    config.on_attach = function(client, bufnr)
-      require("config.lsp.typescript").patch_client(client)
+    require("typescript").setup({
+      server = { -- pass options to lspconfig's setup method
+        on_attach = function(client, bufnr)
+          default_on_attach(client, bufnr)
 
-      on_attach(client, bufnr)
+          vim.cmd("command! -buffer OI lua require('typescript').actions.organizeImports()")
+        end,
+      },
+    })
 
-      vim.cmd("command! -buffer OI lua require('config.lsp.typescript').organize_imports()")
-    end
+    return
   end
 
   server.setup(config)
 end
 
-for _, server_name in ipairs(lsp_server_names) do
-  setup_server(require("lspconfig")[server_name])
+for _, server in ipairs(lsp_installer.get_installed_servers()) do
+  setup_server(require("lspconfig")[server.name])
 end
 
 local function setup_trouble()
@@ -169,3 +169,10 @@ end
 setup_trouble()
 
 vim.cmd("autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()")
+
+vim.schedule(function()
+  local GruvboxBg2 = vim.api.nvim_get_hl_by_name("GruvboxBg1", true)
+  vim.api.nvim_set_hl(0, "LspReferenceText", { bg = GruvboxBg2.foreground })
+  vim.api.nvim_set_hl(0, "LspReferenceRead", { link = "LspReferenceText" })
+  vim.api.nvim_set_hl(0, "LspReferenceWrite", { link = "LspReferenceText" })
+end)
