@@ -1,4 +1,9 @@
-vim.g.vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
+local personal_lsp_snippets_dir = vim.fn.resolve(vim.fn.stdpath("config") .. "/snippets/lsp")
+if vim.fn.isdirectory(personal_lsp_snippets_dir) == 0 then
+  print("[config] missing personal lsp snippets directory")
+end
+
+vim.g.vsnip_snippet_dir = personal_lsp_snippets_dir
 
 vim.g.vsnip_filetypes = {
   javascriptreact = { "javascript" },
