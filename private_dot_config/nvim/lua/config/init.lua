@@ -14,6 +14,10 @@ require("config.comment")
 
 require("config.completion")
 
+-- gitsigns
+
+require("config.gitsigns")
+
 -- nvim-spectre
 
 vim.cmd("nnoremap <Leader>S :lua require('spectre').open()<CR>")

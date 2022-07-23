@@ -177,7 +177,11 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 
 " integration
-Plug 'airblade/vim-gitgutter'
+if has('nvim')
+  Plug 'lewis6991/gitsigns.nvim'
+else
+  Plug 'airblade/vim-gitgutter'
+end
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'rhysd/git-messenger.vim'
@@ -577,12 +581,7 @@ set nowrap
 set scrolloff=3
 
 " always show the signcolumn, otherwise it would shift the text each time diagnostics appear/become resolved.
-if has("patch-8.1.1564")
-  " recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+set signcolumn=yes
 
 syntax enable
 
