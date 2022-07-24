@@ -13,22 +13,10 @@ null_ls.setup({
     }),
   },
   on_attach = function(client, bufnr)
-    local map_opts = { noremap = true, silent = true }
+    local map_opts = { buffer = bufnr, silent = true }
 
-    vim.api.nvim_buf_set_keymap(
-      bufnr,
-      "n",
-      "<Leader>f",
-      "<cmd>lua require('config.lsp.formatting').format()<CR>",
-      map_opts
-    )
-    vim.api.nvim_buf_set_keymap(
-      bufnr,
-      "x",
-      "<Leader>f",
-      "<cmd>lua require('config.lsp.formatting').range_format()<CR>",
-      map_opts
-    )
+    vim.keymap.set("n", "<Leader>f", require("config.lsp.formatting").format, map_opts)
+    vim.keymap.set("x", "<Leader>f", require("config.lsp.formatting").range_format, map_opts)
 
     if exrc.lsp.format_on_save then
       vim.cmd("autocmd BufWritePre <buffer> lua require('config.lsp.formatting').format()")

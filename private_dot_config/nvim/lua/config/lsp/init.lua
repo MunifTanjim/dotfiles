@@ -19,41 +19,37 @@ lsp_installer.setup({
 
 require("config.lsp.null-ls")
 
-vim.diagnostic.config({
-  virtual_text = false,
-})
-
 local function default_on_attach(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-  local function buf_set_keymap(...)
-    vim.api.nvim_buf_set_keymap(bufnr, ...)
-  end
+  local map_opts = { buffer = bufnr, silent = true }
 
-  local map_opts = { noremap = true, silent = true }
+  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, map_opts)
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, map_opts)
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, map_opts)
+  vim.keymap.set("n", "gi", vim.lsp.buf.implementation, map_opts)
+  vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, map_opts)
+  vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, map_opts)
+  -- vim.keymap.set("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, map_opts)
+  -- vim.keymap.set("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, map_opts)
+  -- vim.keymap.set("n", "<Leader>wl", function()
+  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  -- end, map_opts)
+  vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, map_opts)
+  -- vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, map_opts)
+  vim.keymap.set("n", "<Leader>rn", require("config.lsp.custom").rename, map_opts)
+  vim.keymap.set("n", "gr", vim.lsp.buf.references, map_opts)
+  vim.keymap.set("n", "<Leader>ac", vim.lsp.buf.code_action, map_opts)
+  vim.keymap.set("v", "<Leader>ac", vim.lsp.buf.range_code_action, map_opts)
+  vim.keymap.set("n", "<Leader>do", function()
+    vim.diagnostic.open_float({ scope = "line" })
+  end, map_opts)
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, map_opts)
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, map_opts)
+  vim.keymap.set("n", "<Leader>qf", vim.diagnostic.setloclist, map_opts)
 
-  buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", map_opts)
-  buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", map_opts)
-  buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", map_opts)
-  buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", map_opts)
-  buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", map_opts)
-  buf_set_keymap("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", map_opts)
-  -- buf_set_keymap("n", "<Leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", map_opts)
-  -- buf_set_keymap("n", "<Leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", map_opts)
-  -- buf_set_keymap("n", "<Leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", map_opts)
-  buf_set_keymap("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", map_opts)
-  -- buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", map_opts)
-  buf_set_keymap("n", "<Leader>rn", '<cmd>lua require("config.lsp.custom").rename()<CR>', map_opts)
-  buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", map_opts)
-  buf_set_keymap("n", "<Leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", map_opts)
-  buf_set_keymap("v", "<Leader>ac", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", map_opts)
-  buf_set_keymap("n", "<Leader>do", "<cmd>lua vim.diagnostic.open_float({ scope = 'line' })<CR>", map_opts)
-  buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", map_opts)
-  buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", map_opts)
-  buf_set_keymap("n", "<Leader>qf", "<cmd>lua vim.diagnostic.setloclist()<CR>", map_opts)
-
-  buf_set_keymap("n", "<Leader>f", "<cmd>lua require('config.lsp.formatting').format()<CR>", map_opts)
-  buf_set_keymap("x", "<Leader>f", "<cmd>lua require('config.lsp.formatting').range_format()<CR>", map_opts)
+  vim.keymap.set("n", "<Leader>f", require("config.lsp.formatting").format, map_opts)
+  vim.keymap.set("x", "<Leader>f", require("config.lsp.formatting").range_format, map_opts)
 
   if client.server_capabilities.documentHighlightProvider then
     vim.cmd([[
@@ -65,7 +61,13 @@ local function default_on_attach(client, bufnr)
     ]])
   end
 
-  vim.cmd([[command! Format execute 'lua require('config.lsp.formatting').format()']])
+  vim.api.nvim_create_user_command("Format", function(params)
+    if params.range > 0 then
+      require("config.lsp.formatting").range_format()
+    else
+      require("config.lsp.formatting").format()
+    end
+  end, { desc = "format buffer content", range = "%" })
 end
 
 local function make_config()
@@ -129,13 +131,14 @@ local function setup_server(server)
     config.settings = {
       json = {
         schemas = require("schemastore").json.schemas(),
+        validate = { enable = true },
       },
     }
   end
 
   if server.name == "tsserver" then
     require("typescript").setup({
-      server = { -- pass options to lspconfig's setup method
+      server = {
         on_attach = function(client, bufnr)
           default_on_attach(client, bufnr)
 
@@ -154,6 +157,30 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
   setup_server(require("lspconfig")[server.name])
 end
 
+vim.schedule(function()
+  -- tweak lsp document_highlight hl_groups
+  local hl_def = vim.api.nvim_get_hl_by_name("GruvboxBg1", true)
+  vim.api.nvim_set_hl(0, "LspReferenceText", { bg = hl_def.foreground })
+  vim.api.nvim_set_hl(0, "LspReferenceRead", { link = "LspReferenceText" })
+  vim.api.nvim_set_hl(0, "LspReferenceWrite", { link = "LspReferenceText" })
+end)
+
+local function setup_diagnostics()
+  vim.diagnostic.config({
+    underline = true,
+    virtual_text = false,
+    signs = true,
+  })
+
+  vim.schedule(function()
+    for _, severity in ipairs({ "Error", "Warn", "Info", "Hint" }) do
+      local hl_def = vim.api.nvim_get_hl_by_name("Diagnostic" .. severity, true)
+      vim.api.nvim_set_hl(0, "DiagnosticLineNr" .. severity, { fg = hl_def.foreground, bold = true })
+      vim.fn.sign_define("DiagnosticSign" .. severity, { numhl = "DiagnosticLineNr" .. severity })
+    end
+  end)
+end
+
 local function setup_trouble()
   local trouble = require("trouble")
 
@@ -163,16 +190,28 @@ local function setup_trouble()
     },
   })
 
-  vim.cmd("nnoremap <silent> <Leader>xx :TroubleToggle<CR>")
+  vim.keymap.set("n", "<Leader>xx", ":TroubleToggle<CR>", { silent = true })
 end
 
+local function setup_lightbulb()
+  vim.fn.sign_define("LightBulbSign", {
+    text = "",
+    texthl = "DiagnosticSignHint",
+  })
+
+  require("nvim-lightbulb").setup({
+    sign = {
+      enabled = true,
+      priority = 10,
+    },
+    autocmd = {
+      enabled = true,
+      pattern = { "*" },
+      events = { "CursorHold", "CursorHoldI" },
+    },
+  })
+end
+
+setup_diagnostics()
 setup_trouble()
-
-vim.cmd("autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()")
-
-vim.schedule(function()
-  local GruvboxBg2 = vim.api.nvim_get_hl_by_name("GruvboxBg1", true)
-  vim.api.nvim_set_hl(0, "LspReferenceText", { bg = GruvboxBg2.foreground })
-  vim.api.nvim_set_hl(0, "LspReferenceRead", { link = "LspReferenceText" })
-  vim.api.nvim_set_hl(0, "LspReferenceWrite", { link = "LspReferenceText" })
-end)
+setup_lightbulb()
