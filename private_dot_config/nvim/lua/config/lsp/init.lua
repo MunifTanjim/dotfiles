@@ -1,6 +1,13 @@
-local lsp_installer = require("nvim-lsp-installer")
+local mason = require("mason")
+local mason_lsp = require("mason-lspconfig")
 
-lsp_installer.setup({
+mason.setup({
+  ui = {
+    border = "rounded",
+  },
+})
+
+mason_lsp.setup({
   ensure_installed = {
     "bashls",
     "cssls",
@@ -153,8 +160,8 @@ local function setup_server(server)
   server.setup(config)
 end
 
-for _, server in ipairs(lsp_installer.get_installed_servers()) do
-  setup_server(require("lspconfig")[server.name])
+for _, server_name in ipairs(mason_lsp.get_installed_servers()) do
+  setup_server(require("lspconfig")[server_name])
 end
 
 vim.schedule(function()
