@@ -14,6 +14,10 @@ require("config.comment")
 
 require("config.completion")
 
+-- dap
+
+require("config.dap")
+
 -- gitsigns
 
 require("config.gitsigns")

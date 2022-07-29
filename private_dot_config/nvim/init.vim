@@ -167,7 +167,6 @@ Plug 'bkad/CamelCaseMotion'
 Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'javascriptreact'], 'do': 'make install' }
 Plug 'junegunn/vim-easy-align'
 Plug 'mhinz/vim-startify'
-Plug 'puremourning/vimspector'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'szw/vim-maximizer'
 Plug 'tpope/vim-capslock'
@@ -235,6 +234,11 @@ if has('nvim')
   Plug 'MunifTanjim/nui.nvim'
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'kyazdani42/nvim-tree.lua'
+
+  Plug 'mfussenegger/nvim-dap'
+  Plug 'rcarriga/nvim-dap-ui'
+  Plug 'theHamsta/nvim-dap-virtual-text'
+
   Plug 'neovim/nvim-lspconfig'
   Plug 'numToStr/Comment.nvim'
   Plug 'nvim-lua/plenary.nvim'
@@ -257,6 +261,7 @@ if has('nvim')
 else
   Plug 'jiangmiao/auto-pairs'
   Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+  Plug 'puremourning/vimspector'
   Plug 'tpope/vim-commentary'
 endif
 
@@ -550,6 +555,8 @@ nnoremap <silent> <C-w><M-l> :TmuxResizeRight<CR>
 
 "## Plugin: vimspector
 
+if !has('nvim')
+
 nmap <Leader>dc  <Plug>VimspectorContinue
 nmap <Leader>ds  <Plug>VimspectorStop
 nmap <Leader>dr  <Plug>VimspectorRestart
@@ -562,6 +569,8 @@ nmap <Leader>dj  <Plug>VimspectorStepOver
 nmap <Leader>dl  <Plug>VimspectorStepInto
 nmap <Leader>dk  <Plug>VimspectorStepOut
 nmap <Leader>dq  :VimspectorReset<CR>
+
+endif
 
 "## neovim Plugins
 
