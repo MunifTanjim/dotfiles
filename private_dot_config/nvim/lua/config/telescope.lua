@@ -19,6 +19,17 @@ telescope.setup({
       case_mode = "smart_case",
     },
   },
+  pickers = {
+    find_files = {
+      hidden = true,
+    },
+    live_grep = {
+      additional_args = function()
+        return { "--hidden" }
+      end,
+      glob_pattern = { "!.git" },
+    },
+  },
 })
 
 telescope.load_extension("fzf")
