@@ -315,12 +315,6 @@ require("packer").startup({
         require("config.neo-tree")
       end,
     })
-    use({
-      "kyazdani42/nvim-tree.lua",
-      config = function()
-        require("config.tree")
-      end,
-    })
 
     use({
       "windwp/nvim-spectre",
