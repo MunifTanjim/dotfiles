@@ -1,12 +1,4 @@
-local mason = require("mason")
 local mason_lsp = require("mason-lspconfig")
-
-mason.setup({
-  ui = {
-    border = "rounded",
-  },
-})
-
 mason_lsp.setup({
   ensure_installed = {
     "bashls",
@@ -23,8 +15,6 @@ mason_lsp.setup({
     "yamlls",
   },
 })
-
-require("config.lsp.null-ls")
 
 local function default_on_attach(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -188,37 +178,4 @@ local function setup_diagnostics()
   end)
 end
 
-local function setup_trouble()
-  local trouble = require("trouble")
-
-  trouble.setup({
-    action_keys = {
-      close = "gq",
-    },
-  })
-
-  vim.keymap.set("n", "<Leader>xx", ":TroubleToggle<CR>", { silent = true })
-end
-
-local function setup_lightbulb()
-  vim.fn.sign_define("LightBulbSign", {
-    text = "",
-    texthl = "DiagnosticSignHint",
-  })
-
-  require("nvim-lightbulb").setup({
-    sign = {
-      enabled = true,
-      priority = 10,
-    },
-    autocmd = {
-      enabled = true,
-      pattern = { "*" },
-      events = { "CursorHold", "CursorHoldI" },
-    },
-  })
-end
-
 setup_diagnostics()
-setup_trouble()
-setup_lightbulb()

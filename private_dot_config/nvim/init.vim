@@ -1,14 +1,7 @@
-" vim: set foldmethod=expr foldlevel=0 nomodeline :
+" vim: set foldmethod=marker foldmarker=[[[,]]] foldlevel=0 nomodeline :
 
-" use different directories for vim and neovim
-let cache_dir  = has('nvim') ? stdpath('cache') : expand('~/.cache/vim' )
-let config_dir = has('nvim') ? stdpath('config') : expand('~/.vim')
-let data_dir   = has('nvim') ? stdpath('data') : expand('~/.local/share/vim')
+" [[[ General Settings
 
-" other directories
-let fzf_root = fnamemodify(data_dir, ':h') . '/fzf'
-
-"# General Settings
 set exrc
 set hidden
 set modeline
@@ -36,20 +29,15 @@ set clipboard=unnamed
 
 set mouse=a
 
-let &backupdir = data_dir . '/backup//,.'
-let &directory = data_dir . '/swap//,.'
-if has('persistent_undo')
-  let &undodir = data_dir . '/undo//,.'
-  set undofile
-endif
+set undofile
 
 " <Leader> and <LocalLeader>
 let mapleader = "\<Space>"
 let maplocalleader = "\\"
 
-"# General Keymaps
+" General Settings ]]]
 
-nnoremap <Leader>q :qa<CR>
+" [[[ General Keymaps
 
 " beginning/end of line
 nnoremap B ^
@@ -67,11 +55,7 @@ endif
 
 " save
 nnoremap <Leader>s :update<CR>
-nnoremap <Leader>js :noa update<CR>
-
-" " exit insert mode (caps_lock is the new escape)
-" inoremap jk <Esc>
-" inoremap kj <Esc>
+nnoremap <Leader>js :noautocmd update<CR>
 
 " move lines
 inoremap <M-j> <Esc>:move .+1<CR>==gi
@@ -94,182 +78,58 @@ nnoremap <Leader>P "+P
 vnoremap <Leader>P "+P
 
 " make new split
-nnoremap <C-w>- :new<CR>
-nnoremap <C-w>\ :vnew<CR>
+nnoremap <C-w>- :rightbelow new<CR>
+nnoremap <C-w>_ :botright new<CR>
+nnoremap <C-w>\ :rightbelow vnew<CR>
+nnoremap <C-w>\| :botright vnew<CR>
 
-"" show documentation
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '. expand('<cword>')
-  else
-    execute '!' . &keywordprg . ' ' . expand('<cword>')
-  endif
-endfunction
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" General Keymaps ]]]
 
-"# FileType Specific Settings
+" [[[ FileType Specific Settings
 
-"## FileType: help
+"" [[[ FileType: help
 
 augroup help_custom_setting
   autocmd!
-  autocmd FileType help nmap <buffer> gq :quit<CR>
+  autocmd FileType help nnoremap <buffer> gq :quit<CR>
+  autocmd FileType help nnoremap <silent><buffer> K :execute 'h ' . expand('<cword>')<CR>
 augroup END
 
-"## FileType: json
+"" FileType: help ]]]
+
+"" [[[ FileType: json
 
 autocmd BufNewFile,BufRead tsconfig*.json setlocal filetype=jsonc
 autocmd FileType jsonc syntax match Comment +\/\/.\+$+
 
-"## FileType: tmux
+"" FileType: json ]]]
+
+"" [[[ FileType: tmux
 
 autocmd FileType tmux nnoremap <silent><buffer> K :call tmux#man()<CR>
 
-"## FileType: vim
+"" FileType: tmux ]]]
 
-autocmd FileType vim set foldexpr=VimFolds(v:lnum)
+"" [[[ FileType: vim
 
-function! VimFolds(lnum)
-  let s:cur_line = getline(a:lnum)
-  if s:cur_line =~ '^"#'
-    return '>' . (matchend(s:cur_line, '"#*') - 1)
-  else
-    return '='
+autocmd FileType vim nnoremap <silent><buffer> K :execute 'h ' . expand('<cword>')<CR>
+
+"" FileType: vim ]]]
+
+" FileType Specific Settings ]]]
+
+if has('nvim')
+  lua require('config')
+else
+  let vim_specific_config_file = fnamemodify(expand('<sfile>'), ':h')  . '/vim.vim'
+  if filereadable(vim_specific_config_file)
+    execute "source " . vim_specific_config_file
   endif
-endfunction
-
-"# Plugins
-
-" install vim-plug automagically
-let plug_path = config_dir . '/autoload/plug.vim'
-if empty(glob(plug_path))
-  silent execute '!curl -fLo ' . plug_path . ' --create-dirs '
-    \ . 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-call plug#begin(data_dir . '/plugged')
+" [[[ Plugin Settings
 
-Plug 'junegunn/vim-plug'
-
-" appearance
-" Plug 'morhetz/gruvbox'
-Plug 'gruvbox-community/gruvbox'
-Plug 'vim-airline/vim-airline'
-
-" functionality
-if isdirectory(fzf_root)
-  Plug fzf_root
-  Plug 'junegunn/fzf.vim'
-  Plug 'stsewd/fzf-checkout.vim'
-endif
-Plug 'bkad/CamelCaseMotion'
-Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'javascriptreact'], 'do': 'make install' }
-Plug 'junegunn/vim-easy-align'
-Plug 'mhinz/vim-startify'
-Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
-Plug 'szw/vim-maximizer'
-Plug 'tpope/vim-capslock'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-
-" integration
-if has('nvim')
-  Plug 'lewis6991/gitsigns.nvim'
-else
-  Plug 'airblade/vim-gitgutter'
-end
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'kristijanhusak/vim-carbon-now-sh'
-Plug 'rhysd/git-messenger.vim'
-Plug 'RyanMillerC/better-vim-tmux-resizer'
-Plug 'tpope/vim-fugitive'
-Plug 'wakatime/vim-wakatime'
-
-" language support
-Plug 'bronzehedwick/msmtp-syntax.vim'
-Plug 'cespare/vim-toml'
-Plug 'chunkhang/vim-mbsync'
-Plug 'digitaltoad/vim-pug'
-Plug 'ekalinin/Dockerfile.vim'
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'jparise/vim-graphql'
-Plug 'jxnblk/vim-mdx-js'
-Plug 'lifepillar/pgsql.vim'
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'mustache/vim-mustache-handlebars'
-Plug 'neoclide/jsonc.vim'
-Plug 'neomutt/neomutt.vim'
-Plug 'othree/html5.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'rust-lang/rust.vim'
-Plug 'tmux-plugins/vim-tmux'
-Plug 'tpope/vim-git'
-Plug 'tpope/vim-markdown'
-Plug 'vitalk/vim-shebang'
-
-if has('nvim')
-  Plug 'b0o/schemastore.nvim'
-  Plug 'folke/lua-dev.nvim'
-  Plug 'folke/trouble.nvim'
-  Plug 'github/copilot.vim'
-  Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/cmp-cmdline'
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/cmp-path'
-  Plug 'hrsh7th/cmp-vsnip'
-  Plug 'hrsh7th/nvim-cmp'
-  Plug 'hrsh7th/vim-vsnip'
-  Plug 'hrsh7th/vim-vsnip-integ'
-  Plug 'JoosepAlviste/nvim-ts-context-commentstring'
-  Plug 'jose-elias-alvarez/null-ls.nvim'
-  Plug 'jose-elias-alvarez/typescript.nvim'
-  Plug 'kosayoda/nvim-lightbulb'
-  " Plug 'luukvbaal/stabilize.nvim'
-  Plug 'MunifTanjim/eslint.nvim'
-  Plug 'MunifTanjim/exrc.nvim'
-  Plug 'MunifTanjim/prettier.nvim'
-  Plug 'MunifTanjim/nui.nvim'
-  Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'kyazdani42/nvim-tree.lua'
-
-  Plug 'mfussenegger/nvim-dap'
-  Plug 'rcarriga/nvim-dap-ui'
-  Plug 'theHamsta/nvim-dap-virtual-text'
-
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'numToStr/Comment.nvim'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-lua/popup.nvim'
-  Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'main' }
-  Plug 'nvim-telescope/telescope.nvim'
-  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-  Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
-  Plug 'nvim-treesitter/nvim-treesitter-context'
-  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-  Plug 'nvim-treesitter/playground'
-  Plug 'onsails/lspkind-nvim'
-  Plug 'RRethy/nvim-treesitter-textsubjects'
-  Plug 's1n7ax/nvim-window-picker'
-  Plug 'williamboman/mason.nvim'
-  Plug 'williamboman/mason-lspconfig.nvim'
-  Plug 'windwp/nvim-autopairs'
-  Plug 'windwp/nvim-spectre'
-  Plug 'windwp/nvim-ts-autotag'
-else
-  Plug 'jiangmiao/auto-pairs'
-  Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-  Plug 'puremourning/vimspector'
-  Plug 'tpope/vim-commentary'
-endif
-
-call plug#end()
-
-"# Plugin Settings
-
-"## Plugin: camelcasemotion
+"" [[[ Plugin: camelcasemotion
 
 map    <silent> <M-w>     <Plug>CamelCaseMotion_w
 map    <silent> <M-b>     <Plug>CamelCaseMotion_b
@@ -282,7 +142,10 @@ sunmap g<M-e>
 imap   <silent> <S-Left>  <C-o><Plug>CamelCaseMotion_b
 imap   <silent> <S-Right> <C-o><Plug>CamelCaseMotion_w
 
-"## Plugin: carbon-now-sh
+"" Plugin: camelcasemotion ]]]
+
+"" [[[ Plugin: carbon-now-sh
+
 let g:carbon_now_sh_options = {
       \ 'bg': '#8f3f71',
       \ 'ln': 'true',
@@ -290,147 +153,15 @@ let g:carbon_now_sh_options = {
       \ 'wc': 'false',
       \ 't': 'monokai' }
 
-"## Plugin: coc
+"" Plugin: carbon-now-sh ]]]
 
-if !has('nvim')
-
-let g:coc_global_extensions = [
-      \ 'coc-actions',
-      \ 'coc-css',
-      \ 'coc-emoji',
-      \ 'coc-eslint',
-      \ 'coc-explorer',
-      \ 'coc-html',
-      \ 'coc-json',
-      \ 'coc-marketplace',
-      \ 'coc-prettier',
-      \ 'coc-pyright',
-      \ 'coc-rls',
-      \ 'coc-sh',
-      \ 'coc-snippets',
-      \ 'coc-stylua',
-      \ 'coc-sumneko-lua',
-      \ 'coc-tsserver',
-      \ 'coc-vimlsp',
-      \ 'coc-yaml',
-      \ ]
-
-"### coc: commands
-
-" command: Fold
-command! -nargs=? Fold     :call CocAction('fold', <f-args>)
-" command: Format
-command! -nargs=0 Format   :call CocAction('format')
-" command: OI
-command! -nargs=0 OI       :call CocActionAsync('runCommand', 'editor.action.organizeImport')
-" command: Prettier
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-
-"### coc: functions
-
-function! s:show_documentation_coc()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '. expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . ' ' . expand('<cword>')
-  endif
-endfunction
-
-"### coc: keymaps
-
-"" trigger autocomplete popup menu
-inoremap <silent><expr> <C-Space> coc#refresh()
-"" highlight next/prev popup menu item
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-"" select popup-menu item
-inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-
-if !has('nvim')
-
-"" function text object
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-"" class text object
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
-
-endif
-
-"" code navigation
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-"" diagnostics navigation
-nmap <silent> [d <Plug>(coc-diagnostic-prev)
-nmap <silent> ]d <Plug>(coc-diagnostic-next)
-"" apply code action to current line
-nmap <Leader>ac <Plug>(coc-codeaction-line)
-"" apply autofix to problem on the current line
-nmap <Leader>qf  <Plug>(coc-fix-current)
-"" show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation_coc()<CR>
-"" rename symbol
-nmap <Leader>rn <Plug>(coc-rename)
-"" format code
-xmap <Leader>f <Plug>(coc-format-selected)
-nmap <Leader>f <Plug>(coc-format-selected)
-"" selection range
-nmap <silent> <Leader>v <Plug>(coc-range-select)
-xmap <silent> <Leader>v <Plug>(coc-range-select)
-" "" list diagnostics
-" nnoremap <silent> <Leader>ld  :<C-u>CocList diagnostics<cr>
-" "" list extensions
-" nnoremap <silent> <Leader>le  :<C-u>CocList extensions<cr>
-" "" list commands
-" nnoremap <silent> <Leader>lc  :<C-u>CocList commands<cr>
-" "" list outline - symbols from current buffer
-" nnoremap <silent> <Leader>lo  :<C-u>CocList outline<cr>
-" "" list symbols - from workspace
-" nnoremap <silent> <Leader>ls  :<C-u>CocList -I symbols<cr>
-" "" list: do default action for next item in last list
-" nnoremap <silent> <Leader>lj  :<C-u>CocNext<CR>
-" "" list: do default action for prev item in last list
-" nnoremap <silent> <Leader>lk  :<C-u>CocPrev<CR>
-" "" list: reopen last list
-" nnoremap <silent> <Leader>lp  :<C-u>CocListResume<CR>
-"" open explorer
-nmap <silent> <Space>e :CocCommand explorer<CR>
-
-"### coc: autocommands
-
-augroup coc_augroup
-  autocmd!
-  " highlight the symbol and its references when holding the cursor.
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-  " set formatexpr for specific filetypes
-  autocmd FileType javascript,javascriptreact,typescript,typescriptreact,json,graphql
-        \ setlocal formatexpr=CocAction('formatSelected')
-  " show signature help after jumping to a placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-  " keymap: go to file
-  autocmd FileType javascript,javascriptreact,typescript,typescriptreact
-        \ nmap <silent> gf <Plug>(coc-definition)
-augroup END
-
-if has("lua")
-  lua require("config.coc")
-endif
-
-endif
-
-"## Plugin: copilot
+"" [[[ Plugin: copilot
 
 let g:copilot_no_maps = v:true
 
-"## Plugin: fzf
+"" Plugin: copilot ]]]
+
+"" [[[ Plugin: fzf
 
 let g:fzf_action = {
       \ 'ctrl-t': 'tab split',
@@ -472,7 +203,9 @@ nmap <Leader>w :ZWindows<CR>
 " keymaps: fzf-checkout
 nmap <Leader>gc :ZGCheckout<CR>
 
-"## Plugin: easy-align
+"" Plugin: fzf ]]]
+
+"" [[[ Plugin: easy-align
 
 " keymaps: easy-align
 "" Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -480,12 +213,16 @@ xmap ga <Plug>(EasyAlign)
 "" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-"## Plugin: fugitive
+"" Plugin: easy-align ]]]
+
+"" [[[ Plugin: fugitive
 
 " keymaps: fugitive
 nmap <Leader>gs :G<CR>
 
-"## Plugin: git-messenger
+"" Plugin: fugitive ]]]
+
+"" [[[ Plugin: git-messenger
 
 let g:git_messenger_no_default_mappings = v:true
 let g:git_messenger_always_into_popup = v:true
@@ -498,19 +235,27 @@ function! s:setup_git_messenger_popup() abort
 endfunction
 autocmd FileType gitmessengerpopup call <SID>setup_git_messenger_popup()
 
-"## Plugin: hexokinase
+"" Plugin: git-messenger ]]]
+
+"" [[[ Plugin: hexokinase
 
 let g:Hexokinase_highlighters = ['foreground']
 
-"## Plugin: markdown
+"" Plugin: hexokinase ]]]
+
+"" [[[ Plugin: markdown
 
 let g:markdown_fenced_languages = ['css', 'help', 'html', 'javascript', 'js=javascript', 'json=javascript', 'lua', 'sh', 'typescript', 'ts=typescript', 'vim']
 
-"## Plugin: maximizer
+"" Plugin: markdown ]]]
+
+"" [[[ Plugin: maximizer
 
 let g:maximizer_default_mapping_key = '<M-m>'
 
-"## Plugin: startify
+"" Plugin: maximizer ]]]
+
+"" [[[ Plugin: startify
 
 let g:startify_change_to_vcs_root = 1
 let g:startify_custom_header = 'startify#center(startify#pad(startify#fortune#boxed()))'
@@ -526,7 +271,9 @@ let g:startify_lists = [
       \ { 'type': 'commands',  'header': ['   Commands']       },
       \ ]
 
-"## Plugin: tmux-navigator
+"" Plugin: startify ]]]
+
+"" [[[ Plugin: tmux-navigator
 
 let g:tmux_navigator_disable_when_zoomed = 1
 let g:tmux_navigator_no_mappings = 1
@@ -542,7 +289,9 @@ nnoremap <silent> <C-w><C-l> :TmuxNavigateRight<CR>
 nnoremap <silent> <C-w>p     :TmuxNavigatePrevious<CR>
 nnoremap <silent> <C-w><C-p> :TmuxNavigatePrevious<CR>
 
-"## Plugin: tmux-resizer
+"" Plugin: tmux-navigator ]]]
+
+"" [[[ Plugin: tmux-resizer
 
 let g:tmux_resizer_no_mappings = 1
 let g:tmux_resizer_resize_count = 5
@@ -553,38 +302,12 @@ nnoremap <silent> <C-w><M-j> :TmuxResizeDown<CR>
 nnoremap <silent> <C-w><M-k> :TmuxResizeUp<CR>
 nnoremap <silent> <C-w><M-l> :TmuxResizeRight<CR>
 
-"## Plugin: vimspector
+"" Plugin: tmux-resizer ]]]
 
-if !has('nvim')
+" Plugin Settings ]]]
 
-nmap <Leader>dc  <Plug>VimspectorContinue
-nmap <Leader>ds  <Plug>VimspectorStop
-nmap <Leader>dr  <Plug>VimspectorRestart
-nmap <Leader>dp  <Plug>VimspectorPause
-nmap <Leader>db  <Plug>VimspectorToggleBreakpoint
-nmap <Leader>dcb <Plug>VimspectorToggleConditionalBreakpoint
-nmap <Leader>dfb <Plug>VimspectorAddFunctionBreakpoint
-nmap <Leader>dcc <Plug>VimspectorRunToCursor
-nmap <Leader>dj  <Plug>VimspectorStepOver
-nmap <Leader>dl  <Plug>VimspectorStepInto
-nmap <Leader>dk  <Plug>VimspectorStepOut
-nmap <Leader>dq  :VimspectorReset<CR>
+" [[[ Appearance Settings
 
-endif
-
-"## neovim Plugins
-
-if has('nvim')
-
-lua << EOF
-
-require('config')
-
-EOF
-
-endif
-
-"# Appearance Settings
 set cursorline
 set number
 set nowrap
@@ -593,23 +316,11 @@ set scrolloff=3
 " always show the signcolumn, otherwise it would shift the text each time diagnostics appear/become resolved.
 set signcolumn=yes
 
+" fold settings
+set foldlevelstart=15
+set foldminlines=3
+
 syntax enable
-
-" enable truecolor
-if has('termguicolors')
-  if ! has('nvim')
-    " *xterm-true-color*
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  endif
-  set termguicolors
-endif
-
-if !has('nvim')
-  let &t_SI = "\e[6 q"
-  let &t_SR = "\e[4 q"
-  let &t_EI = "\e[2 q"
-endif
 
 augroup override_highlight
     autocmd!
@@ -635,82 +346,6 @@ let g:airline_left_alt_sep=""
 let g:airline_right_sep=""
 let g:airline_right_alt_sep=""
 
-" fold settings
-set foldlevelstart=15
-set foldminlines=3
-
-if has('nvim')
-  autocmd Syntax css,go,html,javascript,javascriptreact,json,python,ruby,rust,toml,typescript,typescriptreact,yaml
-   \ set foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
-else
-  autocmd Syntax javascript,json,typescript setlocal foldmethod=syntax
-endif
-
-"### appearance: nvim-treesitter
-
-if has('nvim')
-
-" hi! link TSAnnotation
-" hi! link TSAttribute
-hi! link TSBoolean Boolean
-hi! link TSCharacter Character
-hi! link TSComment Comment
-" hi! link TSConstructor
-hi! link TSConditional Conditional
-hi! link TSConstant Constant
-hi! link TSConstBuiltin Constant
-hi! link TSConstMacro Constant
-" hi! link TSConstructor
-hi! link TSError GruvboxRedUnderline
-hi! link TSException Exception
-" hi! link TSField
-hi! link TSFloat Float
-hi! link TSFunction Function
-hi! link TSFuncBuiltin Function
-" hi! link TSFuncMacro
-hi! link TSInclude Include
-hi! link TSKeyword GruvboxRed
-hi! link TSKeywordFunction GruvboxAqua
-hi! link TSKeywordOperator TSOperator
-hi! link TSLabel Label
-" hi! link TSMethod
-" hi! link TSNamespace
-" hi! link TSNone
-hi! link TSNumber Number
-" hi! link TSOperator
-" hi! link TSParameter
-" hi! link TSParameterReference
-hi! link TSProperty GruvboxBlue
-hi! link TSPunctBracket GruvboxFg1
-hi! link TSPunctDelimiter GruvboxFg1
-" hi! link TSPunctSpecial
-hi! link TSRepeat Repeat
-hi! link TSString String
-" hi! link TSStringRegex
-" hi! link TSStringEscape
-" hi! link TSSymbol
-hi! link TSTag GruvboxGreen
-" hi! link TSTagDelimiter
-" hi! link TSText
-hi! TSStrong term=bold cterm=bold gui=bold
-hi! TSEmphasis term=italic cterm=italic gui=italic
-hi! TSUnderline term=underline cterm=underline gui=underline
-hi! TSStrike term=strikethrough cterm=strikethrough gui=strikethrough
-" hi! link TSTitle
-" hi! link TSLiteral
-" hi! link TSURI
-" hi! link TSMath
-" hi! link TSTextReference
-" hi! link TSEnviroment
-" hi! link TSEnviromentName
-" hi! link TSNote
-hi! link TSWarning WarningMsg
-hi! link TSDanger ErrorMsg
-hi! link TSType GruvboxAqua
-hi! link TSTypeBuiltin Type
-hi! link TSVariable GruvboxFg1
-hi! link TSVariableBuiltin Identifier
-
-endif
+" Appearance Settings ]]]
 
 " Everything that can happen, happens. It has to end well and it has to end badly. It has to end every way it can.

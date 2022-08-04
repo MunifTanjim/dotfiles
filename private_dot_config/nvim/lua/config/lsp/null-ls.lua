@@ -1,5 +1,3 @@
-local exrc = require("config.exrc")
-
 local null_ls = require("null-ls")
 
 ---@diagnostic disable-next-line: redundant-parameter
@@ -18,18 +16,6 @@ null_ls.setup({
     vim.keymap.set("n", "<Leader>f", require("config.lsp.formatting").format, map_opts)
     vim.keymap.set("x", "<Leader>f", require("config.lsp.formatting").range_format, map_opts)
 
-    if exrc.lsp.format_on_save then
-      vim.cmd("autocmd BufWritePre <buffer> lua require('config.lsp.formatting').format()")
-    end
+    vim.cmd("autocmd BufWritePre <buffer> lua require('config.lsp.formatting').format()")
   end,
-})
-
-local eslint = require("eslint")
-eslint.setup({
-  bin = "eslint_d",
-})
-
-local prettier = require("prettier")
-prettier.setup({
-  bin = "prettier",
 })
