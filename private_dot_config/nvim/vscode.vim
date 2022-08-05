@@ -1,24 +1,16 @@
-" vim: set foldmethod=expr foldlevel=0 nomodeline :
+" vim: set foldmethod=marker foldmarker=[[[,]]] foldlevel=0 nomodeline :
 
-" use different directories for vim and neovim
-let cache_dir  = expand('~/.cache/' . ( has('nvim') ? 'nvim' : 'vim' ))
-let config_dir = expand(has('nvim') ? '~/.config/nvim' : '~/.vim')
-let data_dir   = expand('~/.local/share/' . ( has('nvim') ? 'nvim' : 'vim' ))
+set noloadplugins
 
-"# General Settings
-
-let &backupdir = data_dir . '/backup//,.'
-let &directory = data_dir . '/swap//,.'
-if has('persistent_undo')
-  let &undodir = data_dir . '/undo//,.'
-  set undofile
-endif
+" [[[ General Settings
 
 " <Leader> and <LocalLeader>
 let mapleader = "\<Space>"
 let maplocalleader = "\\"
 
-"# General Keymaps
+" General Settings ]]]
+
+" [[[ General Keymaps
 
 " beginning/end of line
 nnoremap B ^
@@ -44,25 +36,32 @@ vnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
 vnoremap <Leader>P "+P
 
-"# Plugins
+" General Keymaps ]]]
+
+" [[[ Plugins
 
 " install vim-plug automagically
-if empty(glob(config_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo ' . config_dir . '/autoload/plug.vim' . ' --create-dirs '
+let plug_path = stdpath('data') . '/site/pack/vscode/opt/plug/autoload/plug.vim'
+if empty(glob(plug_path))
+  silent execute '!curl -fLo ' . plug_path . ' --create-dirs '
     \ . 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  autocmd VimEnter * packadd plug | PlugInstall --sync | execute 'source ' . expand('<sfile>')
+else
+  packadd plug
 endif
 
-call plug#begin(data_dir . '/vscode/plugged')
+call plug#begin(stdpath('data') . '/site/pack/vscode/opt')
+
+Plug 'junegunn/vim-plug'
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 
 call plug#end()
 
-"# vscode-neovim
+" [[[ Plugin: vscode-neovim
 
-"## remove move editor mappings
+" remove move editor mappings
 nunmap <C-w><C-j>
 xunmap <C-w><C-j>
 nunmap <C-w><C-i>
@@ -72,13 +71,17 @@ xunmap <C-w><C-h>
 nunmap <C-w><C-l>
 xunmap <C-w><C-l>
 
-"## vim-commentary equivalent
+" vim-commentary equivalent
 xmap gc  <Plug>VSCodeCommentary
 nmap gc  <Plug>VSCodeCommentary
 omap gc  <Plug>VSCodeCommentary
 nmap gcc <Plug>VSCodeCommentaryLine
 
-"# VSCode Keymaps
+" Plugin: vscode-neovim ]]]
+
+" Plugins ]]]
+
+" [[[ VSCode Keymaps
 
 noremap <Leader>e :call VSCodeNotify('workbench.action.toggleSidebarVisibility')<CR>
 
@@ -98,10 +101,13 @@ xnoremap <C-w>- :New<CR>
 nnoremap <C-w>\ :Vnew<CR>
 xnoremap <C-w>\ :Vnew<CR>
 
-"" code navigation
+" code navigation
 nmap <silent> gd :call VSCodeNotify('editor.action.revealDefinition')<CR>
 nmap <silent> gy :call VSCodeNotify('editor.action.goToTypeDefinition')<CR>
 nmap <silent> gi :call VSCodeNotify('editor.action.goToImplementation')<CR>
 nmap <silent> gr :call VSCodeNotify('editor.action.goToReferences')<CR>
-"" rename symbol
+
+" rename symbol
 nmap <Leader>rn :call VSCodeNotify('editor.action.rename')<CR>
+
+" VSCode Keymaps ]]]
