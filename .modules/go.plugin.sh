@@ -1,10 +1,8 @@
 # shellcheck shell=sh
 
-if ! command_exists go; then
-  return
-fi
+GOLANG_DIR="${GOLANG_DIR:-"${XDG_DATA_HOME:-"${HOME}/.local/share"}/golang"}"
 
-export GOROOT=${GOROOT:-$(go env GOROOT)}
+export GOROOT=${GOROOT:-"${GOLANG_DIR}/current"}
 pathmunge "${GOROOT}/bin"
-export GOPATH=${GOPATH:-"${HOME}/.local/share/go"}
+export GOPATH="${GOPATH:-"${XDG_DATA_HOME:-"${HOME}/.local/share"}/go"}"
 pathmunge "${GOPATH}/bin"
