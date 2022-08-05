@@ -91,12 +91,12 @@ install_snap_packages() {
     snap install $@
   }
 
-  declare SNAP_PACKAGES=(
-    "--classic go"
-  )
+  declare SNAP_PACKAGES=()
 
-  if ! is_headless_machine; then
-    SNAP_PACKAGES+=("--beta authy")
+  if should_include_secrets; then
+    if ! is_headless_machine; then
+      SNAP_PACKAGES+=("--beta authy")
+    fi
   fi
 
   for package in "${SNAP_PACKAGES[@]}"; do
@@ -117,6 +117,7 @@ run_setup_scripts() {
     SETUP_SCRIPTS+=(setup-fnm setup-pyenv setup-rbenv)
     SETUP_SCRIPTS+=(setup-docker setup-gh)
     SETUP_SCRIPTS+=(setup-git-credential-libsecret)
+    SETUP_SCRIPTS+=(setup-golang)
     SETUP_SCRIPTS+=(setup-rust)
   fi
 
