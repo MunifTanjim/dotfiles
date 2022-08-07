@@ -90,7 +90,8 @@ cmd touch %{{
 }}
 
 cmd z %{{
-  lf -remote "send $id cd $(zoxide query $@)"
+  dir="$(zoxide query --exclude "${PWD}" -- "$@")"
+  lf -remote "send ${id} cd '${dir}'"
 }}
 
 # (xkcd link: https://xkcd.com/1168/)

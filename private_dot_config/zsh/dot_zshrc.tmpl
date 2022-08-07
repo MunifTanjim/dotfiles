@@ -168,7 +168,7 @@ bindkey "${key[Shift-Tab]}" reverse-menu-complete
 
 if (( ${+commands[zoxide]} )); then
   zed load github.com/MunifTanjim/null name:'zoxide' \
-    onpull:'zoxide init --no-aliases zsh > zoxide.plugin.zsh && echo "z() { __zoxide_z \$@ }" >> zoxide.plugin.zsh'
+    onpull:'zoxide init zsh --no-cmd > zoxide.plugin.zsh && echo "z() { __zoxide_z \$@ }" >> zoxide.plugin.zsh'
 fi
 
 {{ if eq .chezmoi.os "darwin" -}}

@@ -102,7 +102,7 @@ fi
 
 # {{{ zoxide
 if command_exists zoxide; then
-  eval "$(zoxide init --no-aliases bash)"
+  eval "$(zoxide init bash --no-cmd)"
   z() { __zoxide_z $@; }
 fi
 # zoxide }}}
