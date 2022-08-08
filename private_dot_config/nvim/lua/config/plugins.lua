@@ -270,15 +270,7 @@ require("packer").startup({
         local autopairs = require("nvim-autopairs")
 
         autopairs.setup({
-          disable_filetype = { "TelescopePrompt" },
-          disable_in_macro = false,
-          ignored_next_char = string.gsub([[ [%w%%%'%[%"%.] ]], "%s+", ""),
-          enable_moveright = true,
-          enable_afterquote = true,
-          enable_check_bracket_line = true,
-          check_ts = false,
-          map_bs = true,
-          map_c_w = false,
+          enable_check_bracket_line = false,
         })
 
         local cmp = require("cmp")
