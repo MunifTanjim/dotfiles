@@ -1,1 +1,1 @@
-vim.cmd("nnoremap <Leader>S :lua require('spectre').open()<CR>")
+vim.keymap.set("n", "<Leader>S", require("spectre").open)

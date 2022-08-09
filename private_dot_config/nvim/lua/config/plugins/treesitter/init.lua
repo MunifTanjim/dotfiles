@@ -68,10 +68,8 @@ treesitter_configs.setup({
   },
 })
 
-vim.cmd([[
-  nmap <Leader>ghg :TSHighlightCapturesUnderCursor<CR>
-  nmap <Leader>gtr :TSPlaygroundToggle<CR>
-]])
+vim.keymap.set("n", "<Leader>ghg", ":TSHighlightCapturesUnderCursor<CR>")
+vim.keymap.set("n", "<Leader>gtr", ":TSPlaygroundToggle<CR>")
 
 vim.cmd([[
   autocmd Syntax css,go,html,javascript,javascriptreact,json,python,ruby,rust,toml,typescript,typescriptreact,yaml

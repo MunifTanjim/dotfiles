@@ -34,13 +34,13 @@ telescope.setup({
 
 telescope.load_extension("fzf")
 
-vim.cmd([[
-  nnoremap <Leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-  nnoremap <Leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-  nnoremap <Leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-  nnoremap <Leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+vim.keymap.set("n", "<Leader>fb", require("telescope.builtin").buffers)
+vim.keymap.set("n", "<Leader>ff", require("telescope.builtin").find_files)
+vim.keymap.set("n", "<Leader>fg", require("telescope.builtin").live_grep)
+vim.keymap.set("n", "<Leader>fh", require("telescope.builtin").help_tags)
 
-  nnoremap <Leader>fr <cmd>lua require('telescope.builtin').lsp_references({ layout_strategy = 'vertical' })<cr>
+vim.keymap.set("n", "<Leader>fr", function()
+  require("telescope.builtin").lsp_references({ layout_strategy = "vertical" })
+end)
 
-  nnoremap <Leader>f; <cmd>lua require('telescope.builtin').resume()<cr>
-]])
+vim.keymap.set("n", "<Leader>f;", require("telescope.builtin").resume)

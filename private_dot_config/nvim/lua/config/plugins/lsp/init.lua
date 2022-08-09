@@ -139,7 +139,9 @@ local function setup_server(server)
         on_attach = function(client, bufnr)
           default_on_attach(client, bufnr)
 
-          vim.cmd("command! -buffer OI lua require('typescript').actions.organizeImports()")
+          vim.api.nvim_buf_create_user_command(bufnr, "OI", function(opts)
+            require("typescript").actions.organizeImports({ sync = opts.bang })
+          end, { desc = "Organize Imports", bang = true })
         end,
       },
     })
