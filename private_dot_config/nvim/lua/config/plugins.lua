@@ -25,10 +25,20 @@ require("packer").startup({
 
     -- functionality
     use("bkad/CamelCaseMotion")
-    use({ "heavenshell/vim-jsdoc", ft = { "javascript", "javascriptreact" }, run = "make install" })
+    use({
+      "heavenshell/vim-jsdoc",
+      ft = {
+        "javascript",
+        "javascriptreact",
+      },
+      run = "make install",
+    })
     use("junegunn/vim-easy-align")
     use("mhinz/vim-startify")
-    use({ "rrethy/vim-hexokinase", run = "make hexokinase" })
+    use({
+      "rrethy/vim-hexokinase",
+      run = "make hexokinase",
+    })
     use("szw/vim-maximizer")
     use("tpope/vim-capslock")
     use("tpope/vim-repeat")
@@ -69,71 +79,25 @@ require("packer").startup({
     use({
       "MunifTanjim/nui.nvim",
       config = function()
-        require("config.ui").override_input()
-        require("config.ui").override_select()
+        require("config.plugins.nui")
       end,
     })
 
     use({
       "MunifTanjim/exrc.nvim",
       config = function()
-        vim.o.exrc = false
-        require("exrc").setup()
+        require("config.plugins.exrc")
       end,
     })
 
     ---[[ Git
     use({
       "lewis6991/gitsigns.nvim",
-      requires = { "nvim-lua/plenary.nvim" },
+      requires = {
+        "nvim-lua/plenary.nvim",
+      },
       config = function()
-        local gitsigns = require("gitsigns")
-
-        gitsigns.setup({
-          signs = {
-            add = { text = "▎" },
-            change = { text = "▎" },
-            delete = { text = "▁" },
-            topdelete = { text = "▔" },
-            changedelete = { text = "▎" },
-          },
-          on_attach = function(bufnr)
-            local function set_keymap(mode, lhs, rhs, opts)
-              opts = opts or {}
-              opts.buffer = bufnr
-              vim.keymap.set(mode, lhs, rhs, opts)
-            end
-
-            set_keymap("n", "[c", function()
-              if vim.wo.diff then
-                return "[c"
-              end
-
-              vim.schedule(function()
-                gitsigns.prev_hunk()
-              end)
-              return "<ignore>"
-            end, { expr = true })
-
-            set_keymap("n", "]c", function()
-              if vim.wo.diff then
-                return "]c"
-              end
-
-              vim.schedule(function()
-                gitsigns.next_hunk()
-              end)
-
-              return "<ignore>"
-            end, { expr = true })
-
-            set_keymap("v", "<leader>gs", ":Gitsigns stage_hunk<cr>")
-          end,
-        })
-
-        vim.schedule(function()
-          vim.api.nvim_set_hl(0, "GitSignsChange", { link = "GruvboxOrangeSign" })
-        end)
+        require("config.plugins.gitsigns")
       end,
     })
     use("rhysd/git-messenger.vim")
@@ -143,18 +107,18 @@ require("packer").startup({
     ---[[ Completion
     use("github/copilot.vim")
 
-    use("hrsh7th/cmp-buffer")
-    use("hrsh7th/cmp-cmdline")
-    use("hrsh7th/cmp-nvim-lsp")
-    use("hrsh7th/cmp-path")
-    use("hrsh7th/cmp-vsnip")
     use({
       "hrsh7th/nvim-cmp",
       requires = {
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-cmdline",
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-path",
+        "hrsh7th/cmp-vsnip",
         "onsails/lspkind-nvim",
       },
       config = function()
-        require("config.completion")
+        require("config.plugins.cmp")
       end,
     })
     ---]]
@@ -162,22 +126,20 @@ require("packer").startup({
     ---[[ Snippet
     use({
       "hrsh7th/vim-vsnip",
+      requires = {
+        "hrsh7th/vim-vsnip-integ",
+      },
       config = function()
-        require("config.snippet")
+        require("config.plugins.vsnip")
       end,
     })
-    use("hrsh7th/vim-vsnip-integ")
     ---]]
 
     ---[[ LSP
     use({
       "williamboman/mason.nvim",
       config = function()
-        require("mason").setup({
-          ui = {
-            border = "rounded",
-          },
-        })
+        require("config.plugins.mason")
       end,
     })
     use({
@@ -191,72 +153,35 @@ require("packer").startup({
         "onsails/lspkind-nvim",
         {
           "williamboman/mason-lspconfig.nvim",
-          requires = { "mason.nvim" },
+          requires = {
+            "mason.nvim",
+          },
         },
       },
       config = function()
-        require("config.lsp")
+        require("config.plugins.lsp")
       end,
     })
     use({
       "jose-elias-alvarez/null-ls.nvim",
+      requires = {
+        "MunifTanjim/eslint.nvim",
+        "MunifTanjim/prettier.nvim",
+      },
       config = function()
-        require("config.lsp.null-ls")
-      end,
-    })
-    use({
-      "MunifTanjim/eslint.nvim",
-      after = { "null-ls.nvim" },
-      config = function()
-        local eslint = require("eslint")
-        eslint.setup({
-          bin = "eslint_d",
-        })
-      end,
-    })
-    use({
-      "MunifTanjim/prettier.nvim",
-      after = { "null-ls.nvim" },
-      config = function()
-        local prettier = require("prettier")
-        prettier.setup({
-          bin = "prettier",
-        })
+        require("config.plugins.lsp.null-ls")
       end,
     })
     use({
       "kosayoda/nvim-lightbulb",
       config = function()
-        vim.fn.sign_define("LightBulbSign", {
-          text = "",
-          texthl = "DiagnosticSignHint",
-        })
-
-        require("nvim-lightbulb").setup({
-          sign = {
-            enabled = true,
-            priority = 10,
-          },
-          autocmd = {
-            enabled = true,
-            pattern = { "*" },
-            events = { "CursorHold", "CursorHoldI" },
-          },
-        })
+        require("config.plugins.lsp.lightbulb")
       end,
     })
     use({
       "folke/trouble.nvim",
       config = function()
-        local trouble = require("trouble")
-
-        trouble.setup({
-          action_keys = {
-            close = "gq",
-          },
-        })
-
-        vim.keymap.set("n", "<Leader>xx", ":TroubleToggle<CR>", { silent = true })
+        require("config.plugins.lsp.trouble")
       end,
     })
     ---]]
@@ -267,22 +192,7 @@ require("packer").startup({
         "nvim-cmp",
       },
       config = function()
-        local autopairs = require("nvim-autopairs")
-
-        autopairs.setup({
-          enable_check_bracket_line = false,
-        })
-
-        local cmp = require("cmp")
-        local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-        cmp.event:on(
-          "confirm_done",
-          cmp_autopairs.on_confirm_done({
-            map_char = {
-              sh = "",
-            },
-          })
-        )
+        require("config.plugins.autopairs")
       end,
     })
 
@@ -304,25 +214,30 @@ require("packer").startup({
         "s1n7ax/nvim-window-picker",
       },
       config = function()
-        require("config.neo-tree")
+        require("config.plugins.neo-tree")
       end,
     })
 
     use({
       "windwp/nvim-spectre",
       config = function()
-        vim.cmd("nnoremap <Leader>S :lua require('spectre').open()<CR>")
+        require("config.plugins.spectre")
       end,
     })
 
     use({
       "nvim-telescope/telescope.nvim",
-      requires = { "nvim-lua/plenary.nvim" },
+      requires = {
+        "nvim-lua/plenary.nvim",
+        {
+          "nvim-telescope/telescope-fzf-native.nvim",
+          run = "make",
+        },
+      },
       config = function()
-        require("config.telescope")
+        require("config.plugins.telescope")
       end,
     })
-    use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
     ---]]
 
     ---[[ TreeSitter
@@ -339,60 +254,22 @@ require("packer").startup({
         require("nvim-treesitter.install").update({ with_sync = true })
       end,
       config = function()
-        require("config.treesitter")
+        require("config.plugins.treesitter")
       end,
     })
     use({
       "nvim-treesitter/nvim-treesitter-context",
       config = function()
-        require("treesitter-context").setup({
-          max_lines = 2,
-          trim_scope = "outer",
-          patterns = {
-            default = {
-              "class",
-              "function",
-              "method",
-            },
-          },
-          exact_patterns = {},
-        })
-
-        vim.keymap.set("n", "<Leader>tsc", "<cmd>TSContextToggle<CR>")
-
-        vim.schedule(function()
-          vim.api.nvim_set_hl(0, "TreesitterContext", { link = "CursorLine" })
-          vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { link = "CursorLine" })
-        end)
+        require("config.plugins.treesitter.context")
       end,
     })
     use({
       "numToStr/Comment.nvim",
+      requires = {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+      },
       config = function()
-        require("Comment").setup({
-          pre_hook = function(ctx)
-            -- Only calculate commentstring for tsx filetypes
-            if vim.bo.filetype == "typescriptreact" then
-              local U = require("Comment.utils")
-
-              -- Detemine whether to use linewise or blockwise commentstring
-              local type = ctx.ctype == U.ctype.line and "__default" or "__multiline"
-
-              -- Determine the location where to calculate commentstring from
-              local location = nil
-              if ctx.ctype == U.ctype.block then
-                location = require("ts_context_commentstring.utils").get_cursor_location()
-              elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
-                location = require("ts_context_commentstring.utils").get_visual_start_location()
-              end
-
-              return require("ts_context_commentstring.internal").calculate_commentstring({
-                key = type,
-                location = location,
-              })
-            end
-          end,
-        })
+        require("config.plugins.treesitter.comment")
       end,
     })
     ---]]
@@ -405,7 +282,7 @@ require("packer").startup({
         "theHamsta/nvim-dap-virtual-text",
       },
       config = function()
-        require("config.dap")
+        require("config.plugins.dap")
       end,
     })
     ---]]
@@ -414,9 +291,7 @@ require("packer").startup({
       "luukvbaal/stabilize.nvim",
       disable = true,
       config = function()
-        require("stabilize").setup({
-          force = false,
-        })
+        require("config.plugins.stabilize")
       end,
     })
 

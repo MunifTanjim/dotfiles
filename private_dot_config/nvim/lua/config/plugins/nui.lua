@@ -10,9 +10,7 @@ local function get_prompt_text(prompt, default_prompt)
   return prompt_text
 end
 
-local mod = {}
-
-function mod.override_input()
+local function override_input()
   local UIInput = Input:extend("UIInput")
 
   function UIInput:init(opts, on_done)
@@ -86,7 +84,7 @@ function mod.override_input()
   end
 end
 
-function mod.override_select()
+local function override_select()
   local UISelect = Menu:extend("UISelect")
 
   function UISelect:init(items, opts, on_done)
@@ -182,4 +180,5 @@ function mod.override_select()
   end
 end
 
-return mod
+override_input()
+override_select()

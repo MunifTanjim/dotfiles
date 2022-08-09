@@ -12,7 +12,7 @@ local function feedkey(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
-cmp.register_source("copilot", require("config.completion.cmp-copilot").new())
+cmp.register_source("copilot", require("config.plugins.cmp.cmp-copilot").new())
 
 cmp.setup({
   completion = {

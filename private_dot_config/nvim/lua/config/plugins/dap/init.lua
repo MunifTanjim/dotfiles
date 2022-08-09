@@ -113,4 +113,4 @@ end
 
 setup_keymaps()
 
-require("config.dap.javascript")
+require("config.plugins.dap.javascript")

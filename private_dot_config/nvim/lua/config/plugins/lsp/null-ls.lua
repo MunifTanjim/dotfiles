@@ -19,3 +19,11 @@ null_ls.setup({
     vim.cmd("autocmd BufWritePre <buffer> lua require('config.lsp.formatting').format()")
   end,
 })
+
+require("eslint").setup({
+  bin = "eslint_d",
+})
+
+require("prettier").setup({
+  bin = "prettier",
+})
