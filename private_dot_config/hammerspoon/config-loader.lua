@@ -1,4 +1,4 @@
-local mod={}
+local mod = {}
 mod.__index = mod
 
 mod.name = "ConfigLoader"
@@ -10,7 +10,7 @@ mod.license = "MIT (https://opensource.org/licenses/MIT)"
 mod.logger = hs.logger.new(mod.name)
 
 function mod.reload()
-  hs.notify.new({title="Hammerspoon", informativeText="Reloading Config...", withdrawAfter=1}):send()
+  hs.notify.new({ title = "Hammerspoon", informativeText = "Reloading Config...", withdrawAfter = 1 }):send()
   hs.timer.doAfter(1, hs.reload)
 end
 
@@ -44,7 +44,7 @@ function mod:stop()
 end
 
 function mod:init()
-  self.logger.i("Loading ".. self.name)
+  self.logger.i("Loading " .. self.name)
 end
 
 return mod

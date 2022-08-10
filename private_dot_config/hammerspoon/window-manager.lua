@@ -1,4 +1,4 @@
-local mod={}
+local mod = {}
 mod.__index = mod
 
 mod.name = "WindowManager"
@@ -9,25 +9,53 @@ mod.license = "MIT (https://opensource.org/licenses/MIT)"
 
 mod.logger = hs.logger.new(mod.name)
 
-mod.sizes = {2, 3, 3/2}
+mod.sizes = { 2, 3, 3 / 2 }
 
 local GRID = { w = 24, h = 24, margins = hs.geometry.point(0, 0) }
 
-local directions = { 'up', 'down', 'left', 'right' }
+local directions = { "up", "down", "left", "right" }
 local direction_data = {
-  up    = { reverse = 'down',  dim = 'h', pos = 'y', home = function() return 0          end },
-  down  = { reverse = 'up',    dim = 'h', pos = 'y', home = function() return GRID.h end },
-  left  = { reverse = 'right', dim = 'w', pos = 'x', home = function() return 0          end },
-  right = { reverse = 'left',  dim = 'w', pos = 'x', home = function() return GRID.w end }
+  up = {
+    reverse = "down",
+    dim = "h",
+    pos = "y",
+    home = function()
+      return 0
+    end,
+  },
+  down = {
+    reverse = "up",
+    dim = "h",
+    pos = "y",
+    home = function()
+      return GRID.h
+    end,
+  },
+  left = {
+    reverse = "right",
+    dim = "w",
+    pos = "x",
+    home = function()
+      return 0
+    end,
+  },
+  right = {
+    reverse = "left",
+    dim = "w",
+    pos = "x",
+    home = function()
+      return GRID.w
+    end,
+  },
 }
 
 local last_size_index_by_direction = {}
 
 local function round(num)
   if num >= 0 then
-    return math.floor(num+.499999999)
+    return math.floor(num + 0.499999999)
   else
-    return math.ceil(num-.499999999)
+    return math.ceil(num - 0.499999999)
   end
 end
 
@@ -47,7 +75,7 @@ end
 
 --- snap cell to grid
 local function snap_to_grid(cell)
-  hs.fnutils.each({'h', 'w', 'x', 'y'}, function(d)
+  hs.fnutils.each({ "h", "w", "x", "y" }, function(d)
     cell[d] = round(cell[d])
   end)
   return cell
@@ -56,7 +84,7 @@ end
 --- grow window to full dimension (width/height)
 local function grow_full_dimension(dimension)
   local cell = frontmost_cell()
-  cell[dimension == 'h' and 'y' or 'x'] = 0
+  cell[dimension == "h" and "y" or "x"] = 0
   cell[dimension] = GRID[dimension]
   set_position(cell)
 end
@@ -64,13 +92,13 @@ end
 -- check if window is at screen edge
 local function is_at_edge(direction)
   local cell = frontmost_cell()
-  if direction == 'up' then
+  if direction == "up" then
     return cell.y == 0
-  elseif direction == 'down' then
+  elseif direction == "down" then
     return cell.y + cell.h == GRID.h
-  elseif direction == 'left' then
+  elseif direction == "left" then
     return cell.x == 0
-  elseif direction == 'right' then
+  elseif direction == "right" then
     return cell.x + cell.w == GRID.w
   end
 end
@@ -91,7 +119,7 @@ local function get_current_size_index(direction)
   local length = frontmost_cell()[dim]
   local relative_size = GRID[dim] / length
 
-  if mod.sizes[last_index] == relative_size then 
+  if mod.sizes[last_index] == relative_size then
     return last_size_index_by_direction[direction]
   end
 
@@ -105,7 +133,7 @@ local function set_to_size(direction, index)
 
   cell[direction_data[direction].dim] = GRID[direction_data[direction].dim] / mod.sizes[index]
 
-  if direction == 'left' or direction == 'up' then
+  if direction == "left" or direction == "up" then
     cell[direction_data[direction].pos] = direction_data[direction].home()
   else
     cell[direction_data[direction].pos] = direction_data[direction].home() - cell[direction_data[direction].dim]
@@ -122,7 +150,7 @@ end
 function mod:set_grid(width, height)
   GRID.w = width
   GRID.h = height
-  hs.grid.setGrid(width..'x'..height)
+  hs.grid.setGrid(width .. "x" .. height)
   return self
 end
 
@@ -135,7 +163,6 @@ end
 
 --- move and/or resize window in specific direction
 function mod:go(direction)
-  local cell = frontmost_cell()
   local index = get_current_size_index(direction)
   index = index % #self.sizes + 1
   set_to_size(direction, index)
@@ -165,13 +192,13 @@ function mod:switch_screen(direction)
     win:setFullScreen(false)
   end
 
-  if direction == 'up' then
+  if direction == "up" then
     win:moveOneScreenNorth(false, true)
-  elseif direction == 'down' then
+  elseif direction == "down" then
     win:moveOneScreenSouth(false, true)
-  elseif direction == 'left' then
+  elseif direction == "left" then
     win:moveOneScreenWest(false, true)
-  elseif direction == 'right' then
+  elseif direction == "right" then
     win:moveOneScreenEast(false, true)
   end
 
@@ -190,17 +217,17 @@ function mod:bindHotkeys(mapping)
   for _, direction in ipairs(directions) do
     local modal = hs.hotkey.modal.new()
 
-    function modal.entered() self.logger.d(direction.." modal entered") end
-    function modal.exited()  self.logger.d(direction.." modal exited")  end
+    function modal.entered()
+      self.logger.d(direction .. " modal entered")
+    end
+    function modal.exited()
+      self.logger.d(direction .. " modal exited")
+    end
 
     if mapping[direction] and mapping[direction_data[direction].reverse] then
-      modal:bind(
-        mapping[direction][1],
-        mapping[direction_data[direction].reverse][2],
-        function()
-          grow_full_dimension(direction_data[direction].dim)
-        end
-      )
+      modal:bind(mapping[direction][1], mapping[direction_data[direction].reverse][2], function()
+        grow_full_dimension(direction_data[direction].dim)
+      end)
 
       reverse_direction_modals[direction] = modal
     end
@@ -208,63 +235,49 @@ function mod:bindHotkeys(mapping)
 
   for _, direction in ipairs(directions) do
     if mapping[direction] then
-      hs.hotkey.bind(
-        mapping[direction][1],
-        mapping[direction][2],
-        function()
-          reverse_direction_modals[direction]:enter()
-          self:go(direction)
-        end,
-        function()
-          reverse_direction_modals[direction]:exit()
-        end
-      )
+      hs.hotkey.bind(mapping[direction][1], mapping[direction][2], function()
+        reverse_direction_modals[direction]:enter()
+        self:go(direction)
+      end, function()
+        reverse_direction_modals[direction]:exit()
+      end)
     end
   end
 
   if mapping.center then
-    hs.hotkey.bind(
-      mapping.center[1],
-      mapping.center[2],
-      function()
-        self:center()
-      end
-    )
+    hs.hotkey.bind(mapping.center[1], mapping.center[2], function()
+      self:center()
+    end)
   end
 
   if mapping.switch_screen then
     local modal = hs.hotkey.modal.new()
 
-    function modal.entered() self.logger.d("switch_screen modal entered") end
-    function modal.exited()  self.logger.d("switch_screen modal exited")  end
+    function modal.entered()
+      self.logger.d("switch_screen modal entered")
+    end
+    function modal.exited()
+      self.logger.d("switch_screen modal exited")
+    end
 
     for _, direction in ipairs(directions) do
       if mapping[direction] then
-        modal:bind(
-          mapping.switch_screen[1],
-          mapping[direction][2],
-          function()
-            self:switch_screen(direction)
-          end
-        )
+        modal:bind(mapping.switch_screen[1], mapping[direction][2], function()
+          self:switch_screen(direction)
+        end)
       end
     end
 
-    hs.hotkey.bind(
-      mapping.switch_screen[1],
-      mapping.switch_screen[2],
-      function()
-        modal:enter()
-      end,
-      function()
-        modal:exit()
-      end
-    )
+    hs.hotkey.bind(mapping.switch_screen[1], mapping.switch_screen[2], function()
+      modal:enter()
+    end, function()
+      modal:exit()
+    end)
   end
 end
 
 function mod:init()
-  self.logger.i("Loading ".. self.name)
+  self.logger.i("Loading " .. self.name)
 end
 
 return mod
