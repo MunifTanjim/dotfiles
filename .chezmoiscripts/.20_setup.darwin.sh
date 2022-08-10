@@ -123,6 +123,7 @@ setup_brew_packages() {
   cask "brave-browser"
   cask "docker"
   cask "google-chrome"
+  cask "hammerspoon"
   cask "karabiner-elements"
   cask "keybase"
   cask "megasync"
