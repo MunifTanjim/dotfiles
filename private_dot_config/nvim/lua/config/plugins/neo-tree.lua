@@ -16,6 +16,13 @@ local function expand_directory_or_edit_file(state)
   end
 end
 
+local function change_global_cwd(state)
+  local node = state.tree:get_node()
+  if node.type == "directory" then
+    vim.cmd("cd " .. node.id)
+  end
+end
+
 require("neo-tree").setup({
   close_if_last_window = true,
   close_floats_on_escape_key = true,
@@ -123,6 +130,7 @@ require("neo-tree").setup({
       mappings = {
         ["<BS>"] = "navigate_up",
         ["<CR>"] = "set_root",
+        ["<Leader><CR>"] = change_global_cwd,
         ["g."] = "toggle_dotfiles",
         ["gi"] = "toggle_gitignored",
         ["o"] = "system_open",
