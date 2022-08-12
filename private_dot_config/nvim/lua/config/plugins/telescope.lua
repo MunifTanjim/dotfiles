@@ -18,6 +18,9 @@ telescope.setup({
       override_file_sorter = true,
       case_mode = "smart_case",
     },
+    frecency = {
+      default_workspace = "LSP",
+    },
   },
   pickers = {
     find_files = {
@@ -33,6 +36,7 @@ telescope.setup({
 })
 
 telescope.load_extension("fzf")
+telescope.load_extension("frecency")
 
 vim.keymap.set("n", "<Leader>fb", require("telescope.builtin").buffers)
 vim.keymap.set("n", "<Leader>ff", require("telescope.builtin").find_files)

@@ -233,6 +233,20 @@ require("packer").startup({
           "nvim-telescope/telescope-fzf-native.nvim",
           run = "make",
         },
+        {
+          --[[
+          Upstream: "nvim-telescope/telescope-frecency.nvim"
+          PRs:
+            - https://github.com/nvim-telescope/telescope-frecency.nvim/pull/66
+            - https://github.com/nvim-telescope/telescope-frecency.nvim/pull/67
+            - https://github.com/nvim-telescope/telescope-frecency.nvim/pull/68
+            - https://github.com/nvim-telescope/telescope-frecency.nvim/pull/69
+          --]]
+          "MunifTanjim/telescope-frecency.nvim",
+          branch = "patched",
+
+          requires = { "tami5/sqlite.lua" },
+        },
       },
       config = function()
         require("config.plugins.telescope")
