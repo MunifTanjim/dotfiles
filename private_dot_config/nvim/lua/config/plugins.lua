@@ -34,7 +34,6 @@ require("packer").startup({
       run = "make install",
     })
     use("junegunn/vim-easy-align")
-    use("mhinz/vim-startify")
     use({
       "rrethy/vim-hexokinase",
       run = "make hexokinase",
@@ -73,6 +72,14 @@ require("packer").startup({
     use("tpope/vim-git")
     use("tpope/vim-markdown")
     use("vitalk/vim-shebang")
+
+    -- dashboard
+    use({
+      "goolord/alpha-nvim",
+      config = function()
+        require("config.plugins.alpha")
+      end,
+    })
 
     use("nvim-lua/plenary.nvim")
 

@@ -255,24 +255,6 @@ let g:maximizer_default_mapping_key = '<M-m>'
 
 "" Plugin: maximizer ]]]
 
-"" [[[ Plugin: startify
-
-let g:startify_change_to_vcs_root = 1
-let g:startify_custom_header = 'startify#center(startify#pad(startify#fortune#boxed()))'
-let g:startify_fortune_use_unicode = 1
-let g:startify_session_persistence = 1
-let g:startify_session_sort = 1
-
-let g:startify_lists = [
-      \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-      \ { 'type': 'files',     'header': ['   MRU']            },
-      \ { 'type': 'sessions',  'header': ['   Sessions']       },
-      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-      \ { 'type': 'commands',  'header': ['   Commands']       },
-      \ ]
-
-"" Plugin: startify ]]]
-
 "" [[[ Plugin: tmux-navigator
 
 let g:tmux_navigator_disable_when_zoomed = 1
