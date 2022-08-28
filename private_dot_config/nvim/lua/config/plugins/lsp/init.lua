@@ -16,6 +16,30 @@ mason_lsp.setup({
   },
 })
 
+---@param client table
+---@param bufnr integer
+local function setup_document_highlight(client, bufnr)
+  local group = vim.api.nvim_create_augroup("lsp_document_highlight", {})
+
+  vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+
+  vim.api.nvim_create_autocmd("CursorHold", {
+    buffer = bufnr,
+    group = group,
+    callback = function()
+      return require("config.lsp.custom").document_highlight(client.offset_encoding)
+    end,
+    desc = "[lsp] document highlight",
+  })
+
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    buffer = bufnr,
+    group = group,
+    callback = vim.lsp.buf.clear_references,
+    desc = "[lsp] clear references",
+  })
+end
+
 local function default_on_attach(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -49,13 +73,7 @@ local function default_on_attach(client, bufnr)
   vim.keymap.set("x", "<Leader>f", require("config.lsp.formatting").range_format, map_opts)
 
   if client.server_capabilities.documentHighlightProvider then
-    vim.cmd([[
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]])
+    setup_document_highlight(client, bufnr)
   end
 
   vim.api.nvim_create_user_command("Format", function(params)
