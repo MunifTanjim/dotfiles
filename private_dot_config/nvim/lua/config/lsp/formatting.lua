@@ -1,4 +1,5 @@
 local denylist = {
+  clangd = true,
   jsonls = true,
   tsserver = true,
   stylelint_lsp = true,
