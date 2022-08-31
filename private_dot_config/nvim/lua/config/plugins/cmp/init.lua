@@ -61,8 +61,8 @@ cmp.setup({
     }),
     ["<CR>"] = cmp.mapping(cmp.mapping.confirm({ select = true }), { "i", "c" }),
     ["<Esc>"] = cmp.mapping.abort(),
-    ["<C-j>"] = cmp.mapping(cmp.mapping.scroll_docs(3), { "i", "c" }),
-    ["<C-k>"] = cmp.mapping(cmp.mapping.scroll_docs(-3), { "i", "c" }),
+    ["<C-Down>"] = cmp.mapping(cmp.mapping.scroll_docs(3), { "i", "c" }),
+    ["<C-Up>"] = cmp.mapping(cmp.mapping.scroll_docs(-3), { "i", "c" }),
   },
   snippet = {
     expand = function(args)
