@@ -121,7 +121,6 @@ require("packer").startup({
         "hrsh7th/cmp-cmdline",
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-path",
-        "hrsh7th/cmp-vsnip",
         "onsails/lspkind-nvim",
       },
       config = function()
@@ -132,12 +131,13 @@ require("packer").startup({
 
     ---[[ Snippet
     use({
-      "hrsh7th/vim-vsnip",
+      "L3MON4D3/LuaSnip",
       requires = {
-        "hrsh7th/vim-vsnip-integ",
+        "saadparwaiz1/cmp_luasnip",
       },
+      rocks = { "jsregexp" },
       config = function()
-        require("config.plugins.vsnip")
+        require("config.plugins.luasnip")
       end,
     })
     ---]]
