@@ -2,6 +2,7 @@ eslint@latest
 eslint_d@latest
 npmrc@latest
 prettier@latest
+@fsouza/prettierd@latest
 typescript@latest
 yarn@latest
 zx@latest
