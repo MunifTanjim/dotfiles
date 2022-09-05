@@ -43,5 +43,5 @@ require("eslint").setup({
 })
 
 require("prettier").setup({
-  bin = "prettier",
+  bin = "prettierd",
 })
