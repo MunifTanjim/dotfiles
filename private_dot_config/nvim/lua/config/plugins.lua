@@ -57,6 +57,10 @@ require("packer").startup({
     use("chunkhang/vim-mbsync")
     use("digitaltoad/vim-pug")
     use("ekalinin/Dockerfile.vim")
+    use({
+      "Fymyte/rasi.vim",
+      ft = { "rasi" },
+    })
     use("HerringtonDarkholme/yats.vim")
     use("jparise/vim-graphql")
     use("jxnblk/vim-mdx-js")
