@@ -76,12 +76,22 @@ nnoremap <Leader>p "+p
 vnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
 vnoremap <Leader>P "+P
+" paste in visual mode keeping the yank
+xnoremap _p "_dP
 
 " make new split
 nnoremap <C-w>- :rightbelow new<CR>
 nnoremap <C-w>_ :botright new<CR>
 nnoremap <C-w>\ :rightbelow vnew<CR>
 nnoremap <C-w>\| :botright vnew<CR>
+
+" centered search navigation (`zv` mimics `foldopen=search`)
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" centered scroll
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
 
 " General Keymaps ]]]
 
