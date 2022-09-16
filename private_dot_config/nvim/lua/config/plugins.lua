@@ -170,7 +170,7 @@ require("packer").startup({
         },
       },
       config = function()
-        require("config.plugins.lsp")
+        require("config.lsp")
       end,
     })
     use({
@@ -180,19 +180,19 @@ require("packer").startup({
         "MunifTanjim/prettier.nvim",
       },
       config = function()
-        require("config.plugins.lsp.null-ls")
+        require("config.lsp.null-ls")
       end,
     })
     use({
       "kosayoda/nvim-lightbulb",
       config = function()
-        require("config.plugins.lsp.lightbulb")
+        require("config.lsp.lightbulb")
       end,
     })
     use({
       "folke/trouble.nvim",
       config = function()
-        require("config.plugins.lsp.trouble")
+        require("config.lsp.trouble")
       end,
     })
     ---]]
@@ -267,9 +267,7 @@ require("packer").startup({
         "nvim-treesitter/playground",
         "windwp/nvim-ts-autotag",
       },
-      run = function()
-        require("nvim-treesitter.install").update({ with_sync = true })
-      end,
+      run = ":TSUpdate",
       config = function()
         require("config.plugins.treesitter")
       end,

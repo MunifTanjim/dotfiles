@@ -1,3 +1,5 @@
+local u = require("config.lsp.utils")
+
 local mason_lsp = require("mason-lspconfig")
 mason_lsp.setup({
   ensure_installed = {
@@ -16,75 +18,13 @@ mason_lsp.setup({
   },
 })
 
----@param client table
----@param bufnr integer
-local function setup_document_highlight(client, bufnr)
-  local group = vim.api.nvim_create_augroup("lsp_document_highlight", {})
-
-  vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
-
-  vim.api.nvim_create_autocmd("CursorHold", {
-    buffer = bufnr,
-    group = group,
-    callback = function()
-      return require("config.lsp.custom").document_highlight(client.offset_encoding)
-    end,
-    desc = "[lsp] document highlight",
-  })
-
-  vim.api.nvim_create_autocmd("CursorMoved", {
-    buffer = bufnr,
-    group = group,
-    callback = vim.lsp.buf.clear_references,
-    desc = "[lsp] clear references",
-  })
-end
-
 local function default_on_attach(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-  local map_opts = { buffer = bufnr, silent = true }
-
-  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, map_opts)
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, map_opts)
-  vim.keymap.set("n", "K", function()
-    require("config.lsp.custom").hover(client.offset_encoding)
-  end, map_opts)
-  vim.keymap.set("n", "gi", vim.lsp.buf.implementation, map_opts)
-  vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, map_opts)
-  vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, map_opts)
-  -- vim.keymap.set("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, map_opts)
-  -- vim.keymap.set("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, map_opts)
-  -- vim.keymap.set("n", "<Leader>wl", function()
-  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  -- end, map_opts)
-  vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, map_opts)
-  -- vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, map_opts)
-  vim.keymap.set("n", "<Leader>rn", require("config.lsp.custom").rename, map_opts)
-  vim.keymap.set("n", "gr", vim.lsp.buf.references, map_opts)
-  vim.keymap.set("n", "<Leader>ac", vim.lsp.buf.code_action, map_opts)
-  vim.keymap.set("v", "<Leader>ac", vim.lsp.buf.range_code_action, map_opts)
-  vim.keymap.set("n", "<Leader>do", function()
-    vim.diagnostic.open_float({ scope = "line" })
-  end, map_opts)
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, map_opts)
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, map_opts)
-  vim.keymap.set("n", "<Leader>qf", vim.diagnostic.setloclist, map_opts)
-
-  vim.keymap.set("n", "<Leader>f", require("config.lsp.formatting").format, map_opts)
-  vim.keymap.set("x", "<Leader>f", require("config.lsp.formatting").range_format, map_opts)
-
-  if client.server_capabilities.documentHighlightProvider then
-    setup_document_highlight(client, bufnr)
-  end
-
-  vim.api.nvim_create_user_command("Format", function(params)
-    if params.range > 0 then
-      require("config.lsp.formatting").range_format()
-    else
-      require("config.lsp.formatting").format()
-    end
-  end, { desc = "format buffer content", range = "%" })
+  u.setup_basic_keymap(client, bufnr)
+  u.setup_format_keymap(client, bufnr)
+  u.setup_format_on_save(client, bufnr)
+  u.setup_document_highlight(client, bufnr)
 end
 
 local function make_config()
@@ -175,6 +115,15 @@ end
 for _, server_name in ipairs(mason_lsp.get_installed_servers()) do
   setup_server(require("lspconfig")[server_name])
 end
+
+vim.api.nvim_create_user_command("Format", function(params)
+  local format = require("config.lsp.custom").format
+  if params.range > 0 then
+    format({ range = vim.lsp.util.make_given_range_params() })
+  else
+    format()
+  end
+end, { desc = "[lsp] format content", range = "%" })
 
 vim.schedule(function()
   -- tweak lsp document_highlight hl_groups

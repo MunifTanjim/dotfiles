@@ -1,5 +1,6 @@
 local null_ls = require("null-ls")
 local helpers = require("null-ls.helpers")
+local u = require("config.lsp.utils")
 
 local clang_format = null_ls.builtins.formatting.clang_format.with({
   condition = function(utils)
@@ -29,12 +30,8 @@ null_ls.setup({
     null_ls.builtins.formatting.stylua,
   },
   on_attach = function(client, bufnr)
-    local map_opts = { buffer = bufnr, silent = true }
-
-    vim.keymap.set("n", "<Leader>f", require("config.lsp.formatting").format, map_opts)
-    vim.keymap.set("x", "<Leader>f", require("config.lsp.formatting").range_format, map_opts)
-
-    vim.cmd("autocmd BufWritePre <buffer> lua require('config.lsp.formatting').format()")
+    u.setup_format_keymap(client, bufnr)
+    u.setup_format_on_save(client, bufnr)
   end,
 })
 
