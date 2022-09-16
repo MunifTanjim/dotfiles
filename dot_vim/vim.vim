@@ -45,6 +45,7 @@ if isdirectory(fzf_root)
   Plug 'junegunn/fzf.vim'
   Plug 'stsewd/fzf-checkout.vim'
 endif
+Plug 'andymass/vim-matchup'
 Plug 'bkad/CamelCaseMotion'
 Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'javascriptreact'], 'do': 'make install' }
 Plug 'junegunn/vim-easy-align'

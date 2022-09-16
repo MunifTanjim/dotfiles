@@ -24,6 +24,7 @@ require("packer").startup({
     use("vim-airline/vim-airline")
 
     -- functionality
+    use("andymass/vim-matchup")
     use("bkad/CamelCaseMotion")
     use({
       "heavenshell/vim-jsdoc",

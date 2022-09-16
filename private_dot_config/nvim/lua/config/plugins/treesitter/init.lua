@@ -44,6 +44,10 @@ treesitter_configs.setup({
     enable = true,
     disable = { "yaml" },
   },
+  matchup = {
+    enable = true,
+    include_match_words = true,
+  },
   playground = {
     enable = true,
   },

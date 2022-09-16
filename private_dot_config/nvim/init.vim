@@ -259,6 +259,16 @@ let g:markdown_fenced_languages = ['css', 'help', 'html', 'javascript', 'js=java
 
 "" Plugin: markdown ]]]
 
+"" [[[ Plugin: matchup
+
+" disable built-in matchit.vim
+let g:loaded_matchit = 1
+
+let g:matchup_matchparen_deferred = 1
+let g:matchup_matchparen_offscreen = {}
+
+""Plugin: matchup ]]]
+
 "" [[[ Plugin: maximizer
 
 let g:maximizer_default_mapping_key = '<M-m>'
