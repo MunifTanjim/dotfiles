@@ -313,7 +313,7 @@ nnoremap <silent> <C-w><M-l> :TmuxResizeRight<CR>
 set cursorline
 set number
 set nowrap
-set scrolloff=3
+set scrolloff=5
 
 " always show the signcolumn, otherwise it would shift the text each time diagnostics appear/become resolved.
 set signcolumn=yes
