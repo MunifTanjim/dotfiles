@@ -1,3 +1,4 @@
+local u = require("config.utils")
 local telescope = require("telescope")
 
 telescope.setup({
@@ -39,13 +40,17 @@ telescope.setup({
 telescope.load_extension("fzf")
 telescope.load_extension("frecency")
 
-vim.keymap.set("n", "<Leader>fb", require("telescope.builtin").buffers)
-vim.keymap.set("n", "<Leader>ff", require("telescope.builtin").find_files)
-vim.keymap.set("n", "<Leader>fg", require("telescope.builtin").live_grep)
-vim.keymap.set("n", "<Leader>fh", require("telescope.builtin").help_tags)
-
-vim.keymap.set("n", "<Leader>fr", function()
-  require("telescope.builtin").lsp_references({ layout_strategy = "vertical" })
-end)
-
-vim.keymap.set("n", "<Leader>f;", require("telescope.builtin").resume)
+u.set_keymaps("n", {
+  { "<Leader>fb", require("telescope.builtin").buffers, "[telescope] buffers" },
+  { "<Leader>ff", require("telescope.builtin").find_files, "[telescope] files" },
+  { "<Leader>fg", require("telescope.builtin").live_grep, "[telescope] content" },
+  { "<Leader>fh", require("telescope.builtin").help_tags, "[telescope] help tags" },
+  {
+    "<Leader>fr",
+    function()
+      require("telescope.builtin").lsp_references({ layout_strategy = "vertical" })
+    end,
+    "[telescope] lsp references",
+  },
+  { "<Leader>f;", require("telescope.builtin").resume, "[telescope] resume picker" },
+})

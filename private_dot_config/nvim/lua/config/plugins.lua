@@ -217,6 +217,15 @@ require("packer").startup({
     end
 
     use({
+      -- "folke/which-key.nvim",
+      "MunifTanjim/which-key.nvim",
+      branch = "patched",
+      config = function()
+        require("config.plugins.which-key")
+      end,
+    })
+
+    use({
       "nvim-neo-tree/neo-tree.nvim",
       branch = "main",
       requires = {

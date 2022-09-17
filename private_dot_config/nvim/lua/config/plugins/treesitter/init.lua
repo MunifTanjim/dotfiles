@@ -1,3 +1,4 @@
+local u = require("config.utils")
 local treesitter_configs = require("nvim-treesitter.configs")
 
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
@@ -72,8 +73,10 @@ treesitter_configs.setup({
   },
 })
 
-vim.keymap.set("n", "<Leader>ghg", ":TSHighlightCapturesUnderCursor<CR>")
-vim.keymap.set("n", "<Leader>gtr", ":TSPlaygroundToggle<CR>")
+u.set_keymaps("n", {
+  { "<Leader>ghg", ":TSHighlightCapturesUnderCursor<CR>", "[treesitter] show hl captures" },
+  { "<Leader>gtr", ":TSPlaygroundToggle<CR>", "[treesitter] toggle playground" },
+})
 
 vim.cmd([[
   autocmd Syntax css,go,html,javascript,javascriptreact,json,python,ruby,rust,toml,typescript,typescriptreact,yaml
