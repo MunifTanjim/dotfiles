@@ -1,3 +1,4 @@
+local u = require("config.utils")
 local gitsigns = require("gitsigns")
 
 gitsigns.setup({
@@ -9,36 +10,46 @@ gitsigns.setup({
     changedelete = { text = "▎" },
   },
   on_attach = function(bufnr)
-    local function set_keymap(mode, lhs, rhs, opts)
-      opts = opts or {}
-      opts.buffer = bufnr
-      vim.keymap.set(mode, lhs, rhs, opts)
-    end
+    u.set_keymaps("n", {
+      {
+        "[c",
+        function()
+          if vim.wo.diff then
+            return "[c"
+          end
 
-    set_keymap("n", "[c", function()
-      if vim.wo.diff then
-        return "[c"
-      end
+          vim.schedule(function()
+            gitsigns.prev_hunk()
+          end)
 
-      vim.schedule(function()
-        gitsigns.prev_hunk()
-      end)
-      return "<ignore>"
-    end, { expr = true })
+          return "<ignore>"
+        end,
+        "[git] prev change",
+      },
+      {
+        "]c",
+        function()
+          if vim.wo.diff then
+            return "]c"
+          end
 
-    set_keymap("n", "]c", function()
-      if vim.wo.diff then
-        return "]c"
-      end
+          vim.schedule(function()
+            gitsigns.next_hunk()
+          end)
 
-      vim.schedule(function()
-        gitsigns.next_hunk()
-      end)
+          return "<ignore>"
+        end,
+        "[git] next change",
+      },
+    }, {
+      buffer = bufnr,
+      expr = true,
+    })
 
-      return "<ignore>"
-    end, { expr = true })
-
-    set_keymap("v", "<leader>gs", ":Gitsigns stage_hunk<cr>")
+    u.set_keymap("v", "<leader>gs", ":Gitsigns stage_hunk<cr>", {
+      buffer = bufnr,
+      desc = "[git] stage change",
+    })
   end,
 })
 

@@ -1,3 +1,4 @@
+local u = require("config.utils")
 local luasnip = require("luasnip")
 local types = require("luasnip.util.types")
 
@@ -37,30 +38,45 @@ else
   })
 end
 
-vim.keymap.set({ "i", "s" }, "<C-h>", function()
-  if luasnip.jumpable(-1) then
-    return "<Plug>luasnip-jump-prev"
-  end
+u.set_keymaps({ "i", "s" }, {
+  {
+    "<C-h>",
+    function()
+      if luasnip.jumpable(-1) then
+        return "<Plug>luasnip-jump-prev"
+      end
 
-  return "<C-h>"
-end, { desc = "[snip] jump prev", expr = true, silent = true })
+      return "<C-h>"
+    end,
+    "[snip] jump prev",
+  },
+  {
+    "<C-l>",
+    function()
+      if luasnip.expand_or_jumpable() then
+        return "<Plug>luasnip-expand-or-jump"
+      end
 
-vim.keymap.set({ "i", "s" }, "<C-l>", function()
-  if luasnip.expand_or_jumpable() then
-    return "<Plug>luasnip-expand-or-jump"
-  end
+      return "<C-l>"
+    end,
+    "[snip] expand or jump next",
+  },
+  {
+    "<C-j>",
+    function()
+      if luasnip.expandable() then
+        return "<Plug>luasnip-expand-snippet"
+      end
 
-  return "<C-l>"
-end, { desc = "[snip] expand or jump next", expr = true, silent = true })
+      if luasnip.choice_active() then
+        return "<Plug>luasnip-next-choice"
+      end
 
-vim.keymap.set({ "i", "s" }, "<C-j>", function()
-  if luasnip.expandable() then
-    return "<Plug>luasnip-expand-snippet"
-  end
-
-  if luasnip.choice_active() then
-    return "<Plug>luasnip-next-choice"
-  end
-
-  return "<C-j>"
-end, { desc = "[snip] expand or next choice", expr = true, silent = true, remap = true })
+      return "<C-j>"
+    end,
+    "[snip] expand or next choice",
+    remap = true,
+  },
+}, {
+  expr = true,
+})

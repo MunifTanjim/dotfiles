@@ -1,3 +1,5 @@
+local u = require("config.utils")
+
 require("treesitter-context").setup({
   max_lines = 3,
   trim_scope = "outer",
@@ -19,9 +21,7 @@ require("treesitter-context").setup({
   exact_patterns = {},
 })
 
-vim.keymap.set("n", "<Leader>tsc", "<cmd>TSContextToggle<CR>", {
-  desc = "[treesitter] toggle context",
-})
+u.set_keymap("n", "<Leader>tsc", "<cmd>TSContextToggle<CR>", "[treesitter] toggle context")
 
 vim.schedule(function()
   vim.api.nvim_set_hl(0, "TreesitterContext", { link = "CursorLine" })

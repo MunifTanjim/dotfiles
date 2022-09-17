@@ -1,3 +1,5 @@
+local u = require("config.utils")
+
 vim.g.neo_tree_remove_legacy_commands = true
 
 require("window-picker").setup({})
@@ -180,4 +182,4 @@ require("neo-tree").setup({
   },
 })
 
-vim.keymap.set("n", "<Leader>e", ":Neotree toggle<CR>", { silent = true })
+u.set_keymap("n", "<Leader>e", ":Neotree toggle<CR>", "toggle file tree")

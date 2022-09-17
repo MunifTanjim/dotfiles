@@ -1,3 +1,4 @@
+local u = require("config.utils")
 local dap = require("dap")
 local dap_ui = require("dapui")
 local dap_vt = require("nvim-dap-virtual-text")
@@ -86,31 +87,26 @@ dap.listeners.before.event_exited["dapui_config"] = function()
   dap_ui.close()
 end
 
-local function setup_keymaps()
-  local function opts(desc)
-    return { desc = desc, silent = true }
-  end
-
-  vim.keymap.set("n", "<Leader>db", dap.toggle_breakpoint, opts("DAP Breakpoint"))
-  vim.keymap.set("n", "<Leader>dB", function()
-    local condition = vim.fn.input("Breakpoint condition: ")
-    local hit_condition = vim.fn.input("Breakpoint hit condition: ")
-    local log_message = vim.fn.input("Breakpoint log message: ")
-    dap.set_breakpoint(condition, hit_condition, log_message)
-  end, opts("DAP Conditional Breakpoint"))
-
-  vim.keymap.set("n", "<Leader>dc", dap.continue, opts("DAP Continue"))
-  vim.keymap.set("n", "<Leader>dp", dap.pause, opts("DAP Pause"))
-  vim.keymap.set("n", "<Leader>dt", dap.terminate, opts("DAP Terminate"))
-
-  vim.keymap.set("n", "<Leader>di", dap.step_into, opts("DAP Step Into"))
-  vim.keymap.set("n", "<Leader>do", dap.step_out, opts("DAP Step Out"))
-  vim.keymap.set("n", "<Leader>dO", dap.step_over, opts("DAP Step Over"))
-  vim.keymap.set("n", "<Leader>drc", dap.run_to_cursor, opts("DAP Run to Cursor"))
-
-  vim.keymap.set("n", "<Leader>dh", dap_ui.eval, opts("DAP Eval"))
-end
-
-setup_keymaps()
+u.set_keymaps("n", {
+  { "<Leader>db", dap.toggle_breakpoint, "[dap] Breakpoint" },
+  {
+    "<Leader>dB",
+    function()
+      local condition = vim.fn.input("Breakpoint condition: ")
+      local hit_condition = vim.fn.input("Breakpoint hit condition: ")
+      local log_message = vim.fn.input("Breakpoint log message: ")
+      dap.set_breakpoint(condition, hit_condition, log_message)
+    end,
+    "[dap] Conditional Breakpoint",
+  },
+  { "<Leader>dc", dap.continue, "[dap] Continue" },
+  { "<Leader>dp", dap.pause, "[dap] Pause" },
+  { "<Leader>dt", dap.terminate, "[dap] Terminate" },
+  { "<Leader>di", dap.step_into, "[dap] Step Into" },
+  { "<Leader>do", dap.step_out, "[dap] Step Out" },
+  { "<Leader>dO", dap.step_over, "[dap] Step Over" },
+  { "<Leader>drc", dap.run_to_cursor, "[dap] Run to Cursor" },
+  { "<Leader>dh", dap_ui.eval, "[dap] Eval" },
+})
 
 require("config.plugins.dap.javascript")

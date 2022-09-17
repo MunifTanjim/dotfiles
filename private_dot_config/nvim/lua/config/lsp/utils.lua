@@ -1,3 +1,4 @@
+local u = require("config.utils")
 local custom = require("config.lsp.custom")
 
 local mod = {}
@@ -53,33 +54,36 @@ end
 ---@param client table
 ---@param bufnr integer
 function mod.setup_basic_keymap(client, bufnr)
-  local map_opts = { buffer = bufnr, silent = true }
+  local opts = { buffer = bufnr }
 
-  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, map_opts)
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, map_opts)
-  vim.keymap.set("n", "K", function()
-    custom.hover(client.offset_encoding)
-  end, map_opts)
-  vim.keymap.set("n", "gi", vim.lsp.buf.implementation, map_opts)
-  vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, map_opts)
-  vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, map_opts)
-  -- vim.keymap.set("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, map_opts)
-  -- vim.keymap.set("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, map_opts)
-  -- vim.keymap.set("n", "<Leader>wl", function()
-  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  -- end, map_opts)
-  vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, map_opts)
-  -- vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, map_opts)
-  vim.keymap.set("n", "<Leader>rn", custom.rename, map_opts)
-  vim.keymap.set("n", "gr", vim.lsp.buf.references, map_opts)
-  vim.keymap.set("n", "<Leader>ac", vim.lsp.buf.code_action, map_opts)
-  vim.keymap.set("v", "<Leader>ac", vim.lsp.buf.range_code_action, map_opts)
-  vim.keymap.set("n", "<Leader>do", function()
-    vim.diagnostic.open_float({ scope = "line" })
-  end, map_opts)
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, map_opts)
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, map_opts)
-  vim.keymap.set("n", "<Leader>qf", vim.diagnostic.setloclist, map_opts)
+  u.set_keymaps("n", {
+    { "gD", vim.lsp.buf.declaration, "[lsp] declaration" },
+    { "gd", vim.lsp.buf.definition, "[lsp] definition" },
+    {
+      "K",
+      function()
+        custom.hover(client.offset_encoding)
+      end,
+      "[lsp] hover",
+    },
+    { "gi", vim.lsp.buf.implementation, "[lsp] implementation" },
+    { "<C-k>", vim.lsp.buf.signature_help, "[lsp] signature help", mode = { "n", "i" } },
+    { "gy", vim.lsp.buf.type_definition, "[lsp] type definition" },
+    { "<Leader>rn", custom.rename, "[lsp] rename" },
+    { "gr", vim.lsp.buf.references, "[lsp] references" },
+    { "<Leader>ac", vim.lsp.buf.code_action, "[lsp] code action" },
+    { "<Leader>ac", vim.lsp.buf.range_code_action, "[lsp] range code action", mode = "v" },
+    {
+      "<Leader>do",
+      function()
+        vim.diagnostic.open_float({ scope = "line" })
+      end,
+      "[lsp] show line diagnostic",
+    },
+    { "[d", vim.diagnostic.goto_prev, "[lsp] prev diagnostic" },
+    { "]d", vim.diagnostic.goto_next, "[lsp] next diagnostic" },
+    { "<Leader>qf", vim.diagnostic.setloclist, "[lsp] diagnostic to location list" },
+  }, opts)
 end
 
 ---@param client table
@@ -89,12 +93,12 @@ function mod.setup_format_keymap(client, bufnr)
     return
   end
 
-  local map_opts = { buffer = bufnr, silent = true }
+  local opts = { buffer = bufnr }
 
-  vim.keymap.set("n", "<Leader>f", require("config.lsp.custom").format, map_opts)
+  u.set_keymap("n", "<Leader>f<Leader>", require("config.lsp.custom").format, "[lsp] format", opts)
 
   if client.server_capabilities.documentRangeFormattingProvider then
-    vim.keymap.set("x", "<Leader>f", require("config.lsp.custom").format, map_opts)
+    u.set_keymap("x", "<Leader>f<Leader>", require("config.lsp.custom").format, "[lsp] format", opts)
   end
 end
 

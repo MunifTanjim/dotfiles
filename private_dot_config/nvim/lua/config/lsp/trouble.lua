@@ -1,7 +1,9 @@
+local u = require("config.utils")
+
 require("trouble").setup({
   action_keys = {
     close = "gq",
   },
 })
 
-vim.keymap.set("n", "<Leader>xx", ":TroubleToggle<CR>", { silent = true })
+u.set_keymap("n", "<Leader>xx", ":TroubleToggle<CR>", "toggle trouble")
