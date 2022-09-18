@@ -90,6 +90,8 @@ zed load "${DOTFILES_MODULES}/zsh/plugins/rbenv" \
   onpull:'./generate.sh'
 zed load "${DOTFILES_MODULES}/rust.plugin.sh"
 
+zed load "${DOTFILES_MODULES}/machine.local.plugin.sh"
+
 # [[[ zle utilities
 function zle--change-cursor() {
   local -r style="${1}"

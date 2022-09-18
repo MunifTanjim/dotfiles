@@ -1,3 +1,4 @@
 .modules/bash/plugins/enabled/*
 .modules/temp/*
+.modules/*.local.*
 *~
