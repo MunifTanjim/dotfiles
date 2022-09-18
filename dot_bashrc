@@ -65,6 +65,8 @@ source "${DOTFILES_MODULES}/python.plugin.sh"
 source "${DOTFILES_MODULES}/ruby.plugin.sh"
 source "${DOTFILES_MODULES}/rust.plugin.sh"
 
+source "${DOTFILES_MODULES}/machine.local.plugin.sh"
+
 # {{{ appearance
 if [ -x /usr/bin/dircolors ]; then
   _dircolors_file="${DOTFILES_MODULES}/.dircolors-solarized/dircolors.256dark"
