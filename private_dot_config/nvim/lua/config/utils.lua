@@ -85,19 +85,12 @@ if has_which_key then
           which_key_maps_by_mode[map_mode] = {}
         end
 
-        local which_key_map = vim.tbl_extend("keep", { rhs, desc }, map, map_opts)
-        which_key_map.noremap = not which_key_map.remap
-        which_key_map.remap = nil
-
-        which_key_maps_by_mode[map_mode][lhs] = which_key_map
+        which_key_maps_by_mode[map_mode][lhs] = vim.tbl_extend("keep", { rhs, desc }, map, map_opts)
       end
     end
 
     for mode, which_key_maps in pairs(which_key_maps_by_mode) do
-      local opts = vim.tbl_extend("keep", { mode = mode }, fallback_opts)
-      opts.noremap = not opts.remap
-      opts.remap = nil
-      which_key.register(which_key_maps, opts)
+      which_key.register(which_key_maps, vim.tbl_extend("keep", { mode = mode }, fallback_opts))
     end
   end
 end
