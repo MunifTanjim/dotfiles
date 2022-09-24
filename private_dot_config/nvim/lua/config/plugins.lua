@@ -117,7 +117,18 @@ require("packer").startup({
     ---]]
 
     ---[[ Completion
-    use("github/copilot.vim")
+    use({
+      -- "zbirenbaum/copilot.lua",
+      "MunifTanjim/copilot.lua",
+      branch = "patched",
+      event = "InsertEnter",
+      requires = {
+        "nvim-lua/plenary.nvim",
+      },
+      config = function()
+        require("config.plugins.copilot")
+      end,
+    })
 
     use({
       "hrsh7th/nvim-cmp",
