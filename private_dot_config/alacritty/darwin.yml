@@ -80,3 +80,8 @@ key_bindings:
   - { key: Key6,      mods: Alt|Shift, chars: "\x1b^"                       } # Alt + ^
   - { key: Backslash, mods: Alt,       chars: "\x1b\\"                      } # Alt + \
   - { key: Backslash, mods: Alt|Shift, chars: "\x1b|"                       } # Alt + |
+  - { key: LBracket,  mods: Alt,       chars: "\x1b["                       } # Alt + [
+  - { key: LBracket,  mods: Alt|Shift, chars: "\x1b{"                       } # Alt + {
+  - { key: RBracket,  mods: Alt,       chars: "\x1b]"                       } # Alt + ]
+  - { key: RBracket,  mods: Alt|Shift, chars: "\x1b}"                       } # Alt + }
+  - { key: Back,      mods: Alt,       chars: "\x1b\x7f"                    } # Alt + Backspace
