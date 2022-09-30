@@ -48,19 +48,30 @@ local function setup_server(server)
   if server.name == "sumneko_lua" then
     local runtime_path = { "?.lua", "?/init.lua", "lua/?.lua", "lua/?/init.lua" }
 
-    local workspace_library = {
-      vim.fn.expand("$VIMRUNTIME/lua"),
-    }
+    local workspace_library = {}
 
-    for _, path in ipairs(vim.api.nvim_list_runtime_paths()) do
-      if string.sub(path, -12) == "lua-dev.nvim" then
-        table.insert(workspace_library, path .. "/types")
-      else
-        local lua_path = path .. "/lua"
-        if vim.fn.isdirectory(lua_path) == 1 then
-          table.insert(workspace_library, lua_path)
+    local function add_library_path(lib_path_pattern)
+      ---@diagnostic disable-next-line: param-type-mismatch
+      for _, lib_lua_path in ipairs(vim.fn.expand(lib_path_pattern .. "/lua", false, true)) do
+        lib_lua_path = vim.loop.fs_realpath(lib_lua_path)
+        if lib_lua_path then
+          local lib_dir = vim.fn.fnamemodify(lib_lua_path, ":h")
+          local lib_name = vim.fn.fnamemodify(lib_dir, ":t")
+
+          if lib_name == "lua-dev.nvim" then
+            table.insert(workspace_library, lib_dir .. "/types")
+          end
+
+          table.insert(workspace_library, lib_lua_path)
         end
       end
+    end
+
+    add_library_path("$VIMRUNTIME")
+
+    for _, packpath in ipairs(vim.split(vim.o.packpath, ",")) do
+      add_library_path(packpath .. "/pack/*/opt/*")
+      add_library_path(packpath .. "/pack/*/start/*")
     end
 
     config.settings = {
