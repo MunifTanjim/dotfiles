@@ -35,6 +35,7 @@ require("packer").startup({
       run = "make install",
     })
     use("junegunn/vim-easy-align")
+    use("powerman/vim-plugin-AnsiEsc")
     use({
       "rrethy/vim-hexokinase",
       run = "make hexokinase",
@@ -78,25 +79,13 @@ require("packer").startup({
     use("tpope/vim-markdown")
     use("vitalk/vim-shebang")
 
-    -- dashboard
-    use({
-      "goolord/alpha-nvim",
-      config = function()
-        require("config.plugins.alpha")
-      end,
-    })
-
     use("nvim-lua/plenary.nvim")
 
     use({
-      "MunifTanjim/nui.nvim",
-      config = function()
-        require("config.plugins.nui")
-      end,
-    })
-
-    use({
       "MunifTanjim/exrc.nvim",
+      requires = {
+        "MunifTanjim/nui.nvim",
+      },
       config = function()
         require("config.plugins.exrc")
       end,
@@ -227,6 +216,21 @@ require("packer").startup({
       use("stsewd/fzf-checkout.vim")
     end
 
+    -- dashboard
+    use({
+      "goolord/alpha-nvim",
+      config = function()
+        require("config.plugins.alpha")
+      end,
+    })
+
+    use({
+      "MunifTanjim/nui.nvim",
+      config = function()
+        require("config.plugins.nui")
+      end,
+    })
+
     use({
       -- "folke/which-key.nvim",
       "MunifTanjim/which-key.nvim",
@@ -322,14 +326,6 @@ require("packer").startup({
       end,
     })
     ---]]
-
-    use({
-      "luukvbaal/stabilize.nvim",
-      disable = true,
-      config = function()
-        require("config.plugins.stabilize")
-      end,
-    })
 
     if packer_fresh_install then
       require("packer").sync()

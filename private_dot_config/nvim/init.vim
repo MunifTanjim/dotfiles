@@ -22,7 +22,10 @@ set wildmenu
 set nostartofline
 set splitbelow
 set splitright
-set lazyredraw
+if exists('&splitkeep')
+  set splitkeep=screen
+endif
+
 set updatetime=1000
 
 set clipboard=unnamed
@@ -266,6 +269,8 @@ let g:loaded_matchit = 1
 
 let g:matchup_matchparen_deferred = 1
 let g:matchup_matchparen_offscreen = {}
+let g:matchup_mouse_enabled = 0
+let g:matchup_text_obj_enabled = 0
 
 ""Plugin: matchup ]]]
 
