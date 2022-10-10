@@ -46,45 +46,44 @@ local function setup_server(server)
   end
 
   if server.name == "sumneko_lua" then
-    local runtime_path = { "?.lua", "?/init.lua", "lua/?.lua", "lua/?/init.lua" }
+    local luarc = u.sumneko_lua.read_luarc()
 
-    local workspace_library = {}
+    local function get_workspace_library()
+      local workspace_library = {}
 
-    local function add_library_path(lib_path_pattern)
-      ---@diagnostic disable-next-line: param-type-mismatch
-      for _, lib_lua_path in ipairs(vim.fn.expand(lib_path_pattern .. "/lua", false, true)) do
-        lib_lua_path = vim.loop.fs_realpath(lib_lua_path)
-        if lib_lua_path then
-          local lib_dir = vim.fn.fnamemodify(lib_lua_path, ":h")
-          local lib_name = vim.fn.fnamemodify(lib_dir, ":t")
-
-          if lib_name == "lua-dev.nvim" then
-            table.insert(workspace_library, lib_dir .. "/types")
-          end
-
-          table.insert(workspace_library, lib_lua_path)
+      if luarc.workspace then
+        if luarc.workspace.library then
+          ---@diagnostic disable-next-line: missing-parameter
+          vim.list_extend(workspace_library, luarc.Lua.workspace.library)
         end
       end
-    end
 
-    add_library_path("$VIMRUNTIME")
+      if luarc.nvim then
+        table.insert(workspace_library, u.sumneko_lua.get_nvim_lib_dir("lua-dev.nvim") .. "/types")
+        ---@diagnostic disable-next-line: missing-parameter
+        vim.list_extend(workspace_library, u.sumneko_lua.get_nvim_lib_dirs(luarc.nvim.packages))
+      end
 
-    for _, packpath in ipairs(vim.split(vim.o.packpath, ",")) do
-      add_library_path(packpath .. "/pack/*/opt/*")
-      add_library_path(packpath .. "/pack/*/start/*")
+      if not luarc.workspace and not luarc.nvim then
+        table.insert(workspace_library, u.sumneko_lua.get_nvim_lib_dir("lua-dev.nvim") .. "/types")
+        ---@diagnostic disable-next-line: missing-parameter
+        vim.list_extend(workspace_library, u.sumneko_lua.get_nvim_lib_dirs())
+      end
+
+      return workspace_library
     end
 
     config.settings = {
       Lua = {
-        runtime = {
+        format = {
+          enable = false,
+        },
+        runtime = vim.tbl_deep_extend("force", {
           version = "LuaJIT",
-          path = runtime_path,
-        },
-        diagnostics = {
-          globals = { "vim" },
-        },
+          path = { "?.lua", "?/init.lua", "lua/?.lua", "lua/?/init.lua" },
+        }, luarc.runtime or {}),
         workspace = {
-          library = workspace_library,
+          library = get_workspace_library(),
           maxPreload = 10000,
           preloadFileSize = 10000,
         },
@@ -98,7 +97,14 @@ local function setup_server(server)
   if server.name == "jsonls" then
     config.settings = {
       json = {
-        schemas = require("schemastore").json.schemas(),
+        schemas = vim.list_extend({
+          {
+            description = "Setting of sumneko.lua",
+            fileMatch = { ".luarc.json" },
+            name = ".luarc.json",
+            url = "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+          },
+        }, require("schemastore").json.schemas()),
         validate = { enable = true },
       },
     }
