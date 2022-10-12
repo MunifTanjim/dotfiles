@@ -107,9 +107,7 @@ require("packer").startup({
 
     ---[[ Completion
     use({
-      -- "zbirenbaum/copilot.lua",
-      "MunifTanjim/copilot.lua",
-      branch = "patched",
+      "zbirenbaum/copilot.lua",
       event = "InsertEnter",
       requires = {
         "nvim-lua/plenary.nvim",
