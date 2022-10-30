@@ -90,7 +90,12 @@ if has_which_key then
     end
 
     for mode, which_key_maps in pairs(which_key_maps_by_mode) do
-      which_key.register(which_key_maps, vim.tbl_extend("keep", { mode = mode }, fallback_opts))
+      local opts = vim.tbl_extend("keep", { mode = mode }, fallback_opts)
+      if opts.expr then
+        opts.replace_keycodes = true
+      end
+
+      which_key.register(which_key_maps, opts)
     end
   end
 end

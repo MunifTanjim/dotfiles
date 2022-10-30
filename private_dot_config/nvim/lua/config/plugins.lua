@@ -230,9 +230,7 @@ require("packer").startup({
     })
 
     use({
-      -- "folke/which-key.nvim",
-      "MunifTanjim/which-key.nvim",
-      branch = "patched",
+      "folke/which-key.nvim",
       config = function()
         require("config.plugins.which-key")
       end,
