@@ -15,13 +15,41 @@ if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
   vim.cmd([[packadd packer.nvim]])
 end
 
+local local_git_dir = vim.fn.expand("$HOME/Dev")
+local git_host_by_provider = {
+  github = "github.com",
+}
+
 require("packer").startup({
   function(use)
+    local function use_local(spec)
+      if type(spec) == "string" then
+        spec = { spec }
+      end
+
+      local git_provider = spec.git_provider
+      if not git_provider or not git_host_by_provider[git_provider] then
+        git_provider = "github"
+      end
+
+      local plugin_path = string.format("%s/%s/%s", local_git_dir, git_provider, spec[1])
+      if vim.fn.isdirectory(spec[1]) == 0 then
+        vim.fn.system({
+          "git",
+          "clone",
+          string.format("https://%s/%s", git_host_by_provider[git_provider], spec[1]),
+          plugin_path,
+        })
+      end
+
+      spec[1] = plugin_path
+      use(spec)
+    end
+
     use("wbthomason/packer.nvim")
 
     -- appearance
     use("gruvbox-community/gruvbox")
-    use("vim-airline/vim-airline")
     use({
       "lukas-reineke/indent-blankline.nvim",
       config = function()
@@ -232,6 +260,13 @@ require("packer").startup({
       "MunifTanjim/nui.nvim",
       config = function()
         require("config.plugins.nui")
+      end,
+    })
+
+    use_local({
+      "MunifTanjim/nougat.nvim",
+      config = function()
+        require("config.plugins.nougat")
       end,
     })
 
