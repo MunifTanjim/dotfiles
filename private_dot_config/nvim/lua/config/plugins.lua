@@ -22,6 +22,12 @@ require("packer").startup({
     -- appearance
     use("gruvbox-community/gruvbox")
     use("vim-airline/vim-airline")
+    use({
+      "lukas-reineke/indent-blankline.nvim",
+      config = function()
+        require("config.plugins.indent-blankline")
+      end,
+    })
 
     -- functionality
     use("andymass/vim-matchup")
