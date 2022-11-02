@@ -31,8 +31,6 @@ setup_brew_packages() {
     $(brew --prefix ncurses)/bin/infocmp -x "${term_name}" > "/tmp/${term_name}.info"
     tic -x -o "${HOME}/.terminfo" -e "${term_name}" "/tmp/${term_name}.info"
   }
-  update_terminfo_database alacritty
-  update_terminfo_database alacritty-direct
   update_terminfo_database tmux
   update_terminfo_database tmux-256color
 
@@ -77,8 +75,6 @@ setup_brew_packages() {
   brew "grc"
   brew "jq"
   brew "lf"
-  brew "luajit", args: ["HEAD"]
-  brew "neovim", args: ["HEAD"]
   brew "openssh"
   brew "p7zip"
   brew "perl"
@@ -100,15 +96,12 @@ setup_brew_packages() {
 
   SUB_TASK "Setup Programming Language Version Managers"
   brewfile='
-  tap "rbenv/tap"
-
   brew "autoconf"
   brew "openssl@1.1"
   brew "pkg-config"
   brew "pyenv"
   brew "pyenv-virtualenv"
   brew "rbenv"
-  brew "rbenv/tap/openssl@1.0"
   brew "readline"
   brew "ruby-build"
   brew "sqlite"
@@ -116,6 +109,15 @@ setup_brew_packages() {
   brew "zlib"
   '
   brew_bundle
+
+  if ! is_arm64; then
+    brewfile='
+    tap "rbenv/tap"
+
+    brew "rbenv/tap/openssl@1.0"
+    '
+    brew_bundle
+  fi
 
   SUB_TASK "Setup Desktop Apps"
   brewfile='
@@ -128,6 +130,7 @@ setup_brew_packages() {
   cask "keybase"
   cask "megasync"
   cask "postman"
+  cask "stats"
   cask "visual-studio-code"
   cask "vlc"
   '
@@ -158,8 +161,15 @@ run_setup_scripts() {
     setup-zed
 
     setup-fzf
-    setup-rust
   )
+
+  if ! command_exists rustup; then
+    SETUP_SCRIPTS+=(setup-rust)
+  fi
+
+  if ! command_exists nvim; then
+    SETUP_SCRIPTS+=(setup-neovim)
+  fi
 
   for script in "${SETUP_SCRIPTS[@]}"; do
     echo ""

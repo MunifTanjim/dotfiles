@@ -73,7 +73,8 @@ zed load github.com/zpm-zsh/ls
 zed load "${DOTFILES_MODULES}/aliases.sh"
 zed load "${DOTFILES_MODULES}/helpers.sh"
 {{ if eq .chezmoi.os "darwin" -}}
-  zed load "${DOTFILES_MODULES}/os.darwin.plugin.sh"
+  zed load "${DOTFILES_MODULES}/zsh/plugins/os.darwin" \
+    onpull:'./generate.sh'
 {{ end -}}
 zed load "${DOTFILES_MODULES}/gpg.plugin.sh"
 

@@ -43,6 +43,10 @@ is_linux() {
   [[ $OSTYPE = linux* ]]
 }
 
+is_arm64() {
+  test "$(uname -m)" = "arm64" 
+}
+
 is_github_codespace() {
   local -r bool="$(chezmoi execute-template '{{ get .meta.is "github_codespace" }}')"
   test "${bool}" = "true"

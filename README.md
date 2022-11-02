@@ -15,11 +15,15 @@ chezmoi apply
 
 ### macOS Notes
 
-**Install `python<3.7` with `openssl@1.0`**:
+#### Build with `openssl@1.0`
+
+Run shell in a clean environment with `DARWIN_OPENSSL_VERSION=1.0`. For example:
 
 ```sh
 env DARWIN_OPENSSL_VERSION=1.0 zsh -i -c 'PYTHON_BUILD_HOMEBREW_OPENSSL_FORMULA=openssl@1.0 pyenv install <version>'
 ```
+
+_**NOTE**: Not supported on ARM64 (Apple Silicon)._
 
 ## Resources
 
