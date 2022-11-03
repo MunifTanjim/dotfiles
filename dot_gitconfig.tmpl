@@ -80,8 +80,10 @@
   helper = {{ if .meta.is.headless_machine -}} store {{- else if eq .chezmoi.os "darwin" -}} osxkeychain {{- else -}} /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret {{- end }}
 [credential "https://github.com"]
   username = MunifTanjim
+  helper = !gh auth git-credential
 [credential "https://gist.github.com"]
   username = MunifTanjim
+  helper = !gh auth git-credential
 [credential "https://bitbucket.org"]
   username = MunifTanjim
 [credential "https://gitlab.com"]
