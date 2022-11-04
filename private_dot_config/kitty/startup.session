@@ -1,0 +1,3 @@
+new_tab TMUX
+
+launch zsh -l -c "tmux attach || tmux"
