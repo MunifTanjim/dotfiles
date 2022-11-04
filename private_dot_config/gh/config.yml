@@ -8,4 +8,5 @@ prompt: enabled
 pager:
 # Aliases allow you to create nicknames for gh commands
 aliases:
-    whoami: '!gh api graphql -f query="query{viewer{login}}" --jq ".data.viewer.login" | cat'
+  whoami: '!gh api graphql -f query="query{viewer{login}}" --jq ".data.viewer.login" | cat'
+  clone: '!gh-clone ${@}'
