@@ -1,7 +1,7 @@
 local color = require("config.color")
 local core = require("nui.bar.core")
 local Bar = require("nougat.bar")
-local statusline = require("nougat.statusline")
+local bar_util = require("nougat.bar.util")
 local Item = require("nougat.item")
 local sep = require("nougat.separator")
 local nut = {
@@ -75,6 +75,7 @@ stl:add_item(nut.git.branch({
   prefix = "  ",
   suffix = " ",
 }))
+stl:add_item(core.truncation_point())
 stl:add_item(nut.buf.filename({
   prefix = " ",
   suffix = " ",
@@ -143,6 +144,7 @@ stl:add_item(nut.ruler({
 
 local stl_inactive = Bar("statusline")
 stl_inactive:add_item(mode)
+stl_inactive:add_item(core.truncation_point())
 stl_inactive:add_item(nut.buf.filename({
   prefix = " ",
   suffix = " ",
@@ -200,10 +202,14 @@ local stl_neotree = Bar("statusline")
 stl_neotree:add_item(hidden_mode)
 stl_neotree:add_item(filetype_mode)
 
-statusline.set_global(function(ctx)
+bar_util.set_statusline(function(ctx)
   return ctx.is_focused and stl or stl_inactive
 end)
 
-statusline.set_by_filetype("fugitive", stl_fugitive)
-statusline.set_by_filetype("help", stl_help)
-statusline.set_by_filetype("neo-tree", stl_neotree)
+for ft, stl_ft in pairs({
+  fugitive = stl_fugitive,
+  help = stl_help,
+  ["neo-tree"] = stl_neotree,
+}) do
+  bar_util.set_statusline(stl_ft, { filetype = ft })
+end
