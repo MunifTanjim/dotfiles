@@ -12,17 +12,17 @@ discharging_symbol = ''
 format = '[$symbol\[$percentage\]]($style) '
 
 [[battery.display]]
-style = 'bold red'
+style = 'bold bright-red'
 threshold = 15
 
 [[battery.display]]
-style = 'bold yellow'
+style = 'bold bright-yellow'
 threshold = 30
 
 [character]
-error_symbol = '[❯](bold red)'
-success_symbol = '[❯](bold green)'
-vicmd_symbol = '[❮](bold green)'
+error_symbol = '[❯](bold bright-red)'
+success_symbol = '[❯](bold bright-green)'
+vicmd_symbol = '[❮](bold bright-green)'
 
 [cmake]
 disabled = true
@@ -42,7 +42,7 @@ disabled = true
 symbol = ' '
 
 [directory]
-format = '[$read_only](red)[$path](bold cyan) '
+format = '[$read_only](red)[$path](bold bright-cyan) '
 read_only = ' '
 truncation_symbol = '…/'
 
@@ -73,16 +73,16 @@ symbol = ' '
 format = '[( $branch )](bold bright-purple)'
 
 [git_commit]
-format = '[( $hash)](bold blue)[($tag) ](bold green)'
+format = '[( $hash)](bold bright-blue)[($tag) ](bold bright-green)'
 commit_hash_length = 8
 tag_disabled = false
 tag_symbol = ' '
 
 [git_state]
-format = '[($state\($progress_current/$progress_total\) )](bold red)'
+format = '[($state\($progress_current/$progress_total\) )](bold bright-red)'
 
 [git_status]
-format = '[(\[$all_status$ahead_behind\] )](bold yellow)'
+format = '[(\[$all_status$ahead_behind\] )](bold bright-yellow)'
 conflicted = '=${count}'
 ahead = '⇡${count}'
 behind = '⇣${count}'
@@ -173,7 +173,7 @@ disabled = true
 
 [status]
 disabled = false
-format = '[${status}](bold red) '
+format = '[${status}](bold bright-red) '
 
 [swift]
 disabled = true
