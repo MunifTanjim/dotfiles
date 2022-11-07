@@ -78,32 +78,6 @@ install_apt_packages() {
   apt_install "${APT_PACKAGES[@]}"
 }
 
-install_snap_packages() {
-  if ! command_exists snap; then
-    echo_warn "skipping install_snap_packages"
-    return 0
-  fi
-
-  TASK "Install Snap Packages"
-
-  snap_install() {
-    SUB_TASK "snap install $*"
-    snap install $@
-  }
-
-  declare SNAP_PACKAGES=()
-
-  if should_include_secrets; then
-    if ! is_headless_machine; then
-      SNAP_PACKAGES+=("--beta authy")
-    fi
-  fi
-
-  for package in "${SNAP_PACKAGES[@]}"; do
-    snap_install ${package}
-  done
-}
-
 run_setup_scripts() {
   TASK "Run Setup Scripts"
 
@@ -210,6 +184,5 @@ ensure_linux
 ask_sudo
 
 install_apt_packages
-install_snap_packages
 run_setup_scripts
 create_necessary_directories
