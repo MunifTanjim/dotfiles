@@ -44,7 +44,8 @@ is_linux() {
 }
 
 is_arm64() {
-  test "$(uname -m)" = "arm64" 
+  local -r arch="$(uname -m)"
+  test "${arch}" = "arm64" || test "${arch}" = "aarch64"
 }
 
 is_github_codespace() {

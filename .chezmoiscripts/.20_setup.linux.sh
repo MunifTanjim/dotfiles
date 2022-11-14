@@ -52,16 +52,20 @@ install_apt_packages() {
     libsecret-tools
     moreutils
     neofetch
-    rar
     shellcheck
     translate-shell
     tree
     unrar
+    unzip
     vim
     xclip
     xsel
     zsh
   )
+
+  if ! is_arm64; then
+    APT_PACKAGES+=(rar)
+  fi
 
   if ! is_headless_machine; then
     APT_PACKAGES+=(dconf-cli dconf-editor)
@@ -96,7 +100,10 @@ run_setup_scripts() {
 
     SETUP_SCRIPTS+=(setup-gh)
     SETUP_SCRIPTS+=(setup-git-credential-libsecret)
-    SETUP_SCRIPTS+=(setup-golang)
+
+    if ! command_exists go; then
+      SETUP_SCRIPTS+=(setup-golang)
+    fi
 
     if ! command_exists rustup; then
       SETUP_SCRIPTS+=(setup-rust)
@@ -129,6 +136,9 @@ run_setup_scripts() {
     fi
     if ! command_exists code; then
       SETUP_SCRIPTS+=(setup-vscode)
+    fi
+    if ! command_exists kitty; then
+      SETUP_SCRIPTS+=(setup-kitty)
     fi
     if ! command_exists postman; then
       SETUP_SCRIPTS+=(setup-postman)
