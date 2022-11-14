@@ -67,8 +67,8 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 # Automatically quit printer app once the print jobs complete
 defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
-# Disable the “Are you sure you want to open this application?” dialog
-defaults write com.apple.LaunchServices LSQuarantine -bool false
+# (noop since Big Sur) Disable the “Are you sure you want to open this application?” dialog
+# defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 # Remove duplicates in the “Open With” menu (also see `lscleanup` alias)
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
@@ -106,6 +106,9 @@ defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 
 # Disable auto-correct
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+# Allow apps downloaded from anywhere
+sudo spctl --master-disable
 
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
@@ -156,6 +159,10 @@ sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bo
 
 # Set the timezone; see `sudo systemsetup -listtimezones` for other values
 sudo systemsetup -settimezone "Asia/Dhaka" > /dev/null
+
+### Keyboard Shortcuts
+## CMD(@) SHIFT($) ATL(~) CTRL(^)
+defaults write com.google.Chrome NSUserKeyEquivalents -dict-add "Bookmark This Tab..." -string "^d"
 
 ###############################################################################
 # Energy saving                                                               #
@@ -377,27 +384,27 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 ###############################################################################
 
 # Change indexing order and disable some search results
-defaults write com.apple.spotlight orderedItems -array \
-  '{"enabled" = 1;"name" = "APPLICATIONS";}' \
+defaults write com.apple.Spotlight orderedItems -array \
+  '{"enabled" = 1;"name" = APPLICATIONS;}' \
   '{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
-  '{"enabled" = 1;"name" = "DIRECTORIES";}' \
-  '{"enabled" = 0;"name" = "BOOKMARKS";}' \
-  '{"enabled" = 0;"name" = "CONTACT";}' \
-  '{"enabled" = 0;"name" = "DOCUMENTS";}' \
+  '{"enabled" = 1;"name" = DIRECTORIES;}' \
+  '{"enabled" = 0;"name" = BOOKMARKS;}' \
+  '{"enabled" = 0;"name" = CONTACT;}' \
+  '{"enabled" = 0;"name" = DOCUMENTS;}' \
   '{"enabled" = 0;"name" = "EVENT_TODO";}' \
-  '{"enabled" = 0;"name" = "FONTS";}' \
-  '{"enabled" = 0;"name" = "IMAGES";}' \
+  '{"enabled" = 0;"name" = FONTS;}' \
+  '{"enabled" = 0;"name" = IMAGES;}' \
   '{"enabled" = 0;"name" = "MENU_CONVERSION";}' \
   '{"enabled" = 0;"name" = "MENU_DEFINITION";}' \
   '{"enabled" = 0;"name" = "MENU_EXPRESSION";}' \
   '{"enabled" = 0;"name" = "MENU_OTHER";}' \
   '{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}' \
-  '{"enabled" = 0;"name" = "MESSAGES";}' \
-  '{"enabled" = 0;"name" = "MOVIES";}' \
-  '{"enabled" = 0;"name" = "MUSIC";}' \
-  '{"enabled" = 0;"name" = "PDF";}' \
-  '{"enabled" = 0;"name" = "PRESENTATIONS";}' \
-  '{"enabled" = 0;"name" = "SPREADSHEETS";}'
+  '{"enabled" = 0;"name" = MESSAGES;}' \
+  '{"enabled" = 0;"name" = MOVIES;}' \
+  '{"enabled" = 0;"name" = MUSIC;}' \
+  '{"enabled" = 0;"name" = PDF;}' \
+  '{"enabled" = 0;"name" = PRESENTATIONS;}' \
+  '{"enabled" = 0;"name" = SPREADSHEETS;}'
 
 ###############################################################################
 # Terminal & iTerm 2                                                          #
@@ -484,7 +491,7 @@ defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
 defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
 
 # Automatically download apps purchased on other Macs
-defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
+# defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
 
 # Turn on app auto-update
 defaults write com.apple.commerce AutoUpdate -bool true
@@ -523,10 +530,6 @@ defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -boo
 # Disable the all too sensitive backswipe on Magic Mouse
 defaults write com.google.Chrome AppleEnableMouseSwipeNavigateWithScrolls -bool false
 defaults write com.google.Chrome.canary AppleEnableMouseSwipeNavigateWithScrolls -bool false
-
-# Use the system-native print preview dialog
-defaults write com.google.Chrome DisablePrintPreview -bool true
-defaults write com.google.Chrome.canary DisablePrintPreview -bool true
 
 # Expand the print dialog by default
 defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true
