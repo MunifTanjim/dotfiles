@@ -136,4 +136,6 @@ end
 local color = get_gruvbox()
 color.dark.bg = color.dark.bg0_h
 
+color.gruvbox = get_gruvbox
+
 return color

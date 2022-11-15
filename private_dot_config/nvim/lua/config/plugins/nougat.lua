@@ -39,33 +39,29 @@ local mode = nut.mode({
   config = {
     highlight = {
       normal = {
-        bg = "fg",
-        fg = "bg",
+        fg = color.dark.bg,
       },
       visual = {
         bg = color.dark.orange,
-        fg = "bg",
+        fg = color.dark.bg,
       },
       insert = {
         bg = color.dark.blue,
-        fg = "bg",
+        fg = color.dark.bg,
       },
       replace = {
         bg = color.dark.purple,
-        fg = "bg",
+        fg = color.dark.bg,
       },
       commandline = {
         bg = color.dark.green,
-        fg = "bg",
+        fg = color.dark.bg,
       },
       terminal = {
         bg = color.dark.accent.green,
-        fg = "bg",
+        fg = color.dark.bg,
       },
-      inactive = {
-        bg = "fg",
-        fg = "bg",
-      },
+      inactive = {},
     },
   },
 })

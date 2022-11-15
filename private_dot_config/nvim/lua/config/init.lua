@@ -1,78 +1,100 @@
+local color = require("config.color").dark
+
+local highlights = {
+  Search = { bg = color.yellow, fg = color.bg },
+  IncSearch = { bg = color.orange, fg = color.bg },
+
+  StatusLine = { bg = color.bg2, fg = color.fg1 },
+  StatusLineNC = { bg = color.bg1, fg = color.fg4 },
+
+  Error = { bg = color.red, bold = true },
+
+  DiffDelete = { bg = color.red, fg = color.bg0 },
+  DiffAdd = { bg = color.green, fg = color.bg0 },
+  DiffChange = { bg = color.aqua, fg = color.bg0 },
+  DiffText = { bg = color.yellow, fg = color.bg0 },
+
+  --[[ treesitter ]]
+  ["@annotation"] = { link = "PreProc" },
+  ["@attribute"] = { link = "PreProc" },
+  ["@boolean"] = { link = "Boolean" },
+  ["@character"] = { link = "Character" },
+  ["@comment"] = { link = "Comment" },
+  ["@conditional"] = { link = "Conditional" },
+  ["@constant"] = { link = "Constant" },
+  ["@constant.builtin"] = { link = "Constant" },
+  ["@constant.macro"] = { link = "Constant" },
+  ["@constructor"] = { link = "Special" },
+  ["@error"] = { fg = color.red, undercurl = true },
+  ["@exception"] = { link = "Exception" },
+  ["@field"] = { link = "Identifier" },
+  ["@float"] = { link = "Float" },
+  ["@function"] = { link = "Function" },
+  ["@function.builtin"] = { link = "Function" },
+  ["@function.macro"] = { link = "Macro" },
+  ["@include"] = { link = "Include" },
+  ["@keyword"] = { fg = color.red },
+  ["@keyword.function"] = { fg = color.aqua },
+  ["@keyword.operator"] = { link = "@operator" },
+  ["@label"] = { link = "Label" },
+  ["@method"] = { link = "Function" },
+  ["@method.call"] = { link = "@method" },
+  ["@namespace"] = { link = "Include" },
+  -- ["@none"] = { link = nil },
+  ["@number"] = { link = "Number" },
+  ["@operator"] = { link = "Operator" },
+  ["@parameter"] = { link = "Identifier" },
+  ["@parameter.reference"] = { link = "@parameter" },
+  ["@property"] = { fg = color.blue },
+  ["@punctuation.bracket"] = { fg = color.fg3 },
+  ["@punctuation.delimiter"] = { fg = color.fg3 },
+  ["@punctuation.special"] = { fg = color.orange },
+  ["@repeat"] = { link = "Repeat" },
+  ["@string"] = { link = "String" },
+  ["@string.regex"] = { link = "String" },
+  ["@string.escape"] = { link = "SpecialChar" },
+  ["@string.special"] = { link = "SpecialChar" },
+  ["@symbol"] = { link = "Identifier" },
+  ["@tag"] = { fg = color.green },
+  ["@tag.attribute"] = { link = "@property" },
+  ["@tag.delimiter"] = { link = "@punctuation.delimiter" },
+  -- ["@text"] = { link = nil },
+  ["@text.strong"] = { cterm = { bold = true }, bold = true },
+  ["@text.emphasis"] = { cterm = { italic = true }, italic = true },
+  ["@text.underline"] = { cterm = { underline = true }, underline = true },
+  ["@text.strike"] = { cterm = { strikethrough = true }, strikethrough = true },
+  ["@text.title"] = { link = "Title" },
+  ["@text.literal"] = { link = "String" },
+  ["@text.uri"] = { link = "Underlined" },
+  ["@text.math"] = { link = "Special" },
+  ["@text.reference"] = { link = "Constant" },
+  ["@text.environment"] = { link = "Macro" },
+  ["@text.environment.name"] = { link = "Type" },
+  ["@text.note"] = { link = "SpecialComment" },
+  ["@text.warning"] = { link = "WarningMsg" },
+  ["@text.danger"] = { link = "ErrorMsg" },
+  ["@type"] = { fg = color.aqua },
+  ["@type.builtin"] = { link = "Type" },
+  ["@variable"] = { fg = color.fg1 },
+  ["@variable.builtin"] = { link = "Identifier" },
+}
+
 local function appearance_settings()
   -- enable truecolor
   if vim.fn.has("termguicolors") then
     vim.go.termguicolors = true
   end
 
-  -- treesitter
-  vim.schedule(function()
-    vim.cmd([[
-      hi! link @annotation PreProc
-      hi! link @attribute PreProc
-      hi! link @boolean Boolean
-      hi! link @character Character
-      hi! link @comment Comment
-      hi! link @conditional Conditional
-      hi! link @constant Constant
-      hi! link @constant.builtin Constant
-      hi! link @constant.macro Constant
-      hi! link @constructor Special
-      hi! link @error GruvboxRedUnderline
-      hi! link @exception Exception
-      hi! link @field Identifier
-      hi! link @float Float
-      hi! link @function Function
-      hi! link @function.builtin Function
-      hi! link @function.macro Macro
-      hi! link @include Include
-      hi! link @keyword GruvboxRed
-      hi! link @keyword.function GruvboxAqua
-      hi! link @keyword.operator @operator
-      hi! link @label Label
-      hi! link @method Function
-      hi! link @method.call @method
-      hi! link @namespace Include
-      " hi! link @none
-      hi! link @number Number
-      hi! link @operator Operator
-      hi! link @parameter Identifier
-      hi! link @parameter.reference @parameter
-      hi! link @property GruvboxBlue
-      hi! link @punctuation.bracket GruvboxFg3
-      hi! link @punctuation.delimiter GruvboxFg3
-      hi! link @punctuation.special GruvboxOrange
-      hi! link @repeat Repeat
-      hi! link @string String
-      hi! link @string.regex String
-      hi! link @string.escape SpecialChar
-      hi! link @string.special SpecialChar
-      hi! link @symbol Identifier
-      hi! link @tag GruvboxGreen
-      hi! link @tag.attribute @property
-      hi! link @tag.delimiter @punctuation.delimiter
-      " hi! link @text
-      hi! @text.strong term=bold cterm=bold gui=bold
-      hi! @text.emphasis term=italic cterm=italic gui=italic
-      hi! @text.underline term=underline cterm=underline gui=underline
-      hi! @text.strike term=strikethrough cterm=strikethrough gui=strikethrough
-      hi! link @text.title Title
-      hi! link @text.literal String
-      hi! link @text.uri Underlined
-      hi! link @text.math Special
-      hi! link @text.reference Constant
-      hi! link @text.environment Macro
-      hi! link @text.environment.name Type
-      hi! link @text.note SpecialComment
-      hi! link @text.warning WarningMsg
-      hi! link @text.danger ErrorMsg
-      hi! link @type GruvboxAqua
-      hi! link @type.builtin Type
-      hi! link @variable GruvboxFg1
-      hi! link @variable.builtin Identifier
-    ]])
-  end)
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    group = vim.api.nvim_create_augroup("colorscheme_override", { clear = true }),
+    callback = function()
+      for name, hl in pairs(highlights) do
+        vim.api.nvim_set_hl(0, name, hl)
+      end
+    end,
+  })
 end
 
-require("config.plugins")
-
 appearance_settings()
+
+require("config.plugins")
