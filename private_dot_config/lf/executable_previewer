@@ -2,35 +2,71 @@
 
 set -euf
 
+declare ft
+declare f="${1}"
+declare w="${2}"
+declare h="${3}"
+declare x="${4}"
+declare y="${5}"
+
 command_exists() {
   type "${1}" >/dev/null 2>&1
 }
 
-case "$1" in
+has_kitty_protocol() {
+  test -z "${TMUX:-}" && test -n "${KITTY_PID:-}"
+}
+
+preview_image() {
+  if has_kitty_protocol; then
+    kitty +kitten icat --silent --transfer-mode file --place "${w}x${h}@${x}x${y}" "${f}"
+    exit 1
+  fi
+
+  case "${f}" in
+    *.jpg|*.jpeg|*.png)
+      if command_exists chafa; then
+        chafa --colors=256 "${f}"
+      elif command_exists viu; then
+        echo viu -w "${w}" "${f}"
+      fi
+    ;;
+  esac
+}
+
+preview_video() {
+  echo "Not Implemented!"
+  # if has_kitty_protocol; then
+  #   kitty +icat --silent --transfer-mode file --place "${w}x${h}@${x}x${y}" "$(thumbnailer "$f")"
+  #   exit 1
+  # fi
+}
+
+case "${f}" in
   *.tar*)
-    tar tf "$1"
+    tar tf "${f}"
     ;;
   *.zip)
-    unzip -l "$1"
+    unzip -l "${f}"
     ;;
   *.rar)
-    unrar l "$1"
+    unrar l "${f}"
     ;;
   *.7z)
-    7z l "$1"
+    7z l "${f}"
     ;;
   *.pdf)
-    pdftotext "$1" -
-    ;;
-  *.jpg|*.jpeg|*.png)
-    if command_exists chafa; then
-      chafa --colors=256 "$1"
-    elif command_exists viu; then
-      viu -w "$2" "$1"
-    fi
+    pdftotext "${f}" -
     ;;
   *)
-    unset COLORTERM
-    bat --color=always --line-range=0:"$2" --paging=never --plain "$1"
+    ft="$(file -Lb --mime-type "$f")"
+    if [[ "${ft}" =~ ^image ]]; then
+      preview_image
+    elif [[ "${ft}" =~ ^video ]]; then
+      preview_video
+    else
+      unset COLORTERM
+      bat --color=always --line-range=0:"${w}" --paging=never --plain "${f}"
+    fi
     ;;
 esac

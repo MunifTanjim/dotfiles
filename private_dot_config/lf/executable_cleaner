@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -eu
+
+has_kitty_protocol() {
+  test -z "${TMUX:-}" && test -n "${KITTY_PID:-}"
+}
+
+if has_kitty_protocol; then
+  kitty +kitten icat --clear --silent --transfer-mode file
+fi

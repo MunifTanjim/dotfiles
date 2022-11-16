@@ -128,6 +128,13 @@ cmd q :quit
 set previewer "~/.config/lf/previewer"
 map i $~/.config/lf/previewer "$f" | less -R
 
+# set cleaner for supported environment
+${{
+  if test -z "${TMUX:-}" && test -n "${KITTY_PID:-}"; then
+    lf -remote "send $id set cleaner '~/.config/lf/cleaner'"
+  fi
+}}
+
 set mouse
 map <m-down> down
 map <m-up> up
