@@ -365,6 +365,13 @@ require("packer").startup({
     })
     ---]]
 
+    use({
+      "Eandrju/cellular-automaton.nvim",
+      config = function()
+        require("config.plugins.cellular-automaton")
+      end,
+    })
+
     if packer_fresh_install then
       require("packer").sync()
     end
