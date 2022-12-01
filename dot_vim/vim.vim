@@ -273,10 +273,10 @@ if has('termguicolors')
   set termguicolors
 endif
 
-" setup cursor shapes
-let &t_SI = "\e[6 q"
-let &t_SR = "\e[4 q"
-let &t_EI = "\e[2 q"
+" setup cursor shapes (blink_on[5,3,1], blink_off[6,4,2])
+let &t_SI = "\e[5 q"
+let &t_SR = "\e[3 q"
+let &t_EI = "\e[1 q"
 
 " fold settings
 autocmd Syntax javascript,json,typescript setlocal foldmethod=syntax

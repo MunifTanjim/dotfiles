@@ -79,11 +79,35 @@ local highlights = {
   ["@variable.builtin"] = { link = "Identifier" },
 }
 
+local guicursor = {
+  blink_off = table.concat({
+    "n-v-c-sm:block",
+    "i-ci-ve:ver25",
+    "r-cr-o:hor20",
+  }, ","),
+  blink_on = table.concat({
+    "n-v-c-sm:block-blinkon1",
+    "i-ci-ve:ver25-blinkon1",
+    "r-cr-o:hor20-blinkon1",
+  }, ","),
+}
+
 local function appearance_settings()
   -- enable truecolor
   if vim.fn.has("termguicolors") then
     vim.go.termguicolors = true
   end
+
+  vim.go.guicursor = guicursor.blink_on
+  vim.api.nvim_create_user_command("ToggleCursorBlink", function()
+    if vim.go.guicursor ~= guicursor.blink_off then
+      vim.go.guicursor = guicursor.blink_off
+    else
+      vim.go.guicursor = guicursor.blink_on
+    end
+  end, {
+    desc = "[gui] toggle cursor blink",
+  })
 
   vim.api.nvim_create_autocmd("ColorScheme", {
     group = vim.api.nvim_create_augroup("colorscheme_override", { clear = true }),
