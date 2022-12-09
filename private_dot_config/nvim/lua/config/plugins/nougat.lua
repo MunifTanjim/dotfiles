@@ -31,7 +31,10 @@ vim.o.rulerformat = table.concat({
   core.code("v"),
 })
 
-local stl = Bar("statusline")
+local breakpoint = { l = 1, m = 2, s = 3 }
+local breakpoints = { [breakpoint.l] = math.huge, [breakpoint.m] = 128, [breakpoint.s] = 80 }
+
+local stl = Bar("statusline", { breakpoints = breakpoints })
 
 local mode = nut.mode({
   prefix = " ",
@@ -66,16 +69,26 @@ local mode = nut.mode({
   },
 })
 stl:add_item(mode)
+stl:add_item(core.truncation_point())
 stl:add_item(nut.git.branch({
   hl = { bg = color.dark.bg3, fg = color.dark.fg1 },
-  prefix = "  ",
+  prefix = { "  ", " " },
   suffix = " ",
 }))
-stl:add_item(core.truncation_point())
 stl:add_item(nut.buf.filename({
   prefix = " ",
   suffix = " ",
+  config = {
+    modifier = ":.",
+    [breakpoint.m] = {
+      format = function(name)
+        return table.concat({ vim.fn.pathshorten(vim.fn.fnamemodify(name, ":h")), "/", vim.fn.fnamemodify(name, ":t") })
+      end,
+    },
+    [breakpoint.s] = { modifier = ":t", format = false },
+  },
 }))
+stl:add_item(core.truncation_point())
 stl:add_item(nut.spacer())
 stl:add_item(nut.buf.filetype({
   prefix = " ",
@@ -83,7 +96,7 @@ stl:add_item(nut.buf.filetype({
 }))
 stl:add_item(nut.buf.diagnostic_count({
   hidden = function(item, ctx)
-    return item.cache[ctx.bufnr][item.config.severity] == 0
+    return item.cache[ctx.bufnr][item:config(ctx).severity] == 0
   end,
   hl = { bg = color.dark.bg3 },
   prefix = " ",
