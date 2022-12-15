@@ -6,14 +6,16 @@ CHEZMOI_SOURCE="$(chezmoi source-path)"
 source "${CHEZMOI_SOURCE}/.chezmoiscripts/.00_helpers.sh"
 
 ensure_command_line_tools() {
-  if ! xcode-select -p >/dev/null 2>&1; then
+  if ! xcode-select -p >/dev/null 2>&1 || ! test -f "$(xcode-select -p)/usr/bin/git"; then
     echo "installing command line tools"
     xcode-select --install
   fi
 
   if is_arm64; then
-    echo "installing rosetta"
-    /usr/sbin/softwareupdate --install-rosetta --agree-to-license
+    if ! arch -x86_64 /usr/bin/true 2>/dev/null; then
+      echo "installing rosetta"
+      /usr/sbin/softwareupdate --install-rosetta --agree-to-license
+    fi
   fi
 }
 
