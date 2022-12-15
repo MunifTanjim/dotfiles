@@ -73,6 +73,7 @@ setup_brew_packages() {
   brew "gnupg"
   brew "go"
   brew "grc"
+  brew "imagemagick"
   brew "jq"
   brew "lf"
   brew "openssh"
