@@ -10,11 +10,21 @@ local nut = {
     fileencoding = require("nougat.nut.buf.fileencoding").create,
     fileformat = require("nougat.nut.buf.fileformat").create,
     filename = require("nougat.nut.buf.filename").create,
+    filestatus = require("nougat.nut.buf.filestatus").create,
     filetype = require("nougat.nut.buf.filetype").create,
     wordcount = require("nougat.nut.buf.wordcount").create,
   },
   git = {
     branch = require("nougat.nut.git.branch").create,
+  },
+  tab = {
+    tablist = {
+      tabs = require("nougat.nut.tab.tablist").create,
+      close = require("nougat.nut.tab.tablist.close").create,
+      icon = require("nougat.nut.tab.tablist.icon").create,
+      label = require("nougat.nut.tab.tablist.label").create,
+      modified = require("nougat.nut.tab.tablist.modified").create,
+    },
   },
   mode = require("nougat.nut.mode").create,
   ruler = require("nougat.nut.ruler").create,
@@ -75,6 +85,16 @@ stl:add_item(nut.git.branch({
   prefix = { "  ", " " },
   suffix = " ",
 }))
+local filestatus = nut.buf.filestatus({
+  prefix = " ",
+  config = {
+    modified = "",
+    nomodifiable = "",
+    readonly = "",
+    sep = " ",
+  },
+})
+stl:add_item(filestatus)
 stl:add_item(nut.buf.filename({
   prefix = " ",
   suffix = " ",
@@ -154,6 +174,7 @@ stl:add_item(nut.ruler({
 local stl_inactive = Bar("statusline")
 stl_inactive:add_item(mode)
 stl_inactive:add_item(core.truncation_point())
+stl_inactive:add_item(filestatus)
 stl_inactive:add_item(nut.buf.filename({
   prefix = " ",
   suffix = " ",
@@ -222,3 +243,38 @@ for ft, stl_ft in pairs({
 }) do
   bar_util.set_statusline(stl_ft, { filetype = ft })
 end
+
+local tal = Bar("tabline")
+
+tal:add_item(nut.tab.tablist.tabs({
+  active_tab = {
+    hl = { bg = color.dark.bg0_h, fg = color.dark.fg0 },
+    sep_left = {
+      hl = { bg = color.dark.bg0_h, fg = color.dark.blue },
+      content = "▎",
+    },
+    suffix = " ",
+    content = {
+      nut.tab.tablist.icon({ suffix = " " }),
+      nut.tab.tablist.label({}),
+      nut.tab.tablist.modified({ prefix = " ", config = { text = "" } }),
+      nut.tab.tablist.close({ prefix = " " }),
+    },
+  },
+  inactive_tab = {
+    hl = { bg = color.dark.bg2, fg = color.dark.fg2 },
+    sep_left = {
+      hl = { bg = color.dark.bg2, fg = color.dark.fg3 },
+      content = "▎",
+    },
+    suffix = " ",
+    content = {
+      nut.tab.tablist.icon({ suffix = " " }),
+      nut.tab.tablist.label({}),
+      nut.tab.tablist.modified({ prefix = " ", config = { text = "" } }),
+      nut.tab.tablist.close({ prefix = " " }),
+    },
+  },
+}))
+
+bar_util.set_tabline(tal)
