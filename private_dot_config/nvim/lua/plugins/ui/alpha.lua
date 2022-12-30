@@ -26,6 +26,15 @@ local footer = {
   },
 }
 
+local plugin_stats = {
+  type = "text",
+  val = {},
+  opts = {
+    position = "center",
+    hl = "Comment",
+  },
+}
+
 local leader = "<Leader>"
 
 --- @param shortcut string
@@ -90,6 +99,7 @@ local config = {
     { type = "padding", val = 2 },
     section.buttons,
     section.footer,
+    plugin_stats,
   },
   opts = {
     margin = 5,
@@ -97,3 +107,14 @@ local config = {
 }
 
 alpha.setup(config)
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "LazyVimStarted",
+  callback = function()
+    local stats = require("lazy").stats()
+    local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+    table.insert(plugin_stats.val, "")
+    table.insert(plugin_stats.val, "[⚡ loaded " .. stats.count .. " plugins in " .. ms .. "ms]")
+    pcall(vim.cmd.AlphaRedraw)
+  end,
+})

@@ -121,4 +121,4 @@ end
 
 appearance_settings()
 
-require("config.plugins")
+require("config.lazy")

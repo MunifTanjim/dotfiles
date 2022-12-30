@@ -1,6 +1,6 @@
 local null_ls = require("null-ls")
 local helpers = require("null-ls.helpers")
-local u = require("config.lsp.utils")
+local u = require("plugins.lsp.utils")
 
 local clang_format = null_ls.builtins.formatting.clang_format.with({
   condition = function(utils)
@@ -37,6 +37,11 @@ null_ls.setup({
 
 require("eslint").setup({
   bin = "eslint_d",
+  diagnostics = {
+    enable = true,
+    report_unused_disable_directives = false,
+    run_on = "type",
+  },
 })
 
 require("prettier").setup({

@@ -1,4 +1,5 @@
 local u = require("config.utils")
+
 local treesitter_configs = require("nvim-treesitter.configs")
 
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()

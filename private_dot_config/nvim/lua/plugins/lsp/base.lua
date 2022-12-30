@@ -1,4 +1,4 @@
-local u = require("config.lsp.utils")
+local u = require("plugins.lsp.utils")
 
 local mason_lsp = require("mason-lspconfig")
 mason_lsp.setup({
@@ -58,13 +58,11 @@ local function setup_server(server)
 
       if luarc.nvim then
         table.insert(workspace_library, u.sumneko_lua.get_nvim_lib_dir("lua-dev.nvim") .. "/types")
-        ---@diagnostic disable-next-line: missing-parameter
         vim.list_extend(workspace_library, u.sumneko_lua.get_nvim_lib_dirs(luarc.nvim.packages))
       end
 
       if not luarc.workspace and not luarc.nvim then
         table.insert(workspace_library, u.sumneko_lua.get_nvim_lib_dir("lua-dev.nvim") .. "/types")
-        ---@diagnostic disable-next-line: missing-parameter
         vim.list_extend(workspace_library, u.sumneko_lua.get_nvim_lib_dirs())
       end
 
@@ -132,7 +130,7 @@ for _, server_name in ipairs(mason_lsp.get_installed_servers()) do
 end
 
 vim.api.nvim_create_user_command("Format", function(params)
-  local format = require("config.lsp.custom").format
+  local format = require("plugins.lsp.custom").format
   if params.range > 0 then
     format({ range = vim.lsp.util.make_given_range_params() })
   else

@@ -232,8 +232,32 @@ local stl_neotree = Bar("statusline")
 stl_neotree:add_item(hidden_mode)
 stl_neotree:add_item(filetype_mode)
 
+local stl_idx = 1
+local stls = { stl }
+
+local stl_switcher = Item({
+  hidden = true,
+  hl = { bg = color.dark.blue, fg = color.dark.bg0 },
+  content = "",
+  prefix = " ",
+  suffix = " ",
+  on_click = function()
+    stl_idx = stl_idx == #stls and 1 or stl_idx + 1
+  end,
+})
+
+vim.api.nvim_create_user_command("ToggleStatuslineSwitcher", function()
+  stl_switcher.hidden = not stl_switcher.hidden
+end, {
+  desc = "[gui] toggle statusline switcher",
+})
+
+for _, bar in ipairs(stls) do
+  bar:add_item(stl_switcher)
+end
+
 bar_util.set_statusline(function(ctx)
-  return ctx.is_focused and stl or stl_inactive
+  return ctx.is_focused and stls[stl_idx] or stl_inactive
 end)
 
 for ft, stl_ft in pairs({
