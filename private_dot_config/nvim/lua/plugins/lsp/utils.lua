@@ -1,5 +1,5 @@
 local u = require("config.utils")
-local custom = require("config.lsp.custom")
+local custom = require("plugins.lsp.custom")
 
 local mod = {}
 
@@ -71,8 +71,7 @@ function mod.setup_basic_keymap(client, bufnr)
     { "gy", vim.lsp.buf.type_definition, "[lsp] type definition" },
     { "<Leader>rn", custom.rename, "[lsp] rename" },
     { "gr", vim.lsp.buf.references, "[lsp] references" },
-    { "<Leader>ac", vim.lsp.buf.code_action, "[lsp] code action" },
-    { "<Leader>ac", vim.lsp.buf.range_code_action, "[lsp] range code action", mode = "v" },
+    { "<Leader>ac", vim.lsp.buf.code_action, "[lsp] code action", mode = { "n", "v" } },
     {
       "<Leader>do",
       function()
@@ -95,13 +94,13 @@ function mod.setup_format_keymap(client, bufnr)
 
   local opts = { buffer = bufnr }
 
-  u.set_keymap("n", "<Leader>f<Leader>", require("config.lsp.custom").format, "[lsp] format", opts)
+  u.set_keymap("n", "<Leader>f<Leader>", require("plugins.lsp.custom").format, "[lsp] format", opts)
 
   if client.server_capabilities.documentRangeFormattingProvider then
-    u.set_keymap("x", "<Leader>f<Leader>", require("config.lsp.custom").format, "[lsp] format", opts)
+    u.set_keymap("x", "<Leader>f<Leader>", require("plugins.lsp.custom").format, "[lsp] format", opts)
   end
 end
 
-mod.sumneko_lua = require("config.lsp.utils.sumneko_lua")
+mod.sumneko_lua = require("plugins.lsp.utils.sumneko_lua")
 
 return mod

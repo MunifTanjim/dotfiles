@@ -1,4 +1,5 @@
 local u = require("config.utils")
+
 local dap = require("dap")
 local dap_ui = require("dapui")
 local dap_vt = require("nvim-dap-virtual-text")
@@ -109,4 +110,4 @@ u.set_keymaps("n", {
   { "<Leader>dh", dap_ui.eval, "[dap] Eval" },
 })
 
-require("config.plugins.dap.javascript")
+require("plugins.dap.javascript")

@@ -29,11 +29,9 @@ local function populate_nvim_lib_dir_store()
     _nvim_lib_dir_store[lib_name] = lib_dir
   end
 
-  for _, packpath in ipairs(vim.split(vim.o.packpath, ",", { plain = true, trimempty = true })) do
-    for _, lib_path_pattern in ipairs({ packpath .. "/pack/*/opt/*", packpath .. "/pack/*/start/*" }) do
-      for lib_name, lib_dir in pairs(get_nvim_lib_dir_map(lib_path_pattern)) do
-        _nvim_lib_dir_store[lib_name] = lib_dir
-      end
+  for _, rtp_dir in ipairs(vim.split(vim.o.runtimepath, ",", { plain = true, trimempty = true })) do
+    for lib_name, lib_dir in pairs(get_nvim_lib_dir_map(rtp_dir)) do
+      _nvim_lib_dir_store[lib_name] = lib_dir
     end
   end
 end
@@ -76,7 +74,7 @@ end
 function mod.read_luarc()
   local config_file_path = vim.fn.fnamemodify(".luarc.json", ":p")
   if vim.fn.filereadable(config_file_path) == 1 then
-    return vim.json.decode(table.concat(vim.fn.readfile(config_file_path), "\n"))
+    return vim.json.decode(table.concat(vim.fn.readfile(config_file_path), "\n")) or {}
   end
   return {}
 end

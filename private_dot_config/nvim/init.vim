@@ -131,6 +131,73 @@ autocmd FileType vim nnoremap <silent><buffer> K :execute 'h ' . expand('<cword>
 
 " FileType Specific Settings ]]]
 
+" [[[ Plugin Initialization
+
+"" [[[ Plugin: fzf
+
+let g:fzf_action = {
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit'
+      \ }
+
+let g:fzf_command_prefix = 'Z'
+
+if has('nvim') || has('popupwin')
+  " fzf in popup window
+  let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'BoxChar' } }
+endif
+
+"" Plugin: fzf ]]]
+
+"" [[[ Plugin: git-messenger
+
+let g:git_messenger_no_default_mappings = v:true
+let g:git_messenger_always_into_popup = v:true
+
+"" Plugin: git-messenger ]]]
+
+"" [[[ Plugin: hexokinase
+
+let g:Hexokinase_highlighters = ['foreground']
+
+"" Plugin: hexokinase ]]]
+
+"" [[[ Plugin: matchup
+
+" disable built-in matchit.vim
+let g:loaded_matchit = 1
+
+let g:matchup_matchparen_deferred = 1
+let g:matchup_matchparen_offscreen = {}
+let g:matchup_mouse_enabled = 0
+let g:matchup_text_obj_enabled = 0
+
+""Plugin: matchup ]]]
+
+"" [[[ Plugin: maximizer
+
+let g:maximizer_default_mapping_key = '<M-m>'
+
+"" Plugin: maximizer ]]]
+
+"" [[[ Plugin: tmux-navigator
+
+let g:tmux_navigator_disable_when_zoomed = 1
+let g:tmux_navigator_no_mappings = 1
+
+"" Plugin: tmux-navigator ]]]
+
+"" [[[ Plugin: tmux-resizer
+
+let g:tmux_resizer_no_mappings = 1
+let g:tmux_resizer_resize_count = 5
+let g:tmux_resizer_vertical_resize_count = 10
+
+"" Plugin: tmux-resizer ]]]
+
+" Plugin Initialization ]]]
+
 if has('nvim')
   lua require('config')
 else
@@ -175,19 +242,6 @@ let g:copilot_no_maps = v:true
 "" Plugin: copilot ]]]
 
 "" [[[ Plugin: fzf
-
-let g:fzf_action = {
-      \ 'ctrl-t': 'tab split',
-      \ 'ctrl-s': 'split',
-      \ 'ctrl-v': 'vsplit'
-      \ }
-
-let g:fzf_command_prefix = 'Z'
-
-if has('nvim') || has('popupwin')
-  " fzf in popup window
-  let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'BoxChar' } }
-endif
 
 " hide statusline while fzf-ing
 if has('nvim') && !exists('g:fzf_layout')
@@ -237,9 +291,6 @@ nmap <Leader>gs :G<CR>
 
 "" [[[ Plugin: git-messenger
 
-let g:git_messenger_no_default_mappings = v:true
-let g:git_messenger_always_into_popup = v:true
-
 " keymaps: git-messenger
 nmap <Leader>go <Plug>(git-messenger)
 
@@ -250,40 +301,13 @@ autocmd FileType gitmessengerpopup call <SID>setup_git_messenger_popup()
 
 "" Plugin: git-messenger ]]]
 
-"" [[[ Plugin: hexokinase
-
-let g:Hexokinase_highlighters = ['foreground']
-
-"" Plugin: hexokinase ]]]
-
 "" [[[ Plugin: markdown
 
 let g:markdown_fenced_languages = ['css', 'help', 'html', 'javascript', 'js=javascript', 'json=javascript', 'lua', 'sh', 'typescript', 'ts=typescript', 'vim']
 
 "" Plugin: markdown ]]]
 
-"" [[[ Plugin: matchup
-
-" disable built-in matchit.vim
-let g:loaded_matchit = 1
-
-let g:matchup_matchparen_deferred = 1
-let g:matchup_matchparen_offscreen = {}
-let g:matchup_mouse_enabled = 0
-let g:matchup_text_obj_enabled = 0
-
-""Plugin: matchup ]]]
-
-"" [[[ Plugin: maximizer
-
-let g:maximizer_default_mapping_key = '<M-m>'
-
-"" Plugin: maximizer ]]]
-
 "" [[[ Plugin: tmux-navigator
-
-let g:tmux_navigator_disable_when_zoomed = 1
-let g:tmux_navigator_no_mappings = 1
 
 nnoremap <silent> <C-w>h     :TmuxNavigateLeft<CR>
 nnoremap <silent> <C-w><C-h> :TmuxNavigateLeft<CR>
@@ -299,10 +323,6 @@ nnoremap <silent> <C-w><C-p> :TmuxNavigatePrevious<CR>
 "" Plugin: tmux-navigator ]]]
 
 "" [[[ Plugin: tmux-resizer
-
-let g:tmux_resizer_no_mappings = 1
-let g:tmux_resizer_resize_count = 5
-let g:tmux_resizer_vertical_resize_count = 10
 
 nnoremap <silent> <C-w><M-h> :TmuxResizeLeft<CR>
 nnoremap <silent> <C-w><M-j> :TmuxResizeDown<CR>
