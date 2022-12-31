@@ -8,7 +8,6 @@ local _nvim_lib_dir_store = nil
 local function get_nvim_lib_dir_map(lib_path_pattern)
   local lib_dir_map = {}
 
-  ---@diagnostic disable-next-line: param-type-mismatch
   for _, lib_lua_path in ipairs(vim.fn.expand(lib_path_pattern .. "/lua", false, true)) do
     lib_lua_path = vim.loop.fs_realpath(lib_lua_path)
 
@@ -29,9 +28,11 @@ local function populate_nvim_lib_dir_store()
     _nvim_lib_dir_store[lib_name] = lib_dir
   end
 
-  for _, rtp_dir in ipairs(vim.split(vim.o.runtimepath, ",", { plain = true, trimempty = true })) do
-    for lib_name, lib_dir in pairs(get_nvim_lib_dir_map(rtp_dir)) do
-      _nvim_lib_dir_store[lib_name] = lib_dir
+  ---@type LazyPlugin[]
+  local plugins = require("lazy").plugins()
+  for _, plugin in ipairs(plugins) do
+    if vim.fn.isdirectory(plugin.dir .. "/lua") == 1 then
+      _nvim_lib_dir_store[plugin.name] = plugin.dir
     end
   end
 end

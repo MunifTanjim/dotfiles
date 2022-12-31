@@ -79,6 +79,7 @@ local function setup_server(server)
           path = { "?.lua", "?/init.lua", "lua/?.lua", "lua/?/init.lua" },
         }, luarc.runtime or {}),
         workspace = {
+          checkThirdParty = false,
           library = get_workspace_library(),
           maxPreload = 10000,
           preloadFileSize = 10000,
