@@ -301,12 +301,6 @@ autocmd FileType gitmessengerpopup call <SID>setup_git_messenger_popup()
 
 "" Plugin: git-messenger ]]]
 
-"" [[[ Plugin: markdown
-
-let g:markdown_fenced_languages = ['css', 'help', 'html', 'javascript', 'js=javascript', 'json=javascript', 'lua', 'sh', 'typescript', 'ts=typescript', 'vim']
-
-"" Plugin: markdown ]]]
-
 "" [[[ Plugin: tmux-navigator
 
 nnoremap <silent> <C-w>h     :TmuxNavigateLeft<CR>

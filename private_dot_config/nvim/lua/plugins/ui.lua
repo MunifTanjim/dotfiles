@@ -36,6 +36,7 @@ local plugins = {
 
   make_local({
     "MunifTanjim/nui.nvim",
+    event = "VeryLazy",
     config = function()
       require("plugins.ui.nui")
     end,
@@ -43,6 +44,7 @@ local plugins = {
 
   make_local({
     "MunifTanjim/nougat.nvim",
+    event = "VeryLazy",
     config = function()
       require("plugins.ui.nougat")
     end,
@@ -54,17 +56,22 @@ local plugins = {
     dependencies = {
       "s1n7ax/nvim-window-picker",
     },
-    keys = { { "<Leader>e" } },
+    cmd = "Neotree",
+    init = function()
+      local u = require("config.utils")
+      u.set_keymap("n", "<Leader>e", ":Neotree toggle<CR>", "toggle file tree")
+    end,
     config = function()
       require("plugins.ui.neo-tree")
     end,
   },
 
   {
-    "windwp/nvim-spectre",
-    keys = { { "<Leader>S" } },
-    config = function()
-      require("plugins.ui.spectre")
+    "nvim-pack/nvim-spectre",
+    cmd = "Spectre",
+    init = function()
+      local u = require("config.utils")
+      u.set_keymap("n", "<Leader>S", ":Spectre<CR>", "toggle spectre")
     end,
   },
 

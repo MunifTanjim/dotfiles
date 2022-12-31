@@ -11,12 +11,14 @@ local plugins = {
         "williamboman/mason-lspconfig.nvim",
         dependencies = {
           "williamboman/mason.nvim",
+          cmd = "Mason",
           config = {
             ui = { border = "rounded" },
           },
         },
       },
     },
+    event = "BufReadPre",
     config = function()
       require("plugins.lsp.base")
     end,
@@ -27,18 +29,21 @@ local plugins = {
       "MunifTanjim/eslint.nvim",
       "MunifTanjim/prettier.nvim",
     },
+    event = "BufReadPre",
     config = function()
       require("plugins.lsp.null-ls")
     end,
   },
   {
     "kosayoda/nvim-lightbulb",
+    event = "LspAttach",
     config = function()
       require("plugins.lsp.lightbulb")
     end,
   },
   {
     "folke/trouble.nvim",
+    event = "LspAttach",
     config = function()
       require("plugins.lsp.trouble")
     end,

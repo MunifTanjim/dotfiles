@@ -7,6 +7,7 @@ local plugin = {
     "hrsh7th/cmp-path",
     "onsails/lspkind-nvim",
   },
+  event = "InsertEnter",
 }
 
 local function has_words_before()
@@ -21,6 +22,7 @@ function plugin.config()
 
   vim.o.completeopt = "menu,menuone,noselect"
 
+  ---@diagnostic disable-next-line: redundant-parameter
   cmp.setup({
     completion = {
       autocomplete = false,

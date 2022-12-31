@@ -84,6 +84,7 @@ stl:add_item(nut.git.branch({
   hl = { bg = color.dark.bg3, fg = color.dark.fg1 },
   prefix = { "  ", " " },
   suffix = " ",
+  config = { provider = "fugitive" },
 }))
 local filestatus = nut.buf.filestatus({
   prefix = " ",

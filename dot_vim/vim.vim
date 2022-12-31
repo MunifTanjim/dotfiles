@@ -225,6 +225,12 @@ augroup END
 
 "" Plugin: coc ]]]
 
+"" [[[ Plugin: markdown
+
+let g:markdown_fenced_languages = ['css', 'help', 'html', 'javascript', 'js=javascript', 'json=javascript', 'lua', 'sh', 'typescript', 'ts=typescript', 'vim']
+
+"" Plugin: markdown ]]]
+
 "" [[[ Plugin: vimspector
 
 nmap <Leader>dc  <Plug>VimspectorContinue

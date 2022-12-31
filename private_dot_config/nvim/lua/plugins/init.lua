@@ -3,7 +3,10 @@ local plugins = {
   { "gruvbox-community/gruvbox" },
 
   -- functionality
-  { "andymass/vim-matchup" },
+  {
+    "andymass/vim-matchup",
+    event = "VeryLazy",
+  },
   { "bkad/CamelCaseMotion" },
   {
     "heavenshell/vim-jsdoc",
@@ -18,45 +21,43 @@ local plugins = {
   {
     "rrethy/vim-hexokinase",
     build = "make hexokinase",
+    event = "VeryLazy",
   },
   { "szw/vim-maximizer" },
-  { "tpope/vim-capslock" },
   { "tpope/vim-repeat" },
   { "tpope/vim-sensible" },
   { "tpope/vim-surround" },
   { "tpope/vim-unimpaired" },
 
   -- integration
-  { "christoomey/vim-tmux-navigator" },
+  {
+    "christoomey/vim-tmux-navigator",
+    event = "VeryLazy",
+  },
   { "kristijanhusak/vim-carbon-now-sh" },
-  { "RyanMillerC/better-vim-tmux-resizer" },
-  { "wakatime/vim-wakatime" },
+  {
+    "RyanMillerC/better-vim-tmux-resizer",
+    event = "VeryLazy",
+  },
+  {
+    "wakatime/vim-wakatime",
+    event = "VeryLazy",
+  },
 
   -- language support
   { "bronzehedwick/msmtp-syntax.vim" },
-  { "cespare/vim-toml" },
   { "chunkhang/vim-mbsync" },
-  { "digitaltoad/vim-pug" },
-  { "ekalinin/Dockerfile.vim" },
   { "fladson/vim-kitty" },
   {
     "Fymyte/rasi.vim",
     ft = { "rasi" },
   },
-  { "HerringtonDarkholme/yats.vim" },
-  { "jparise/vim-graphql" },
-  { "jxnblk/vim-mdx-js" },
   { "lifepillar/pgsql.vim" },
-  { "MaxMEllon/vim-jsx-pretty" },
   { "mustache/vim-mustache-handlebars" },
   { "neoclide/jsonc.vim" },
   { "neomutt/neomutt.vim" },
-  { "othree/html5.vim" },
-  { "pangloss/vim-javascript" },
-  { "rust-lang/rust.vim" },
   { "tmux-plugins/vim-tmux" },
   { "tpope/vim-git" },
-  { "tpope/vim-markdown" },
   { "vitalk/vim-shebang" },
 }
 

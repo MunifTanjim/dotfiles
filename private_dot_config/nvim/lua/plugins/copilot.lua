@@ -1,9 +1,10 @@
 local plugin = {
   "zbirenbaum/copilot.lua",
-  event = "InsertEnter",
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
+  cmd = "Copilot",
+  event = "InsertEnter",
 }
 
 function plugin.config()

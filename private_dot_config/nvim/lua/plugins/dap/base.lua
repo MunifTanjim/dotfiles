@@ -1,5 +1,3 @@
-local u = require("config.utils")
-
 local dap = require("dap")
 local dap_ui = require("dapui")
 local dap_vt = require("nvim-dap-virtual-text")
@@ -87,27 +85,5 @@ end
 dap.listeners.before.event_exited["dapui_config"] = function()
   dap_ui.close()
 end
-
-u.set_keymaps("n", {
-  { "<Leader>db", dap.toggle_breakpoint, "[dap] Breakpoint" },
-  {
-    "<Leader>dB",
-    function()
-      local condition = vim.fn.input("Breakpoint condition: ")
-      local hit_condition = vim.fn.input("Breakpoint hit condition: ")
-      local log_message = vim.fn.input("Breakpoint log message: ")
-      dap.set_breakpoint(condition, hit_condition, log_message)
-    end,
-    "[dap] Conditional Breakpoint",
-  },
-  { "<Leader>dc", dap.continue, "[dap] Continue" },
-  { "<Leader>dp", dap.pause, "[dap] Pause" },
-  { "<Leader>dt", dap.terminate, "[dap] Terminate" },
-  { "<Leader>di", dap.step_into, "[dap] Step Into" },
-  { "<Leader>do", dap.step_out, "[dap] Step Out" },
-  { "<Leader>dO", dap.step_over, "[dap] Step Over" },
-  { "<Leader>drc", dap.run_to_cursor, "[dap] Run to Cursor" },
-  { "<Leader>dh", dap_ui.eval, "[dap] Eval" },
-})
 
 require("plugins.dap.javascript")

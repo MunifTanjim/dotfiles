@@ -1,12 +1,15 @@
 local plugins = {
   {
+    "nvim-treesitter/playground",
+    cmd = "TSPlaygroundToggle",
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     dependencies = {
       "JoosepAlviste/nvim-ts-context-commentstring",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "RRethy/nvim-treesitter-textsubjects",
-      "nvim-treesitter/playground",
       "windwp/nvim-ts-autotag",
     },
     event = "BufReadPost",
@@ -16,12 +19,14 @@ local plugins = {
   },
   {
     "nvim-treesitter/nvim-treesitter-context",
+    event = "BufReadPost",
     config = function()
       require("plugins.treesitter.context")
     end,
   },
   {
     "numToStr/Comment.nvim",
+    event = "BufReadPost",
     dependencies = {
       "JoosepAlviste/nvim-ts-context-commentstring",
     },

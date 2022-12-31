@@ -1,12 +1,16 @@
 local plugin = {
   "Eandrju/cellular-automaton.nvim",
+  cmd = "CellularAutomaton",
 }
 
-function plugin.config()
-  local ca = require("cellular-automaton")
+function plugin.init()
   local u = require("config.utils")
 
   u.set_keymap("n", "<leader>fml", "<cmd>CellularAutomaton make_it_rain<CR>", "FML! Make it rain...")
+end
+
+function plugin.config()
+  local ca = require("cellular-automaton")
 
   ca.register_animation({
     fps = 50,

@@ -1,5 +1,6 @@
 local plugin = {
   "nvim-telescope/telescope.nvim",
+  cmd = "Telescope",
   dependencies = {
     "nvim-lua/plenary.nvim",
     {
@@ -15,8 +16,56 @@ local plugin = {
   },
 }
 
-function plugin.config()
+function plugin.init()
   local u = require("config.utils")
+
+  u.set_keymaps("n", {
+    {
+      "<Leader>fb",
+      function()
+        require("telescope.builtin").buffers()
+      end,
+      "[telescope] buffers",
+    },
+    {
+      "<Leader>ff",
+      function()
+        require("telescope.builtin").find_files()
+      end,
+      "[telescope] files",
+    },
+    {
+      "<Leader>fg",
+      function()
+        require("telescope.builtin").live_grep()
+      end,
+      "[telescope] content",
+    },
+    {
+      "<Leader>fh",
+      function()
+        require("telescope.builtin").help_tags()
+      end,
+      "[telescope] help tags",
+    },
+    {
+      "<Leader>fr",
+      function()
+        require("telescope.builtin").lsp_references({ layout_strategy = "vertical" })
+      end,
+      "[telescope] lsp references",
+    },
+    {
+      "<Leader>f;",
+      function()
+        require("telescope.builtin").resume()
+      end,
+      "[telescope] resume picker",
+    },
+  })
+end
+
+function plugin.config()
   local telescope = require("telescope")
 
   telescope.setup({
@@ -58,21 +107,6 @@ function plugin.config()
 
   telescope.load_extension("fzf")
   telescope.load_extension("frecency")
-
-  u.set_keymaps("n", {
-    { "<Leader>fb", require("telescope.builtin").buffers, "[telescope] buffers" },
-    { "<Leader>ff", require("telescope.builtin").find_files, "[telescope] files" },
-    { "<Leader>fg", require("telescope.builtin").live_grep, "[telescope] content" },
-    { "<Leader>fh", require("telescope.builtin").help_tags, "[telescope] help tags" },
-    {
-      "<Leader>fr",
-      function()
-        require("telescope.builtin").lsp_references({ layout_strategy = "vertical" })
-      end,
-      "[telescope] lsp references",
-    },
-    { "<Leader>f;", require("telescope.builtin").resume, "[telescope] resume picker" },
-  })
 end
 
 return plugin
