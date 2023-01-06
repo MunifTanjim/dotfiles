@@ -78,6 +78,19 @@ local highlights = {
   ["@variable"] = { fg = color.fg1 },
   ["@variable.builtin"] = { link = "Identifier" },
 
+  --[[ lsp semantic tokens ]]
+  ["@class"] = { link = "Structure" },
+  ["@struct"] = { link = "Structure" },
+  ["@enum"] = { link = "Type" },
+  ["@enumMember"] = { link = "Constant" },
+  ["@event"] = { link = "Identifier" },
+  ["@interface"] = { link = "Identifier" },
+  ["@modifier"] = { link = "Identifier" },
+  ["@regexp"] = { link = "SpecialChar" },
+  ["@typeParameter"] = { link = "Type" },
+  ["@decorator"] = { link = "Identifier" },
+  ["@documentation"] = { link = "Constant" },
+
   --[[ lazy.nvim ]]
   LazyNormal = { link = "Normal" },
 
