@@ -5,7 +5,7 @@ local plugins = {
   -- functionality
   {
     "andymass/vim-matchup",
-    event = "VeryLazy",
+    event = "BufReadPost",
   },
   { "bkad/CamelCaseMotion" },
   {
@@ -21,7 +21,7 @@ local plugins = {
   {
     "rrethy/vim-hexokinase",
     build = "make hexokinase",
-    event = "VeryLazy",
+    event = "BufReadPost",
   },
   { "szw/vim-maximizer" },
   { "tpope/vim-repeat" },
@@ -34,7 +34,10 @@ local plugins = {
     "christoomey/vim-tmux-navigator",
     event = "VeryLazy",
   },
-  { "kristijanhusak/vim-carbon-now-sh" },
+  {
+    "kristijanhusak/vim-carbon-now-sh",
+    cmd = "CarbonNowSh",
+  },
   {
     "RyanMillerC/better-vim-tmux-resizer",
     event = "VeryLazy",
@@ -45,19 +48,46 @@ local plugins = {
   },
 
   -- language support
-  { "bronzehedwick/msmtp-syntax.vim" },
-  { "chunkhang/vim-mbsync" },
-  { "fladson/vim-kitty" },
+  {
+    "bronzehedwick/msmtp-syntax.vim",
+    ft = "msmtp",
+  },
+  {
+    "chunkhang/vim-mbsync",
+    ft = "mbsync",
+  },
+  {
+    "fladson/vim-kitty",
+    ft = "kitty*",
+  },
   {
     "Fymyte/rasi.vim",
-    ft = { "rasi" },
+    ft = "rasi",
   },
-  { "lifepillar/pgsql.vim" },
-  { "mustache/vim-mustache-handlebars" },
-  { "neoclide/jsonc.vim" },
-  { "neomutt/neomutt.vim" },
-  { "tmux-plugins/vim-tmux" },
-  { "tpope/vim-git" },
+  {
+    "lifepillar/pgsql.vim",
+    ft = "sql",
+  },
+  {
+    "mustache/vim-mustache-handlebars",
+    ft = { "html.handlebars", "html.mustache" },
+  },
+  {
+    "neoclide/jsonc.vim",
+    ft = "jsonc",
+  },
+  {
+    "neomutt/neomutt.vim",
+    ft = { "mail", "neomuttlog", "neomuttrc" },
+  },
+  {
+    "tmux-plugins/vim-tmux",
+    ft = "tmux",
+  },
+  {
+    "tpope/vim-git",
+    ft = "git*",
+  },
   { "vitalk/vim-shebang" },
 }
 
