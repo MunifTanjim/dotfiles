@@ -30,13 +30,11 @@ local function rename()
   local input = Input({
     border = {
       style = "rounded",
-      highlight = "Normal",
       text = {
         top = "[Rename]",
         top_align = "left",
       },
     },
-    highlight = "Normal:Normal",
     relative = {
       type = "buf",
       position = {
@@ -51,6 +49,9 @@ local function rename()
     size = {
       width = 25,
       height = 1,
+    },
+    win_options = {
+      winhighlight = "Normal:Normal,FloatBorder:Normal",
     },
   }, {
     prompt = "",
