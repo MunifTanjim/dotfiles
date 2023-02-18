@@ -19,7 +19,7 @@ has_kitty_protocol() {
 
 preview_image() {
   if has_kitty_protocol; then
-    kitty +kitten icat --silent --transfer-mode file --place "${w}x${h}@${x}x${y}" "${f}"
+    kitty +kitten icat --silent --stdin no --transfer-mode file --place "${w}x${h}@${x}x${y}" "${f}" < /dev/null > /dev/tty
     exit 1
   fi
 
