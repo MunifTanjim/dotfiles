@@ -7,7 +7,7 @@ local denylist = {
 
 local denylist_by_filetype = {
   lua = {
-    sumneko_lua = true,
+    lua_ls = true,
   },
   markdown = {
     html = true,

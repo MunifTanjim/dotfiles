@@ -101,6 +101,6 @@ function mod.setup_format_keymap(client, bufnr)
   end
 end
 
-mod.sumneko_lua = require("plugins.lsp.utils.sumneko_lua")
+mod.lua_ls = require("plugins.lsp.utils.lua_ls")
 
 return mod

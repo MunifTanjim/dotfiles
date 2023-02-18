@@ -11,7 +11,7 @@ mason_lsp.setup({
     "jsonls",
     "pyright",
     "rust_analyzer",
-    "sumneko_lua",
+    "lua_ls",
     "tsserver",
     "vimls",
     "yamlls",
@@ -43,8 +43,8 @@ local function setup_server(server)
     config.filetypes = { "html", "css", "scss" }
   end
 
-  if server.name == "sumneko_lua" then
-    local luarc = u.sumneko_lua.read_luarc()
+  if server.name == "lua_ls" then
+    local luarc = u.lua_ls.read_luarc()
 
     local function get_workspace_library()
       local workspace_library = {}
@@ -57,13 +57,13 @@ local function setup_server(server)
       end
 
       if luarc.nvim then
-        table.insert(workspace_library, u.sumneko_lua.get_nvim_lib_dir("lua-dev.nvim") .. "/types")
-        vim.list_extend(workspace_library, u.sumneko_lua.get_nvim_lib_dirs(luarc.nvim.packages))
+        table.insert(workspace_library, u.lua_ls.get_nvim_lib_dir("lua-dev.nvim") .. "/types")
+        vim.list_extend(workspace_library, u.lua_ls.get_nvim_lib_dirs(luarc.nvim.packages))
       end
 
       if not luarc.workspace and not luarc.nvim then
-        table.insert(workspace_library, u.sumneko_lua.get_nvim_lib_dir("lua-dev.nvim") .. "/types")
-        vim.list_extend(workspace_library, u.sumneko_lua.get_nvim_lib_dirs())
+        table.insert(workspace_library, u.lua_ls.get_nvim_lib_dir("lua-dev.nvim") .. "/types")
+        vim.list_extend(workspace_library, u.lua_ls.get_nvim_lib_dirs())
       end
 
       return workspace_library
