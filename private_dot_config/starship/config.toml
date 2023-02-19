@@ -47,6 +47,7 @@ read_only = ' '
 truncation_symbol = '…/'
 
 [docker_context]
+disabled = true
 symbol = ' '
 
 [dotnet]
