@@ -52,7 +52,12 @@ local function setup_server(server)
       if luarc.workspace then
         if luarc.workspace.library then
           ---@diagnostic disable-next-line: missing-parameter
-          vim.list_extend(workspace_library, luarc.Lua.workspace.library)
+          vim.list_extend(
+            workspace_library,
+            vim.tbl_map(function(lib)
+              return vim.fn.expand(lib)
+            end, luarc.workspace.library)
+          )
         end
       end
 

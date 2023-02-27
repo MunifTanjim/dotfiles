@@ -256,8 +256,9 @@ function! RipgrepFzf(query, fullscreen)
   let command_fmt = '[ -n %s ] && rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
   let initial_command = printf(command_fmt, shellescape(a:query), shellescape(a:query))
   let reload_command = printf(command_fmt, '{q}', '{q}')
-  let spec = {'options': ['--phony', '--prompt', 'Search > ', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+  let spec = {'options': ['--disabled', '--prompt', 'Search > ', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  let spec = fzf#vim#with_preview(spec, 'right', 'ctrl-/')
+  call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
 endfunction
 
 " keymaps: fzf

@@ -12,7 +12,7 @@ local plugins = {
         dependencies = {
           "williamboman/mason.nvim",
           cmd = "Mason",
-          config = {
+          opts = {
             ui = { border = "rounded" },
           },
         },

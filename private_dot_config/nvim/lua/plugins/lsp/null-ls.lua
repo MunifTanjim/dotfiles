@@ -21,7 +21,12 @@ local clang_format = null_ls.builtins.formatting.clang_format.with({
 ---@diagnostic disable-next-line: redundant-parameter
 null_ls.setup({
   sources = {
+    -- c
     clang_format,
+    -- python
+    null_ls.builtins.diagnostics.flake8,
+    null_ls.builtins.formatting.black,
+    -- lua
     null_ls.builtins.diagnostics.luacheck.with({
       condition = function(utils)
         return utils.root_has_file({ ".luacheckrc" })

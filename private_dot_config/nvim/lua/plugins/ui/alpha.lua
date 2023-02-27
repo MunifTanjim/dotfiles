@@ -79,6 +79,7 @@ local buttons = {
     button("g", "  Live Grep", "<cmd>Telescope live_grep<CR>"),
     button("o", "  Recently Opened Files", "<cmd>Telescope oldfiles only_cwd=true<CR>"),
     button("r", "  Frecency/MRU Files", "<cmd>Telescope frecency workspace=CWD<CR>"),
+    button("p", "  Plugins", "<cmd>Lazy<CR>"),
     button("q", "✖  Quit", "<cmd>q<CR>"),
   },
   opts = {
