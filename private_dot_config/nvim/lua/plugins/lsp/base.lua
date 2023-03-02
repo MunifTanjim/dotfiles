@@ -44,56 +44,7 @@ local function setup_server(server)
   end
 
   if server.name == "lua_ls" then
-    local luarc = u.lua_ls.read_luarc()
-
-    local function get_workspace_library()
-      local workspace_library = {}
-
-      if luarc.workspace then
-        if luarc.workspace.library then
-          ---@diagnostic disable-next-line: missing-parameter
-          vim.list_extend(
-            workspace_library,
-            vim.tbl_map(function(lib)
-              return vim.fn.expand(lib)
-            end, luarc.workspace.library)
-          )
-        end
-      end
-
-      if luarc.nvim then
-        table.insert(workspace_library, u.lua_ls.get_nvim_lib_dir("lua-dev.nvim") .. "/types")
-        vim.list_extend(workspace_library, u.lua_ls.get_nvim_lib_dirs(luarc.nvim.packages))
-      end
-
-      if not luarc.workspace and not luarc.nvim then
-        table.insert(workspace_library, u.lua_ls.get_nvim_lib_dir("lua-dev.nvim") .. "/types")
-        vim.list_extend(workspace_library, u.lua_ls.get_nvim_lib_dirs())
-      end
-
-      return workspace_library
-    end
-
-    config.settings = {
-      Lua = {
-        format = {
-          enable = false,
-        },
-        runtime = vim.tbl_deep_extend("force", {
-          version = "LuaJIT",
-          path = { "?.lua", "?/init.lua", "lua/?.lua", "lua/?/init.lua" },
-        }, luarc.runtime or {}),
-        workspace = {
-          checkThirdParty = false,
-          library = get_workspace_library(),
-          maxPreload = 10000,
-          preloadFileSize = 10000,
-        },
-        telemetry = {
-          enable = false,
-        },
-      },
-    }
+    u.lua_ls.prepare_config(config)
   end
 
   if server.name == "jsonls" then
@@ -101,9 +52,8 @@ local function setup_server(server)
       json = {
         schemas = vim.list_extend({
           {
-            description = "Setting of sumneko.lua",
-            fileMatch = { ".luarc.json" },
-            name = ".luarc.json",
+            fileMatch = { ".luarc.json", ".luarc.jsonc" },
+            name = "LuaLS Settings",
             url = "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
           },
         }, require("schemastore").json.schemas()),

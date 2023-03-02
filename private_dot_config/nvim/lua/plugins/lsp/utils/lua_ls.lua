@@ -1,5 +1,3 @@
-local mod = {}
-
 ---@type table<string,string>
 local _nvim_lib_dir_store = nil
 
@@ -39,7 +37,7 @@ end
 
 ---@param package_name string
 ---@return string|nil lib_dir
-function mod.get_nvim_lib_dir(package_name)
+local function get_nvim_lib_dir(package_name)
   if not _nvim_lib_dir_store then
     populate_nvim_lib_dir_store()
   end
@@ -49,19 +47,19 @@ end
 
 ---@param packages? string[]
 ---@return string[]
-function mod.get_nvim_lib_dirs(packages)
+local function get_nvim_lib_dirs(packages)
   if not _nvim_lib_dir_store then
     populate_nvim_lib_dir_store()
   end
 
   if not packages then
-    return vim.tbl_values(_nvim_lib_dir_store)
+    packages = vim.tbl_keys(_nvim_lib_dir_store)
   end
 
   local lib_dirs = {}
 
-  if packages then
-    for _, package_name in ipairs(packages) do
+  for _, package_name in ipairs(packages) do
+    if package_name ~= "neodev.nvim" then
       local lib_dir = _nvim_lib_dir_store[package_name]
       if lib_dir then
         table.insert(lib_dirs, lib_dir)
@@ -72,12 +70,82 @@ function mod.get_nvim_lib_dirs(packages)
   return lib_dirs
 end
 
-function mod.read_luarc()
-  local config_file_path = vim.fn.fnamemodify(".luarc.json", ":p")
-  if vim.fn.filereadable(config_file_path) == 1 then
-    return vim.json.decode(table.concat(vim.fn.readfile(config_file_path), "\n")) or {}
+local function read_luarc()
+  local luarc_path = vim.fn.fnamemodify(".luarc.lua", ":p")
+  if vim.fn.filereadable(luarc_path) == 1 then
+    return loadstring(table.concat(vim.fn.readfile(luarc_path), "\n"))() or {}
   end
   return {}
+end
+
+local function to_directory_list(paths)
+  return vim.tbl_filter(
+    function(path)
+      return vim.fn.isdirectory(path) == 1
+    end,
+    vim.tbl_map(function(path)
+      return vim.fn.expand(path)
+    end, paths or {})
+  )
+end
+
+local function prepare_workspace_library(luarc)
+  local library = {}
+
+  if luarc.workspace then
+    vim.list_extend(library, to_directory_list(luarc.workspace.library))
+  end
+
+  if luarc.nvim or not luarc.workspace then
+    table.insert(
+      library,
+      get_nvim_lib_dir("neodev.nvim") .. "/types/" .. (vim.version().prerelease and "nightly" or "stable")
+    )
+    vim.list_extend(library, get_nvim_lib_dirs(luarc.nvim and luarc.nvim.packages))
+  end
+
+  return library
+end
+
+local mod = {}
+
+function mod.prepare_config(config)
+  local luarc = read_luarc()
+  if luarc.Lua then
+    luarc = luarc.Lua
+  end
+
+  config.settings = {
+    Lua = vim.tbl_deep_extend(
+      "force",
+      {
+        format = {
+          enable = false,
+        },
+        runtime = {
+          version = "LuaJIT",
+          path = { "?.lua", "?/init.lua", "lua/?.lua", "lua/?/init.lua" },
+          pathStrict = false,
+        },
+        workspace = {
+          checkThirdParty = false,
+          maxPreload = 10000,
+          preloadFileSize = 10000,
+        },
+        telemetry = {
+          enable = false,
+        },
+      },
+      luarc,
+      {
+        workspace = {
+          library = prepare_workspace_library(luarc),
+        },
+      }
+    ),
+  }
+
+  config.settings.Lua.nvim = nil
 end
 
 return mod
