@@ -23,20 +23,22 @@ else
   manpathmunge "${HOMEBREW_PREFIX}/share/man"
 fi
 
-# gnu programs/tools binaries
-pathmunge "${HOMEBREW_PREFIX}/opt/gnu-getopt/bin"
-pathmunge "${HOMEBREW_PREFIX}/opt/util-linux/bin"
-pathmunge "${HOMEBREW_PREFIX}/opt/util-linux/sbin"
-for gnubin_path in ${HOMEBREW_PREFIX}/opt/*/libexec/gnubin; do
-  pathmunge "${gnubin_path}"
-done
+if test -z "${DARWIN_NO_GNU}"; then
+  # gnu programs/tools binaries
+  pathmunge "${HOMEBREW_PREFIX}/opt/gnu-getopt/bin"
+  pathmunge "${HOMEBREW_PREFIX}/opt/util-linux/bin"
+  pathmunge "${HOMEBREW_PREFIX}/opt/util-linux/sbin"
+  for gnubin_path in ${HOMEBREW_PREFIX}/opt/*/libexec/gnubin; do
+    pathmunge "${gnubin_path}"
+  done
 
-# gnu programs/tools manpage
-manpathmunge "${HOMEBREW_PREFIX}/opt/gnu-getopt/share/man"
-manpathmunge "${HOMEBREW_PREFIX}/opt/util-linux/share/man"
-for gnuman_path in ${HOMEBREW_PREFIX}/opt/*/libexec/gnuman; do
-  manpathmunge "${gnuman_path}"
-done
+  # gnu programs/tools manpage
+  manpathmunge "${HOMEBREW_PREFIX}/opt/gnu-getopt/share/man"
+  manpathmunge "${HOMEBREW_PREFIX}/opt/util-linux/share/man"
+  for gnuman_path in ${HOMEBREW_PREFIX}/opt/*/libexec/gnuman; do
+    manpathmunge "${gnuman_path}"
+  done
+fi
 
 # google-cloud-sdk
 if [[ -d "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk" ]]; then

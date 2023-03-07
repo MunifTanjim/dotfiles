@@ -25,6 +25,12 @@ env DARWIN_OPENSSL_VERSION=1.0 zsh -i -c 'PYTHON_BUILD_HOMEBREW_OPENSSL_FORMULA=
 
 _**NOTE**: Not supported on ARM64 (Apple Silicon)._
 
+#### Run Command with BSD tools
+
+```sh
+env DARWIN_NO_GNU=1 -u PATH -u MANPATH zsh -ic 'npm rebuild'
+```
+
 ## Resources
 
 - [chezmoi](https://www.chezmoi.io)
