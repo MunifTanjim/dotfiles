@@ -7,12 +7,6 @@ local plugin = {
       "nvim-telescope/telescope-fzf-native.nvim",
       build = "make",
     },
-    {
-      "nvim-telescope/telescope-frecency.nvim",
-      dependencies = {
-        "kkharji/sqlite.lua",
-      },
-    },
   },
 }
 
@@ -86,10 +80,6 @@ function plugin.config()
         override_file_sorter = true,
         case_mode = "smart_case",
       },
-      frecency = {
-        default_workspace = "LSP",
-        show_unindexed = false,
-      },
     },
     pickers = {
       find_files = {
@@ -106,7 +96,6 @@ function plugin.config()
   })
 
   telescope.load_extension("fzf")
-  telescope.load_extension("frecency")
 end
 
 return plugin
