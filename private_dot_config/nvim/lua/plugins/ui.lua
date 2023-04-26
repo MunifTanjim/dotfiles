@@ -59,7 +59,7 @@ local plugins = {
     cmd = "Neotree",
     init = function()
       local u = require("config.utils")
-      u.set_keymap("n", "<Leader>e", ":Neotree toggle<CR>", "toggle file tree")
+      u.set_keymap("n", "<Leader>e", ":Neotree toggle<CR>", "toggle file tree", { silent = true })
     end,
     config = function()
       require("plugins.ui.neo-tree")

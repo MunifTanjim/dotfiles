@@ -23,7 +23,7 @@ local function rename()
       local client = vim.lsp.get_client_by_id(ctx.client_id)
       vim.lsp.util.apply_workspace_edit(result, client.offset_encoding)
 
-      print(string.format("Changed %s file%s. To save them run ':wa'", total_files, total_files > 1 and "s" or ""))
+      print(string.format("Changed %s file%s. To save them run ':noa wa'", total_files, total_files > 1 and "s" or ""))
     end)
   end
 
