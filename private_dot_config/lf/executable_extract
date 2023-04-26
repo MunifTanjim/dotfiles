@@ -10,5 +10,5 @@ case "$f" in
   *.tar.xz|*.txz) tar xJvf "$f";;
   *.zip) unzip "$f";;
   *.rar) unrar x "$f";;
-  *.7z) 7z x "$f";;
+  *.7z|*.z*) 7z x "$f";;
 esac
