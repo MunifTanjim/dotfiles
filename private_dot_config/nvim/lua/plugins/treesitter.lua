@@ -1,7 +1,23 @@
+local u = require("config.utils")
+
 local plugins = {
   {
     "nvim-treesitter/playground",
-    cmd = "TSPlaygroundToggle",
+    cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
+    init = function()
+      u.set_keymaps("n", {
+        {
+          "<Leader>ghg",
+          "<Cmd>TSHighlightCapturesUnderCursor<CR>",
+          "[treesitter] show hl captures",
+        },
+        {
+          "<Leader>gtr",
+          "<Cmd>TSPlaygroundToggle<CR>",
+          "[treesitter] toggle playground",
+        },
+      })
+    end,
   },
   {
     "nvim-treesitter/nvim-treesitter",
@@ -20,6 +36,9 @@ local plugins = {
   {
     "nvim-treesitter/nvim-treesitter-context",
     event = "BufReadPost",
+    init = function()
+      u.set_keymap("n", "<Leader>tsc", "<Cmd>TSContextToggle<CR>", "[treesitter] toggle context")
+    end,
     config = function()
       require("plugins.treesitter.context")
     end,

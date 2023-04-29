@@ -1,3 +1,5 @@
+local u = require("config.utils")
+
 local local_git_dir = vim.fn.expand("$HOME/Dev")
 local git_host_by_provider = {
   github = "github.com",
@@ -58,8 +60,7 @@ local plugins = {
     },
     cmd = "Neotree",
     init = function()
-      local u = require("config.utils")
-      u.set_keymap("n", "<Leader>e", ":Neotree toggle<CR>", "toggle file tree", { silent = true })
+      u.set_keymap("n", "<Leader>e", "<Cmd>Neotree toggle<CR>", "toggle file tree")
     end,
     config = function()
       require("plugins.ui.neo-tree")
@@ -70,8 +71,7 @@ local plugins = {
     "nvim-pack/nvim-spectre",
     cmd = "Spectre",
     init = function()
-      local u = require("config.utils")
-      u.set_keymap("n", "<Leader>S", ":Spectre<CR>", "toggle spectre")
+      u.set_keymap("n", "<Leader>S", "<Cmd>Spectre<CR>", "toggle spectre")
     end,
   },
 

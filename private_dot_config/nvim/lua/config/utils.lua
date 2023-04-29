@@ -38,7 +38,7 @@ function u.set_keymap(mode, lhs, rhs, desc_or_opts, opts)
   else
     opts.desc = desc_or_opts
   end
-  vim.keymap.set(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("keep", opts, { silent = true }))
 end
 
 ---@param default_mode string|string[]

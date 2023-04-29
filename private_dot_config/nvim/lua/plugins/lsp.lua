@@ -44,9 +44,18 @@ local plugins = {
   {
     "folke/trouble.nvim",
     event = "LspAttach",
-    config = function()
-      require("plugins.lsp.trouble")
-    end,
+    keys = {
+      {
+        "<Leader>xx",
+        "<Cmd>TroubleToggle<CR>",
+        desc = "toggle trouble",
+      },
+    },
+    opts = {
+      action_keys = {
+        close = "gq",
+      },
+    },
   },
 }
 

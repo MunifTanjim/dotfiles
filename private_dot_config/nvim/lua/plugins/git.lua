@@ -55,7 +55,7 @@ function plugin_gitsigns.config()
         expr = true,
       })
 
-      u.set_keymap("v", "<leader>gs", ":Gitsigns stage_hunk<cr>", {
+      u.set_keymap("v", "<leader>gs", "<Cmd>Gitsigns stage_hunk<cr>", {
         buffer = bufnr,
         desc = "[git] stage change",
       })
