@@ -1,4 +1,4 @@
-local color = require("config.color")
+local color = require("config.color").dark
 local core = require("nougat.core")
 local Bar = require("nougat.bar")
 local bar_util = require("nougat.bar.util")
@@ -46,42 +46,91 @@ local breakpoints = { [breakpoint.l] = math.huge, [breakpoint.m] = 128, [breakpo
 
 local stl = Bar("statusline", { breakpoints = breakpoints })
 
+local mode_highlight = {
+  normal = {
+    fg = color.bg,
+  },
+  visual = {
+    bg = color.orange,
+    fg = color.bg,
+  },
+  insert = {
+    bg = color.blue,
+    fg = color.bg,
+  },
+  replace = {
+    bg = color.purple,
+    fg = color.bg,
+  },
+  commandline = {
+    bg = color.green,
+    fg = color.bg,
+  },
+  terminal = {
+    bg = color.accent.green,
+    fg = color.bg,
+  },
+  inactive = {},
+}
 local mode = nut.mode({
   prefix = " ",
   suffix = " ",
   config = {
-    highlight = {
-      normal = {
-        fg = color.dark.bg,
+    highlight = mode_highlight,
+    [breakpoint.s] = {
+      text = {
+        ["n"] = "N",
+        ["no"] = "NO",
+        ["nov"] = "NOC",
+        ["noV"] = "NOL",
+        ["no"] = "NOB",
+        ["niI"] = "I(N)",
+        ["niR"] = "R(N)",
+        ["niV"] = "VR(N)",
+        ["nt"] = "TN",
+        ["ntT"] = "T(N)",
+
+        ["v"] = "V",
+        ["vs"] = "S(V)",
+        ["V"] = "VL",
+        ["Vs"] = "S(VL)",
+        [""] = "VB",
+        ["s"] = "S(VB)",
+
+        ["s"] = "S",
+        ["S"] = "SL",
+        [""] = "SB",
+
+        ["i"] = "I",
+        ["ic"] = "ICG",
+        ["ix"] = "IC",
+
+        ["R"] = "R",
+        ["Rc"] = "RCG",
+        ["Rx"] = "RC",
+        ["Rv"] = "VR",
+        ["Rvc"] = "VRCG",
+        ["Rvx"] = "VRC",
+
+        ["c"] = "C",
+        ["cv"] = "VEX",
+        ["ce"] = "EX",
+        ["r"] = "P",
+        ["rm"] = "MP",
+        ["r?"] = "C?",
+        ["!"] = "#",
+
+        ["t"] = "T",
+
+        ["-"] = "-",
       },
-      visual = {
-        bg = color.dark.orange,
-        fg = color.dark.bg,
-      },
-      insert = {
-        bg = color.dark.blue,
-        fg = color.dark.bg,
-      },
-      replace = {
-        bg = color.dark.purple,
-        fg = color.dark.bg,
-      },
-      commandline = {
-        bg = color.dark.green,
-        fg = color.dark.bg,
-      },
-      terminal = {
-        bg = color.dark.accent.green,
-        fg = color.dark.bg,
-      },
-      inactive = {},
     },
   },
 })
 stl:add_item(mode)
 stl:add_item(core.truncation_point())
 stl:add_item(nut.git.branch({
-  hl = { bg = color.dark.bg3, fg = color.dark.fg1 },
+  hl = { bg = color.bg3, fg = color.fg1 },
   prefix = { "  ", " " },
   suffix = " ",
   config = { provider = "fugitive" },
@@ -96,7 +145,7 @@ local filestatus = nut.buf.filestatus({
   },
 })
 stl:add_item(filestatus)
-stl:add_item(nut.buf.filename({
+local filename = nut.buf.filename({
   prefix = " ",
   suffix = " ",
   config = {
@@ -108,7 +157,8 @@ stl:add_item(nut.buf.filename({
     },
     [breakpoint.s] = { modifier = ":t", format = false },
   },
-}))
+})
+stl:add_item(filename)
 stl:add_item(core.truncation_point())
 stl:add_item(nut.spacer())
 stl:add_item(nut.buf.filetype({
@@ -119,28 +169,28 @@ stl:add_item(nut.buf.diagnostic_count({
   hidden = function(item, ctx)
     return item.cache[ctx.bufnr][item:config(ctx).severity] == 0
   end,
-  hl = { bg = color.dark.bg3 },
+  hl = { bg = color.bg3 },
   prefix = " ",
   suffix = " ",
   config = {
-    error = { prefix = " ", fg = color.dark.red },
-    warn = { prefix = " ", fg = color.dark.yellow },
-    info = { prefix = " ", fg = color.dark.blue },
-    hint = { prefix = " ", fg = color.dark.green },
+    error = { prefix = " ", fg = color.red },
+    warn = { prefix = " ", fg = color.yellow },
+    info = { prefix = " ", fg = color.blue },
+    hint = { prefix = " ", fg = color.green },
   },
 }))
 stl:add_item(nut.buf.fileencoding({
   hidden = function(_, ctx)
-    return vim.bo[ctx.bufnr].fileencoding == "utf-8"
+    return vim.api.nvim_buf_get_option(ctx.bufnr, "fileencoding") == "utf-8"
   end,
   prefix = " ",
   suffix = " ",
 }))
 stl:add_item(nut.buf.fileformat({
   hidden = function(_, ctx)
-    return vim.bo[ctx.bufnr].fileformat == "unix"
+    return vim.api.nvim_buf_get_option(ctx.bufnr, "fileformat") == "unix"
   end,
-  hl = { bg = color.dark.bg3, fg = "fg" },
+  hl = { bg = color.bg3, fg = "fg" },
   prefix = " ",
   suffix = " ",
   config = {
@@ -156,7 +206,7 @@ local wordcount_enabled = {
 }
 stl:add_item(nut.buf.wordcount({
   hidden = function(_, ctx)
-    return not wordcount_enabled[vim.bo[ctx.bufnr].filetype]
+    return not wordcount_enabled[vim.api.nvim_buf_get_option(ctx.bufnr, "filetype")]
   end,
   hl = mode,
   sep_left = sep.space(),
@@ -172,16 +222,18 @@ stl:add_item(nut.ruler({
   suffix = " ",
 }))
 
-local stl_inactive = Bar("statusline")
+local stl_inactive = Bar("statusline", { breakpoints = breakpoints })
 stl_inactive:add_item(mode)
 stl_inactive:add_item(core.truncation_point())
 stl_inactive:add_item(filestatus)
-stl_inactive:add_item(nut.buf.filename({
-  prefix = " ",
-  suffix = " ",
-}))
+stl_inactive:add_item(filename)
 
-local hidden_mode = nut.mode({ hidden = true })
+local hidden_mode = nut.mode({
+  hidden = true,
+  config = {
+    highlight = mode_highlight,
+  },
+})
 
 local filetype_mode = (function()
   local item = Item({
@@ -194,24 +246,15 @@ local filetype_mode = (function()
     ["neo-tree"] = "NEO-TREE",
     fugitive = "FUGITIVE",
     help = "HELP",
+    spectre_panel = "SPECTRE",
   }
 
   function item:content(ctx)
-    return self.name_by_filetype[vim.bo[ctx.bufnr].filetype] or ""
+    return self.name_by_filetype[vim.api.nvim_buf_get_option(ctx.bufnr, "filetype")] or ""
   end
 
   return item
 end)()
-
-local stl_fugitive = Bar("statusline")
-stl_fugitive:add_item(hidden_mode)
-stl_fugitive:add_item(filetype_mode)
-stl_fugitive:add_item(nut.git.branch({
-  hl = { bg = color.dark.bg3, fg = color.dark.fg1 },
-  prefix = "  ",
-  suffix = " ",
-  config = { provider = "fugitive" },
-}))
 
 local stl_help = Bar("statusline")
 stl_help:add_item(hidden_mode)
@@ -229,16 +272,22 @@ stl_help:add_item(nut.ruler({
   suffix = " ",
 }))
 
-local stl_neotree = Bar("statusline")
-stl_neotree:add_item(hidden_mode)
-stl_neotree:add_item(filetype_mode)
+local stl_ft_generic = Bar("statusline")
+stl_ft_generic:add_item(hidden_mode)
+stl_ft_generic:add_item(filetype_mode)
+stl_ft_generic:add_item(nut.spacer())
+stl_ft_generic:add_item(nut.ruler({
+  hl = hidden_mode,
+  prefix = " ",
+  suffix = " ",
+}))
 
 local stl_idx = 1
 local stls = { stl }
 
 local stl_switcher = Item({
   hidden = true,
-  hl = { bg = color.dark.blue, fg = color.dark.bg0 },
+  hl = { bg = color.blue, fg = color.bg0 },
   content = "",
   prefix = " ",
   suffix = " ",
@@ -262,9 +311,10 @@ bar_util.set_statusline(function(ctx)
 end)
 
 for ft, stl_ft in pairs({
-  fugitive = stl_fugitive,
+  fugitive = stl_ft_generic,
   help = stl_help,
-  ["neo-tree"] = stl_neotree,
+  ["neo-tree"] = stl_ft_generic,
+  spectre_panel = stl_ft_generic,
 }) do
   bar_util.set_statusline(stl_ft, { filetype = ft })
 end
@@ -273,9 +323,9 @@ local tal = Bar("tabline")
 
 tal:add_item(nut.tab.tablist.tabs({
   active_tab = {
-    hl = { bg = color.dark.bg0_h, fg = color.dark.fg0 },
+    hl = { bg = color.bg0_h, fg = color.fg0 },
     sep_left = {
-      hl = { bg = color.dark.bg0_h, fg = color.dark.blue },
+      hl = { bg = color.bg0_h, fg = color.blue },
       content = "▎",
     },
     suffix = " ",
@@ -287,9 +337,9 @@ tal:add_item(nut.tab.tablist.tabs({
     },
   },
   inactive_tab = {
-    hl = { bg = color.dark.bg2, fg = color.dark.fg2 },
+    hl = { bg = color.bg2, fg = color.fg2 },
     sep_left = {
-      hl = { bg = color.dark.bg2, fg = color.dark.fg3 },
+      hl = { bg = color.bg2, fg = color.fg3 },
       content = "▎",
     },
     suffix = " ",
