@@ -47,11 +47,15 @@ end
 function u.set_keymaps(default_mode, maps, default_opts)
   default_opts = default_opts or {}
   for _, map in ipairs(maps) do
-    local mode, lhs, rhs, map_opts = map.mode or default_mode, map[1], map[2], map[4] or {}
-    map.desc = map.desc or map[3]
+    local mode, lhs, rhs, desc, opts = map.mode or default_mode, map[1], map[2], map[3], map[4]
+    if not opts then
+      opts = type(desc) == "table" and desc or { desc = desc }
+    else
+      opts.desc = desc
+    end
     map.mode, map[1], map[2], map[3], map[4] = nil, nil, nil, nil, nil
-    local opts = vim.tbl_extend("keep", map, map_opts, default_opts, { silent = true })
-    u.set_keymap(mode, lhs, rhs, opts)
+    local ops = vim.tbl_extend("keep", map, opts, default_opts, { silent = true })
+    u.set_keymap(mode, lhs, rhs, ops)
   end
 end
 
