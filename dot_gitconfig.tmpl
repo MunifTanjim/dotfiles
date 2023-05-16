@@ -7,7 +7,6 @@
   signingkey = 9FA86B9EC363F224
 
 [core]
-  editor = vim
   pager = delta
   sshCommand = "ssh -o ControlPath=none"
 
@@ -40,18 +39,20 @@
 [pull]
   ff = only
 
+[push]
+  autoSetupRemote = true
+  default = upstream
+  followTags = true
+
+[rebase]
+  autosquash = true
+
 [alias]
   co = checkout
   l = log --graph --pretty=oneline --abbrev-commit
   pl = pull
   ps = push
   s  = status --short
-
-[web]
-  browser = google-chrome
-
-[push]
-  default = simple
 
 [color]
   ui = auto
