@@ -36,8 +36,8 @@ setup_brew_packages() {
 
   SUB_TASK "Setup GNU Programs/Tools"
   brewfile='
-  brew "coreutils"
   brew "binutils"
+  brew "coreutils"
   brew "diffutils"
   brew "ed"
   brew "findutils"
@@ -51,7 +51,7 @@ setup_brew_packages() {
   brew "grep"
   brew "gzip"
   brew "less"
-  brew "moreutils"
+  brew "parallel"
   brew "screen"
   brew "util-linux"
   '
@@ -123,13 +123,11 @@ setup_brew_packages() {
   SUB_TASK "Setup Desktop Apps"
   brewfile='
   cask "alacritty"
-  cask "brave-browser"
   cask "docker"
   cask "google-chrome"
   cask "hammerspoon"
   cask "karabiner-elements"
   cask "keybase"
-  cask "megasync"
   cask "postman"
   cask "stats"
   cask "visual-studio-code"
