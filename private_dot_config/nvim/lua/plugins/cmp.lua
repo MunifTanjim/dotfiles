@@ -53,26 +53,31 @@ function plugin.config()
         elseif luasnip.expandable() then
           luasnip.expand()
         elseif has_words_before() then
-          cmp.complete()
+          cmp.complete({ reason = cmp.ContextReason.Manual })
         else
           fallback()
         end
-      end, {
-        "i",
-        "s",
-      }),
-      ["<S-Tab>"] = cmp.mapping(function()
+      end, { "i", "s" }),
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
+        else
+          fallback()
         end
-      end, {
-        "i",
-        "s",
-      }),
-      ["<CR>"] = cmp.mapping(cmp.mapping.confirm({ select = true }), { "i", "c" }),
+      end, { "i", "s" }),
+      ["<CR>"] = cmp.mapping.confirm({ select = true }),
       ["<Esc>"] = cmp.mapping.abort(),
-      ["<C-Down>"] = cmp.mapping(cmp.mapping.scroll_docs(3), { "i", "c" }),
-      ["<C-Up>"] = cmp.mapping(cmp.mapping.scroll_docs(-3), { "i", "c" }),
+      ["<C-]>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.close()
+        elseif require("copilot.suggestion").is_visible() then
+          require("copilot.suggestion").dismiss()
+        else
+          fallback()
+        end
+      end),
+      ["<C-Down>"] = cmp.mapping.scroll_docs(3),
+      ["<C-Up>"] = cmp.mapping.scroll_docs(-3),
     },
     snippet = {
       expand = function(args)
@@ -87,13 +92,28 @@ function plugin.config()
     }),
   })
 
+  local cmdline_mapping = cmp.mapping.preset.cmdline({
+    ["<CR>"] = {
+      c = cmp.mapping.confirm({ select = true }),
+    },
+    ["<Esc>"] = {
+      c = function()
+        if not cmp.close() then
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-c>", true, true, true), "n", true)
+        end
+      end,
+    },
+  })
+
   cmp.setup.cmdline("/", {
+    mapping = cmdline_mapping,
     sources = {
       { name = "buffer" },
     },
   })
 
   cmp.setup.cmdline(":", {
+    mapping = cmdline_mapping,
     sources = cmp.config.sources({
       { name = "path" },
     }, {
@@ -102,11 +122,11 @@ function plugin.config()
   })
 
   cmp.event:on("menu_opened", function()
-    vim.b.copilot_suggestion_hidden = true
+    vim.api.nvim_buf_set_var(0, "copilot_suggestion_hidden", true)
   end)
 
   cmp.event:on("menu_closed", function()
-    vim.b.copilot_suggestion_hidden = false
+    vim.api.nvim_buf_set_var(0, "copilot_suggestion_hidden", false)
   end)
 end
 

@@ -26,7 +26,7 @@ function plugin.config()
         accept_line = "<M-Down>",
         prev = "<M-[>",
         next = "<M-]>",
-        dismiss = "<C-]>",
+        dismiss = false,
       },
     },
   })
