@@ -109,7 +109,7 @@ end
 
 local mod = {}
 
-function mod.prepare_config(config)
+function mod.server_config(_, config)
   local luarc = read_luarc()
   if luarc.Lua then
     luarc = luarc.Lua

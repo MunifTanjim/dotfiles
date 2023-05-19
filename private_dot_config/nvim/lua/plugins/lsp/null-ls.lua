@@ -35,7 +35,7 @@ null_ls.setup({
     null_ls.builtins.formatting.stylua,
   },
   on_attach = function(client, bufnr)
-    u.setup_format_keymap(client, bufnr)
+    u.setup_keymaps(client, bufnr)
     u.setup_format_on_save(client, bufnr)
   end,
 })

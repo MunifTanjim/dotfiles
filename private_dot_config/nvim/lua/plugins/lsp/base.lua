@@ -18,37 +18,13 @@ mason_lsp.setup({
   },
 })
 
-local function default_on_attach(client, bufnr)
-  vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-
-  u.setup_basic_keymap(client, bufnr)
-  u.setup_format_keymap(client, bufnr)
-  u.setup_format_on_save(client, bufnr)
-  u.setup_document_highlight(client, bufnr)
-end
-
-local function make_config()
-  local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-  return {
-    capabilities = capabilities,
-    on_attach = default_on_attach,
-  }
-end
-
-local function setup_server(server)
-  local config = make_config()
-
-  if server.name == "emmet_ls" then
-    config.filetypes = { "html", "css", "scss" }
-  end
-
-  if server.name == "lua_ls" then
-    u.lua_ls.prepare_config(config)
-  end
-
-  if server.name == "jsonls" then
-    config.settings = {
+local server_config = {
+  emmet_ls = {
+    filetypes = { "html", "css", "scss" },
+  },
+  lua_ls = u.lua_ls.server_config,
+  jsonls = {
+    settings = {
       json = {
         schemas = vim.list_extend({
           {
@@ -59,30 +35,87 @@ local function setup_server(server)
         }, require("schemastore").json.schemas()),
         validate = { enable = true },
       },
+    },
+  },
+  tsserver = function(_, config)
+    local on_attach = config.on_attach
+    config.on_attach = function(client, bufnr)
+      on_attach(client, bufnr)
+
+      vim.api.nvim_buf_create_user_command(bufnr, "OI", function(opts)
+        require("typescript").actions.organizeImports({ sync = opts.bang })
+      end, { desc = "Organize Imports", bang = true })
+    end
+  end,
+  rust_analyzer = function(_, config)
+    local on_attach = config.on_attach
+    config.on_attach = function(client, bufnr)
+      on_attach(client, bufnr)
+
+      require("config.utils").set_keymaps("n", {
+        {
+          "<M-K>",
+          ":RustMoveItemUp<CR>",
+          "[lsp:rust] move up",
+        },
+        {
+          "<M-J>",
+          ":RustMoveItemDown<CR>",
+          "[lsp:rust] move down",
+        },
+      })
+    end
+
+    config.settings = {
+      ["rust-analyzer"] = {},
     }
-  end
+  end,
+}
 
-  if server.name == "tsserver" then
-    require("typescript").setup({
-      server = {
-        on_attach = function(client, bufnr)
-          default_on_attach(client, bufnr)
-
-          vim.api.nvim_buf_create_user_command(bufnr, "OI", function(opts)
-            require("typescript").actions.organizeImports({ sync = opts.bang })
-          end, { desc = "Organize Imports", bang = true })
-        end,
-      },
+local server_setup = {
+  tsserver = function(_, config)
+    require("typescript").setup({ server = config })
+  end,
+  rust_analyzer = function(_, config)
+    require("rust-tools").setup({
+      server = config,
     })
+  end,
+  ["*"] = function(server, config)
+    server.setup(config)
+  end,
+}
 
-    return
+local function default_on_attach(client, bufnr)
+  vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+
+  u.setup_keymaps(client, bufnr)
+  u.setup_format_on_save(client, bufnr)
+  u.setup_document_highlight(client, bufnr)
+end
+
+local function make_config(server, config)
+  local default_config = {
+    capabilities = vim.tbl_deep_extend(
+      "force",
+      vim.lsp.protocol.make_client_capabilities(),
+      require("cmp_nvim_lsp").default_capabilities()
+    ),
+    on_attach = default_on_attach,
+  }
+
+  if type(config) == "function" then
+    return config(server, default_config) or default_config
   end
 
-  server.setup(config)
+  return vim.tbl_deep_extend("force", default_config, config or {})
 end
 
 for _, server_name in ipairs(mason_lsp.get_installed_servers()) do
-  setup_server(require("lspconfig")[server_name])
+  local server = require("lspconfig")[server_name]
+  local config = make_config(server, server_config[server.name])
+  local setup = server_setup[server.name] or server_setup["*"]
+  setup(server, config)
 end
 
 vim.api.nvim_create_user_command("Format", function(params)

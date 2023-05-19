@@ -8,6 +8,11 @@ local plugins = {
       "jose-elias-alvarez/typescript.nvim",
       "onsails/lspkind-nvim",
       {
+        -- "simrat39/rust-tools.nvim",
+        "MunifTanjim/rust-tools.nvim",
+        branch = "patched",
+      },
+      {
         "williamboman/mason-lspconfig.nvim",
         dependencies = {
           "williamboman/mason.nvim",
@@ -18,7 +23,7 @@ local plugins = {
         },
       },
     },
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("plugins.lsp.base")
     end,
@@ -56,6 +61,28 @@ local plugins = {
         close = "gq",
       },
     },
+  },
+  {
+    "saecki/crates.nvim",
+    event = "BufRead Cargo.toml",
+    config = function()
+      local crates = require("crates")
+      crates.setup({
+        on_attach = function(bufnr)
+          require("config.utils").set_keymap("n", "K", function()
+            if crates.popup_available() then
+              crates.show_popup()
+            else
+              vim.lsp.buf.hover()
+            end
+          end, "[lsp] hover", { buffer = bufnr })
+        end,
+        null_ls = {
+          enabled = true,
+          name = "crates.nvim",
+        },
+      })
+    end,
   },
 }
 

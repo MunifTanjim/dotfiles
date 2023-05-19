@@ -1,6 +1,7 @@
 local mod = {
   format = require("plugins.lsp.custom.format"),
   rename = require("plugins.lsp.custom.rename"),
+  code_action = require("plugins.lsp.custom.code_action"),
 }
 
 ---@param offset_encoding 'utf-8'|'utf-16'|'utf-32'
