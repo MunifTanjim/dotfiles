@@ -9,10 +9,20 @@ local plugin = {
 
 function plugin.config()
   local u = require("config.utils")
-  local luasnip = require("luasnip")
+  local ls = require("luasnip")
   local types = require("luasnip.util.types")
 
-  luasnip.config.setup({
+  local ft_extend_map = {
+    javascriptreact = { "javascript" },
+    typescript = { "javascript" },
+    typescriptreact = { "javascript", "typescript", "javascriptreact" },
+  }
+
+  for ft, extend_fts in pairs(ft_extend_map) do
+    ls.filetype_extend(ft, extend_fts)
+  end
+
+  ls.config.setup({
     ext_opts = {
       [types.choiceNode] = {
         active = {
@@ -29,12 +39,7 @@ function plugin.config()
     },
     region_check_events = "CursorMoved",
     update_events = "TextChanged,TextChangedI",
-    -- this does not affect lsp-snippets
-    load_ft_func = require("luasnip.extras.filetype_functions").extend_load_ft({
-      javascriptreact = { "javascript" },
-      typescript = { "javascript" },
-      typescriptreact = { "javascript", "typescript", "javascriptreact" },
-    }),
+    load_ft_func = require("luasnip.extras.filetype_functions").extend_load_ft(ft_extend_map),
   })
 
   local lsp_snippets_path = vim.fn.resolve(vim.fn.stdpath("config") .. "/snippets/lsp")
@@ -42,9 +47,16 @@ function plugin.config()
     print("[config] Missing LSP Snippets")
   else
     require("luasnip.loaders.from_vscode").lazy_load({
-      paths = {
-        lsp_snippets_path,
-      },
+      paths = { lsp_snippets_path },
+    })
+  end
+
+  local luasnip_snippets_path = vim.fn.resolve(vim.fn.stdpath("config") .. "/snippets/luasnip")
+  if vim.fn.isdirectory(luasnip_snippets_path) == 0 then
+    print("[config] Missing LuaSnip Snippets")
+  else
+    require("luasnip.loaders.from_lua").lazy_load({
+      paths = { luasnip_snippets_path },
     })
   end
 
@@ -52,7 +64,7 @@ function plugin.config()
     {
       "<C-h>",
       function()
-        if luasnip.jumpable(-1) then
+        if ls.jumpable(-1) then
           return "<Plug>luasnip-jump-prev"
         end
 
@@ -63,7 +75,7 @@ function plugin.config()
     {
       "<C-l>",
       function()
-        if luasnip.expand_or_jumpable() then
+        if ls.expand_or_jumpable() then
           return "<Plug>luasnip-expand-or-jump"
         end
 
@@ -74,11 +86,11 @@ function plugin.config()
     {
       "<C-j>",
       function()
-        if luasnip.expandable() then
+        if ls.expandable() then
           return "<Plug>luasnip-expand-snippet"
         end
 
-        if luasnip.choice_active() then
+        if ls.choice_active() then
           return "<Plug>luasnip-next-choice"
         end
 
@@ -90,6 +102,10 @@ function plugin.config()
   }, {
     expr = true,
   })
+
+  vim.api.nvim_create_user_command("LuaSnipEdit", function()
+    require("luasnip.loaders").edit_snippet_files({})
+  end, {})
 end
 
 return plugin
