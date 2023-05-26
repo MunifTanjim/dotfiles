@@ -10,9 +10,9 @@ set nomodelineexpr
 set secure
 
 set encoding=utf-8
-set softtabstop=2
-set shiftwidth=2
 set expandtab
+set shiftwidth=0
+set tabstop=2
 
 set incsearch
 set ignorecase
@@ -235,12 +235,6 @@ let g:carbon_now_sh_options = {
 
 "" Plugin: carbon-now-sh ]]]
 
-"" [[[ Plugin: copilot
-
-let g:copilot_no_maps = v:true
-
-"" Plugin: copilot ]]]
-
 "" [[[ Plugin: fzf
 
 " hide statusline while fzf-ing
@@ -267,9 +261,6 @@ nmap <Leader>/ :ZLines<CR>
 nmap <Leader>? :ZRG<CR>
 nmap <Leader>b :ZBuffers<CR>
 nmap <Leader>w :ZWindows<CR>
-
-" keymaps: fzf-checkout
-nmap <Leader>gc :ZGCheckout<CR>
 
 "" Plugin: fzf ]]]
 
@@ -359,15 +350,6 @@ let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_contrast_light='hard'
 let g:gruvbox_invert_selection='0'
 colorscheme gruvbox
-
-"" airline
-let g:airline_theme='gruvbox'
-let g:airline_powerline_fonts=1
-""" disable powerline arrows
-let g:airline_left_sep=""
-let g:airline_left_alt_sep=""
-let g:airline_right_sep=""
-let g:airline_right_alt_sep=""
 
 " Appearance Settings ]]]
 

@@ -92,7 +92,6 @@ if vim.fn.isdirectory(fzf_root) == 1 then
     dir = fzf_root,
   })
   table.insert(plugins, { "junegunn/fzf.vim" })
-  table.insert(plugins, { "stsewd/fzf-checkout.vim" })
 end
 
 return plugins

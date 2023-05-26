@@ -43,7 +43,6 @@ let fzf_root = fnamemodify(data_dir, ':h') . '/fzf'
 if isdirectory(fzf_root)
   Plug fzf_root
   Plug 'junegunn/fzf.vim'
-  Plug 'stsewd/fzf-checkout.vim'
 endif
 Plug 'andymass/vim-matchup'
 Plug 'bkad/CamelCaseMotion'
@@ -286,5 +285,14 @@ let &t_EI = "\e[1 q"
 
 " fold settings
 autocmd Syntax javascript,json,typescript setlocal foldmethod=syntax
+
+"" airline
+let g:airline_theme='gruvbox'
+let g:airline_powerline_fonts=1
+""" disable powerline arrows
+let g:airline_left_sep=""
+let g:airline_left_alt_sep=""
+let g:airline_right_sep=""
+let g:airline_right_alt_sep=""
 
 " Appearance ]]]
