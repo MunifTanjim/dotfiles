@@ -138,7 +138,7 @@ stl:add_item(nut.git.branch({
 local filestatus = nut.buf.filestatus({
   prefix = " ",
   config = {
-    modified = "",
+    modified = "●",
     nomodifiable = "",
     readonly = "",
     sep = " ",
@@ -173,10 +173,10 @@ stl:add_item(nut.buf.diagnostic_count({
   prefix = " ",
   suffix = " ",
   config = {
-    error = { prefix = " ", fg = color.red },
-    warn = { prefix = " ", fg = color.yellow },
-    info = { prefix = " ", fg = color.blue },
-    hint = { prefix = " ", fg = color.green },
+    error = { prefix = " ", fg = color.red },
+    warn = { prefix = " ", fg = color.yellow },
+    info = { prefix = " ", fg = color.blue },
+    hint = { prefix = "󰌶 ", fg = color.green },
   },
 }))
 stl:add_item(nut.buf.fileencoding({
@@ -332,8 +332,8 @@ tal:add_item(nut.tab.tablist.tabs({
     content = {
       nut.tab.tablist.icon({ suffix = " " }),
       nut.tab.tablist.label({}),
-      nut.tab.tablist.modified({ prefix = " ", config = { text = "" } }),
-      nut.tab.tablist.close({ prefix = " " }),
+      nut.tab.tablist.modified({ prefix = " ", config = { text = "●" } }),
+      nut.tab.tablist.close({ prefix = " ", config = { text = "󰅖" } }),
     },
   },
   inactive_tab = {
@@ -346,8 +346,8 @@ tal:add_item(nut.tab.tablist.tabs({
     content = {
       nut.tab.tablist.icon({ suffix = " " }),
       nut.tab.tablist.label({}),
-      nut.tab.tablist.modified({ prefix = " ", config = { text = "" } }),
-      nut.tab.tablist.close({ prefix = " " }),
+      nut.tab.tablist.modified({ prefix = " ", config = { text = "●" } }),
+      nut.tab.tablist.close({ prefix = " ", config = { text = "󰅖" } }),
     },
   },
 }))

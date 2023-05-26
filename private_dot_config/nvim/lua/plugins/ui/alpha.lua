@@ -75,9 +75,9 @@ local buttons = {
   type = "group",
   val = {
     button("e", "  Empty File", "<Cmd>ene <CR>"),
-    button("f", "  Find File", "<Cmd>Telescope find_files<CR>"),
-    button("g", "  Live Grep", "<Cmd>Telescope live_grep<CR>"),
-    button("o", "  Recently Opened Files", "<Cmd>Telescope oldfiles only_cwd=true<CR>"),
+    button("f", "󰱼  Find File", "<Cmd>Telescope find_files<CR>"),
+    button("g", "󱎸  Live Grep", "<Cmd>Telescope live_grep<CR>"),
+    button("o", "󱀲  Recently Opened Files", "<Cmd>Telescope oldfiles only_cwd=true<CR>"),
     button("p", "  Plugins", "<Cmd>Lazy<CR>"),
     button("q", "✖  Quit", "<Cmd>q<CR>"),
   },

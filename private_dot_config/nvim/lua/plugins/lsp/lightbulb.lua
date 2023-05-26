@@ -1,5 +1,5 @@
 vim.fn.sign_define("LightBulbSign", {
-  text = "",
+  text = "󰌶",
   texthl = "DiagnosticSignHint",
 })
 
