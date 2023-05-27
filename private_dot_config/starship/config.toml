@@ -6,9 +6,9 @@ disabled = true
 symbol = ' '
 
 [battery]
-full_symbol = ''
-charging_symbol = ''
-discharging_symbol = ''
+full_symbol = '󰁹'
+charging_symbol = '󰂄'
+discharging_symbol = '󰂃'
 format = '[$symbol\[$percentage\]]($style) '
 
 [[battery.display]]
@@ -68,7 +68,7 @@ symbol = ' '
 
 [gcloud]
 disabled = true
-symbol = ' '
+symbol = ' '
 
 [git_branch]
 format = '[( $branch )](bold bright-purple)'
@@ -96,7 +96,7 @@ renamed = '»${count}'
 deleted = '✘${count}'
 
 [golang]
-symbol = ' '
+symbol = ' '
 
 [helm]
 disabled = true
@@ -125,21 +125,21 @@ disabled = true
 symbol = '☸ '
 
 [memory_usage]
-symbol = ' '
+symbol = '󰍛 '
 
 [nim]
 disabled = true
-symbol = ' '
+symbol = ' '
 
 [nix_shell]
 disabled = true
 symbol = ' '
 
 [nodejs]
-symbol = ' '
+symbol = ' '
 
 [package]
-symbol = ' '
+symbol = ' '
 
 [perl]
 disabled = false
@@ -161,7 +161,7 @@ disabled = true
 symbol = '🐫 '
 
 [ruby]
-symbol = ' '
+symbol = ' '
 
 [rust]
 symbol = ' '
@@ -182,7 +182,7 @@ symbol = ' '
 
 [terraform]
 disabled = true
-symbol = '💠 '
+symbol = '󱁢 '
 
 [time]
 disabled = true
@@ -192,4 +192,4 @@ disabled = false
 
 [zig]
 disabled = true
-symbol = '⚡️ '
+symbol = ' '
