@@ -27,11 +27,11 @@ set scrolloff 5
 # use either file extensions and/or mime types here. Below uses an editor for
 # text files and a file opener for the rest.
 cmd open ${{
-  case $(file --mime-type $f -b) in
+  case $(file --mime-type -Lb $f) in
     text/*)
-      $EDITOR $fx;;
+      lf -remote "send $id \$$EDITOR \$fx";;
     *)
-      for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done;;
+      for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
   esac
 }}
 
