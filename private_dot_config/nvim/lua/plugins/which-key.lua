@@ -56,6 +56,12 @@ function plugin.config()
 
   which_key = require("which-key")
 
+  local presets = require("which-key.plugins.presets")
+  presets.operators["v"] = nil
+  presets.operators["c"] = nil
+  presets.operators["d"] = nil
+  presets.operators["y"] = nil
+
   which_key.setup({
     window = {
       border = "single",
@@ -64,6 +70,12 @@ function plugin.config()
       padding = { 0, 0, 0, 0 },
     },
   })
+
+  which_key.register({
+    d = { name = "DAP" },
+    f = { name = "Telescope" },
+    o = { name = "Open" },
+  }, { prefix = "<Leader>" })
 
   u.set_keymap = set_keymap
   u.set_keymaps = set_keymaps

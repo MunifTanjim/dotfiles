@@ -284,7 +284,7 @@ nmap <Leader>gs :G<CR>
 "" [[[ Plugin: git-messenger
 
 " keymaps: git-messenger
-nmap <Leader>go <Plug>(git-messenger)
+nmap <Leader>og <Plug>(git-messenger)
 
 function! s:setup_git_messenger_popup() abort
     nmap <buffer><Esc> <Plug>(git-messenger-close)

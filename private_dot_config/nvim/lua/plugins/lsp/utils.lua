@@ -91,7 +91,7 @@ function mod.setup_keymaps(client, bufnr)
     { "gy", vim.lsp.buf.type_definition, "[lsp] type definition" },
     { "gr", vim.lsp.buf.references, "[lsp] references" },
     {
-      "<Leader>do",
+      "<Leader>od",
       function()
         mod.diagnostic_goto(0)
       end,
@@ -142,10 +142,12 @@ function mod.setup_keymaps(client, bufnr)
 
   if has_capability(client, "documentFormatting") then
     keymaps[idx] = { "<Leader>f<Leader>", custom.format, "[lsp] format" }
+    idx = idx + 1
   end
 
   if has_capability(client, "documentRangeFormatting") then
     keymaps[idx] = { "<Leader>f<Leader>", custom.format, "[lsp] format", mode = { "x" } }
+    idx = idx + 1
   end
 
   if has_capability(client, "codeAction") then
