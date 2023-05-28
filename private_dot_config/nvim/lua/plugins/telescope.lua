@@ -96,16 +96,6 @@ function plugin.config()
   })
 
   telescope.load_extension("fzf")
-
-  -- Issue: https://github.com/nvim-telescope/telescope.nvim/issues/2501
-  vim.api.nvim_create_autocmd("WinLeave", {
-    group = vim.api.nvim_create_augroup("plugins.telescope.patch", { clear = true }),
-    callback = function()
-      if vim.bo.ft == "TelescopePrompt" and vim.fn.mode() == "i" then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "i", false)
-      end
-    end,
-  })
 end
 
 return plugin
