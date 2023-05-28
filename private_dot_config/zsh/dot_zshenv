@@ -16,11 +16,11 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 export CARGO_HOME="${XDG_DATA_HOME}/cargo"
-export RUSTUP_HOME="${XDG_DATA_HOME}/rustup"
 export FNM_DIR="${XDG_DATA_HOME}/fnm"
 export GOLANG_DIR="${XDG_DATA_HOME}/golang"
 export LUVER_DIR="${XDG_DATA_HOME}/luver"
 export PYENV_ROOT="${HOME}/.pyenv"
 export RBENV_ROOT="${HOME}/.rbenv"
+export RUSTUP_HOME="${XDG_DATA_HOME}/rustup"
 
 # vim: set filetype=sh :

@@ -183,6 +183,11 @@ fi
   zed load github.com/ohmyzsh/ohmyzsh dir:'plugins/macos'
 {{ end -}}
 
+AUTOENV_FILE_ENTER=.autoenv.in.zsh
+AUTOENV_FILE_LEAVE=.autoenv.out.zsh
+AUTOENV_LOOK_UPWARDS=0
+zed load github.com/Tarrasch/zsh-autoenv name:'autoenv'
+
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 ZSH_AUTOSUGGEST_COMPLETION_IGNORE="git *"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#928374"
