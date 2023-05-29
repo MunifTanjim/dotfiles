@@ -50,6 +50,13 @@ function plugin.init()
       "[telescope] lsp references",
     },
     {
+      "<Leader>fs",
+      function()
+        require("telescope.builtin").lsp_document_symbols()
+      end,
+      "[telescope] lsp document symbols",
+    },
+    {
       "<Leader>f;",
       function()
         require("telescope.builtin").resume()
@@ -62,8 +69,72 @@ end
 function plugin.config()
   local telescope = require("telescope")
 
+  local layout_strategies = require("telescope.pickers.layout_strategies")
+
+  layout_strategies._vertical = layout_strategies.vertical
+  function layout_strategies.vertical(...)
+    local ret = layout_strategies._vertical(...)
+
+    if ret.preview then
+      ret.preview.border = { 1, 1, 0, 1 }
+      ret.preview.borderchars = vim.deepcopy(ret.preview.borderchars)
+      ret.preview.height = ret.preview.height + 1
+    end
+
+    ret.results.border = { 1, 1, 0, 1 }
+    ret.results.borderchars = vim.deepcopy(ret.results.borderchars)
+    ret.results.borderchars[5] = "├"
+    ret.results.borderchars[6] = "┤"
+    ret.results.height = ret.results.height + 1
+
+    ret.prompt.borderchars = vim.deepcopy(ret.prompt.borderchars)
+    ret.prompt.borderchars[5] = "├"
+    ret.prompt.borderchars[6] = "┤"
+
+    return ret
+  end
+
+  layout_strategies._horizontal = layout_strategies.horizontal
+  function layout_strategies.horizontal(...)
+    local ret = layout_strategies._horizontal(...)
+
+    if ret.preview then
+      ret.preview.border = { 1, 1, 1, 0 }
+      ret.preview.borderchars = vim.deepcopy(ret.preview.borderchars)
+      ret.preview.col = ret.preview.col - 1
+      ret.preview.width = ret.preview.width + 1
+    end
+
+    ret.results.border = { 1, 1, 0, 1 }
+    ret.results.borderchars = vim.deepcopy(ret.results.borderchars)
+    ret.results.borderchars[6] = "┬"
+    ret.results.height = ret.results.height + 1
+
+    ret.prompt.borderchars = vim.deepcopy(ret.prompt.borderchars)
+    ret.prompt.borderchars[5] = "├"
+    ret.prompt.borderchars[6] = "┤"
+    ret.prompt.borderchars[7] = "┴"
+
+    return ret
+  end
+
   telescope.setup({
     defaults = {
+      layout_config = {
+        horizontal = {
+          width = 0.9,
+          height = 0.6,
+          preview_cutoff = 120,
+        },
+        vertical = {
+          width = 0.9,
+          height = 0.9,
+        },
+        flex = {
+          flip_columns = 120,
+        },
+      },
+      layout_strategy = "flex",
       mappings = {
         i = {
           ["<C-s>"] = "select_horizontal",
