@@ -1,3 +1,5 @@
+local u = require("config.utils")
+
 local plugins = {
   {
     "neovim/nvim-lspconfig",
@@ -31,8 +33,8 @@ local plugins = {
   {
     "jose-elias-alvarez/null-ls.nvim",
     dependencies = {
-      "MunifTanjim/eslint.nvim",
-      "MunifTanjim/prettier.nvim",
+      u.dev_plugin("MunifTanjim/eslint.nvim"),
+      u.dev_plugin("MunifTanjim/prettier.nvim"),
     },
     event = "BufReadPre",
     config = function()

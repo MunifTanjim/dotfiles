@@ -1,33 +1,5 @@
 local u = require("config.utils")
 
-local local_git_dir = vim.fn.expand("$HOME/Dev")
-local git_host_by_provider = {
-  github = "github.com",
-}
-
-local function make_local(spec)
-  if type(spec) == "string" then
-    spec = { spec }
-  end
-
-  local git_provider = spec.git_provider
-  if not git_provider or not git_host_by_provider[git_provider] then
-    git_provider = "github"
-  end
-
-  local plugin_dir = string.format("%s/%s/%s", local_git_dir, git_provider, spec[1])
-  local plugin_url = string.format("https://%s/%s", git_host_by_provider[git_provider], spec[1])
-  if not vim.loop.fs_stat(plugin_dir) then
-    vim.fn.system({ "git", "clone", plugin_url, plugin_dir })
-  end
-
-  spec.dev = true
-  spec.dir = plugin_dir
-  spec.url = plugin_url
-
-  return spec
-end
-
 local plugins = {
   {
     "goolord/alpha-nvim",
@@ -36,7 +8,7 @@ local plugins = {
     end,
   },
 
-  make_local({
+  u.dev_plugin({
     "MunifTanjim/nui.nvim",
     event = "VeryLazy",
     config = function()
@@ -44,7 +16,7 @@ local plugins = {
     end,
   }),
 
-  make_local({
+  u.dev_plugin({
     "MunifTanjim/nougat.nvim",
     event = "VeryLazy",
     config = function()
