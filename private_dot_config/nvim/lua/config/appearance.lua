@@ -142,6 +142,7 @@ end, {
 })
 
 vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "gruvbox",
   group = vim.api.nvim_create_augroup("colorscheme_override", { clear = true }),
   callback = function()
     for name, hl in pairs(highlights) do
