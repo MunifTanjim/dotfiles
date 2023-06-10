@@ -54,6 +54,14 @@ local plugins = {
       require("plugins.ui.indent-blankline")
     end,
   },
+
+  {
+    "kevinhwang91/nvim-bqf",
+    event = "VeryLazy",
+    config = function()
+      require("plugins.ui.quickfix")
+    end,
+  },
 }
 
 local fzf_root = vim.fn.fnamemodify(vim.fn.stdpath("data"), ":h") .. "/fzf"

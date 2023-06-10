@@ -7,6 +7,8 @@ local highlights = {
   StatusLine = { bg = color.bg2, fg = color.fg1 },
   StatusLineNC = { bg = color.bg1, fg = color.fg4 },
 
+  QuickFixLine = { bg = color.bg1, bold = true, italic = true },
+
   Error = { bg = color.red, bold = true },
 
   DiffDelete = { bg = color.red, fg = color.bg0 },
