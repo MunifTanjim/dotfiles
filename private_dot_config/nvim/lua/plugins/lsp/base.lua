@@ -38,6 +38,27 @@ local server_config = {
     },
   },
   tsserver = function(_, config)
+    local inlayHints = {
+      includeInlayEnumMemberValueHints = true,
+      includeInlayFunctionLikeReturnTypeHints = true,
+      includeInlayFunctionParameterTypeHints = true,
+      ---@type 'none'|'literals'|'all'
+      includeInlayParameterNameHints = "all",
+      includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+      includeInlayPropertyDeclarationTypeHints = true,
+      includeInlayVariableTypeHints = true,
+      includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+    }
+
+    config.settings = {
+      typescript = {
+        inlayHints = inlayHints,
+      },
+      javascript = {
+        inlayHints = inlayHints,
+      },
+    }
+
     local on_attach = config.on_attach
     config.on_attach = function(client, bufnr)
       on_attach(client, bufnr)
@@ -79,6 +100,11 @@ local server_setup = {
   rust_analyzer = function(_, config)
     require("rust-tools").setup({
       server = config,
+      tools = {
+        inlay_hints = {
+          auto = false,
+        },
+      },
     })
   end,
   ["*"] = function(server, config)
@@ -92,6 +118,7 @@ local function default_on_attach(client, bufnr)
   u.setup_keymaps(client, bufnr)
   u.setup_format_on_save(client, bufnr)
   u.setup_document_highlight(client, bufnr)
+  u.setup_inlay_hints(client, bufnr)
 end
 
 local function make_config(server, config)
@@ -128,9 +155,13 @@ vim.api.nvim_create_user_command("Format", function(params)
 end, { desc = "[lsp] format content", range = "%" })
 
 vim.schedule(function()
+  -- tweak lsp inlay_hint hl_groups
+  local hl_comment = vim.api.nvim_get_hl_by_name("Comment", true)
+  vim.api.nvim_set_hl(0, "LspInlayHint", { fg = hl_comment.foreground, italic = true })
+
   -- tweak lsp document_highlight hl_groups
-  local hl_def = vim.api.nvim_get_hl_by_name("GruvboxBg1", true)
-  vim.api.nvim_set_hl(0, "LspReferenceText", { bg = hl_def.foreground })
+  local hl_bg1 = vim.api.nvim_get_hl_by_name("GruvboxBg1", true)
+  vim.api.nvim_set_hl(0, "LspReferenceText", { bg = hl_bg1.foreground })
   vim.api.nvim_set_hl(0, "LspReferenceRead", { link = "LspReferenceText" })
   vim.api.nvim_set_hl(0, "LspReferenceWrite", { link = "LspReferenceText" })
 end)

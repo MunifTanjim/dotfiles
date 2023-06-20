@@ -26,6 +26,7 @@ end
 local augroup = {
   document_highlight = vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false }),
   format_on_save = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false }),
+  inlay_hints = vim.api.nvim_create_augroup("lsp_inlay_hints", { clear = false }),
 }
 
 ---@param client table
@@ -171,6 +172,58 @@ function mod.setup_keymaps(client, bufnr)
   end
 
   u.set_keymaps("n", keymaps, opts)
+end
+
+local function toggle_inlay_hint_mode(bufnr, mode)
+  local prev_mode = vim.b.lsp_inlay_hint_mode
+  if not mode then
+    mode = prev_mode == "" and "i" or ""
+  end
+  vim.b.lsp_inlay_hint_mode = mode
+
+  if prev_mode == "i" then
+    vim.api.nvim_clear_autocmds({ buffer = bufnr, group = augroup.inlay_hints })
+  elseif prev_mode == "n" then
+    vim.lsp.buf.inlay_hint(bufnr, false)
+  end
+
+  if mode == "i" then
+    vim.api.nvim_create_autocmd("InsertEnter", {
+      buffer = bufnr,
+      group = augroup.inlay_hints,
+      callback = function()
+        vim.lsp.buf.inlay_hint(bufnr, true)
+      end,
+    })
+
+    vim.api.nvim_create_autocmd("InsertLeave", {
+      buffer = bufnr,
+      group = augroup.inlay_hints,
+      callback = function()
+        vim.lsp.buf.inlay_hint(bufnr, false)
+      end,
+    })
+  elseif mode == "n" then
+    vim.lsp.buf.inlay_hint(bufnr, true)
+  end
+end
+
+function mod.setup_inlay_hints(client, bufnr)
+  if not has_capability(client, "inlayHint") then
+    return
+  end
+
+  vim.b.lsp_inlay_hint_mode = ""
+
+  vim.api.nvim_buf_create_user_command(bufnr, "ToggleInlayHint", function(info)
+    local next_mode = info.bang and (vim.b.lsp_inlay_hint_mode == "n" and "" or "n")
+      or vim.b.lsp_inlay_hint_mode == "n" and "i"
+      or nil
+    toggle_inlay_hint_mode(bufnr, next_mode)
+  end, {
+    bang = true,
+    desc = "[lsp] toggle inlay hint",
+  })
 end
 
 mod.lua_ls = require("plugins.lsp.utils.lua_ls")
