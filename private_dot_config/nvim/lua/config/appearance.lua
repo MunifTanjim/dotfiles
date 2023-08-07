@@ -112,6 +112,9 @@ local highlights = {
 
   --[[ mason.nvim ]]
   MasonNormal = { link = "Normal" },
+
+  --[[ flash.nvim ]]
+  FlashLabel = { bg = color.purple, fg = color.bg, italic = true },
 }
 
 local guicursor = {
