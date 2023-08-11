@@ -322,7 +322,7 @@ nnoremap <silent> <C-w><M-l> :TmuxResizeRight<CR>
 " [[[ Appearance Settings
 
 set cursorline
-set number
+set number relativenumber
 set nowrap
 set scrolloff=5
 
@@ -350,6 +350,13 @@ let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_contrast_light='hard'
 let g:gruvbox_invert_selection='0'
 colorscheme gruvbox
+
+" automatically toggle relative line number
+augroup auto_relaivenumber_toggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &l:nu | setl rnu   | endif
+  autocmd BufLeave,FocusLost,  InsertEnter,WinLeave * if &l:nu | setl nornu | endif
+augroup END
 
 " Appearance Settings ]]]
 
