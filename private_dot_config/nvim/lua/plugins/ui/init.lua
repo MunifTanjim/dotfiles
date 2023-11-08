@@ -49,6 +49,7 @@ local plugins = {
 
   {
     "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
     event = "BufReadPre",
     config = function()
       require("plugins.ui.indent-blankline")
