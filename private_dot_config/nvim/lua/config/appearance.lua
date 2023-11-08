@@ -107,6 +107,11 @@ local highlights = {
   ["@lsp.typemod.string.static"] = { link = "@string" },
   ["@lsp.typemod.variable.defaultLibrary"] = { link = "@variable.builtin" },
 
+  --[[ vim-fugitive ]]
+  fugitiveUntrackedModifier = { fg = color.yellow },
+  fugitiveUnstagedModifier = { fg = color.orange },
+  fugitiveStagedModifier = { fg = color.aqua },
+
   --[[ lazy.nvim ]]
   LazyNormal = { link = "Normal" },
 
