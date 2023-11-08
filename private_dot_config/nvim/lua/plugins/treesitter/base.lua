@@ -72,7 +72,6 @@ treesitter_configs.setup({
     enable = true,
     keymaps = {
       ["."] = "textsubjects-smart",
-      [";"] = "textsubjects-container-outer",
     },
   },
 })

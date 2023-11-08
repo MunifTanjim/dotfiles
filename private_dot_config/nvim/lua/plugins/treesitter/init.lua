@@ -36,9 +36,6 @@ local plugins = {
   {
     "nvim-treesitter/nvim-treesitter-context",
     event = "BufReadPost",
-    init = function()
-      u.set_keymap("n", "<Leader>tsc", "<Cmd>TSContextToggle<CR>", "[treesitter] toggle context")
-    end,
     config = function()
       require("plugins.treesitter.context")
     end,
