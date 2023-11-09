@@ -1,3 +1,4 @@
+local color = require("config.color").dark
 local u = require("plugins.lsp.utils")
 
 local mason_lsp = require("mason-lspconfig")
@@ -160,8 +161,8 @@ vim.schedule(function()
   vim.api.nvim_set_hl(0, "LspInlayHint", { fg = hl_comment.foreground, italic = true })
 
   -- tweak lsp document_highlight hl_groups
-  local hl_bg1 = vim.api.nvim_get_hl_by_name("GruvboxBg1", true)
-  vim.api.nvim_set_hl(0, "LspReferenceText", { bg = hl_bg1.foreground })
+  -- local hl_bg1 = vim.api.nvim_get_hl_by_name("GruvboxBg1", true)
+  vim.api.nvim_set_hl(0, "LspReferenceText", { bg = color.bg1 })
   vim.api.nvim_set_hl(0, "LspReferenceRead", { link = "LspReferenceText" })
   vim.api.nvim_set_hl(0, "LspReferenceWrite", { link = "LspReferenceText" })
 end)

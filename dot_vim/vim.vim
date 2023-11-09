@@ -94,6 +94,8 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'puremourning/vimspector'
 Plug 'tpope/vim-commentary'
 
+Plug 'github/copilot.vim'
+
 call plug#end()
 
 " Plugins ]]]

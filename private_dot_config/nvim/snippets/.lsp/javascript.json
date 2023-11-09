@@ -58,5 +58,17 @@
   "arrow_function": {
     "prefix": "afn",
     "body": ["($1) => {", "  $2", "}"]
+  },
+  "try_catch": {
+    "prefix": "tryc",
+    "body": ["try {", "  $0", "} catch (${1:err}) {", "  $2", "}"]
+  },
+  "try_catch_finally": {
+    "prefix": "trycf",
+    "body": ["try {", "  $0", "} catch (${1:err}) {", "  $2", "} finally {", "  $3", "}"]
+  },
+  "try_finally": {
+    "prefix": "tryf",
+    "body": ["try {", "  $0", "} finally {", "  $1", "}"]
   }
 }

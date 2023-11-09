@@ -1,6 +1,7 @@
 local denylist = {
   clangd = true,
   jsonls = true,
+  pyright = true,
   tsserver = true,
   stylelint_lsp = true,
 }
