@@ -12,7 +12,7 @@ local function expand_directory_or_edit_file(state)
     end
   elseif node.type == "file" then
     require("neo-tree.sources.common.commands").open_with_window_picker(state)
-    require("neo-tree").close_all()
+    require("neo-tree.command").execute({ action = "close" })
   end
 end
 
@@ -25,7 +25,6 @@ end
 
 require("neo-tree").setup({
   close_if_last_window = true,
-  close_floats_on_escape_key = true,
   default_source = "filesystem",
   enable_diagnostics = false,
   enable_git_status = true,
@@ -94,6 +93,7 @@ require("neo-tree").setup({
       ["gq"] = "close_window",
       ["gr"] = "refresh",
       ["h"] = "close_node",
+      ["<Esc>"] = "cancel",
       ["<Left>"] = "close_node",
       ["l"] = expand_directory_or_edit_file,
       ["<Right>"] = expand_directory_or_edit_file,
@@ -119,7 +119,10 @@ require("neo-tree").setup({
       },
       show_hidden_count = false,
     },
-    follow_current_file = true, -- This will find and focus the file in the active buffer every
+    -- This will find and focus the file in the active buffer every
+    follow_current_file = {
+      enabled = true,
+    },
     -- time the current file is changed while the tree is open.
     hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
     -- in whatever position is specified in window.position
