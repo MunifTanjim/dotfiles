@@ -15,6 +15,9 @@ require("lazy").setup("plugins", {
     notify = false,
   },
   concurrency = 8,
+  dev = {
+    fallback = true,
+  },
   performance = {
     rtp = {
       disabled_plugins = {
