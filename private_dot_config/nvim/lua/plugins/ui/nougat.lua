@@ -6,7 +6,7 @@ local Item = require("nougat.item")
 local sep = require("nougat.separator")
 local nut = {
   buf = {
-    diagnostic_count = require("nougat.nut.buf.diagnostic_count").create,
+    diagnostic_count = require("nougat.nut.buf.diagnostic_count"),
     fileencoding = require("nougat.nut.buf.fileencoding").create,
     fileformat = require("nougat.nut.buf.fileformat").create,
     filename = require("nougat.nut.buf.filename").create,
@@ -165,10 +165,8 @@ stl:add_item(nut.buf.filetype({
   prefix = " ",
   suffix = " ",
 }))
-stl:add_item(nut.buf.diagnostic_count({
-  hidden = function(item, ctx)
-    return item.cache[ctx.bufnr][item:config(ctx).severity] == 0
-  end,
+stl:add_item(nut.buf.diagnostic_count.create({
+  hidden = nut.buf.diagnostic_count.hidden.if_zero(),
   hl = { bg = color.bg3 },
   prefix = " ",
   suffix = " ",

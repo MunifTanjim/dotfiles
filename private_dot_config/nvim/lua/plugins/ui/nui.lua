@@ -15,7 +15,7 @@ local function override_input()
 
   function UIInput:init(opts, on_done)
     local border_top_text = get_prompt_text(opts.prompt, "[Input]")
-    local default_value = tostring(opts.default)
+    local default_value = tostring(opts.default or "")
 
     UIInput.super.init(self, {
       relative = "cursor",
