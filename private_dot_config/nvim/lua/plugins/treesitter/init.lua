@@ -20,6 +20,9 @@ local plugins = {
     end,
   },
   {
+    init = function()
+      vim.g.skip_ts_context_commentstring_module = true
+    end,
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     dependencies = {

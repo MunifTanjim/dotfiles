@@ -39,9 +39,6 @@ treesitter_configs.setup({
   autotag = {
     enable = true,
   },
-  context_commentstring = {
-    enable = true,
-  },
   highlight = {
     enable = true,
   },
