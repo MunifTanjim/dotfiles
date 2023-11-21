@@ -55,6 +55,10 @@ declare -A ZED
 ZED[CACHE_DIR]="${ZSH_CACHE_DIR}/.zed"
 ZED[DATA_DIR]="${ZSH_DATA_DIR}/.zed"
 
+if ! test -d "${ZED[DATA_DIR]}/self"; then
+  git clone --depth 1 https://github.com/MunifTanjim/zed.git "${ZED[DATA_DIR]}/self"
+fi
+
 source "${ZED[DATA_DIR]}/self/zed.zsh"
 
 zed init
