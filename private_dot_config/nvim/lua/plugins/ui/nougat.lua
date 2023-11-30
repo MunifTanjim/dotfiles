@@ -1,4 +1,3 @@
-local color = require("config.color").dark
 local core = require("nougat.core")
 local Bar = require("nougat.bar")
 local bar_util = require("nougat.bar.util")
@@ -12,7 +11,7 @@ local nut = {
     filename = require("nougat.nut.buf.filename").create,
     filestatus = require("nougat.nut.buf.filestatus").create,
     filetype = require("nougat.nut.buf.filetype").create,
-    wordcount = require("nougat.nut.buf.wordcount").create,
+    wordcount = require("nougat.nut.buf.wordcount"),
   },
   git = {
     branch = require("nougat.nut.git.branch").create,
@@ -30,6 +29,8 @@ local nut = {
   ruler = require("nougat.nut.ruler").create,
   spacer = require("nougat.nut.spacer").create,
 }
+
+local color = require("nougat.color").get() --[[@as nougat.color.gruvbox]]
 
 vim.o.rulerformat = table.concat({
   core.code("p"),
@@ -59,7 +60,7 @@ local mode_highlight = {
     fg = color.bg,
   },
   replace = {
-    bg = color.purple,
+    bg = color.magenta,
     fg = color.bg,
   },
   commandline = {
@@ -67,7 +68,7 @@ local mode_highlight = {
     fg = color.bg,
   },
   terminal = {
-    bg = color.accent.green,
+    bg = color.accent.cyan,
     fg = color.bg,
   },
   inactive = {},
@@ -139,7 +140,7 @@ local filestatus = nut.buf.filestatus({
   prefix = " ",
   config = {
     modified = "●",
-    nomodifiable = "",
+    nomodifiable = "",
     readonly = "",
     sep = " ",
   },
@@ -199,13 +200,10 @@ stl:add_item(nut.buf.fileformat({
     },
   },
 }))
-local wordcount_enabled = {
-  markdown = true,
-}
-stl:add_item(nut.buf.wordcount({
-  hidden = function(_, ctx)
-    return not wordcount_enabled[vim.api.nvim_buf_get_option(ctx.bufnr, "filetype")]
-  end,
+stl:add_item(nut.buf.wordcount.create({
+  hidden = nut.buf.wordcount.hidden.if_not_filetype({
+    markdown = true,
+  }),
   hl = mode,
   sep_left = sep.space(),
   config = {
@@ -321,9 +319,9 @@ local tal = Bar("tabline")
 
 tal:add_item(nut.tab.tablist.tabs({
   active_tab = {
-    hl = { bg = color.bg0_h, fg = color.fg0 },
+    hl = { bg = color.bg0, fg = color.fg0 },
     sep_left = {
-      hl = { bg = color.bg0_h, fg = color.blue },
+      hl = { bg = color.bg0, fg = color.blue },
       content = "▎",
     },
     suffix = " ",
