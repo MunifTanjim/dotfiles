@@ -51,6 +51,7 @@ zstyle ':completion:*:messages' format '%B%F{yellow}%d%f%b'
 zstyle ':completion:*:warnings' format '%B%F{red}(no match found)%f%b'
 # completion ]]]
 
+# [[[ setup plugin manager
 declare -A ZED
 ZED[CACHE_DIR]="${ZSH_CACHE_DIR}/.zed"
 ZED[DATA_DIR]="${ZSH_DATA_DIR}/.zed"
@@ -60,11 +61,25 @@ if ! test -d "${ZED[DATA_DIR]}/self"; then
 fi
 
 source "${ZED[DATA_DIR]}/self/zed.zsh"
+# setup plugin manager ]]]
 
 zed init
 
-fpath+="${DOTFILES_MODULES}/zsh/completions"
-fpath+="${ZSH_DATA_DIR}/completions"
+zed load "${DOTFILES_MODULES}/aliases.sh"
+zed load "${DOTFILES_MODULES}/helpers.sh"
+zed load "${DOTFILES_MODULES}/gpg.plugin.sh"
+
+{{ if eq .chezmoi.os "darwin" -}}
+  zed load "${DOTFILES_MODULES}/zsh/plugins/os.darwin" \
+    onpull:'./generate.sh'
+{{- end }}
+
+fpath=(
+  "${ZSH_DATA_DIR}/completions"
+  "${DOTFILES_MODULES}/zsh/completions"
+  "${HOMEBREW_PREFIX}/share/zsh/site-functions"
+  ${fpath}
+)
 
 zed load github.com/zsh-users/zsh-completions
 
@@ -73,14 +88,6 @@ zed load github.com/trapd00r/LS_COLORS \
   onload:'zstyle ":completion:*" list-colors "${(s.:.)LS_COLORS}"'
 zed load github.com/zpm-zsh/colorize
 zed load github.com/zpm-zsh/ls
-
-zed load "${DOTFILES_MODULES}/aliases.sh"
-zed load "${DOTFILES_MODULES}/helpers.sh"
-{{ if eq .chezmoi.os "darwin" -}}
-  zed load "${DOTFILES_MODULES}/zsh/plugins/os.darwin" \
-    onpull:'./generate.sh'
-{{ end -}}
-zed load "${DOTFILES_MODULES}/gpg.plugin.sh"
 
 zed load "${DOTFILES_MODULES}/fnm.plugin.sh" name:'fnm'
 zed load "${DOTFILES_MODULES}/fzf.plugin.sh"
@@ -98,7 +105,6 @@ zed load "${DOTFILES_MODULES}/rust.plugin.sh"
 zed load "${DOTFILES_MODULES}/machine.local.plugin.sh"
 
 # [[[ zle utilities
-
 # 1,3,5 -> (w/  blink) block,underline,bar
 # 2,4,6 -> (w/o blink) block,underline,bar
 function zle--change-cursor() {
@@ -185,7 +191,7 @@ fi
 
 {{ if eq .chezmoi.os "darwin" -}}
   zed load github.com/ohmyzsh/ohmyzsh dir:'plugins/macos'
-{{ end -}}
+{{- end }}
 
 AUTOENV_FILE_ENTER=.autoenv.in.zsh
 AUTOENV_FILE_LEAVE=.autoenv.out.zsh
