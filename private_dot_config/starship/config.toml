@@ -1,3 +1,5 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
 add_newline = false
 format = '$all'
 
@@ -22,7 +24,7 @@ threshold = 30
 [character]
 error_symbol = '[❯](bold bright-red)'
 success_symbol = '[❯](bold bright-green)'
-vicmd_symbol = '[❮](bold bright-green)'
+vimcmd_symbol = '[❮](bold bright-green)'
 
 [cmake]
 disabled = true
