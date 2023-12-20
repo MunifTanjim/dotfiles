@@ -1,6 +1,6 @@
+local nougat = require("nougat")
 local core = require("nougat.core")
 local Bar = require("nougat.bar")
-local bar_util = require("nougat.bar.util")
 local Item = require("nougat.item")
 local sep = require("nougat.separator")
 local nut = {
@@ -302,7 +302,7 @@ for _, bar in ipairs(stls) do
   bar:add_item(stl_switcher)
 end
 
-bar_util.set_statusline(function(ctx)
+nougat.set_statusline(function(ctx)
   return ctx.is_focused and stls[stl_idx] or stl_inactive
 end)
 
@@ -312,7 +312,7 @@ for ft, stl_ft in pairs({
   ["neo-tree"] = stl_ft_generic,
   spectre_panel = stl_ft_generic,
 }) do
-  bar_util.set_statusline(stl_ft, { filetype = ft })
+  nougat.set_statusline(stl_ft, { filetype = ft })
 end
 
 local tal = Bar("tabline")
@@ -348,4 +348,4 @@ tal:add_item(nut.tab.tablist.tabs({
   },
 }))
 
-bar_util.set_tabline(tal)
+nougat.set_tabline(tal)
