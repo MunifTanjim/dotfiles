@@ -61,10 +61,6 @@ function plugin_gitsigns.config()
       })
     end,
   })
-
-  vim.schedule(function()
-    vim.api.nvim_set_hl(0, "GitSignsChange", { link = "GruvboxOrangeSign" })
-  end)
 end
 
 local plugins = {

@@ -51,7 +51,7 @@ local function rename()
       height = 1,
     },
     win_options = {
-      winhighlight = "Normal:Normal,FloatBorder:Normal",
+      winhighlight = "NormalFloat:Normal",
     },
   }, {
     prompt = "",

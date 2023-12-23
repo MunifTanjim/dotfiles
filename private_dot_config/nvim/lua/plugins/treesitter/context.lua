@@ -27,8 +27,3 @@ u.set_keymaps("n", {
     "[treesitter] toggle context",
   },
 })
-
-vim.schedule(function()
-  vim.api.nvim_set_hl(0, "TreesitterContext", { link = "CursorLine" })
-  vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { link = "CursorLine" })
-end)

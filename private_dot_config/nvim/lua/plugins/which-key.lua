@@ -79,10 +79,6 @@ function plugin.config()
 
   u.set_keymap = set_keymap
   u.set_keymaps = set_keymaps
-
-  vim.schedule(function()
-    vim.api.nvim_set_hl(0, "WhichKeyFloat", { link = "Normal" })
-  end)
 end
 
 return plugin

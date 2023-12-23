@@ -1,8 +1,10 @@
 local color = require("config.color").dark
+local faded = require("config.color").faded
 
 local highlights = {
   Search = { bg = color.yellow, fg = color.bg },
-  IncSearch = { bg = color.orange, fg = color.bg },
+  CurSearch = { bg = color.orange, fg = color.bg },
+  IncSearch = { link = "CurSearch" },
 
   StatusLine = { bg = color.bg2, fg = color.fg1 },
   StatusLineNC = { bg = color.bg1, fg = color.fg4 },
@@ -15,6 +17,16 @@ local highlights = {
   DiffAdd = { bg = color.green, fg = color.bg0 },
   DiffChange = { bg = color.aqua, fg = color.bg0 },
   DiffText = { bg = color.yellow, fg = color.bg0 },
+
+  WinSeparator = { fg = color.bg3 },
+
+  NormalFloat = { bg = color.bg2 },
+  FloatBorder = { link = "WinSeparator" },
+
+  LspInlayHint = { fg = color.gray, italic = true },
+  LspReferenceText = { bg = color.bg1 },
+  LspReferenceRead = { link = "LspReferenceText" },
+  LspReferenceWrite = { link = "LspReferenceText" },
 
   --[[ treesitter ]]
   ["@annotation"] = { link = "PreProc" },
@@ -107,10 +119,12 @@ local highlights = {
   ["@lsp.typemod.string.static"] = { link = "@string" },
   ["@lsp.typemod.variable.defaultLibrary"] = { link = "@variable.builtin" },
 
-  --[[ vim-fugitive ]]
-  fugitiveUntrackedModifier = { fg = color.yellow },
-  fugitiveUnstagedModifier = { fg = color.orange },
-  fugitiveStagedModifier = { fg = color.aqua },
+  --[[ flash.nvim ]]
+  FlashLabel = { bg = color.purple, fg = color.bg, italic = true },
+
+  --[[ indent-blankline.nvim ]]
+  IblIndent = { fg = color.bg1, nocombine = true },
+  IblScope = { fg = faded.purple, nocombine = true },
 
   --[[ lazy.nvim ]]
   LazyNormal = { link = "Normal" },
@@ -118,8 +132,21 @@ local highlights = {
   --[[ mason.nvim ]]
   MasonNormal = { link = "Normal" },
 
-  --[[ flash.nvim ]]
-  FlashLabel = { bg = color.purple, fg = color.bg, italic = true },
+  --[[ neo-tree.nvim ]]
+  NeoTreeFloatNormal = { link = "Normal" },
+  NeoTreeFloatBorder = { link = "NeoTreeFloatNormal" },
+
+  --[[ nvim-treesitter-context ]]
+  TreesitterContext = { link = "CursorLine" },
+  TreesitterContextLineNumber = { link = "CursorLine" },
+
+  --[[ vim-fugitive ]]
+  fugitiveUntrackedModifier = { fg = color.yellow },
+  fugitiveUnstagedModifier = { fg = color.orange },
+  fugitiveStagedModifier = { fg = color.aqua },
+
+  --[[ which-key.nvim ]]
+  WhichKeyFloat = { link = "Normal" },
 }
 
 local guicursor = {

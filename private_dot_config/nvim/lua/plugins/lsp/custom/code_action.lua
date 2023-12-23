@@ -28,7 +28,7 @@ local function select_code_action_kind(on_done)
       },
     },
     win_options = {
-      winhighlight = "Normal:Normal",
+      winhighlight = "NormalFloat:Normal",
     },
   }, {
     lines = code_action_kinds,

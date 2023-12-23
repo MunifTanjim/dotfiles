@@ -35,7 +35,7 @@ local function override_input()
         },
       },
       win_options = {
-        winhighlight = "Normal:Normal,FloatBorder:Normal",
+        winhighlight = "NormalFloat:Normal",
       },
     }, {
       default_value = default_value,
@@ -105,7 +105,7 @@ local function override_select()
         },
       },
       win_options = {
-        winhighlight = "Normal:Normal,FloatBorder:Normal",
+        winhighlight = "NormalFloat:Normal",
       },
       zindex = 999,
     }

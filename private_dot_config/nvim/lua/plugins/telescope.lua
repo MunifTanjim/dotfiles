@@ -184,7 +184,7 @@ function plugin.config()
             },
           },
           win_options = {
-            winhighlight = "Normal:Normal",
+            winhighlight = "NormalFloat:Normal",
           },
         })
 
@@ -198,7 +198,7 @@ function plugin.config()
             },
           },
           win_options = {
-            winhighlight = "Normal:Normal",
+            winhighlight = "NormalFloat:Normal",
           },
         })
 
@@ -210,6 +210,9 @@ function plugin.config()
               top = picker.preview_title,
               top_align = "center",
             },
+          },
+          win_options = {
+            winhighlight = "NormalFloat:Normal",
           },
         })
 
