@@ -57,6 +57,17 @@ function plugin.init()
       "[telescope] lsp document symbols",
     },
     {
+      "<Leader>f/",
+      function()
+        require("telescope.builtin").live_grep({
+          path_display = { tail = true },
+          prompt_title = "Search Buffer Content",
+          search_dirs = { vim.fn.expand("%:p") },
+        })
+      end,
+      "[telescope] buffer content",
+    },
+    {
       "<Leader>f;",
       function()
         require("telescope.builtin").resume()
