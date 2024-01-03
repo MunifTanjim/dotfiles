@@ -20,6 +20,7 @@ function plugin.config()
   local ts_node_func_parens_disabled = {
     -- ecma
     named_imports = true,
+    export_clause = true,
     -- rust
     use_declaration = true,
   }
