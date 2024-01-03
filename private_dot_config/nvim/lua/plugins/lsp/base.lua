@@ -12,6 +12,7 @@ mason_lsp.setup({
     "pyright",
     "rust_analyzer",
     "lua_ls",
+    "tailwindcss",
     "tsserver",
     "vimls",
     "yamlls",
@@ -34,6 +35,17 @@ local server_config = {
           },
         }, require("schemastore").json.schemas()),
         validate = { enable = true },
+      },
+    },
+  },
+  tailwindcss = {
+    settings = {
+      tailwindCSS = {
+        experimental = {
+          classRegex = {
+            { "clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+          },
+        },
       },
     },
   },

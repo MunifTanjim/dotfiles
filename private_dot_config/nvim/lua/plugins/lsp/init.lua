@@ -31,7 +31,7 @@ local plugins = {
     end,
   },
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim", -- "jose-elias-alvarez/null-ls.nvim"
     dependencies = {
       u.dev_plugin("MunifTanjim/eslint.nvim"),
       u.dev_plugin("MunifTanjim/prettier.nvim"),

@@ -1,6 +1,8 @@
 local denylist = {
   clangd = true,
+  html = true,
   jsonls = true,
+  pyright = true,
   tsserver = true,
   stylelint_lsp = true,
 }
@@ -8,9 +10,6 @@ local denylist = {
 local denylist_by_filetype = {
   lua = {
     lua_ls = true,
-  },
-  markdown = {
-    html = true,
   },
 }
 
