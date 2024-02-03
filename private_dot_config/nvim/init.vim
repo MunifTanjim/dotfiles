@@ -352,10 +352,10 @@ let g:gruvbox_invert_selection='0'
 colorscheme gruvbox
 
 " automatically toggle relative line number
-augroup auto_relaivenumber_toggle
+augroup auto_relativenumber_toggle
   autocmd!
   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &l:nu | setl rnu   | endif
-  autocmd BufLeave,FocusLost,  InsertEnter,WinLeave * if &l:nu | setl nornu | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &l:nu | setl nornu | endif
 augroup END
 
 " Appearance Settings ]]]
