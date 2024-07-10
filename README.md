@@ -28,7 +28,7 @@ _**NOTE**: Not supported on ARM64 (Apple Silicon)._
 #### Run Command with BSD tools
 
 ```sh
-env -u PATH -u MANPATH DARWIN_NO_GNU=1 zsh -ic 'npm rebuild'
+darwin-no-gnu-run 'npm rebuild --verbose'
 ```
 
 ## Resources

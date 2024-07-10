@@ -57,3 +57,7 @@ if ! is_arm64; then
   export PKG_CONFIG_PATH="${brew_openssl_prefix}/lib/pkgconfig"
   unset brew_openssl_prefix
 fi
+
+darwin-no-gnu-run() {
+  env -u PATH -u MANPATH DARWIN_NO_GNU=1 zsh -lic "$@"
+}

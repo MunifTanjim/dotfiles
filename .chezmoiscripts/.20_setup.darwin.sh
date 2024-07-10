@@ -65,6 +65,7 @@ setup_brew_packages() {
   brew "bash"
   brew "bash-completion@2"
   brew "bat"
+  brew "blueutil"
   brew "exa"
   brew "fd"
   brew "gh"
@@ -84,6 +85,7 @@ setup_brew_packages() {
   brew "rsync"
   brew "starship"
   brew "subversion"
+  brew "switchaudio-osx"
   brew "tmux"
   brew "trash"
   brew "tree"
@@ -123,6 +125,7 @@ setup_brew_packages() {
   SUB_TASK "Setup Desktop Apps"
   brewfile='
   cask "alacritty"
+  cask "maccy"
   cask "docker"
   cask "google-chrome"
   cask "hammerspoon"

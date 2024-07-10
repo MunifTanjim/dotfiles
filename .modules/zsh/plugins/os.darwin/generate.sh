@@ -21,7 +21,6 @@ homebrew_setup_on_arm64() {
   
   local content="$({ head -n $(( marker_start_linenr )) "${__generated_file}"; echo "$(
     $homebrew shellenv | sed 's/^/  /'
-    echo "\n  FPATH=\"\${HOMEBREW_PREFIX}/share/zsh/site-functions:\${FPATH}\""
   )"; tail -n +$(( marker_start_linenr + 1 )) ${__generated_file}; })"
 
   echo "${content}" > "${__generated_file}"
