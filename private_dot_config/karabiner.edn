@@ -34,6 +34,7 @@
                  "^org\\.mozilla\\.nightly$",
                  "^com\\.microsoft\\.Edge",
                  "^com\\.google\\.Chrome$",
+                 "^company\\.thebrowser\\.Browser$",
                  "^com\\.brave\\.Browser$",
                  "^com\\.apple\\.Safari$"]
                 :other-unknown
