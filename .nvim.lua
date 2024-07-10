@@ -16,12 +16,40 @@ local function try_toggleterm_exec(cmd)
   end
 end
 
+local chezmoi_ignored_files = {}
+local function is_chezmoi_ignored_file(file)
+  if not chezmoi_ignored_files[0] then
+    for _, ignored_file in
+      ipairs(
+        vim.split(
+          vim.system({ "chezmoi", "ignored" }, { text = true }):wait().stdout,
+          "\n",
+          { plain = true, trimempty = true }
+        )
+      )
+    do
+      chezmoi_ignored_files[ignored_file] = true
+    end
+    chezmoi_ignored_files[0] = true
+  end
+
+  if chezmoi_ignored_files[file] then
+    return true
+  end
+
+  if vim.fn.fnamemodify(file, ":."):match("^%.") then
+    -- file starting with `.`
+    return true
+  end
+
+  return false
+end
+
 --[[ chezmoi ]]
 vim.api.nvim_create_autocmd("BufWritePost", {
   group = vim.api.nvim_create_augroup("chezmoi-nvim-lua", { clear = true }),
   callback = function(info)
-    if vim.fn.fnamemodify(info.file, ":."):match("^%.") then
-      -- ignore files starting with `.`
+    if is_chezmoi_ignored_file(info.file) then
       return
     end
 

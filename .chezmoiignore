@@ -1,8 +1,6 @@
 README.md
 setup.sh
 
-.stylua.toml
-
 {{ if not .meta.is.personal_machine }}
 .cache/neomutt
 .config/msmtp
