@@ -20,16 +20,11 @@ local plugins = {
     end,
   },
   {
-    init = function()
-      vim.g.skip_ts_context_commentstring_module = true
-    end,
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     dependencies = {
-      "JoosepAlviste/nvim-ts-context-commentstring",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "RRethy/nvim-treesitter-textsubjects",
-      "windwp/nvim-ts-autotag",
     },
     event = "BufReadPost",
     config = function()
@@ -47,11 +42,21 @@ local plugins = {
     "numToStr/Comment.nvim",
     event = "BufReadPost",
     dependencies = {
-      "JoosepAlviste/nvim-ts-context-commentstring",
+      {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        opts = {
+          enable_autocmd = false,
+        },
+      },
     },
     config = function()
       require("plugins.treesitter.comment")
     end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {},
   },
 }
 

@@ -36,9 +36,6 @@ treesitter_configs.setup({
     "vimdoc",
     "yaml",
   },
-  autotag = {
-    enable = true,
-  },
   highlight = {
     enable = true,
   },
@@ -74,6 +71,6 @@ treesitter_configs.setup({
 })
 
 vim.cmd([[
-  autocmd Syntax css,go,html,javascript,javascriptreact,json,python,ruby,rust,toml,typescript,typescriptreact,yaml
+  autocmd FileType css,go,html,javascript,javascriptreact,json,lua,python,ruby,rust,toml,typescript,typescriptreact,yaml
    \ set foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
 ]])
