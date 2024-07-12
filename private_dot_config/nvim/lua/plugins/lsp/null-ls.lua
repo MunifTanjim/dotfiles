@@ -24,10 +24,10 @@ null_ls.setup({
     -- c
     clang_format,
     -- python
-    null_ls.builtins.diagnostics.flake8,
+    require("none-ls.diagnostics.flake8"),
     null_ls.builtins.formatting.black,
     -- lua
-    null_ls.builtins.diagnostics.luacheck.with({
+    require("none-ls-luacheck.diagnostics.luacheck").with({
       condition = function(utils)
         return utils.root_has_file({ ".luacheckrc" })
       end,
@@ -41,7 +41,7 @@ null_ls.setup({
 })
 
 require("eslint").setup({
-  bin = "eslint_d",
+  bin = vim.g.eslint_bin or "eslint_d",
   diagnostics = {
     enable = true,
     report_unused_disable_directives = false,
