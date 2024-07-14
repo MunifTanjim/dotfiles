@@ -94,6 +94,7 @@ function plugin.config()
 
   telescope.setup({
     defaults = {
+      dynamic_preview_title = true,
       layout_strategy = "flex",
       layout_config = {
         horizontal = {

@@ -58,5 +58,41 @@
   "arrow_function": {
     "prefix": "afn",
     "body": ["($1) => {", "  $2", "}"]
+  },
+  "try_catch": {
+    "prefix": "tryc",
+    "body": ["try {", "  $0", "} catch (${1:err}) {", "  $2", "}"]
+  },
+  "try_catch_finally": {
+    "prefix": "trycf",
+    "body": [
+      "try {",
+      "  $0",
+      "} catch (${1:err}) {",
+      "  $2",
+      "} finally {",
+      "  $3",
+      "}"
+    ]
+  },
+  "try_finally": {
+    "prefix": "tryf",
+    "body": ["try {", "  $0", "} finally {", "  $1", "}"]
+  },
+  "test_after_each": {
+    "prefix": "tae",
+    "body": ["afterEach(async () => {", "  $0", "})"]
+  },
+  "test_before_each": {
+    "prefix": "tbe",
+    "body": ["beforeEach(async () => {", "  $0", "})"]
+  },
+  "test_describe": {
+    "prefix": "td",
+    "body": ["describe('${1:name}', () => {", "  $0", "})"]
+  },
+  "test_it": {
+    "prefix": "ti",
+    "body": ["it('${1:description}', async () => {", "  $0", "})"]
   }
 }

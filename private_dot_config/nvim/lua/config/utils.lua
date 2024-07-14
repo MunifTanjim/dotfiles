@@ -74,10 +74,10 @@ function u.set_keymap(mode, lhs, rhs, desc_or_opts, opts)
 end
 
 ---@param default_mode string|string[]
----@param maps ({[1]: string, [2]: string|(fun():nil), [3]?: string, [4]?: table}|table)[]
----@param default_opts? table
-function u.set_keymaps(default_mode, maps, default_opts)
-  default_opts = default_opts or {}
+---@param maps ({[1]: string, [2]: string|(fun():nil), [3]?: string|table, [4]?: table}|table)[]
+---@param fallback_opts? table
+function u.set_keymaps(default_mode, maps, fallback_opts)
+  fallback_opts = fallback_opts or {}
   for _, map in ipairs(maps) do
     local mode, lhs, rhs, desc, opts = map.mode or default_mode, map[1], map[2], map[3], map[4]
     if not opts then
@@ -86,7 +86,7 @@ function u.set_keymaps(default_mode, maps, default_opts)
       opts.desc = desc
     end
     map.mode, map[1], map[2], map[3], map[4] = nil, nil, nil, nil, nil
-    local ops = vim.tbl_extend("keep", map, opts, default_opts, { silent = true })
+    local ops = vim.tbl_extend("keep", map, opts, fallback_opts, { silent = true })
     u.set_keymap(mode, lhs, rhs, ops)
   end
 end

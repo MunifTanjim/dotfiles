@@ -90,7 +90,7 @@ function mod.setup_keymaps(client, bufnr)
     },
     { "gi", vim.lsp.buf.implementation, "[lsp] implementation" },
     { "gy", vim.lsp.buf.type_definition, "[lsp] type definition" },
-    { "gr", vim.lsp.buf.references, "[lsp] references" },
+    { "gr", vim.lsp.buf.references, "[lsp] references", noremap = true, nowait = true },
     {
       "<Leader>od",
       function()

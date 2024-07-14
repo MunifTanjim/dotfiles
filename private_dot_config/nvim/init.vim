@@ -92,10 +92,6 @@ nnoremap <C-w>\| :botright vnew<CR>
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-" centered scroll
-nnoremap <C-d> <C-d>zz
-nnoremap <C-u> <C-u>zz
-
 " General Keymaps ]]]
 
 " [[[ FileType Specific Settings

@@ -19,7 +19,10 @@ dap_vt.setup({
 })
 
 dap_ui.setup({
-  icons = { expanded = "▾", collapsed = "▸" },
+  controls = {},
+  element_mappings = {},
+  force_buffers = true,
+  icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
   mappings = {
     -- Use a table to apply multiple mappings
     expand = { "<CR>", "<2-LeftMouse>" },
@@ -31,7 +34,7 @@ dap_ui.setup({
   },
   -- Expand lines larger than the window
   -- Requires >= 0.7
-  expand_lines = vim.fn.has("nvim-0.7"),
+  expand_lines = vim.fn.has("nvim-0.7") == 1,
   -- Layouts define sections of the screen to place windows.
   -- The position can be "left", "right", "top" or "bottom".
   -- The size specifies the height/width depending on position. It can be an Int
@@ -70,7 +73,7 @@ dap_ui.setup({
   },
   windows = { indent = 1 },
   render = {
-    max_type_length = nil, -- Can be integer or nil.
+    indent = 1,
   },
 })
 

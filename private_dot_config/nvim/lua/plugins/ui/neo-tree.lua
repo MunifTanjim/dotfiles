@@ -23,6 +23,63 @@ local function change_global_cwd(state)
   end
 end
 
+---@param state { tree: NuiTree }
+---@param dir -1|1
+---@param curr_node NuiTree.Node|nil
+local function find_nearest_sibling(state, dir, curr_node)
+  local tree = state.tree
+
+  local node = curr_node or tree:get_node()
+  if not node then
+    return
+  end
+
+  local nodes = tree:get_nodes(node:get_parent_id())
+
+  local index = 0
+  for idx, n in ipairs(nodes) do
+    if n:get_id() == node:get_id() then
+      index = idx
+      break
+    end
+  end
+
+  return nodes[index + dir]
+end
+
+---@param state { tree: NuiTree }
+---@param dir -1|1
+---@param curr_node NuiTree.Node|nil
+local function find_nearest_pibling(state, dir, curr_node)
+  local tree = state.tree
+
+  local node = curr_node or tree:get_node()
+  if not node then
+    return
+  end
+
+  local pibling = tree:get_node(node:get_parent_id())
+
+  if dir == -1 then
+    return pibling
+  end
+
+  local target = find_nearest_sibling(state, dir, pibling)
+
+  if not target then
+    target = find_nearest_pibling(state, dir, pibling)
+  end
+
+  return target
+end
+
+---@param node NuiTree.Node|nil
+local function focus_node(state, node)
+  if node then
+    require("neo-tree.ui.renderer").focus_node(state, node:get_id())
+  end
+end
+
 require("neo-tree").setup({
   close_if_last_window = true,
   default_source = "filesystem",
@@ -141,6 +198,10 @@ require("neo-tree").setup({
         ["o"] = "system_open",
         ["[c"] = "prev_git_modified",
         ["]c"] = "next_git_modified",
+        ["{"] = "prev_sibling",
+        ["}"] = "next_sibling",
+        ["[["] = "prev_pibling",
+        ["]]"] = "next_pibling",
       },
     },
     commands = {
@@ -158,6 +219,18 @@ require("neo-tree").setup({
         state.filtered_items.visible = false
         state.filtered_items.hide_gitignored = not state.filtered_items.hide_gitignored
         require("neo-tree.sources.manager").refresh("filesystem")
+      end,
+      prev_sibling = function(state)
+        focus_node(state, find_nearest_sibling(state, -1))
+      end,
+      next_sibling = function(state)
+        focus_node(state, find_nearest_sibling(state, 1))
+      end,
+      prev_pibling = function(state)
+        focus_node(state, find_nearest_pibling(state, -1))
+      end,
+      next_pibling = function(state)
+        focus_node(state, find_nearest_pibling(state, 1))
       end,
     },
     renderers = {
