@@ -86,6 +86,7 @@ zed load github.com/zsh-users/zsh-completions
 zed load github.com/trapd00r/LS_COLORS \
   onpull:'dircolors -b LS_COLORS > LS_COLORS.plugin.zsh' \
   onload:'zstyle ":completion:*" list-colors "${(s.:.)LS_COLORS}"'
+zed load github.com/zpm-zsh/colors
 zed load github.com/zpm-zsh/colorize
 zed load github.com/zpm-zsh/ls
 
@@ -192,6 +193,8 @@ fi
 {{ if eq .chezmoi.os "darwin" -}}
   zed load github.com/ohmyzsh/ohmyzsh dir:'plugins/macos'
 {{- end }}
+
+zed load "${DOTFILES_MODULES}/zsh/plugins/kitty"
 
 AUTOENV_FILE_ENTER=.autoenv.in.zsh
 AUTOENV_FILE_LEAVE=.autoenv.out.zsh
