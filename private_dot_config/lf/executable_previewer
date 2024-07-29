@@ -53,7 +53,7 @@ case "${f}" in
     unrar l "${f}"
     ;;
   *.7z)
-    7z l "${f}"
+    7z l -p "${f}"
     ;;
   *.pdf)
     pdftotext "${f}" -
