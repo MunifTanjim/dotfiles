@@ -113,7 +113,7 @@ run_setup_scripts() {
   SETUP_SCRIPTS+=(
     setup-bat
     setup-delta
-    setup-exa
+    setup-eza
     setup-fd
     setup-fzf
     setup-lf

@@ -28,7 +28,7 @@ setup_brew_packages() {
 
   update_terminfo_database() {
     local -r term_name="${1}"
-    $(brew --prefix ncurses)/bin/infocmp -x "${term_name}" > "/tmp/${term_name}.info"
+    $(brew --prefix ncurses)/bin/infocmp -x "${term_name}" >"/tmp/${term_name}.info"
     tic -x -o "${HOME}/.terminfo" -e "${term_name}" "/tmp/${term_name}.info"
   }
   update_terminfo_database tmux
@@ -66,7 +66,7 @@ setup_brew_packages() {
   brew "bash-completion@2"
   brew "bat"
   brew "blueutil"
-  brew "exa"
+  brew "eza"
   brew "fd"
   brew "gh"
   brew "git"

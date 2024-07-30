@@ -87,14 +87,14 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # appearance }}}
 
 # {{{ ls
-if command_exists exa; then
-  declare -g exa_params=("--git" "--icons" "--classify" "--group-directories-first" "--time-style=long-iso" "--group" "--color-scale");
-  ls() { exa "${exa_params[@]}" $@; }
-  l() { exa --git-ignore "${exa_params[@]}" $@; }
-  la() { exa -a "${exa_params[@]}" $@; }
-  ll() { exa --header --long "${exa_params[@]}" $@; }
+if command_exists eza; then
+  declare -g eza_params=("--git" "--icons" "--classify" "--group-directories-first" "--time-style=long-iso" "--group" "--color-scale")
+  ls() { eza "${eza_params[@]}" $@; }
+  l() { eza --git-ignore "${eza_params[@]}" $@; }
+  la() { eza -a "${eza_params[@]}" $@; }
+  ll() { eza --header --long "${eza_params[@]}" $@; }
 else
-  declare -g ls_params=("-hF" "--group-directories-first" "--time-style=+%Y-%m-%d %H:%M" "--quoting-style=literal" "--color=auto");
+  declare -g ls_params=("-hF" "--group-directories-first" "--time-style=+%Y-%m-%d %H:%M" "--quoting-style=literal" "--color=auto")
   ls() { command ls "${ls_params[@]}" -C $@; }
   l() { command ls "${ls_params[@]}" -C $@; }
   la() { command ls "${ls_params[@]}" -C -A $@; }
