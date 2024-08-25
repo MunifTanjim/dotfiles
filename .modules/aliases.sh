@@ -1,8 +1,8 @@
 # shellcheck shell=sh
 
 alias c='refresh_and_clear'
-alias x='exit_or_tmux_detach'
-alias :q='exit_or_tmux_detach'
+alias x='eval "$(__exit_or_tmux_detach)"'
+alias :q='eval "$(__exit_or_tmux_detach)"'
 alias :w=''
 
 alias md='mkdir -p'

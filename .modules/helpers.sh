@@ -48,34 +48,39 @@ refresh_and_clear() {
   clear -x
 }
 
-exit_or_tmux_detach() {
+__exit_or_tmux_detach() {
   if [[ -n "$LF_LEVEL" ]]; then
     # inside lf
-    exit
+    echo "exit"
+    return
   fi
 
   if [[ -z "$TMUX" ]] || [[ ! "$TERM" =~ "^(screen|tmux).*" ]]; then
     # outside tmux
-    exit
+    echo "exit"
+    return
   fi
 
   if ! command_exists tmux; then
     # no tmux
-    exit
+    echo "exit"
+    return
   fi
 
   # inside tmux
-  local -r total_windows=$(tmux list-windows | wc -l)
+  local -r total_windows="$(tmux list-windows | wc -l)"
 
-  if [ $total_windows != 1 ]; then
-    exit
+  if (($total_windows != 1)); then
+    echo "exit"
+    return
   fi
 
-  local -r total_panes=$(tmux list-panes | wc -l)
+  local -r total_panes="$(tmux list-panes | wc -l)"
 
-  if [ $total_panes != 1 ]; then
-    exit
+  if (($total_panes != 1)); then
+    echo "exit"
+    return
   fi
 
-  tmux detach && clear
+  echo "tmux detach && clear"
 }
