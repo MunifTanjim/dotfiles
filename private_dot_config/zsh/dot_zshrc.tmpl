@@ -95,8 +95,8 @@ zed load "${DOTFILES_MODULES}/go.plugin.sh"
 zed load "${DOTFILES_MODULES}/lf.plugin.sh"
 zed load github.com/MunifTanjim/luver
 zed load "${DOTFILES_MODULES}/node.plugin.sh"
-zed load "${DOTFILES_MODULES}/zsh/plugins/pyenv" \
-  compile:'pyenv.plugin.zsh _generated.zsh' \
+zed load "${DOTFILES_MODULES}/zsh/plugins/python" \
+  compile:'python.plugin.zsh _generated.zsh' \
   onpull:'./generate.sh'
 zed load "${DOTFILES_MODULES}/zsh/plugins/rbenv" \
   compile:'rbenv.plugin.zsh _generated.zsh' \
