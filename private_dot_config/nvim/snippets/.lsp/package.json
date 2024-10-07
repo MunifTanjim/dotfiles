@@ -4,6 +4,18 @@
     "snippets": [
       {
         "language": [
+          "all"
+        ],
+        "path": "./all.json"
+      },
+      {
+        "language": [
+          "go"
+        ],
+        "path": "./go.json"
+      },
+      {
+        "language": [
           "javascript",
           "javascriptreact",
           "typescript",

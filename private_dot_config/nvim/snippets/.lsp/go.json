@@ -1,0 +1,6 @@
+{
+  "function": {
+    "prefix": "fn",
+    "body": ["func ${1:name}($2) $3 {", "  $0", "}"]
+  }
+}
