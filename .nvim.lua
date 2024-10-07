@@ -37,9 +37,13 @@ local function is_chezmoi_ignored_file(file)
     return true
   end
 
-  if vim.fn.fnamemodify(file, ":."):match("^%.") then
-    -- file starting with `.`
-    return true
+  local fname = vim.fn.fnamemodify(file, ":.")
+  while #fname > 1 do
+    if vim.fn.fnamemodify(fname, ":t"):match("^%.") then
+      -- starting with `.`
+      return true
+    end
+    fname = vim.fn.fnamemodify(fname, ":h")
   end
 
   return false
