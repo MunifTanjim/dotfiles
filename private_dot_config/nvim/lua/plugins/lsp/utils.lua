@@ -17,8 +17,9 @@ function mod.diagnostic_goto(dir, severity)
     return
   end
 
-  local goto_dir = dir == 1 and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-  goto_dir({
+  vim.diagnostic.jump({
+    count = dir,
+    float = true,
     severity = severity and vim.diagnostic.severity[severity] or nil,
   })
 end
@@ -227,5 +228,31 @@ function mod.setup_inlay_hints(client, bufnr)
 end
 
 mod.lua_ls = require("plugins.lsp.utils.lua_ls")
+
+function mod.default_on_attach(client, bufnr)
+  vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
+
+  mod.setup_keymaps(client, bufnr)
+  mod.setup_format_on_save(client, bufnr)
+  mod.setup_document_highlight(client, bufnr)
+  mod.setup_inlay_hints(client, bufnr)
+end
+
+function mod.make_server_config(server, config)
+  local default_config = {
+    capabilities = vim.tbl_deep_extend(
+      "force",
+      vim.lsp.protocol.make_client_capabilities(),
+      require("cmp_nvim_lsp").default_capabilities()
+    ),
+    on_attach = mod.default_on_attach,
+  }
+
+  if type(config) == "function" then
+    return config(server, default_config) or default_config
+  end
+
+  return vim.tbl_deep_extend("force", default_config, config or {})
+end
 
 return mod

@@ -42,7 +42,7 @@ function u.patch_lsp_settings(server_name, settings_patcher)
     })
   end
 
-  local clients = vim.lsp.get_active_clients({ name = server_name })
+  local clients = vim.lsp.get_clients({ name = server_name })
   if #clients > 0 then
     patch_settings(clients[1])
     return
@@ -51,7 +51,7 @@ function u.patch_lsp_settings(server_name, settings_patcher)
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
       local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if client.name == server_name then
+      if client and client.name == server_name then
         patch_settings(client)
         return true
       end

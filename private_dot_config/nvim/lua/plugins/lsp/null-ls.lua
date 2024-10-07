@@ -24,8 +24,21 @@ null_ls.setup({
     -- c
     clang_format,
     -- python
-    require("none-ls.diagnostics.flake8"),
-    null_ls.builtins.formatting.black,
+    require("none-ls.diagnostics.flake8").with({
+      condition = function(utils)
+        return not utils.root_has_file({ "ruff.toml" })
+      end,
+    }),
+    null_ls.builtins.formatting.black.with({
+      condition = function(utils)
+        return not utils.root_has_file({ "ruff.toml" })
+      end,
+    }),
+    null_ls.builtins.formatting.isort.with({
+      condition = function(utils)
+        return not utils.root_has_file({ "ruff.toml" })
+      end,
+    }),
     -- lua
     require("none-ls-luacheck.diagnostics.luacheck").with({
       condition = function(utils)

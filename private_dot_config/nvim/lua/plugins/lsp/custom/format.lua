@@ -3,7 +3,7 @@ local denylist = {
   html = true,
   jsonls = true,
   pyright = true,
-  tsserver = true,
+  ts_ls = true,
   stylelint_lsp = true,
 }
 
@@ -19,7 +19,7 @@ local function get_filter(bufnr)
       return false
     end
 
-    local filetype = vim.api.nvim_buf_get_option(bufnr or 0, "filetype")
+    local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr or 0 })
     local denylist_for_filetype = denylist_by_filetype[filetype]
     if not denylist_for_filetype then
       return true
@@ -29,7 +29,7 @@ local function get_filter(bufnr)
   end
 end
 
----@param options? { async?: boolean, bufnr?: integer, timeout_ms?: integer, range?: table }
+---@param options? vim.lsp.buf.format.Opts
 local function format(options)
   options = options or {}
   options.bufnr = options.bufnr or vim.api.nvim_get_current_buf()

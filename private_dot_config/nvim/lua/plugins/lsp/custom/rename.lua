@@ -21,6 +21,10 @@ local function rename()
       local total_files = vim.tbl_count(result.changes or result.documentChanges or {})
 
       local client = vim.lsp.get_client_by_id(ctx.client_id)
+      if not client then
+        return
+      end
+
       vim.lsp.util.apply_workspace_edit(result, client.offset_encoding)
 
       print(string.format("Changed %s file%s. To save them run ':noa wa'", total_files, total_files > 1 and "s" or ""))

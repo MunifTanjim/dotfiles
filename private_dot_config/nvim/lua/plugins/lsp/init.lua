@@ -10,9 +10,37 @@ local plugins = {
       "jose-elias-alvarez/typescript.nvim",
       "onsails/lspkind-nvim",
       {
-        -- "simrat39/rust-tools.nvim",
-        "MunifTanjim/rust-tools.nvim",
-        branch = "patched",
+        "mrcjkb/rustaceanvim",
+        version = "^5",
+        init = function()
+          vim.g.rustaceanvim = {
+            dap = {
+              autoload_configurations = false,
+            },
+            server = {
+              on_attach = function(client, bufnr)
+                require("plugins.lsp.utils").default_on_attach(client, bufnr)
+
+                require("config.utils").set_keymaps("n", {
+                  {
+                    "<M-K>",
+                    ":RustLsp moveItem up<CR>",
+                    "[lsp:rust] move up",
+                  },
+                  {
+                    "<M-J>",
+                    ":RustLsp moveItem down<CR>",
+                    "[lsp:rust] move down",
+                  },
+                })
+              end,
+              default_settings = {
+                ["rust-analyzer"] = {},
+              },
+            },
+            tools = {},
+          }
+        end,
       },
       {
         "williamboman/mason-lspconfig.nvim",

@@ -4,16 +4,17 @@ local mason_lsp = require("mason-lspconfig")
 mason_lsp.setup({
   ensure_installed = {
     "bashls",
+    "clangd",
     "cssls",
     "emmet_ls",
     "gopls",
     "html",
     "jsonls",
+    "lua_ls",
     "pyright",
     "rust_analyzer",
-    "lua_ls",
     "tailwindcss",
-    "tsserver",
+    "ts_ls",
     "vimls",
     "yamlls",
   },
@@ -44,12 +45,14 @@ local server_config = {
         experimental = {
           classRegex = {
             { "clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+            { "cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+            { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
           },
         },
       },
     },
   },
-  tsserver = function(_, config)
+  ts_ls = function(_, config)
     local inlayHints = {
       includeInlayEnumMemberValueHints = true,
       includeInlayFunctionLikeReturnTypeHints = true,
@@ -80,81 +83,32 @@ local server_config = {
       end, { desc = "Organize Imports", bang = true })
     end
   end,
-  rust_analyzer = function(_, config)
-    local on_attach = config.on_attach
-    config.on_attach = function(client, bufnr)
-      on_attach(client, bufnr)
-
-      require("config.utils").set_keymaps("n", {
-        {
-          "<M-K>",
-          ":RustMoveItemUp<CR>",
-          "[lsp:rust] move up",
-        },
-        {
-          "<M-J>",
-          ":RustMoveItemDown<CR>",
-          "[lsp:rust] move down",
-        },
-      })
-    end
-
-    config.settings = {
-      ["rust-analyzer"] = {},
-    }
-  end,
 }
 
 local server_setup = {
-  tsserver = function(_, config)
+  ts_ls = function(_, config)
+    require("lspconfig")["tsserver"] = require("lspconfig")["ts_ls"]
     require("typescript").setup({ server = config })
   end,
-  rust_analyzer = function(_, config)
-    require("rust-tools").setup({
-      server = config,
-      tools = {
-        inlay_hints = {
-          auto = false,
-        },
-      },
-    })
-  end,
+  rust_analyzer = false,
   ["*"] = function(server, config)
     server.setup(config)
   end,
 }
 
-local function default_on_attach(client, bufnr)
-  vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-
-  u.setup_keymaps(client, bufnr)
-  u.setup_format_on_save(client, bufnr)
-  u.setup_document_highlight(client, bufnr)
-  u.setup_inlay_hints(client, bufnr)
-end
-
-local function make_config(server, config)
-  local default_config = {
-    capabilities = vim.tbl_deep_extend(
-      "force",
-      vim.lsp.protocol.make_client_capabilities(),
-      require("cmp_nvim_lsp").default_capabilities()
-    ),
-    on_attach = default_on_attach,
-  }
-
-  if type(config) == "function" then
-    return config(server, default_config) or default_config
+local function setup_server(server_name)
+  local server = require("lspconfig")[server_name]
+  if server_setup[server.name] == false then
+    return
   end
 
-  return vim.tbl_deep_extend("force", default_config, config or {})
+  local config = u.make_server_config(server, server_config[server.name])
+  local setup = server_setup[server.name] or server_setup["*"]
+  setup(server, config)
 end
 
 for _, server_name in ipairs(mason_lsp.get_installed_servers()) do
-  local server = require("lspconfig")[server_name]
-  local config = make_config(server, server_config[server.name])
-  local setup = server_setup[server.name] or server_setup["*"]
-  setup(server, config)
+  setup_server(server_name)
 end
 
 vim.api.nvim_create_user_command("Format", function(params)
@@ -175,9 +129,12 @@ local function setup_diagnostics()
 
   vim.schedule(function()
     for _, severity in ipairs({ "Error", "Warn", "Info", "Hint" }) do
-      local hl_def = vim.api.nvim_get_hl_by_name("Diagnostic" .. severity, true)
-      vim.api.nvim_set_hl(0, "DiagnosticLineNr" .. severity, { fg = hl_def.foreground, bold = true })
-      vim.fn.sign_define("DiagnosticSign" .. severity, { numhl = "DiagnosticLineNr" .. severity })
+      local hl_def = vim.api.nvim_get_hl(0, {
+        name = "Diagnostic" .. severity,
+        link = false,
+      })
+      vim.api.nvim_set_hl(0, "DiagnosticLineNr" .. severity, { fg = hl_def.fg, bold = true })
+      vim.fn.sign_define("DiagnosticSign" .. severity, { numhl = "DiagnosticLineNr" .. severity, text = "" })
     end
   end)
 end
