@@ -58,14 +58,21 @@ local function find_nearest_pibling(state, dir, curr_node)
     return
   end
 
+  local parent_id = node:get_parent_id()
+  if not parent_id then
+    return
+  end
+
   local pibling = tree:get_node(node:get_parent_id())
+  if not pibling then
+    return
+  end
 
   if dir == -1 then
     return pibling
   end
 
   local target = find_nearest_sibling(state, dir, pibling)
-
   if not target then
     target = find_nearest_pibling(state, dir, pibling)
   end
