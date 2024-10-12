@@ -28,6 +28,25 @@ declare -U path
 autoload -U select-word-style
 select-word-style bash
 
+declare -gA key=(
+  Up                "${terminfo[kcuu1]}"
+  Down              "${terminfo[kcud1]}"
+  Left              "${terminfo[kcub1]}"
+  Right             "${terminfo[kcuf1]}"
+  Home              "${terminfo[khome]}"
+  End               "${terminfo[kend]}"
+  PageUp            "${terminfo[kpp]}"
+  PageDown          "${terminfo[knp]}"
+  Insert            "${terminfo[kich1]}"
+  Delete            "${terminfo[kdch1]}"
+  BackSpace         "${terminfo[kbs]}"
+  Control-Left      "^[[1;5D"
+  Control-Right     "^[[1;5C"
+  Control-Delete    "^[[3;5~"
+  Control-Backspace "^H"
+  Shift-Tab         "${terminfo[kcbt]}"
+)
+
 # [[[ completion
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*' use-cache on
@@ -151,25 +170,6 @@ fi
 # [[[ keybindings
 export KEYTIMEOUT=10
 
-declare -gA key=(
-  Up                "${terminfo[kcuu1]}"
-  Down              "${terminfo[kcud1]}"
-  Left              "${terminfo[kcub1]}"
-  Right             "${terminfo[kcuf1]}"
-  Home              "${terminfo[khome]}"
-  End               "${terminfo[kend]}"
-  PageUp            "${terminfo[kpp]}"
-  PageDown          "${terminfo[knp]}"
-  Insert            "${terminfo[kich1]}"
-  Delete            "${terminfo[kdch1]}"
-  BackSpace         "${terminfo[kbs]}"
-  Control-Left      "^[[1;5D"
-  Control-Right     "^[[1;5C"
-  Control-Delete    "^[[3;5~"
-  Control-Backspace "^H"
-  Shift-Tab         "${terminfo[kcbt]}"
-)
-
 bindkey -v
 
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
@@ -184,6 +184,13 @@ bindkey "${key[Control-Backspace]}" backward-kill-word
 bindkey "${key[Control-Delete]}" kill-word
 bindkey "${key[Shift-Tab]}" reverse-menu-complete
 # keybindings ]]]
+
+if (( ${+commands[atuin]} )); then
+  # should be loaded after 'fzf'
+  zed load "${DOTFILES_MODULES}/zsh/plugins/atuin" \
+    compile:'atuin.plugin.zsh _generated.zsh' \
+    onpull:'./generate.sh'
+fi
 
 if (( ${+commands[zoxide]} )); then
   zed load github.com/MunifTanjim/null name:'zoxide' \
@@ -204,8 +211,7 @@ zed load github.com/Tarrasch/zsh-autoenv name:'autoenv'
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 ZSH_AUTOSUGGEST_COMPLETION_IGNORE="git *"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#928374"
-ZSH_AUTOSUGGEST_HISTORY_IGNORE="(cd|rm|z) *"
-
+ZSH_AUTOSUGGEST_HISTORY_IGNORE="(cd|rm|z|x) *"
 zed load github.com/zsh-users/zsh-autosuggestions
 
 export STARSHIP_CONFIG=~/.config/starship/config.toml
