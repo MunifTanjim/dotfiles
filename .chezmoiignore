@@ -20,6 +20,8 @@ setup.sh
 .config/msmtp
 .config/neomutt
 .mbsyncrc
+.ssh/garb.age
+.ssh/garb.age.pub
 .ssh/id_rsa
 .ssh/id_rsa.pub
 {{ end }}
