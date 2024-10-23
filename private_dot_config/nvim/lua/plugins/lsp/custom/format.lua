@@ -3,7 +3,7 @@ local denylist = {
   html = true,
   jsonls = true,
   pyright = true,
-  ts_ls = true,
+  vtsls = true,
   stylelint_lsp = true,
 }
 

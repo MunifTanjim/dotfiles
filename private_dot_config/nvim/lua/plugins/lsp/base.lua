@@ -14,8 +14,8 @@ mason_lsp.setup({
     "pyright",
     "rust_analyzer",
     "tailwindcss",
-    "ts_ls",
     "vimls",
+    "vtsls",
     "yamlls",
   },
 })
@@ -52,17 +52,18 @@ local server_config = {
       },
     },
   },
-  ts_ls = function(_, config)
+  vtsls = function(_, config)
+    -- ref: https://github.com/yioneko/vtsls/blob/main/packages/service/configuration.schema.json
     local inlayHints = {
-      includeInlayEnumMemberValueHints = true,
-      includeInlayFunctionLikeReturnTypeHints = true,
-      includeInlayFunctionParameterTypeHints = true,
-      ---@type 'none'|'literals'|'all'
-      includeInlayParameterNameHints = "all",
-      includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-      includeInlayPropertyDeclarationTypeHints = true,
-      includeInlayVariableTypeHints = true,
-      includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+      enumMemberValues = { enabled = true },
+      functionLikeReturnTypes = { enabled = true },
+      parameterNames = {
+        ---@type 'none'|'literals'|'all'
+        enabled = "all",
+      },
+      parameterTypes = { enabled = true },
+      propertyDeclarationTypes = { enabled = true },
+      variableTypes = { enabled = true },
     }
 
     config.settings = {
@@ -78,17 +79,20 @@ local server_config = {
     config.on_attach = function(client, bufnr)
       on_attach(client, bufnr)
 
-      vim.api.nvim_buf_create_user_command(bufnr, "OI", function(opts)
-        require("typescript").actions.organizeImports({ sync = opts.bang })
-      end, { desc = "Organize Imports", bang = true })
+      vim.api.nvim_buf_create_user_command(bufnr, "TypescriptOrganizeImports", function()
+        require("vtsls").commands.organize_imports(bufnr)
+      end, { desc = "Organize Imports" })
+
+      vim.api.nvim_buf_create_user_command(bufnr, "TypescriptRemoveUnusedImports", function()
+        require("vtsls").commands.remove_unused_imports(bufnr)
+      end, { desc = "Remove Unused Imports" })
     end
   end,
 }
 
 local server_setup = {
-  ts_ls = function(_, config)
-    require("lspconfig")["tsserver"] = require("lspconfig")["ts_ls"]
-    require("typescript").setup({ server = config })
+  vtsls = function(server, config)
+    server.setup(config)
   end,
   rust_analyzer = false,
   ["*"] = function(server, config)

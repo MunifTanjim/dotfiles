@@ -7,8 +7,8 @@ local plugins = {
       "b0o/schemastore.nvim",
       "folke/neodev.nvim",
       "hrsh7th/cmp-nvim-lsp",
-      "jose-elias-alvarez/typescript.nvim",
       "onsails/lspkind-nvim",
+      "yioneko/nvim-vtsls",
       {
         "mrcjkb/rustaceanvim",
         version = "^5",
