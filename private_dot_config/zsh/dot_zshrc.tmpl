@@ -107,6 +107,10 @@ zed load github.com/trapd00r/LS_COLORS \
   onload:'zstyle ":completion:*" list-colors "${(s.:.)LS_COLORS}"'
 zed load github.com/zpm-zsh/colors
 zed load github.com/zpm-zsh/colorize
+
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.arch "arm64") -}}
+export ZSH_LS_PREFER_LS=1
+{{- end }}
 zed load github.com/zpm-zsh/ls
 
 zed load "${DOTFILES_MODULES}/fzf.plugin.sh"
