@@ -32,7 +32,11 @@ ask_sudo() {
   sudo -v
 
   # keep sudo permission fresh
-  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+  while true; do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" || exit
+  done 2>/dev/null &
 }
 
 is_darwin() {
@@ -124,9 +128,21 @@ ensure_secret_manager() {
   fi
 }
 
+ensure_github_cli_login() {
+  if ! command_exists gh; then
+    echo_info "installing github cli"
+    setup-gh
+  fi
+
+  if ! gh auth status --hostname github.com >/dev/null 2>&1; then
+    echo_info "initiating github cli login"
+    gh auth login --hostname github.com --git-protocol https --web
+  fi
+}
+
 TASK() {
   local -r str="$1"
-  local -r str_len=$(( 4 + ${#str} ))
+  local -r str_len=$((4 + ${#str}))
   local -r char="${2:-"="}"
 
   echo ""

@@ -37,11 +37,9 @@ install_apt_packages() {
 
   declare APT_REPOSITORIES=(
     ppa:git-core/ppa
-    ppa:zanchey/asciinema
   )
 
   declare APT_PACKAGES=(
-    asciinema
     chafa
     curl
     git
@@ -97,9 +95,6 @@ run_setup_scripts() {
     if ! command_exists docker; then
       SETUP_SCRIPTS+=(setup-docker)
     fi
-
-    SETUP_SCRIPTS+=(setup-gh)
-    SETUP_SCRIPTS+=(setup-git-credential-libsecret)
 
     if ! command_exists go; then
       SETUP_SCRIPTS+=(setup-golang)

@@ -63,7 +63,7 @@ set_custom_keyboard_shortcuts() {
   else
     old_items="${old_items:1:-1}"
   fi
-  IFS=", " read -r -a old_items <<< "$old_items"
+  IFS=", " read -r -a old_items <<<"$old_items"
   for item in "${old_items[@]}"; do
     item="${item:1:-1}"
     item="${item/\/org\/gnome\/settings-daemon\/plugins\/media-keys\/custom-keybindings\//}"

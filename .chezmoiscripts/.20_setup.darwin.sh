@@ -61,6 +61,7 @@ setup_brew_packages() {
   brewfile='
   tap "yqrashawn/goku"
 
+  brew "age"
   brew "asciinema"
   brew "bash"
   brew "bash-completion@2"
