@@ -7,6 +7,18 @@ Host optimizely-muniftanjim
   User {{ "bXVuaWYudGFuamlt" | b64dec }}
   HostName optimizely-muniftanjim.tailscale.muniftanjim.dev
 
+Host toolbox
+  User {{ "bXVuaWZ0YW5qaW0=" | b64dec }}
+  HostName toolbox.tailscale.muniftanjim.dev
+  RequestTTY yes
+  RemoteCommand tmux attach-session -t toolbox || tmux new-session -s toolbox
+
+Host box
+  User {{ "bXVuaWZ0YW5qaW0=" | b64dec }}
+  HostName box.tailscale.muniftanjim.dev
+  RequestTTY yes
+  RemoteCommand tmux attach-session -t box || tmux new-session -s box
+
 # Host newscred
 #   HostName newscred.tailscale.muniftanjim.dev
 #
