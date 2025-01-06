@@ -60,6 +60,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     local chezmoi_apply_cmd = {
       "chezmoi",
       "apply",
+      "--parent-dirs",
       vim.fn.systemlist({ "chezmoi", "target-path", info.file })[1],
     }
 
