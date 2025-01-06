@@ -6,20 +6,21 @@
                       :sim     50
                       ;; to_delayed_action_delay_milliseconds
                       ;; after x will be registered as delayed
-                      :delay   250
+                      :delay   200
                       ;; to_if_alone_timeout_milliseconds
                       ;; within x will be registered as alone
-                      :alone   500
+                      :alone   400
                       ;; to_if_held_down_threshold_milliseconds
                       ;; after x will be registered again
-                      :held    250}}
+                      :held    200}}
 
  :devices {:internal-keyboard [{:vendor_id 1452 :product_id 835}]}
 
  :applications {:finder
                 ["^com.apple.finder"]
                 :terminal
-                ["^com\\.apple\\.Terminal$",
+                ["^com\\.mitchellh\\.ghostty$",
+                 "^com\\.apple\\.Terminal$",
                  "^com\\.googlecode\\.iterm2$",
                  "^com\\.github\\.wez\\.wezterm$",
                  "^co\\.zeit\\.hyperterm$",
