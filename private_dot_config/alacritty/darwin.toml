@@ -1,0 +1,92 @@
+[window]
+decorations = "Buttonless" # Buttonless / Full / None / Transparent
+
+[font]
+size = 15.0
+
+[keyboard]
+bindings = [
+  { key = "C", mods = "Control|Shift", action = "Copy" },
+  { key = "V", mods = "Control|Shift", action = "Paste", mode = "~Vi" },
+
+  { key = "A", mods = "Alt", chars = "\u001ba" },
+  { key = "B", mods = "Alt", chars = "\u001bb" },
+  { key = "C", mods = "Alt", chars = "\u001bc" },
+  { key = "D", mods = "Alt", chars = "\u001bd" },
+  { key = "E", mods = "Alt", chars = "\u001be" },
+  { key = "F", mods = "Alt", chars = "\u001bf" },
+  { key = "G", mods = "Alt", chars = "\u001bg" },
+  { key = "H", mods = "Alt", chars = "\u001bh" },
+  { key = "I", mods = "Alt", chars = "\u001bi" },
+  { key = "J", mods = "Alt", chars = "\u001bj" },
+  { key = "K", mods = "Alt", chars = "\u001bk" },
+  { key = "L", mods = "Alt", chars = "\u001bl" },
+  { key = "M", mods = "Alt", chars = "\u001bm" },
+  { key = "N", mods = "Alt", chars = "\u001bn" },
+  { key = "O", mods = "Alt", chars = "\u001bo" },
+  { key = "P", mods = "Alt", chars = "\u001bp" },
+  { key = "Q", mods = "Alt", chars = "\u001bq" },
+  { key = "R", mods = "Alt", chars = "\u001br" },
+  { key = "S", mods = "Alt", chars = "\u001bs" },
+  { key = "T", mods = "Alt", chars = "\u001bt" },
+  { key = "U", mods = "Alt", chars = "\u001bu" },
+  { key = "V", mods = "Alt", chars = "\u001bv" },
+  { key = "W", mods = "Alt", chars = "\u001bw" },
+  { key = "X", mods = "Alt", chars = "\u001bx" },
+  { key = "Y", mods = "Alt", chars = "\u001by" },
+  { key = "Z", mods = "Alt", chars = "\u001bz" },
+  { key = "A", mods = "Alt|Shift", chars = "\u001bA" },
+  { key = "B", mods = "Alt|Shift", chars = "\u001bB" },
+  { key = "C", mods = "Alt|Shift", chars = "\u001bC" },
+  { key = "D", mods = "Alt|Shift", chars = "\u001bD" },
+  { key = "E", mods = "Alt|Shift", chars = "\u001bE" },
+  { key = "F", mods = "Alt|Shift", chars = "\u001bF" },
+  { key = "G", mods = "Alt|Shift", chars = "\u001bG" },
+  { key = "H", mods = "Alt|Shift", chars = "\u001bH" },
+  { key = "I", mods = "Alt|Shift", chars = "\u001bI" },
+  { key = "J", mods = "Alt|Shift", chars = "\u001bJ" },
+  { key = "K", mods = "Alt|Shift", chars = "\u001bK" },
+  { key = "L", mods = "Alt|Shift", chars = "\u001bL" },
+  { key = "M", mods = "Alt|Shift", chars = "\u001bM" },
+  { key = "N", mods = "Alt|Shift", chars = "\u001bN" },
+  { key = "O", mods = "Alt|Shift", chars = "\u001bO" },
+  { key = "P", mods = "Alt|Shift", chars = "\u001bP" },
+  { key = "Q", mods = "Alt|Shift", chars = "\u001bQ" },
+  { key = "R", mods = "Alt|Shift", chars = "\u001bR" },
+  { key = "S", mods = "Alt|Shift", chars = "\u001bS" },
+  { key = "T", mods = "Alt|Shift", chars = "\u001bT" },
+  { key = "U", mods = "Alt|Shift", chars = "\u001bU" },
+  { key = "V", mods = "Alt|Shift", chars = "\u001bV" },
+  { key = "W", mods = "Alt|Shift", chars = "\u001bW" },
+  { key = "X", mods = "Alt|Shift", chars = "\u001bX" },
+  { key = "Y", mods = "Alt|Shift", chars = "\u001bY" },
+  { key = "Z", mods = "Alt|Shift", chars = "\u001bZ" },
+  { key = "Key1", mods = "Alt", chars = "\u001b1" },
+  { key = "Key2", mods = "Alt", chars = "\u001b2" },
+  { key = "Key3", mods = "Alt", chars = "\u001b3" },
+  { key = "Key4", mods = "Alt", chars = "\u001b4" },
+  { key = "Key5", mods = "Alt", chars = "\u001b5" },
+  { key = "Key6", mods = "Alt", chars = "\u001b6" },
+  { key = "Key7", mods = "Alt", chars = "\u001b7" },
+  { key = "Key8", mods = "Alt", chars = "\u001b8" },
+  { key = "Key9", mods = "Alt", chars = "\u001b9" },
+  { key = "Key0", mods = "Alt", chars = "\u001b0" },
+  { key = "Space", mods = "Control", chars = "\u0000" },        # Ctrl + Space
+  { key = "`", mods = "Alt", chars = "\u001b`" },               # Alt + `
+  { key = "`", mods = "Alt|Shift", chars = "\u001b~" },         # Alt + ~
+  { key = "Period", mods = "Alt", chars = "\u001b." },          # Alt + .
+  { key = "Key8", mods = "Alt|Shift", chars = "\u001b*" },      # Alt + *
+  { key = "Key3", mods = "Alt|Shift", chars = "\u001b#" },      # Alt + #
+  { key = "Period", mods = "Alt|Shift", chars = "\u001b>" },    # Alt + >
+  { key = "Comma", mods = "Alt|Shift", chars = "\u001b<" },     # Alt + <
+  { key = "Minus", mods = "Alt|Shift", chars = "\u001b_" },     # Alt + _
+  { key = "Key5", mods = "Alt|Shift", chars = "\u001b%" },      # Alt + %
+  { key = "Key6", mods = "Alt|Shift", chars = "\u001b^" },      # Alt + ^
+  { key = "Backslash", mods = "Alt", chars = "\u001b\\" },      # Alt + \
+  { key = "Backslash", mods = "Alt|Shift", chars = "\u001b|" }, # Alt + |
+  { key = "LBracket", mods = "Alt", chars = "\u001b[" },        # Alt + [
+  { key = "LBracket", mods = "Alt|Shift", chars = "\u001b{" },  # Alt + {
+  { key = "RBracket", mods = "Alt", chars = "\u001b]" },        # Alt + ]
+  { key = "RBracket", mods = "Alt|Shift", chars = "\u001b}" },  # Alt + }
+  { key = "Back", mods = "Alt", chars = "\u001b\u007f" },       # Alt + Backspace
+]

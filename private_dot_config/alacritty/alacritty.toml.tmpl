@@ -1,0 +1,47 @@
+import = [
+  "~/.config/alacritty/colors.gruvbox_dark.toml",
+  "~/.config/alacritty/{{ .chezmoi.os }}.toml"
+]
+live_config_reload = true
+
+[colors]
+draw_bold_text_with_bright_colors = false
+
+[cursor]
+blink_interval = 500
+blink_timeout = 5
+unfocused_hollow = true
+
+[cursor.style]
+blinking = "Off"
+shape = "Block"
+
+[env]
+TERM = "xterm-256color"
+
+[font.normal]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Regular"
+
+[scrolling]
+history = 100000
+multiplier = 3
+
+[selection]
+save_to_clipboard = true
+
+[shell]
+args = ["-l", "-c", "tmux attach || tmux"]
+program = "{{ env "SHELL" }}"
+
+[window]
+dynamic_padding = true
+dynamic_title = true
+opacity = 1.0
+startup_mode = "Maximized"
+
+[window.dimensions]
+columns = 120
+lines = 40
+
+# vim: set filetype=toml.gotexttmpl foldmethod=indent :
