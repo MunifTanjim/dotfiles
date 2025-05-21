@@ -18,6 +18,10 @@ local clang_format = null_ls.builtins.formatting.clang_format.with({
   end),
 })
 
+local function has_no_ruff_config(utils)
+  return not utils.has_file({ "./ruff.toml" }) and not utils.root_has_file({ "ruff.toml" })
+end
+
 ---@diagnostic disable-next-line: redundant-parameter
 null_ls.setup({
   sources = {
@@ -25,19 +29,13 @@ null_ls.setup({
     clang_format,
     -- python
     require("none-ls.diagnostics.flake8").with({
-      condition = function(utils)
-        return not utils.root_has_file({ "ruff.toml" })
-      end,
+      condition = has_no_ruff_config,
     }),
     null_ls.builtins.formatting.black.with({
-      condition = function(utils)
-        return not utils.root_has_file({ "ruff.toml" })
-      end,
+      condition = has_no_ruff_config,
     }),
     null_ls.builtins.formatting.isort.with({
-      condition = function(utils)
-        return not utils.root_has_file({ "ruff.toml" })
-      end,
+      condition = has_no_ruff_config,
     }),
     -- lua
     require("none-ls-luacheck.diagnostics.luacheck").with({

@@ -12,6 +12,7 @@ mason_lsp.setup({
     "jsonls",
     "lua_ls",
     "pyright",
+    "ruff",
     "rust_analyzer",
     "tailwindcss",
     "vimls",
