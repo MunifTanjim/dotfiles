@@ -1,0 +1,9 @@
+# vim: set filetype=sh :
+
+if test -n "${FNM_MULTISHELL_PATH}"; then
+  rm -f "${FNM_MULTISHELL_PATH}"
+fi
+
+if test -n "${LUVER_CURRENT_DIR}"; then
+  rm -f "${LUVER_CURRENT_DIR}"
+fi
