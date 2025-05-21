@@ -1,6 +1,18 @@
 {
   "function": {
     "prefix": "fn",
-    "body": ["func ${1:name}($2) $3 {", "  $0", "}"]
+    "body": ["func ${1}($2) $3 {", "  $0", "}"]
+  },
+  "struct function": {
+    "prefix": "sfn",
+    "body": ["func (${1}) ${2}($3) $4 {", "  $0", "}"]
+  },
+  "go func": {
+    "prefix": "gofn",
+    "body": ["go func () {", "  $0", "}()"]
+  },
+  "if err return": {
+    "prefix": "ier",
+    "body": ["if err != nil {", "  return $0err","}"]
   }
 }
