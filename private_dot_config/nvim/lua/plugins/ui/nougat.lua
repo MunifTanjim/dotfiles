@@ -11,10 +11,12 @@ local nut = {
     filename = require("nougat.nut.buf.filename").create,
     filestatus = require("nougat.nut.buf.filestatus").create,
     filetype = require("nougat.nut.buf.filetype").create,
+    filetype_icon = require("nougat.nut.buf.filetype_icon").create,
     wordcount = require("nougat.nut.buf.wordcount"),
   },
   git = {
     branch = require("nougat.nut.git.branch").create,
+    status = require("nougat.nut.git.status"),
   },
   tab = {
     tablist = {
@@ -136,6 +138,24 @@ stl:add_item(nut.git.branch({
   suffix = " ",
   config = { provider = "fugitive" },
 }))
+stl:add_item(nut.git.status.create({
+  hl = { bg = color.bg3 },
+  suffix = " ",
+  content = {
+    nut.git.status.count("added", {
+      hl = { fg = color.green },
+      prefix = "+",
+    }),
+    nut.git.status.count("changed", {
+      hl = { fg = color.yellow },
+      prefix = "~",
+    }),
+    nut.git.status.count("removed", {
+      hl = { fg = color.red },
+      prefix = "-",
+    }),
+  },
+}))
 local filestatus = nut.buf.filestatus({
   prefix = " ",
   config = {
@@ -162,10 +182,14 @@ local filename = nut.buf.filename({
 stl:add_item(filename)
 stl:add_item(core.truncation_point())
 stl:add_item(nut.spacer())
-stl:add_item(nut.buf.filetype({
+stl:add_item({
   prefix = " ",
+  content = {
+    nut.buf.filetype_icon({ suffix = " " }),
+    nut.buf.filetype({}),
+  },
   suffix = " ",
-}))
+})
 stl:add_item(nut.buf.diagnostic_count.create({
   hidden = nut.buf.diagnostic_count.hidden.if_zero(),
   hl = { bg = color.bg3 },
@@ -180,14 +204,14 @@ stl:add_item(nut.buf.diagnostic_count.create({
 }))
 stl:add_item(nut.buf.fileencoding({
   hidden = function(_, ctx)
-    return vim.api.nvim_buf_get_option(ctx.bufnr, "fileencoding") == "utf-8"
+    return vim.api.nvim_get_option_value("fileencoding", { buf = ctx.bufnr }) == "utf-8"
   end,
   prefix = " ",
   suffix = " ",
 }))
 stl:add_item(nut.buf.fileformat({
   hidden = function(_, ctx)
-    return vim.api.nvim_buf_get_option(ctx.bufnr, "fileformat") == "unix"
+    return vim.api.nvim_get_option_value("fileformat", { buf = ctx.bufnr }) == "unix"
   end,
   hl = { bg = color.bg3, fg = "fg" },
   prefix = " ",
@@ -246,7 +270,7 @@ local filetype_mode = (function()
   }
 
   function item:content(ctx)
-    return self.name_by_filetype[vim.api.nvim_buf_get_option(ctx.bufnr, "filetype")] or ""
+    return self.name_by_filetype[vim.api.nvim_get_option_value("filetype", { buf = ctx.bufnr })] or ""
   end
 
   return item
