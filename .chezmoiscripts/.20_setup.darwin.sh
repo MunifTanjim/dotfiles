@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-CHEZMOI_SOURCE="$(chezmoi source-path)"
+CHEZMOI_SOURCE="${HOME}/.local/share/chezmoi"
 source "${CHEZMOI_SOURCE}/.chezmoiscripts/.00_helpers.sh"
 
 setup_brew_packages() {
@@ -14,10 +14,9 @@ setup_brew_packages() {
 
   local brewfile=''
   brew_bundle() {
-    echo "$brewfile" | brew bundle --no-lock --file=-
+    echo "$brewfile" | brew bundle --file=-
   }
 
-  brew tap "homebrew/bundle"
   brew tap "homebrew/cask"
 
   SUB_TASK "Update terminfo database"
@@ -141,7 +140,7 @@ setup_brew_packages() {
 
   SUB_TASK "Setup Fonts"
   brewfile='
-  tap "homebrew/cask-fonts"
+  tap "homebrew/cask"
 
   cask "font-fira-code"
   cask "font-fira-code-nerd-font"

@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-CHEZMOI_SOURCE="$(chezmoi source-path)"
+CHEZMOI_SOURCE="${HOME}/.local/share/chezmoi"
 source "${CHEZMOI_SOURCE}/.chezmoiscripts/.00_helpers.sh"
 
 ensure_command_line_tools() {
@@ -29,7 +29,7 @@ ensure_homebrew() {
     local homebrew_bin="/opt/homebrew/bin"
     if ! cat /etc/paths | grep -q "${homebrew_bin}"; then
       echo "setting up homebrew binary path for gui apps"
-      echo -e "${homebrew_bin}\n$(cat /etc/paths)" | sudo tee /etc/paths > /dev/null
+      echo -e "${homebrew_bin}\n$(cat /etc/paths)" | sudo tee /etc/paths >/dev/null
     fi
   fi
 }

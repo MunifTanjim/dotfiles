@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CHEZMOI_SOURCE="$(chezmoi source-path)"
+CHEZMOI_SOURCE="${HOME}/.local/share/chezmoi"
 export PATH="${CHEZMOI_SOURCE}/.scripts.sh:${PATH}"
 
 declare -r red='\033[0;31m'

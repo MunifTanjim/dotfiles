@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-CHEZMOI_SOURCE="$(chezmoi source-path)"
+CHEZMOI_SOURCE="${HOME}/.local/share/chezmoi"
 source "${CHEZMOI_SOURCE}/.chezmoiscripts/.00_helpers.sh"
 
 TASK "Writing Linux Settings"
