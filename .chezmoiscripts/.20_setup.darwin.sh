@@ -17,8 +17,6 @@ setup_brew_packages() {
     echo "$brewfile" | brew bundle --file=-
   }
 
-  brew tap "homebrew/cask"
-
   SUB_TASK "Update terminfo database"
   brewfile='
   brew "ncurses"
@@ -100,7 +98,6 @@ setup_brew_packages() {
   SUB_TASK "Setup Programming Language Version Managers"
   brewfile='
   brew "autoconf"
-  brew "openssl@1.1"
   brew "pkg-config"
   brew "pyenv"
   brew "pyenv-virtualenv"
@@ -140,8 +137,6 @@ setup_brew_packages() {
 
   SUB_TASK "Setup Fonts"
   brewfile='
-  tap "homebrew/cask"
-
   cask "font-fira-code"
   cask "font-fira-code-nerd-font"
   cask "font-jetbrains-mono"
