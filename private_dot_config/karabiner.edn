@@ -14,7 +14,9 @@
                       ;; after x will be registered again
                       :held    200}}
 
- :devices {:internal-keyboard [{:vendor_id 1452 :product_id 835}]}
+ :devices {:internal-keyboard [
+                               {:vendor_id 1452 :product_id 835},
+                               {:is_built_in_keyboard true}]}
 
  :applications {:finder
                 ["^com.apple.finder"]
