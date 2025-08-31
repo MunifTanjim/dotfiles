@@ -3,7 +3,7 @@
 current_shell="${current_shell:-"$(ps -p$$ -oucomm= | xargs)"}"
 
 is_arm64() {
-  test "$(uname -m)" = "arm64" 
+  test "$(uname -m)" = "arm64"
 }
 
 manpathmunge() {
@@ -14,9 +14,19 @@ manpathmunge() {
 export HOMEBREW_NO_AUTO_UPDATE=1
 
 if is_arm64; then
-  ## {{{ start: homebrew on arm64
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-  ## end: homebrew on arm64 }}}
+  if test -z "${DARWIN_NO_GNU}"; then
+    OLD_PATH="${PATH}"
+    OLD_MANPATH="${MANPATH}"
+    OLD_INFOPATH="${INFOPATH}"
+    ## {{{ start: homebrew on arm64
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    ## end: homebrew on arm64 }}}
+    export PATH="${OLD_PATH}:${PATH}"
+    export MANPATH="${OLD_MANPATH}:${MANPATH}"
+    export INFOPATH="${OLD_INFOPATH}:${INFOPATH}"
+  else
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
 else
   export HOMEBREW_PREFIX="$(brew --prefix)"
   pathmunge "${HOMEBREW_PREFIX}/sbin"
@@ -39,6 +49,9 @@ if test -z "${DARWIN_NO_GNU}"; then
     manpathmunge "${gnuman_path}"
   done
 fi
+
+# docker
+pathmunge "${HOME}/.docker/bin"
 
 # google-cloud-sdk
 if [[ -d "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk" ]]; then
