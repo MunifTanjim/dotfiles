@@ -148,6 +148,15 @@ local highlights = {
 
   --[[ which-key.nvim ]]
   WhichKeyNormal = { link = "Normal" },
+
+  --[[ grug-far.nvim ]]
+  GrugFarInputLabel = { link = "SignColumn" },
+  GrugFarResultsHeader = { link = "SignColumn" },
+  GrugFarResultsStats = { link = "SignColumn" },
+  GrugFarResultsActionMessage = { link = "SignColumn" },
+  GrugFarResultsMatch = { link = "DiffChange" },
+  GrugFarResultsMatchAdded = { link = "DiffAdd" },
+  GrugFarResultsMatchRemoved = { link = "DiffDelete" },
 }
 
 local guicursor = {

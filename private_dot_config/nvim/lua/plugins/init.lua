@@ -69,6 +69,27 @@ local plugins = {
     ft = "sql",
   },
   {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+    ---@type render.md.UserConfig
+    opts = {
+      completions = {
+        lsp = {
+          enabled = true,
+        },
+      },
+      heading = {
+        width = "block",
+      },
+      sign = {
+        enabled = false,
+      },
+    },
+  },
+  {
     "mustache/vim-mustache-handlebars",
     ft = { "html.handlebars", "html.mustache" },
   },

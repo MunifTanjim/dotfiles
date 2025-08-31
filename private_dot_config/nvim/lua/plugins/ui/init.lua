@@ -40,10 +40,13 @@ local plugins = {
   },
 
   {
-    "nvim-pack/nvim-spectre",
-    cmd = "Spectre",
+    "MagicDuck/grug-far.nvim",
+    cmd = "GrugFar",
     init = function()
-      u.set_keymap("n", "<Leader>S", "<Cmd>Spectre<CR>", "toggle spectre")
+      u.set_keymap("n", "<Leader>S", "<Cmd>GrugFar<CR>", "toggle grug-far")
+    end,
+    config = function()
+      require("grug-far").setup({})
     end,
   },
 
