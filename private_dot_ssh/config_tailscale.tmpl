@@ -3,9 +3,19 @@
 Host omega
   HostName omega.tailscale.muniftanjim.dev
 
+Host gamma
+  User {{ "bXVuaWZ0YW5qaW0=" | b64dec }}
+  HostName gamma.tailscale.muniftanjim.dev
+
 Host optimizely-muniftanjim
   User {{ "bXVuaWYudGFuamlt" | b64dec }}
   HostName optimizely-muniftanjim.tailscale.muniftanjim.dev
+
+Host box
+  User {{ "bXVuaWZ0YW5qaW0=" | b64dec }}
+  HostName box.tailscale.muniftanjim.dev
+  RequestTTY yes
+  RemoteCommand tmux attach-session -t box || tmux new-session -s box
 
 Host toolbox
   User {{ "bXVuaWZ0YW5qaW0=" | b64dec }}
@@ -13,11 +23,11 @@ Host toolbox
   RequestTTY yes
   RemoteCommand tmux attach-session -t toolbox || tmux new-session -s toolbox
 
-Host box
+Host torbox
   User {{ "bXVuaWZ0YW5qaW0=" | b64dec }}
-  HostName box.tailscale.muniftanjim.dev
+  HostName torbox.tailscale.muniftanjim.dev
   RequestTTY yes
-  RemoteCommand tmux attach-session -t box || tmux new-session -s box
+  RemoteCommand tmux attach-session -t torbox || tmux new-session -s torbox
 
 # Host newscred
 #   HostName newscred.tailscale.muniftanjim.dev
