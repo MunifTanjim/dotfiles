@@ -33,7 +33,7 @@ local function rename()
 
   local input = Input({
     border = {
-      style = "rounded",
+      style = "default",
       text = {
         top = "[Rename]",
         top_align = "left",

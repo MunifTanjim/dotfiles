@@ -6,6 +6,7 @@ mason_lsp.setup({
     "bashls",
     "clangd",
     "cssls",
+    -- "denols",
     "emmet_ls",
     "gopls",
     "html",
@@ -22,6 +23,12 @@ mason_lsp.setup({
 })
 
 local server_config = {
+  clangd = {
+    filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+  },
+  denols = {
+    root_dir = require("lspconfig").util.root_pattern("deno.json", "deno.jsonc"),
+  },
   emmet_ls = {
     filetypes = { "html", "css", "scss" },
   },
@@ -53,7 +60,7 @@ local server_config = {
       },
     },
   },
-  vtsls = function(_, config)
+  vtsls = function(config)
     -- ref: https://github.com/yioneko/vtsls/blob/main/packages/service/configuration.schema.json
     local inlayHints = {
       enumMemberValues = { enabled = true },
@@ -92,24 +99,25 @@ local server_config = {
 }
 
 local server_setup = {
-  vtsls = function(server, config)
-    server.setup(config)
+  vtsls = function(server_name, config)
+    vim.lsp.config(server_name, config)
+    vim.lsp.enable(server_name)
   end,
   rust_analyzer = false,
-  ["*"] = function(server, config)
-    server.setup(config)
+  ["*"] = function(server_name, config)
+    vim.lsp.config(server_name, config)
+    vim.lsp.enable(server_name)
   end,
 }
 
 local function setup_server(server_name)
-  local server = require("lspconfig")[server_name]
-  if server_setup[server.name] == false then
+  if server_setup[server_name] == false then
     return
   end
 
-  local config = u.make_server_config(server, server_config[server.name])
-  local setup = server_setup[server.name] or server_setup["*"]
-  setup(server, config)
+  local config = u.make_server_config(server_config[server_name])
+  local setup = server_setup[server_name] or server_setup["*"]
+  setup(server_name, config)
 end
 
 for _, server_name in ipairs(mason_lsp.get_installed_servers()) do

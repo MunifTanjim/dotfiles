@@ -238,7 +238,7 @@ function mod.default_on_attach(client, bufnr)
   mod.setup_inlay_hints(client, bufnr)
 end
 
-function mod.make_server_config(server, config)
+function mod.make_server_config(config)
   local default_config = {
     capabilities = vim.tbl_deep_extend(
       "force",
@@ -249,7 +249,7 @@ function mod.make_server_config(server, config)
   }
 
   if type(config) == "function" then
-    return config(server, default_config) or default_config
+    return config(default_config) or default_config
   end
 
   return vim.tbl_deep_extend("force", default_config, config or {})
