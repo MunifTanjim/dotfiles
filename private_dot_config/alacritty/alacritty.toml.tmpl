@@ -1,3 +1,4 @@
+[general]
 import = [
   "~/.config/alacritty/colors.gruvbox_dark.toml",
   "~/.config/alacritty/{{ .chezmoi.os }}.toml"
@@ -30,7 +31,7 @@ multiplier = 3
 [selection]
 save_to_clipboard = true
 
-[shell]
+[terminal.shell]
 args = ["-l", "-c", "tmux attach || tmux"]
 program = "{{ env "SHELL" }}"
 
