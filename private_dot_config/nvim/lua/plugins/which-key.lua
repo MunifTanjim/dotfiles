@@ -62,6 +62,19 @@ function plugin.config()
 
   wk.setup({
     preset = "helix",
+    icons = {
+      rules = {
+        -- { plugin = "claudecode.nvim", icon = "" },
+        { pattern = "accept diff", icon = "", color = "green" },
+        { pattern = "reject diff", icon = "", color = "red" },
+        { pattern = "continue", icon = "", color = "purple" },
+        { pattern = "resume", icon = "", color = "blue" },
+        { pattern = "focus", icon = "󰋱", color = "orange" },
+        { pattern = "send", icon = "", color = "cyan" },
+        { pattern = "status", icon = "󱖫", color = "azure" },
+        { pattern = "model", icon = "", color = "grey" },
+      },
+    },
     plugins = {
       presets = {
         -- operators = false,
