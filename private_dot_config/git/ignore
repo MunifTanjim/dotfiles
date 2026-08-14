@@ -1,2 +1,5 @@
 .autoenv.in.zsh
 .autoenv.out.zsh
+
+**/.claude/settings.local.json
+.codegraph
