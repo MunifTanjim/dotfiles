@@ -50,37 +50,39 @@ local function is_chezmoi_ignored_file(file)
 end
 
 --[[ chezmoi ]]
-vim.api.nvim_create_autocmd("BufWritePost", {
-  group = vim.api.nvim_create_augroup("chezmoi-nvim-lua", { clear = true }),
-  callback = function(info)
-    if is_chezmoi_ignored_file(info.file) then
-      return
-    end
+if vim.fn.executable("chezmoi") == 1 and vim.fn.systemlist({ "chezmoi", "source-path" })[1] == vim.uv.cwd() then
+  vim.api.nvim_create_autocmd("BufWritePost", {
+    group = vim.api.nvim_create_augroup("chezmoi-nvim-lua", { clear = true }),
+    callback = function(info)
+      if is_chezmoi_ignored_file(info.file) then
+        return
+      end
 
-    local chezmoi_apply_cmd = {
-      "chezmoi",
-      "apply",
-      "--parent-dirs",
-      vim.fn.systemlist({ "chezmoi", "target-path", info.file })[1],
-    }
+      local chezmoi_apply_cmd = {
+        "chezmoi",
+        "apply",
+        "--parent-dirs",
+        vim.fn.systemlist({ "chezmoi", "target-path", info.file })[1],
+      }
 
-    if try_tmux_popup_exec(chezmoi_apply_cmd) then
-      return
-    end
+      if try_tmux_popup_exec(chezmoi_apply_cmd) then
+        return
+      end
 
-    if try_toggleterm_exec(chezmoi_apply_cmd) then
-      return
-    end
+      if try_toggleterm_exec(chezmoi_apply_cmd) then
+        return
+      end
 
-    if vim.fn.fnamemodify(info.file, ":."):match("%.tmpl$") then
-      for _, line in ipairs(vim.api.nvim_buf_get_lines(info.buf, 0, -1, false)) do
-        if string.find(line, "bitwarden") then
-          -- ignore template files that needs secret
-          return
+      if vim.fn.fnamemodify(info.file, ":."):match("%.tmpl$") then
+        for _, line in ipairs(vim.api.nvim_buf_get_lines(info.buf, 0, -1, false)) do
+          if string.find(line, "bitwarden") then
+            -- ignore template files that needs secret
+            return
+          end
         end
       end
-    end
 
-    vim.system(chezmoi_apply_cmd, { text = true }):wait()
-  end,
-})
+      vim.system(chezmoi_apply_cmd, { text = true }):wait()
+    end,
+  })
+end
