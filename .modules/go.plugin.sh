@@ -9,5 +9,4 @@ fi
 
 export GOPATH="${GOPATH:-"${XDG_DATA_HOME:-"${HOME}/.local/share"}/go"}"
 
-pathmunge "${GOROOT}/bin"
-pathmunge "${GOPATH}/bin"
+export PATH="${GOPATH}/bin:${GOROOT}/bin:${PATH}"
