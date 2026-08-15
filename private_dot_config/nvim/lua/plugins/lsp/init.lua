@@ -2,6 +2,12 @@ local u = require("config.utils")
 
 local plugins = {
   {
+    "williamboman/mason.nvim",
+    opts = {
+      ui = { border = "rounded" },
+    },
+  },
+  {
     "neovim/nvim-lspconfig",
     dependencies = {
       "b0o/schemastore.nvim",
@@ -46,10 +52,6 @@ local plugins = {
         "williamboman/mason-lspconfig.nvim",
         dependencies = {
           "williamboman/mason.nvim",
-          cmd = "Mason",
-          opts = {
-            ui = { border = "rounded" },
-          },
         },
       },
     },

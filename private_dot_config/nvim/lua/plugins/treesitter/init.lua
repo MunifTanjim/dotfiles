@@ -2,33 +2,43 @@ local u = require("config.utils")
 
 local plugins = {
   {
-    "nvim-treesitter/playground",
-    cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
-    init = function()
-      u.set_keymaps("n", {
-        {
-          "<Leader>ghg",
-          "<Cmd>TSHighlightCapturesUnderCursor<CR>",
-          "[treesitter] show hl captures",
-        },
-        {
-          "<Leader>gtr",
-          "<Cmd>TSPlaygroundToggle<CR>",
-          "[treesitter] toggle playground",
-        },
-      })
-    end,
-  },
-  {
     "nvim-treesitter/nvim-treesitter",
-    branch = "master",
+    branch = "main",
     build = ":TSUpdate",
     dependencies = {
+      "williamboman/mason.nvim",
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
-        branch = "master",
+        branch = "main",
+        init = function()
+          vim.g.no_plugin_maps = true
+        end,
+        config = function()
+          local select_keymaps = {}
+          for _, keymap in ipairs({
+            { "af", "@function.outer" },
+            { "if", "@function.inner" },
+            { "ac", "@class.outer" },
+            { "ic", "@class.inner" },
+          }) do
+            local lhs, query = unpack(keymap)
+            table.insert(select_keymaps, {
+              lhs,
+              function()
+                require("nvim-treesitter-textobjects.select").select_textobject(query, "textobjects")
+              end,
+              "[textobject] " .. query,
+            })
+          end
+          u.set_keymaps({ "x", "o" }, select_keymaps)
+
+          require("nvim-treesitter-textobjects").setup({
+            select = {
+              lookahead = true,
+            },
+          })
+        end,
       },
-      "RRethy/nvim-treesitter-textsubjects",
     },
     event = "BufReadPost",
     config = function()
@@ -54,7 +64,9 @@ local plugins = {
       },
     },
     config = function()
-      require("plugins.treesitter.comment")
+      require("Comment").setup({
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+      })
     end,
   },
   {

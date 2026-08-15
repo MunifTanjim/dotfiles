@@ -1,6 +1,31 @@
-local treesitter_configs = require("nvim-treesitter.configs")
+local langs = {
+  "comment",
+  "css",
+  "go",
+  "graphql",
+  "html",
+  "javascript",
+  "jsdoc",
+  "json",
+  "json5",
+  "lua",
+  "markdown",
+  "markdown_inline",
+  "python",
+  "query",
+  "regex",
+  "ruby",
+  "rust",
+  "scss",
+  "toml",
+  "tsx",
+  "typescript",
+  "vim",
+  "vimdoc",
+  "yaml",
+}
 
-local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+local parser_config = require("nvim-treesitter.parsers")
 
 -- disable treesitter for zsh
 parser_config.zsh = {
@@ -9,68 +34,28 @@ parser_config.zsh = {
   maintainers = {},
 }
 
-treesitter_configs.setup({
-  ensure_installed = {
-    "comment",
-    "css",
-    "go",
-    "graphql",
-    "html",
-    "javascript",
-    "jsdoc",
-    "json",
-    "jsonc",
-    "lua",
-    "markdown",
-    "markdown_inline",
-    "python",
-    "query",
-    "regex",
-    "ruby",
-    "rust",
-    "scss",
-    "toml",
-    "tsx",
-    "typescript",
-    "vim",
-    "vimdoc",
-    "yaml",
-  },
-  highlight = {
-    enable = true,
-  },
-  indent = {
-    enable = true,
-    disable = { "yaml" },
-  },
-  matchup = {
-    enable = true,
-    include_match_words = true,
-  },
-  playground = {
-    enable = true,
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true,
-      keymaps = {
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
-    },
-  },
-  textsubjects = {
-    enable = true,
-    keymaps = {
-      ["."] = "textsubjects-smart",
-    },
-  },
-})
+require("nvim-treesitter").setup({})
 
-vim.cmd([[
-  autocmd FileType css,go,html,javascript,javascriptreact,json,lua,python,ruby,rust,toml,typescript,typescriptreact,yaml
-   \ set foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
-]])
+require("nvim-treesitter").install(langs)
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("treesitter.setup", {}),
+  callback = function(args)
+    local buf = args.buf
+    local filetype = args.match
+
+    local language = vim.treesitter.language.get_lang(filetype) or filetype
+    if not vim.treesitter.language.add(language) then
+      return
+    end
+
+    if language ~= "yaml" then
+      vim.wo.foldmethod = "expr"
+      vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    end
+
+    vim.treesitter.start(buf, language)
+
+    vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})

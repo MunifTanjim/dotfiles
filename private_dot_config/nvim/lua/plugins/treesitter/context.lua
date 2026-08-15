@@ -16,7 +16,7 @@ ts_ctx.setup({
 u.set_keymaps("n", {
   {
     "<Leader>tsc",
-    "<Cmd>TSContextToggle<CR>",
+    "<Cmd>TSContext toggle<CR>",
     "[treesitter] toggle context",
   },
   {
@@ -24,6 +24,6 @@ u.set_keymaps("n", {
     function()
       ts_ctx.go_to_context()
     end,
-    "[treesitter] toggle context",
+    "[treesitter] go to context",
   },
 })
