@@ -28,7 +28,7 @@ function plugin_gitsigns.config()
             end
 
             vim.schedule(function()
-              gitsigns.prev_hunk()
+              gitsigns.nav_hunk("prev")
             end)
 
             return "<ignore>"
@@ -43,7 +43,7 @@ function plugin_gitsigns.config()
             end
 
             vim.schedule(function()
-              gitsigns.next_hunk()
+              gitsigns.nav_hunk("next")
             end)
 
             return "<ignore>"
@@ -67,6 +67,7 @@ local plugins = {
   plugin_gitsigns,
   { "rhysd/git-messenger.vim" },
   { "tpope/vim-fugitive" },
+  { "sindrets/diffview.nvim" },
 }
 
 return plugins
