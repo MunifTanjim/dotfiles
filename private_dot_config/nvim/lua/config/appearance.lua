@@ -99,26 +99,27 @@ local highlights = {
   ["@include.tsx"] = { link = "@keyword" },
 
   --[[ lsp semantic tokens ]]
-  ["@lsp.mod.documentation"] = { link = "Constant" },
-  ["@lsp.type.class"] = { link = "@constructor" },
-  ["@lsp.type.comment"] = { link = "Comment" },
-  ["@lsp.type.decorator"] = { link = "Function" },
-  ["@lsp.type.enum"] = { link = "Type" },
-  ["@lsp.type.enumMember"] = { link = "Constant" },
-  ["@lsp.type.function"] = { link = "@function" },
-  ["@lsp.type.interface"] = { link = "Structure" },
-  ["@lsp.type.keyword"] = { link = "@keyword" },
-  ["@lsp.type.macro"] = { link = "Macro" },
-  ["@lsp.type.method"] = { link = "@method" },
-  ["@lsp.type.namespace"] = { link = "Structure" },
-  ["@lsp.type.parameter"] = { link = "@variable.parameter" },
-  ["@lsp.type.property"] = { link = "@property" },
-  ["@lsp.type.struct"] = { link = "Structure" },
-  ["@lsp.type.type"] = { link = "@type" },
-  ["@lsp.type.typeParameter"] = { link = "@type" },
-  ["@lsp.type.variable"] = { link = "@variable" },
-  ["@lsp.typemod.string.static"] = { link = "@string" },
-  ["@lsp.typemod.variable.defaultLibrary"] = { link = "@variable.builtin" },
+  -- ["@lsp.mod.documentation"] = { link = "Constant" },
+  -- ["@lsp.type.class"] = { link = "@constructor" },
+  -- ["@lsp.type.comment"] = { link = "Comment" },
+  -- ["@lsp.type.decorator"] = { link = "Function" },
+  -- ["@lsp.type.enum"] = { link = "Type" },
+  -- ["@lsp.type.enumMember"] = { link = "Constant" },
+  -- ["@lsp.type.function"] = { link = "@function" },
+  -- ["@lsp.type.interface"] = { link = "Structure" },
+  -- ["@lsp.type.keyword"] = { link = "@keyword" },
+  -- ["@lsp.type.macro"] = { link = "Macro" },
+  -- ["@lsp.type.method"] = { link = "@method" },
+  -- ["@lsp.type.namespace"] = { link = "Structure" },
+  -- ["@lsp.type.parameter"] = { link = "@variable.parameter" },
+  -- ["@lsp.type.property"] = { link = "@property" },
+  -- ["@lsp.type.struct"] = { link = "Structure" },
+  -- ["@lsp.type.type"] = { link = "@type" },
+  -- ["@lsp.type.typeParameter"] = { link = "@type" },
+  -- ["@lsp.type.variable"] = { link = "@variable" },
+  -- ["@lsp.typemod.string.static"] = { link = "@string" },
+  -- ["@lsp.typemod.variable.defaultLibrary"] = { link = "@variable.builtin" },
+  ["@lsp.typemod.variable.readonly"] = { link = "@constant" },
 
   --[[ flash.nvim ]]
   FlashLabel = { bg = color.purple, fg = color.bg, italic = true },
@@ -192,6 +193,10 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "gruvbox",
   group = vim.api.nvim_create_augroup("colorscheme_override", { clear = true }),
   callback = function()
+    for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
+      vim.api.nvim_set_hl(0, group, {})
+    end
+
     for name, hl in pairs(highlights) do
       vim.api.nvim_set_hl(0, name, hl)
     end
