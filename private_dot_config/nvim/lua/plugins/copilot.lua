@@ -29,6 +29,7 @@ function plugin.config()
         dismiss = false,
       },
     },
+    copilot_node_command = vim.fn.expand("~/.local/share/fnm/aliases/lts-krypton/bin/node"),
   })
 
   local suggestion = require("copilot.suggestion")
