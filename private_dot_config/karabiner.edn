@@ -151,7 +151,7 @@
 
   {:des "Ctrl+A => Cmd+A (Select All)"
    :rules [[:!TTa :!Ca [:!terminal :!vscode :!other-unknown]]]}
-  {:des "Ctrl+{C,V,X} => Cmd+{C,V,X:!vscode } (Copy,Paste,Cut)"
+  {:des "Ctrl+{C,V,X} => Cmd+{C,V,X} (Copy,Paste,Cut)"
    :rules [[:!TTc :!Cc [:!terminal :!vscode :!other-unknown]]
            [:!TTv :!Cv [:!terminal :!vscode :!other-unknown]]
            [:!TTx :!Cx [:!terminal :!vscode :!other-unknown]]]}
