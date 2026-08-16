@@ -40,16 +40,16 @@ config_loader:bindHotkeys({
   reload = { modifier.cmd_alt_shift, "r" },
 })
 
--- MPD, MPC, MPDSCRIBBLE, NCMPCPP
-hs.hotkey.bind(modifier.cmd_alt, "m", function()
-  os.execute("~/.local/bin/music-terminal")
-end)
-hs.hotkey.bind(modifier.cmd_alt, ",", function()
-  os.execute("/usr/local/bin/mpc prev")
-end)
-hs.hotkey.bind(modifier.cmd_alt, ".", function()
-  os.execute("/usr/local/bin/mpc next")
-end)
+-- -- MPD, MPC, MPDSCRIBBLE, NCMPCPP
+-- hs.hotkey.bind(modifier.cmd_alt, "m", function()
+--   os.execute("~/.local/bin/music-terminal")
+-- end)
+-- hs.hotkey.bind(modifier.cmd_alt, ",", function()
+--   os.execute("/usr/local/bin/mpc prev")
+-- end)
+-- hs.hotkey.bind(modifier.cmd_alt, ".", function()
+--   os.execute("/usr/local/bin/mpc next")
+-- end)
 
 -- Screenshot (f13 = print_screen)
 hs.hotkey.bind(modifier.blank, "f13", function()
