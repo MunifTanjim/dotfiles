@@ -32,12 +32,13 @@ export PATH="${HOME}/.local/bin:${DOTFILES}/.scripts.sh:${PATH}"
 
 # {{{ tools
 export CARGO_HOME="${XDG_DATA_HOME}/cargo"
-export RUSTUP_HOME="${XDG_DATA_HOME}/rustup"
 export FNM_DIR="${XDG_DATA_HOME}/fnm"
 export GOLANG_DIR="${XDG_DATA_HOME}/golang"
 export LUVER_DIR="${XDG_DATA_HOME}/luver"
 export PYENV_ROOT="${HOME}/.pyenv"
 export RBENV_ROOT="${HOME}/.rbenv"
+export RUSTUP_HOME="${XDG_DATA_HOME}/rustup"
+export RYE_HOME="${XDG_DATA_HOME}/rye"
 # tools }}}
 
 # {{{ completion
@@ -89,16 +90,16 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # {{{ ls
 if command_exists eza; then
   declare -g eza_params=("--git" "--icons" "--classify" "--group-directories-first" "--time-style=long-iso" "--group" "--color-scale")
-  ls() { eza "${eza_params[@]}" $@; }
-  l() { eza --git-ignore "${eza_params[@]}" $@; }
-  la() { eza -a "${eza_params[@]}" $@; }
-  ll() { eza --header --long "${eza_params[@]}" $@; }
+  function ls() { eza "${eza_params[@]}" $@; }
+  function l() { eza --git-ignore "${eza_params[@]}" $@; }
+  function la() { eza -a "${eza_params[@]}" $@; }
+  function ll() { eza --header --long "${eza_params[@]}" $@; }
 else
   declare -g ls_params=("-hF" "--group-directories-first" "--time-style=+%Y-%m-%d %H:%M" "--quoting-style=literal" "--color=auto")
-  ls() { command ls "${ls_params[@]}" -C $@; }
-  l() { command ls "${ls_params[@]}" -C $@; }
-  la() { command ls "${ls_params[@]}" -C -A $@; }
-  ll() { command ls "${ls_params[@]}" -l $@; }
+  function ls() { command ls "${ls_params[@]}" -C $@; }
+  function l() { command ls "${ls_params[@]}" -C $@; }
+  function la() { command ls "${ls_params[@]}" -C -A $@; }
+  function ll() { command ls "${ls_params[@]}" -l $@; }
 fi
 # ls }}}
 
