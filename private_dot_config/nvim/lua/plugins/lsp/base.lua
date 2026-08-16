@@ -12,7 +12,7 @@ mason_lsp.setup({
     "html",
     "jsonls",
     "lua_ls",
-    "pyright",
+    "basedpyright",
     "ruff",
     "rust_analyzer",
     "tailwindcss",
@@ -99,12 +99,12 @@ local server_config = {
 }
 
 local server_setup = {
-  vtsls = function(server_name, config)
+  ["*"] = function(server_name, config)
     vim.lsp.config(server_name, config)
     vim.lsp.enable(server_name)
   end,
   rust_analyzer = false,
-  ["*"] = function(server_name, config)
+  vtsls = function(server_name, config)
     vim.lsp.config(server_name, config)
     vim.lsp.enable(server_name)
   end,
