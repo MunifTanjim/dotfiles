@@ -54,10 +54,18 @@ fi
 pathmunge "${HOME}/.docker/bin"
 
 # google-cloud-sdk
-if [[ -d "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk" ]]; then
-  pathmunge "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin"
-  . "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.${current_shell}.inc"
-fi
+case "${current_shell}" in
+  bash)
+    if [[ -e "${HOMEBREW_PREFIX}/etc/bash_completion.d/google-cloud-sdk" ]]; then
+      . "${HOMEBREW_PREFIX}/etc/bash_completion.d/google-cloud-sdk"
+    fi
+    ;;
+  zsh)
+    if [[ -e "${HOMEBREW_PREFIX}/share/zsh/site-functions/_google_cloud_sdk" ]]; then
+      . "${HOMEBREW_PREFIX}/share/zsh/site-functions/_google_cloud_sdk"
+    fi
+    ;;
+esac
 
 # openssl
 if ! is_arm64; then
